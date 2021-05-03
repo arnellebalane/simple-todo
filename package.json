@@ -6,5 +6,8 @@
   "scripts": {},
   "keywords": [],
   "author": "Arnelle Balane <arnellebalane@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "svelte": "^3.38.1"
+  }
 }

@@ -39,9 +39,19 @@ function addTodoItem(event) {
 <div class="TodoBoard">
   <Header class="Header" on:addtodo={() => toggleTodoForm(true)} />
 
-  <TodoList title="Today" todos={todosToday} on:toggle={toggleTodoItem} />
-  <TodoList title="This week" todos={todosThisWeek} on:toggle={toggleTodoItem} />
-  <TodoList title="Eventually" todos={todosEventually} on:toggle={toggleTodoItem} />
+  <TodoList title="Today" emptyText="Hurray! No more todos for today!" todos={todosToday} on:toggle={toggleTodoItem} />
+  <TodoList
+    title="This week"
+    emptyText="Great! No more todos for this week!"
+    todos={todosThisWeek}
+    on:toggle={toggleTodoItem}
+  />
+  <TodoList
+    title="Eventually"
+    emptyText="No other things to do. Good job!"
+    todos={todosEventually}
+    on:toggle={toggleTodoItem}
+  />
 </div>
 
 <Modal open={openTodoForm}>

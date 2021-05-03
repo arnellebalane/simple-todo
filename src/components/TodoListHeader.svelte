@@ -2,11 +2,16 @@
 export let title;
 export let done;
 export let total;
+
+$: isEmpty = total === 0;
 </script>
 
 <header>
   <h1>{title}</h1>
-  <p>{done}<span>/{total}</span></p>
+
+  {#if !isEmpty}
+    <p>{done}<span>/{total}</span></p>
+  {/if}
 </header>
 
 <style>

@@ -1,22 +1,29 @@
 <script>
 import TodoListHeader from '@components/TodoListHeader.svelte';
+import TodoListEmpty from '@components/TodoListEmpty.svelte';
 import TodoItem from '@components/TodoItem.svelte';
 
 export let title;
 export let todos;
+export let emptyText;
 
 $: done = todos.filter((todo) => todo.done).length;
 $: total = todos.length;
+$: isEmpty = total === 0;
 </script>
 
 <article>
   <TodoListHeader {title} {done} {total} />
 
-  <ol>
-    {#each todos as todo}
-      <TodoItem {todo} on:toggle />
-    {/each}
-  </ol>
+  {#if isEmpty}
+    <TodoListEmpty text={emptyText} />
+  {:else}
+    <ol>
+      {#each todos as todo}
+        <TodoItem {todo} on:toggle />
+      {/each}
+    </ol>
+  {/if}
 </article>
 
 <style>

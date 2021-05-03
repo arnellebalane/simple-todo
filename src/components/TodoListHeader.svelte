@@ -13,7 +13,6 @@ export let total;
 header {
   display: flex;
   align-items: baseline;
-  margin-bottom: 1.8rem;
 }
 
 h1 {

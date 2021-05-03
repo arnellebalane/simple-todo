@@ -11,7 +11,6 @@ button {
   height: 4rem;
   border: none;
   border-radius: 8px;
-  margin-bottom: 2rem;
   background-color: #e5e7eb;
   cursor: pointer;
 }

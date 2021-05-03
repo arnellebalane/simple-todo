@@ -4,14 +4,20 @@ import Header from '@components/Header.svelte';
 import Modal from '@components/Modal.svelte';
 import TodoList from '@components/TodoList.svelte';
 import TodoForm from '@components/TodoForm.svelte';
-import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
+import { LOCALSTORAGE_KEY, TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
 
-let todos = [];
+const cachedTodos = localStorage.getItem(LOCALSTORAGE_KEY);
+
+let todos = cachedTodos ? JSON.parse(cachedTodos) : [];
 let openTodoForm = false;
 
 $: todosToday = todos.filter((todo) => todo.list === TODOS_TODAY);
 $: todosThisWeek = todos.filter((todo) => todo.list === TODOS_THIS_WEEK);
 $: todosEventually = todos.filter((todo) => todo.list === TODOS_EVENTUALLY);
+
+$: {
+  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(todos));
+}
 
 function toggleTodoForm(show) {
   openTodoForm = show;

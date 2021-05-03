@@ -1,5 +1,8 @@
 <script>
+import { createEventDispatcher } from 'svelte';
 import Button from '@components/Button.svelte';
+
+const dispatch = createEventDispatcher();
 
 const hour = new Date().getHours();
 const greeting = (() => {
@@ -15,8 +18,8 @@ const greeting = (() => {
 <header class={$$props.class}>
   <h1>{greeting}</h1>
 
-  <Button class="Button" primary>Add Todo</Button>
-  <Button class="Button" text>Remove Done</Button>
+  <Button primary on:click={() => dispatch('addtodo')}>Add Todo</Button>
+  <Button text on:click={() => dispatch('removedone')}>Remove Done</Button>
 </header>
 
 <style>
@@ -29,9 +32,5 @@ h1 {
   margin-right: auto;
   font-size: 4.8rem;
   font-weight: 100;
-}
-
-header :global(.Button) {
-  margin-left: 1.2rem;
 }
 </style>

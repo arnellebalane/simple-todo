@@ -20,6 +20,7 @@ body {
 
 a,
 input,
+textarea,
 button {
   font: inherit;
   color: inherit;

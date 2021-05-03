@@ -1,6 +1,8 @@
 <script>
 import Header from '@components/Header.svelte';
+import Modal from '@components/Modal.svelte';
 import TodoList from '@components/TodoList.svelte';
+import TodoForm from '@components/TodoForm.svelte';
 
 const TODOS_TODAY = 'TODAY';
 const TODOS_THIS_WEEK = 'THIS_WEEK';
@@ -83,22 +85,37 @@ let todos = [
   },
 ];
 
+let openTodoForm = false;
+
 $: todosToday = todos.filter((todo) => todo.list === TODOS_TODAY);
 $: todosThisWeek = todos.filter((todo) => todo.list === TODOS_THIS_WEEK);
 $: todosEverythingElse = todos.filter((todo) => todo.list === TODOS_EVERYTHING_ELSE);
 
-function handleToggle(event) {
+function toggleTodoForm(show) {
+  openTodoForm = show;
+}
+
+function toggleTodoItem(event) {
   todos = todos.map((todo) => (todo.id === event.detail.id ? { ...todo, done: event.detail.done } : todo));
+}
+
+function addTodoItem(event) {
+  console.log(event.detail);
+  toggleTodoForm(false);
 }
 </script>
 
 <div class="TodoBoard">
-  <Header class="Header" />
+  <Header class="Header" on:addtodo={() => toggleTodoForm(true)} />
 
-  <TodoList title="Today" todos={todosToday} on:toggle={handleToggle} />
-  <TodoList title="This week" todos={todosThisWeek} on:toggle={handleToggle} />
-  <TodoList title="Everything else" todos={todosEverythingElse} on:toggle={handleToggle} />
+  <TodoList title="Today" todos={todosToday} on:toggle={toggleTodoItem} />
+  <TodoList title="This week" todos={todosThisWeek} on:toggle={toggleTodoItem} />
+  <TodoList title="Everything else" todos={todosEverythingElse} on:toggle={toggleTodoItem} />
 </div>
+
+<Modal open={openTodoForm}>
+  <TodoForm on:submit={addTodoItem} on:cancel={() => toggleTodoForm(false)} />
+</Modal>
 
 <style>
 .TodoBoard {

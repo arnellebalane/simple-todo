@@ -1,6 +1,6 @@
 <script>
-export let primary;
-export let text;
+export let primary = false;
+export let text = false;
 </script>
 
 <button {...$$props} class:primary class:text on:click>
@@ -22,8 +22,6 @@ button.primary {
 }
 
 button.text {
-  padding-left: 1.2rem;
-  padding-right: 1.2rem;
   background: none;
 }
 </style>

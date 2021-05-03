@@ -12,7 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "svelte": "^3.38.1",
-    "svelte-portal": "^2.1.2"
+    "svelte-portal": "^2.1.2",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
     "@snowpack/plugin-svelte": "^3.6.1",

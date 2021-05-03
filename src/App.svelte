@@ -1,87 +1,12 @@
 <script>
+import * as uuid from 'uuid';
 import Header from '@components/Header.svelte';
 import Modal from '@components/Modal.svelte';
 import TodoList from '@components/TodoList.svelte';
 import TodoForm from '@components/TodoForm.svelte';
 import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
 
-let todos = [
-  {
-    id: '1',
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    done: false,
-    list: TODOS_TODAY,
-  },
-  {
-    id: '2',
-    body:
-      'Morbi a malesuada purus. Nullam tempor tortor ac euismod consequat. Aenean varius auctor leo, vel aliquet leo',
-    done: true,
-    list: TODOS_THIS_WEEK,
-  },
-  {
-    id: '3',
-    body:
-      'Nulla lacus mi, vulputate sit amet aliquet non, mollis et tortor. Quisque vulputate dui sagittis imperdiet accumsan',
-    done: false,
-    list: TODOS_THIS_WEEK,
-  },
-  {
-    id: '4',
-    body: 'Quisque consequat massa vel nisi ornare condimentum',
-    done: false,
-    list: TODOS_EVENTUALLY,
-  },
-  {
-    id: '5',
-    body: 'Nullam eu enim lacinia urna hendrerit varius. Duis quis felis eros',
-    done: true,
-    list: TODOS_EVENTUALLY,
-  },
-  {
-    id: '6',
-    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
-    done: true,
-    list: TODOS_EVENTUALLY,
-  },
-  {
-    id: '7',
-    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
-    done: true,
-    list: TODOS_EVENTUALLY,
-  },
-  {
-    id: '8',
-    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
-    done: true,
-    list: TODOS_EVENTUALLY,
-  },
-  {
-    id: '9',
-    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
-    done: true,
-    list: TODOS_EVENTUALLY,
-  },
-  {
-    id: '10',
-    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
-    done: true,
-    list: TODOS_EVENTUALLY,
-  },
-  {
-    id: '11',
-    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
-    done: true,
-    list: TODOS_EVENTUALLY,
-  },
-  {
-    id: '12',
-    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
-    done: true,
-    list: TODOS_EVENTUALLY,
-  },
-];
-
+let todos = [];
 let openTodoForm = false;
 
 $: todosToday = todos.filter((todo) => todo.list === TODOS_TODAY);
@@ -97,7 +22,16 @@ function toggleTodoItem(event) {
 }
 
 function addTodoItem(event) {
-  console.log(event.detail);
+  todos = [
+    ...todos,
+    {
+      id: uuid.v4(),
+      body: event.detail.body,
+      done: false,
+      list: event.detail.list,
+      createdAt: Date.now(),
+    },
+  ];
   toggleTodoForm(false);
 }
 </script>

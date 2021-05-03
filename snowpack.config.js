@@ -7,6 +7,7 @@ module.exports = {
   plugins: ['@snowpack/plugin-svelte'],
 
   alias: {
+    '@assets': './src/assets',
     '@components': './src/components',
     '@styles': './src/styles',
   },

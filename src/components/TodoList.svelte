@@ -1,11 +1,13 @@
 <script>
 import TodoListHeader from '@components/TodoListHeader.svelte';
+import TodoAddButton from '@components/TodoAddButton.svelte';
 
 export let title;
 </script>
 
 <article>
   <TodoListHeader {title} />
+  <TodoAddButton />
 </article>
 
 <style>

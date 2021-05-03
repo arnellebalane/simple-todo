@@ -8,6 +8,7 @@ export let title;
 
 <style>
 h1 {
+  margin-bottom: 1.8rem;
   font-size: 1.8rem;
   font-weight: 500;
 }

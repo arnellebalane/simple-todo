@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@snowpack/plugin-svelte": "^3.6.1",
+    "prettier-plugin-svelte": "^2.2.0",
     "snowpack": "^3.3.7"
   }
 }

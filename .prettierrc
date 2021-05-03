@@ -9,8 +9,8 @@
     {
       "files": "*.svelte",
       "options": {
-        "plugins": ["prettier-plugin-svelte"],
-        "svelteBracketNewLine": true
+        "svelteBracketNewLine": true,
+        "svelteIndentScriptAndStyle": false
       }
     }
   ]

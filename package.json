@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "description": "A Chrome extension that replaces the new tab page with a simple todo list",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "dev": "snowpack dev",
+    "build": "snowpack build"
+  },
   "keywords": [],
   "author": "Arnelle Balane <arnellebalane@gmail.com>",
   "license": "MIT",

@@ -30,7 +30,7 @@ li {
 }
 
 li.done {
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 li.done p {

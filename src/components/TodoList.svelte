@@ -5,10 +5,13 @@ import TodoItem from '@components/TodoItem.svelte';
 
 export let title;
 export let todos;
+
+$: done = todos.filter((todo) => todo.done).length;
+$: total = todos.length;
 </script>
 
 <article>
-  <TodoListHeader {title} />
+  <TodoListHeader {title} {done} {total} />
   <TodoAddButton />
 
   <ol>

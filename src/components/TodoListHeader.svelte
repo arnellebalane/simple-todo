@@ -7,8 +7,11 @@ export let title;
 </header>
 
 <style>
-h1 {
+header {
   margin-bottom: 1.8rem;
+}
+
+h1 {
   font-size: 1.8rem;
   font-weight: 500;
 }

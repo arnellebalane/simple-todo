@@ -1,11 +1,15 @@
 <script>
 import TodoList from '@components/TodoList.svelte';
+
+const todosToday = [{ id: '1' }];
+const todosThisWeek = [{ id: '2' }, { id: '3' }];
+const todosEverythingElse = [{ id: '4' }, { id: '5' }, { id: '6' }];
 </script>
 
 <div class="TodoBoard">
-  <TodoList title="Today" />
-  <TodoList title="This week" />
-  <TodoList title="Everything else" />
+  <TodoList title="Today" todos={todosToday} />
+  <TodoList title="This week" todos={todosThisWeek} />
+  <TodoList title="Everything else" todos={todosEverythingElse} />
 </div>
 
 <style>

@@ -40,10 +40,14 @@ function addTodoItem(event) {
   ];
   toggleTodoForm(false);
 }
+
+function removeDoneTodos() {
+  todos = todos.filter((todo) => !todo.done);
+}
 </script>
 
 <div class="TodoBoard">
-  <Header class="Header" on:addtodo={() => toggleTodoForm(true)} />
+  <Header class="Header" on:addtodo={() => toggleTodoForm(true)} on:removedone={removeDoneTodos} />
 
   <TodoList title="Today" emptyText="Hurray! No more todos for today!" todos={todosToday} on:toggle={toggleTodoItem} />
   <TodoList

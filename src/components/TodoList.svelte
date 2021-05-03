@@ -36,8 +36,8 @@ ol {
   gap: 2rem;
 
   padding: 0;
-  padding-right: 8px;
-  margin-right: -1.6rem;
+  padding-right: 6px;
+  margin-right: -1.4rem;
   list-style: none;
   overflow-y: scroll;
 }

@@ -11,7 +11,7 @@ export let text = false;
 button {
   padding: 1.2rem 2.4rem;
   border: none;
-  border-radius: 1.6rem;
+  border-radius: 8px;
   font-weight: 500;
   background-color: #e5e7eb;
   cursor: pointer;

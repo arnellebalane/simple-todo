@@ -3,10 +3,7 @@ import Header from '@components/Header.svelte';
 import Modal from '@components/Modal.svelte';
 import TodoList from '@components/TodoList.svelte';
 import TodoForm from '@components/TodoForm.svelte';
-
-const TODOS_TODAY = 'TODAY';
-const TODOS_THIS_WEEK = 'THIS_WEEK';
-const TODOS_EVERYTHING_ELSE = 'EVERYTHING_ELSE';
+import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
 
 let todos = [
   {
@@ -33,55 +30,55 @@ let todos = [
     id: '4',
     body: 'Quisque consequat massa vel nisi ornare condimentum',
     done: false,
-    list: TODOS_EVERYTHING_ELSE,
+    list: TODOS_EVENTUALLY,
   },
   {
     id: '5',
     body: 'Nullam eu enim lacinia urna hendrerit varius. Duis quis felis eros',
     done: true,
-    list: TODOS_EVERYTHING_ELSE,
+    list: TODOS_EVENTUALLY,
   },
   {
     id: '6',
     body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
     done: true,
-    list: TODOS_EVERYTHING_ELSE,
+    list: TODOS_EVENTUALLY,
   },
   {
     id: '7',
     body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
     done: true,
-    list: TODOS_EVERYTHING_ELSE,
+    list: TODOS_EVENTUALLY,
   },
   {
     id: '8',
     body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
     done: true,
-    list: TODOS_EVERYTHING_ELSE,
+    list: TODOS_EVENTUALLY,
   },
   {
     id: '9',
     body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
     done: true,
-    list: TODOS_EVERYTHING_ELSE,
+    list: TODOS_EVENTUALLY,
   },
   {
     id: '10',
     body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
     done: true,
-    list: TODOS_EVERYTHING_ELSE,
+    list: TODOS_EVENTUALLY,
   },
   {
     id: '11',
     body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
     done: true,
-    list: TODOS_EVERYTHING_ELSE,
+    list: TODOS_EVENTUALLY,
   },
   {
     id: '12',
     body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
     done: true,
-    list: TODOS_EVERYTHING_ELSE,
+    list: TODOS_EVENTUALLY,
   },
 ];
 
@@ -89,7 +86,7 @@ let openTodoForm = false;
 
 $: todosToday = todos.filter((todo) => todo.list === TODOS_TODAY);
 $: todosThisWeek = todos.filter((todo) => todo.list === TODOS_THIS_WEEK);
-$: todosEverythingElse = todos.filter((todo) => todo.list === TODOS_EVERYTHING_ELSE);
+$: todosEventually = todos.filter((todo) => todo.list === TODOS_EVENTUALLY);
 
 function toggleTodoForm(show) {
   openTodoForm = show;
@@ -110,7 +107,7 @@ function addTodoItem(event) {
 
   <TodoList title="Today" todos={todosToday} on:toggle={toggleTodoItem} />
   <TodoList title="This week" todos={todosThisWeek} on:toggle={toggleTodoItem} />
-  <TodoList title="Everything else" todos={todosEverythingElse} on:toggle={toggleTodoItem} />
+  <TodoList title="Eventually" todos={todosEventually} on:toggle={toggleTodoItem} />
 </div>
 
 <Modal open={openTodoForm}>

@@ -1,13 +1,21 @@
 <script>
 import { createEventDispatcher } from 'svelte';
+import Selector from '@components/Selector.svelte';
 import Button from '@components/Button.svelte';
+import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
 
 const dispatch = createEventDispatcher();
 
 let body = '';
+let list = TODOS_EVENTUALLY;
+let listChoices = [
+  { label: 'Today', value: TODOS_TODAY },
+  { label: 'This week', value: TODOS_THIS_WEEK },
+  { label: 'Eventually', value: TODOS_EVENTUALLY },
+];
 
 function submitForm() {
-  dispatch('submit', { body });
+  dispatch('submit', { body, list });
 }
 
 function cancelForm() {
@@ -17,12 +25,13 @@ function cancelForm() {
 
 <form on:submit|preventDefault={submitForm}>
   <div>
-    <label for="body">Enter todo text</label>
-    <textarea name="body" id="body" bind:value={body} />
+    <label for="body">What do you want to do?</label>
+    <textarea name="body" id="body" bind:value={body} required />
   </div>
 
   <div>
-    <label for="list">Where do you want to add this?</label>
+    <label for="list">When do you want to do this?</label>
+    <Selector bind:value={list} choices={listChoices} name="list" />
   </div>
 
   <div class="Actions">

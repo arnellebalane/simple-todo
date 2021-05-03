@@ -6,10 +6,12 @@
   .TodoBoard {
     display: grid;
     grid-template-columns: repeat(3, 40rem);
+    grid-template-rows: minmax(50rem, 50vh);
     column-gap: 3.2rem;
     justify-content: center;
+    align-content: center;
     height: 100vh;
-    padding: 10vh 3.2rem;
+    padding: 3.2rem;
   }
 </style>
 

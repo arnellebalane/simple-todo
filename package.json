@@ -11,7 +11,8 @@
   "author": "Arnelle Balane <arnellebalane@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "svelte": "^3.38.1"
+    "svelte": "^3.38.1",
+    "svelte-portal": "^2.1.2"
   },
   "devDependencies": {
     "@snowpack/plugin-svelte": "^3.6.1",

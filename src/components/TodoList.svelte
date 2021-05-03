@@ -13,7 +13,7 @@ export let todos;
 
   <ol>
     {#each todos as todo}
-      <TodoItem {todo} />
+      <TodoItem {todo} on:toggle />
     {/each}
   </ol>
 </article>

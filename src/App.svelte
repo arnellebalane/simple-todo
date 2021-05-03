@@ -1,15 +1,64 @@
 <script>
 import TodoList from '@components/TodoList.svelte';
 
-const todosToday = [{ id: '1' }];
-const todosThisWeek = [{ id: '2' }, { id: '3' }];
-const todosEverythingElse = [{ id: '4' }, { id: '5' }, { id: '6' }];
+const TODOS_TODAY = 'TODAY';
+const TODOS_THIS_WEEK = 'THIS_WEEK';
+const TODOS_EVERYTHING_ELSE = 'EVERYTHING_ELSE';
+
+let todos = [
+  {
+    id: '1',
+    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    done: false,
+    list: TODOS_TODAY,
+  },
+  {
+    id: '2',
+    body:
+      'Morbi a malesuada purus. Nullam tempor tortor ac euismod consequat. Aenean varius auctor leo, vel aliquet leo',
+    done: true,
+    list: TODOS_THIS_WEEK,
+  },
+  {
+    id: '3',
+    body:
+      'Nulla lacus mi, vulputate sit amet aliquet non, mollis et tortor. Quisque vulputate dui sagittis imperdiet accumsan',
+    done: false,
+    list: TODOS_THIS_WEEK,
+  },
+  {
+    id: '4',
+    body: 'Quisque consequat massa vel nisi ornare condimentum',
+    done: false,
+    list: TODOS_EVERYTHING_ELSE,
+  },
+  {
+    id: '5',
+    body: 'Nullam eu enim lacinia urna hendrerit varius. Duis quis felis eros',
+    done: true,
+    list: TODOS_EVERYTHING_ELSE,
+  },
+  {
+    id: '6',
+    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
+    done: true,
+    list: TODOS_EVERYTHING_ELSE,
+  },
+];
+
+$: todosToday = todos.filter((todo) => todo.list === TODOS_TODAY);
+$: todosThisWeek = todos.filter((todo) => todo.list === TODOS_THIS_WEEK);
+$: todosEverythingElse = todos.filter((todo) => todo.list === TODOS_EVERYTHING_ELSE);
+
+function handleToggle(event) {
+  todos = todos.map((todo) => (todo.id === event.detail.id ? { ...todo, done: event.detail.done } : todo));
+}
 </script>
 
 <div class="TodoBoard">
-  <TodoList title="Today" todos={todosToday} />
-  <TodoList title="This week" todos={todosThisWeek} />
-  <TodoList title="Everything else" todos={todosEverythingElse} />
+  <TodoList title="Today" todos={todosToday} on:toggle={handleToggle} />
+  <TodoList title="This week" todos={todosThisWeek} on:toggle={handleToggle} />
+  <TodoList title="Everything else" todos={todosEverythingElse} on:toggle={handleToggle} />
 </div>
 
 <style>

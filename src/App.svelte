@@ -1,4 +1,5 @@
 <script>
+import Header from '@components/Header.svelte';
 import TodoList from '@components/TodoList.svelte';
 
 const TODOS_TODAY = 'TODAY';
@@ -92,6 +93,8 @@ function handleToggle(event) {
 </script>
 
 <div class="TodoBoard">
+  <Header class="Header" />
+
   <TodoList title="Today" todos={todosToday} on:toggle={handleToggle} />
   <TodoList title="This week" todos={todosThisWeek} on:toggle={handleToggle} />
   <TodoList title="Everything else" todos={todosEverythingElse} on:toggle={handleToggle} />
@@ -101,11 +104,16 @@ function handleToggle(event) {
 .TodoBoard {
   display: grid;
   grid-template-columns: repeat(3, 40rem);
-  grid-template-rows: minmax(50rem, 50vh);
+  grid-template-rows: max-content minmax(50rem, 50vh);
   column-gap: 3.2rem;
+  row-gap: 6.4rem;
   justify-content: center;
   align-content: center;
   height: 100vh;
   padding: 3.2rem;
+}
+
+.TodoBoard :global(.Header) {
+  grid-column: 1 / 4;
 }
 </style>

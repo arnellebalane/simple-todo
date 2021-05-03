@@ -1,6 +1,5 @@
 <script>
 import TodoListHeader from '@components/TodoListHeader.svelte';
-import TodoAddButton from '@components/TodoAddButton.svelte';
 import TodoItem from '@components/TodoItem.svelte';
 
 export let title;
@@ -12,7 +11,6 @@ $: total = todos.length;
 
 <article>
   <TodoListHeader {title} {done} {total} />
-  <TodoAddButton />
 
   <ol>
     {#each todos as todo}
@@ -24,7 +22,7 @@ $: total = todos.length;
 <style>
 article {
   display: grid;
-  grid-template-rows: repeat(2, max-content) 1fr;
+  grid-template-rows: max-content 1fr;
   row-gap: 2rem;
 
   padding: 2rem;

@@ -44,6 +44,42 @@ let todos = [
     done: true,
     list: TODOS_EVERYTHING_ELSE,
   },
+  {
+    id: '7',
+    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
+    done: true,
+    list: TODOS_EVERYTHING_ELSE,
+  },
+  {
+    id: '8',
+    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
+    done: true,
+    list: TODOS_EVERYTHING_ELSE,
+  },
+  {
+    id: '9',
+    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
+    done: true,
+    list: TODOS_EVERYTHING_ELSE,
+  },
+  {
+    id: '10',
+    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
+    done: true,
+    list: TODOS_EVERYTHING_ELSE,
+  },
+  {
+    id: '11',
+    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
+    done: true,
+    list: TODOS_EVERYTHING_ELSE,
+  },
+  {
+    id: '12',
+    body: 'Sed a dolor nunc. Ut quis volutpat dui, non eleifend erat. Vivamus cursus egestas felis eget lacinia',
+    done: true,
+    list: TODOS_EVERYTHING_ELSE,
+  },
 ];
 
 $: todosToday = todos.filter((todo) => todo.list === TODOS_TODAY);

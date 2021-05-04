@@ -1,9 +1,10 @@
 <script>
 export let primary = false;
 export let text = false;
+export let small = false;
 </script>
 
-<button {...$$props} class={$$props.class} class:primary class:text on:click>
+<button {...$$props} class={$$props.class} class:primary class:text class:small on:click>
   <slot />
 </button>
 
@@ -28,5 +29,11 @@ button.primary {
 
 button.text {
   background: none;
+}
+
+button.small {
+  padding: 6px 1.2rem;
+  border-radius: 6px;
+  font-size: 1.4rem;
 }
 </style>

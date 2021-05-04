@@ -23,7 +23,7 @@ function handleUpdateTodo(event) {
   <TodoListHeader {title} {done} {total} />
 
   {#if isEmpty}
-    <TodoListEmpty text={emptyText} />
+    <TodoListEmpty text={emptyText} on:addtodo />
   {:else}
     <ol>
       {#each todos as todo}

@@ -42,7 +42,12 @@ function removeDoneTodos() {
 
 <div class="AppContent">
   <AppHeader class="AppHeader" on:addtodo={() => toggleTodoForm(true)} on:removedone={removeDoneTodos} />
-  <TodoBoard class="TodoBoard" {todos} on:updatetodo={updateTodoItem} />
+  <TodoBoard
+    class="TodoBoard"
+    {todos}
+    on:addtodo={(event) => toggleTodoForm(true, event.detail)}
+    on:updatetodo={updateTodoItem}
+  />
 </div>
 
 <Modal open={openTodoForm}>

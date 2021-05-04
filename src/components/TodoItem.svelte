@@ -1,5 +1,6 @@
 <script>
 import { createEventDispatcher } from 'svelte';
+import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 import Checkbox from '@components/Checkbox.svelte';
 
 export let todo;
@@ -14,10 +15,15 @@ function toggleTodoDone(event) {
 <li class={$$props.class} class:done={todo.done}>
   <Checkbox checked={todo.done} on:change={toggleTodoDone} />
   <p>{todo.body}</p>
+
+  {#if todo[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
+    <div />
+  {/if}
 </li>
 
 <style>
 li {
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: 1.6rem;
@@ -33,12 +39,24 @@ li.done {
   opacity: 0.6;
 }
 
+p {
+  word-break: break-word;
+}
+
 li.done p {
   text-decoration: line-through;
   color: #9ca3af;
 }
 
-p {
-  word-break: break-word;
+div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed #e5e7eb;
+  border-radius: 8px;
+  background-color: #f3f4f6;
+  visibility: visible;
 }
 </style>

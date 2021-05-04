@@ -22,13 +22,17 @@ function updateTodoItem(event) {
 }
 
 function addTodoItem(event) {
+  const { body, list } = event.detail;
+  const order = Math.max(...todos.filter((todo) => todo.list === list).map((todo) => todo.order), 0) + 1;
+
   todos = [
     ...todos,
     {
       id: uuid.v4(),
-      body: event.detail.body,
+      body,
+      list,
+      order,
       done: false,
-      list: event.detail.list,
       createdAt: Date.now(),
     },
   ];

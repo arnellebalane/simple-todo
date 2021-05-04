@@ -6,9 +6,10 @@ import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
 const dispatch = createEventDispatcher();
 
 export let todos = [];
-$: todosToday = todos.filter((todo) => todo.list === TODOS_TODAY);
-$: todosThisWeek = todos.filter((todo) => todo.list === TODOS_THIS_WEEK);
-$: todosEventually = todos.filter((todo) => todo.list === TODOS_EVENTUALLY);
+const byOrderDesc = (a, b) => b.order - a.order;
+$: todosToday = todos.filter((todo) => todo.list === TODOS_TODAY).sort(byOrderDesc);
+$: todosThisWeek = todos.filter((todo) => todo.list === TODOS_THIS_WEEK).sort(byOrderDesc);
+$: todosEventually = todos.filter((todo) => todo.list === TODOS_EVENTUALLY).sort(byOrderDesc);
 
 function addTodo(list) {
   dispatch('addtodo', { list });

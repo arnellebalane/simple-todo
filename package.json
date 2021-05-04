@@ -13,6 +13,7 @@
   "dependencies": {
     "dayjs": "^1.10.4",
     "svelte": "^3.38.1",
+    "svelte-dnd-action": "^0.9.6",
     "svelte-portal": "^2.1.2",
     "uuid": "^3.4.0"
   },

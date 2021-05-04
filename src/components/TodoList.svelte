@@ -1,10 +1,7 @@
 <script>
-import { createEventDispatcher } from 'svelte';
 import TodoListHeader from '@components/TodoListHeader.svelte';
 import TodoListEmpty from '@components/TodoListEmpty.svelte';
-import TodoItem from '@components/TodoItem.svelte';
-
-const dispatch = createEventDispatcher();
+import TodoListItems from '@components/TodoListItems.svelte';
 
 export let title;
 export let todos;
@@ -13,10 +10,6 @@ export let emptyText;
 $: done = todos.filter((todo) => todo.done).length;
 $: total = todos.length;
 $: isEmpty = total === 0;
-
-function handleUpdateTodo(event) {
-  dispatch('updatetodo', event.detail);
-}
 </script>
 
 <article class={$$props.class}>
@@ -25,11 +18,7 @@ function handleUpdateTodo(event) {
   {#if isEmpty}
     <TodoListEmpty text={emptyText} on:addtodo />
   {:else}
-    <ol>
-      {#each todos as todo}
-        <TodoItem {todo} on:update={handleUpdateTodo} />
-      {/each}
-    </ol>
+    <TodoListItems {todos} on:updatetodo />
   {/if}
 </article>
 
@@ -43,26 +32,5 @@ article {
   padding: 2rem;
   border-radius: 1.6rem;
   background-color: #f9fafb;
-}
-
-ol {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-
-  padding: 0;
-  padding-right: 6px;
-  margin-right: -1.4rem;
-  list-style: none;
-  overflow-y: scroll;
-}
-
-ol::-webkit-scrollbar {
-  width: 8px;
-}
-
-ol::-webkit-scrollbar-thumb {
-  border-radius: 1rem;
-  background-color: #e5e7eb;
 }
 </style>

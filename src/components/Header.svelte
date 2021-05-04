@@ -1,16 +1,15 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import format from 'date-fns/format';
+import dayjs from 'dayjs';
 import Button from '@components/Button.svelte';
 
 const dispatch = createEventDispatcher();
 
-const date = new Date();
-const formattedDate = format(date, 'iiii, MMMM d');
+const today = dayjs().format('dddd, MMMM D');
 </script>
 
 <header class={$$props.class}>
-  <h1>{formattedDate}</h1>
+  <h1>{today}</h1>
 
   <Button primary on:click={() => dispatch('addtodo')}>Add Todo</Button>
   <Button text on:click={() => dispatch('removedone')}>Remove Done</Button>

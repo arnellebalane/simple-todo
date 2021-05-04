@@ -11,7 +11,7 @@
   "author": "Arnelle Balane <arnellebalane@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "date-fns": "^2.21.1",
+    "dayjs": "^1.10.4",
     "svelte": "^3.38.1",
     "svelte-portal": "^2.1.2",
     "uuid": "^3.4.0"

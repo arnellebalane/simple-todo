@@ -4,7 +4,7 @@ import AppHeader from '@components/AppHeader.svelte';
 import Modal from '@components/Modal.svelte';
 import TodoForm from '@components/TodoForm.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
-import { LOCALSTORAGE_KEY, TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
+import { LOCALSTORAGE_KEY } from '@lib/constants';
 
 const cachedTodos = localStorage.getItem(LOCALSTORAGE_KEY);
 let todos = cachedTodos ? JSON.parse(cachedTodos) : [];

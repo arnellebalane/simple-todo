@@ -14,8 +14,20 @@ let listChoices = [
   { label: 'Eventually', value: TODOS_EVENTUALLY },
 ];
 
+$: formValid = body && list;
+let errors = {};
+
 function submitForm() {
-  dispatch('submit', { body, list });
+  if (formValid) {
+    return dispatch('submit', { body, list });
+  }
+
+  if (!body) {
+    errors.body = 'Todo body is required';
+  }
+  if (!list) {
+    errors.list = 'Todo schedule is required';
+  }
 }
 
 function cancelForm() {
@@ -24,18 +36,20 @@ function cancelForm() {
 </script>
 
 <form class={$$props.class} on:submit|preventDefault={submitForm}>
-  <div>
+  <div class="Field" class:invalid={errors.body}>
     <label for="body">What do you want to do?</label>
-    <textarea name="body" id="body" bind:value={body} required />
+    {#if errors.body}<p class="Error">{errors.body}</p>{/if}
+    <div contenteditable bind:textContent={body} />
   </div>
 
-  <div>
+  <div class="Field" class:invalid={errors.list}>
     <label for="list">When do you want to do this?</label>
+    {#if errors.list}<p class="Error">{errors.list}</p>{/if}
     <Selector bind:value={list} choices={listChoices} name="list" />
   </div>
 
   <div class="Actions">
-    <Button primary>Add Todo</Button>
+    <Button primary disabled={!formValid}>Add Todo</Button>
     <Button type="button" text on:click={cancelForm}>Cancel</Button>
   </div>
 </form>
@@ -54,14 +68,28 @@ label {
   font-weight: 500;
 }
 
-textarea {
+.Field.invalid label {
+  color: #ef4444;
+}
+
+div[contenteditable] {
   display: block;
-  width: 100%;
+  min-height: 7.2rem;
   padding: 8px 1.2rem;
   border: 2px solid #e5e7eb;
   border-radius: 8px;
   line-height: 2.4rem;
   resize: none;
+}
+
+.Field.invalid div[contenteditable] {
+  border-color: #ef4444;
+}
+
+.Error {
+  border-radius: 8px;
+  margin-bottom: 8px;
+  color: #ef4444;
 }
 
 .Actions {

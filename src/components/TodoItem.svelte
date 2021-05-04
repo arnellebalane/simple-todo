@@ -37,4 +37,8 @@ li.done p {
   text-decoration: line-through;
   color: #9ca3af;
 }
+
+p {
+  word-break: break-word;
+}
 </style>

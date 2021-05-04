@@ -3,7 +3,7 @@ export let primary = false;
 export let text = false;
 </script>
 
-<button {...$$props} class:primary class:text on:click>
+<button {...$$props} class={$$props.class} class:primary class:text on:click>
   <slot />
 </button>
 

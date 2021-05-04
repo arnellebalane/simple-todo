@@ -1,7 +1,10 @@
 <script>
+import { createEventDispatcher } from 'svelte';
 import TodoListHeader from '@components/TodoListHeader.svelte';
 import TodoListEmpty from '@components/TodoListEmpty.svelte';
 import TodoItem from '@components/TodoItem.svelte';
+
+const dispatch = createEventDispatcher();
 
 export let title;
 export let todos;
@@ -10,9 +13,13 @@ export let emptyText;
 $: done = todos.filter((todo) => todo.done).length;
 $: total = todos.length;
 $: isEmpty = total === 0;
+
+function handleUpdateTodo(event) {
+  dispatch('updatetodo', event.detail);
+}
 </script>
 
-<article>
+<article class={$$props.class}>
   <TodoListHeader {title} {done} {total} />
 
   {#if isEmpty}
@@ -20,7 +27,7 @@ $: isEmpty = total === 0;
   {:else}
     <ol>
       {#each todos as todo}
-        <TodoItem {todo} on:toggle />
+        <TodoItem {todo} on:update={handleUpdateTodo} />
       {/each}
     </ol>
   {/if}
@@ -31,6 +38,7 @@ article {
   display: grid;
   grid-template-rows: max-content 1fr;
   row-gap: 2rem;
+  width: 100%;
 
   padding: 2rem;
   border-radius: 1.6rem;

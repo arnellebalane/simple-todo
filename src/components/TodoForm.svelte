@@ -23,7 +23,7 @@ function cancelForm() {
 }
 </script>
 
-<form on:submit|preventDefault={submitForm}>
+<form class={$$props.class} on:submit|preventDefault={submitForm}>
   <div>
     <label for="body">What do you want to do?</label>
     <textarea name="body" id="body" bind:value={body} required />

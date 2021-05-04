@@ -6,7 +6,7 @@ export let total;
 $: isEmpty = total === 0;
 </script>
 
-<header>
+<header class={$$props.class}>
   <h1>{title}</h1>
 
   {#if !isEmpty}

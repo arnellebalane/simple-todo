@@ -7,11 +7,11 @@ export let todo;
 const dispatch = createEventDispatcher();
 
 function toggleTodoDone(event) {
-  dispatch('toggle', { id: todo.id, done: event.detail });
+  dispatch('update', { id: todo.id, done: event.detail });
 }
 </script>
 
-<li class:done={todo.done}>
+<li class={$$props.class} class:done={todo.done}>
   <Checkbox checked={todo.done} on:change={toggleTodoDone} />
   <p>{todo.body}</p>
 </li>

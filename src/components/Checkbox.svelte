@@ -10,7 +10,7 @@ function handleChange(event) {
 }
 </script>
 
-<label>
+<label class={$$props.class}>
   <input type="checkbox" bind:checked on:change={handleChange} {...$$props} />
   <span>
     {#if checked}

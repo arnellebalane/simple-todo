@@ -2,7 +2,7 @@
 export let text;
 </script>
 
-<div>
+<div class={$$props.class}>
   <p>{text}</p>
 </div>
 

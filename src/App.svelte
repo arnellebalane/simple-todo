@@ -10,9 +10,11 @@ const cachedTodos = localStorage.getItem(LOCALSTORAGE_KEY);
 let todos = cachedTodos ? JSON.parse(cachedTodos) : [];
 $: localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(todos));
 
+let todoFormData = {};
 let openTodoForm = false;
-function toggleTodoForm(show) {
+function toggleTodoForm(show, data = {}) {
   openTodoForm = show;
+  todoFormData = data;
 }
 
 function updateTodoItem(event) {
@@ -44,7 +46,7 @@ function removeDoneTodos() {
 </div>
 
 <Modal open={openTodoForm}>
-  <TodoForm on:submit={addTodoItem} on:cancel={() => toggleTodoForm(false)} />
+  <TodoForm data={todoFormData} on:submit={addTodoItem} on:cancel={() => toggleTodoForm(false)} />
 </Modal>
 
 <style>

@@ -6,8 +6,10 @@ import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
 
 const dispatch = createEventDispatcher();
 
-let body = '';
-let list = TODOS_EVENTUALLY;
+export let data = {};
+
+let body = data.body ?? '';
+let list = data.list ?? TODOS_EVENTUALLY;
 let listChoices = [
   { label: 'Today', value: TODOS_TODAY },
   { label: 'This week', value: TODOS_THIS_WEEK },

@@ -4,6 +4,7 @@ import AppHeader from '@components/AppHeader.svelte';
 import Modal from '@components/Modal.svelte';
 import TodoForm from '@components/TodoForm.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
+import pick from '@lib/pick';
 import { LOCALSTORAGE_KEY } from '@lib/constants';
 
 const cachedTodos = localStorage.getItem(LOCALSTORAGE_KEY);
@@ -18,7 +19,9 @@ function toggleTodoForm(show, data = {}) {
 }
 
 function updateTodoItem(event) {
-  todos = todos.map((todo) => (todo.id === event.detail.id ? { ...todo, ...event.detail } : todo));
+  todos = todos.map((todo) =>
+    todo.id === event.detail.id ? { ...todo, ...pick(event.detail, ['body', 'list', 'order', 'done']) } : todo
+  );
 }
 
 function addTodoItem(event) {
@@ -42,6 +45,10 @@ function addTodoItem(event) {
 function removeDoneTodos() {
   todos = todos.filter((todo) => !todo.done);
 }
+
+function updateTodos(event) {
+  todos = event.detail;
+}
 </script>
 
 <div class="AppContent">
@@ -51,6 +58,7 @@ function removeDoneTodos() {
     {todos}
     on:addtodo={(event) => toggleTodoForm(true, event.detail)}
     on:updatetodo={updateTodoItem}
+    on:update={updateTodos}
   />
 </div>
 

@@ -18,7 +18,7 @@ $: isEmpty = total === 0;
   {#if isEmpty}
     <TodoListEmpty text={emptyText} on:addtodo />
   {:else}
-    <TodoListItems {todos} on:updatetodo />
+    <TodoListItems {todos} on:update on:updatetodo />
   {/if}
 </article>
 

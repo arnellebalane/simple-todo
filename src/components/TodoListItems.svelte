@@ -11,6 +11,14 @@ function handleUpdateTodo(event) {
   dispatch('updatetodo', event.detail);
 }
 
+function handleEditTodo(todo) {
+  dispatch('edittodo', todo);
+}
+
+function handleDeleteTodo(todo) {
+  dispatch('deletetodo', todo);
+}
+
 function handleDragAndDrop(event) {
   todos = event.detail.items.map((todo, i, items) => ({ ...todo, order: items.length - i }));
   if (event.detail.info.trigger == TRIGGERS.DROPPED_INTO_ZONE) {
@@ -21,7 +29,12 @@ function handleDragAndDrop(event) {
 
 <ol use:dndzone={{ items: todos, dropTargetStyle: {} }} on:consider={handleDragAndDrop} on:finalize={handleDragAndDrop}>
   {#each todos as todo (todo.id)}
-    <TodoItem {todo} on:update={handleUpdateTodo} />
+    <TodoItem
+      {todo}
+      on:update={handleUpdateTodo}
+      on:edit={() => handleEditTodo(todo)}
+      on:update={() => handleDeleteTodo(todo)}
+    />
   {/each}
 </ol>
 

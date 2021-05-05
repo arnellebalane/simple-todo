@@ -6,28 +6,27 @@ import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
 
 const dispatch = createEventDispatcher();
 
-export let data = {};
+export let data = {
+  list: TODOS_EVENTUALLY,
+};
 
-let body = data.body ?? '';
-let list = data.list ?? TODOS_EVENTUALLY;
 let listChoices = [
   { label: 'Today', value: TODOS_TODAY },
   { label: 'This week', value: TODOS_THIS_WEEK },
   { label: 'Eventually', value: TODOS_EVENTUALLY },
 ];
-
-$: formValid = body && list;
+$: formValid = data.body && data.list;
 let errors = {};
 
 function submitForm() {
   if (formValid) {
-    return dispatch('submit', { body, list });
+    return dispatch('submit', data);
   }
 
-  if (!body) {
+  if (!data.body) {
     errors.body = 'Todo body is required';
   }
-  if (!list) {
+  if (!data.list) {
     errors.list = 'Todo schedule is required';
   }
 }
@@ -41,17 +40,17 @@ function cancelForm() {
   <div class="Field" class:invalid={errors.body}>
     <label for="body">What do you want to do?</label>
     {#if errors.body}<p class="Error">{errors.body}</p>{/if}
-    <div contenteditable bind:textContent={body} />
+    <div contenteditable bind:textContent={data.body} />
   </div>
 
   <div class="Field" class:invalid={errors.list}>
     <label for="list">When do you want to do this?</label>
     {#if errors.list}<p class="Error">{errors.list}</p>{/if}
-    <Selector bind:value={list} choices={listChoices} name="list" />
+    <Selector bind:value={data.list} choices={listChoices} name="list" />
   </div>
 
   <div class="Actions">
-    <Button primary disabled={!formValid}>Add Todo</Button>
+    <Button primary disabled={!formValid}>Save Todo</Button>
     <Button type="button" text on:click={cancelForm}>Cancel</Button>
   </div>
 </form>

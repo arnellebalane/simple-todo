@@ -16,7 +16,7 @@ function toggleTodoDone(event) {
 <li class={$$props.class} class:done={todo.done}>
   <Checkbox checked={todo.done} on:change={toggleTodoDone} />
   <p>{todo.body}</p>
-  <TodoItemMenu class="TodoItemMenu" />
+  <TodoItemMenu class="TodoItemMenu" on:edit on:delete />
 
   {#if todo[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
     <div class="TodoItemShadow" />

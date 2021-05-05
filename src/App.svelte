@@ -13,7 +13,7 @@ $: localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(todos));
 
 let todoFormData = {};
 let openTodoForm = false;
-function toggleTodoForm(show, data = {}) {
+function toggleTodoForm(show, data) {
   openTodoForm = show;
   todoFormData = data;
 }
@@ -24,21 +24,29 @@ function updateTodoItem(event) {
   );
 }
 
-function addTodoItem(event) {
-  const { body, list } = event.detail;
+function editTodoItem(event) {
+  toggleTodoForm(true, event.detail);
+}
+
+function saveTodoItem(event) {
+  const { id, body, list } = event.detail;
   const order = Math.max(...todos.filter((todo) => todo.list === list).map((todo) => todo.order), 0) + 1;
 
-  todos = [
-    ...todos,
-    {
-      id: uuid.v4(),
-      body,
-      list,
-      order,
-      done: false,
-      createdAt: Date.now(),
-    },
-  ];
+  if (id) {
+    todos = todos.map((todo) => (todo.id === id ? event.detail : todo));
+  } else {
+    todos = [
+      ...todos,
+      {
+        id: uuid.v4(),
+        body,
+        list,
+        order,
+        done: false,
+        createdAt: Date.now(),
+      },
+    ];
+  }
   toggleTodoForm(false);
 }
 
@@ -58,12 +66,13 @@ function updateTodos(event) {
     {todos}
     on:addtodo={(event) => toggleTodoForm(true, event.detail)}
     on:updatetodo={updateTodoItem}
+    on:edittodo={editTodoItem}
     on:update={updateTodos}
   />
 </div>
 
 <Modal open={openTodoForm}>
-  <TodoForm data={todoFormData} on:submit={addTodoItem} on:cancel={() => toggleTodoForm(false)} />
+  <TodoForm data={todoFormData} on:submit={saveTodoItem} on:cancel={() => toggleTodoForm(false)} />
 </Modal>
 
 <style>

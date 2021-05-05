@@ -32,6 +32,8 @@ function handleUpdate(event, list) {
     on:update={(event) => handleUpdate(event, TODOS_TODAY)}
     on:addtodo={() => addTodo(TODOS_TODAY)}
     on:updatetodo
+    on:edittodo
+    on:deletetodo
   />
   <TodoList
     title="This week"
@@ -40,6 +42,8 @@ function handleUpdate(event, list) {
     on:update={(event) => handleUpdate(event, TODOS_THIS_WEEK)}
     on:addtodo={() => addTodo(TODOS_THIS_WEEK)}
     on:updatetodo
+    on:edittodo
+    on:deletetodo
   />
   <TodoList
     title="Eventually"
@@ -48,6 +52,8 @@ function handleUpdate(event, list) {
     on:update={(event) => handleUpdate(event, TODOS_EVENTUALLY)}
     on:addtodo={() => addTodo(TODOS_EVENTUALLY)}
     on:updatetodo
+    on:edittodo
+    on:deletetodo
   />
 </section>
 

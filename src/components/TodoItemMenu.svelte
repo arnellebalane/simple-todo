@@ -1,8 +1,14 @@
+<script>
+import { createEventDispatcher } from 'svelte';
+
+const dispatch = createEventDispatcher();
+</script>
+
 <menu class={$$props.class}>
   <button class="ToggleButton">Toggle</button>
 
-  <button class="EditButton">Edit</button>
-  <button class="DeleteButton">Delete</button>
+  <button class="EditButton" on:click={() => dispatch('edit')}>Edit</button>
+  <button class="DeleteButton" on:click={() => dispatch('delete')}>Delete</button>
 </menu>
 
 <style>

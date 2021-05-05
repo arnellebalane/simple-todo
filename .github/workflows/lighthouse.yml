@@ -10,7 +10,7 @@ jobs:
           node-version: 15
       - run: npm ci
       - run: npm run build
-      - run: npm run lhci
+      - run: npm run lhci -- --upload.token=${{ secrets.LHCI_BUILD_TOKEN }}
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
-          LHCI_SERVER_TOKEN: ${{ secrets.LHCI_SERVER_TOKEN }}
+          LHCI_BUILD_TOKEN: ${{ secrets.LHCI_BUILD_TOKEN }}

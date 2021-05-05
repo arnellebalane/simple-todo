@@ -17,7 +17,7 @@ function toggleTodoDone(event) {
   <p>{todo.body}</p>
 
   {#if todo[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
-    <div />
+    <div class="TodoItemShadow" />
   {/if}
 </li>
 
@@ -48,7 +48,7 @@ li.done p {
   color: #9ca3af;
 }
 
-div {
+.TodoItemShadow {
   position: absolute;
   top: 0;
   left: 0;

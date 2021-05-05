@@ -70,27 +70,27 @@ label {
 }
 
 .Field.invalid label {
-  color: #ef4444;
+  color: var(--danger);
 }
 
 div[contenteditable] {
   display: block;
   min-height: 7.2rem;
   padding: 8px 1.2rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--dimmed-300);
   border-radius: 8px;
   line-height: 2.4rem;
   resize: none;
 }
 
 .Field.invalid div[contenteditable] {
-  border-color: #ef4444;
+  border-color: var(--danger);
 }
 
 .Error {
   border-radius: 8px;
   margin-bottom: 8px;
-  color: #ef4444;
+  color: var(--danger);
 }
 
 .Actions {

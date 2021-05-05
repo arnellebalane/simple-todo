@@ -31,6 +31,6 @@ article {
 
   padding: 2rem;
   border-radius: 1.6rem;
-  background-color: #f9fafb;
+  background-color: var(--dimmed-100);
 }
 </style>

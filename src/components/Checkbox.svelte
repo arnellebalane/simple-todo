@@ -48,16 +48,16 @@ span {
   padding: 2px;
   border: 2px solid currentColor;
   border-radius: 50%;
-  color: #e5e7eb;
+  color: var(--dimmed-300);
 }
 
 label:focus-within span {
-  background-color: #f9fafb;
+  background-color: var(--dimmed-100);
 }
 
 input:checked + span {
-  color: #34d399;
-  background-color: #a7f3d0;
+  color: var(--primary);
+  background-color: var(--primary-faded);
 }
 
 svg {

@@ -14,7 +14,7 @@ button {
   border: none;
   border-radius: 8px;
   font-weight: 500;
-  background-color: #e5e7eb;
+  background-color: var(--dimmed-300);
   cursor: pointer;
 }
 
@@ -24,7 +24,7 @@ button:disabled {
 }
 
 button.primary {
-  background-color: #34d399;
+  background-color: var(--primary);
 }
 
 button.text {

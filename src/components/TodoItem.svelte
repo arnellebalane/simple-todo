@@ -32,7 +32,7 @@ li {
 
   padding: 1.6rem;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: var(--light);
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.01) 0px 2px 4px -1px;
 }
@@ -47,7 +47,7 @@ p {
 
 li.done p {
   text-decoration: line-through;
-  color: #9ca3af;
+  color: var(--dimmed-400);
 }
 
 .TodoItemShadow {
@@ -56,9 +56,9 @@ li.done p {
   left: 0;
   width: 100%;
   height: 100%;
-  border: 2px dashed #e5e7eb;
+  border: 2px dashed var(--dimmed-300);
   border-radius: 8px;
-  background-color: #f3f4f6;
+  background-color: var(--dimmed-200);
   visibility: visible;
 }
 

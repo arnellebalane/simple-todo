@@ -20,7 +20,7 @@ div {
   gap: 2px;
   padding: 2px;
   border-radius: 8px;
-  background-color: #e5e7eb;
+  background-color: var(--dimmed-300);
 }
 
 label {
@@ -41,7 +41,7 @@ span {
   display: block;
   padding: 1.2rem 2.4rem;
   text-align: center;
-  background-color: #fff;
+  background-color: var(--light);
 }
 
 label:first-child span {
@@ -53,6 +53,6 @@ label:last-child span {
 }
 
 input:checked + span {
-  background-color: #34d399;
+  background-color: var(--primary);
 }
 </style>

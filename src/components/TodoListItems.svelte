@@ -56,6 +56,6 @@ ol::-webkit-scrollbar {
 
 ol::-webkit-scrollbar-thumb {
   border-radius: 1rem;
-  background-color: #e5e7eb;
+  background-color: var(--dimmed-300);
 }
 </style>

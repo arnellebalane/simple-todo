@@ -31,6 +31,6 @@ p {
   border-radius: 4px;
   font-family: monospace;
   font-size: 1.5rem;
-  background-color: #34d399;
+  background-color: var(--primary);
 }
 </style>

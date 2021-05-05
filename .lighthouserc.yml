@@ -1,11 +1,11 @@
 ci:
   collect:
-    staticDistDir: 'build'
+    staticDistDir: build
     numberOfRuns: 3
 
   assert:
-    preset: 'lighthouse:no-pwa'
+    preset: lighthouse:no-pwa
 
   upload:
-    target: 'lhci'
-    serverBaseUrl: 'https://lhci.arnelle.me/'
+    target: lhci
+    serverBaseUrl: https://lhci.arnelle.me/

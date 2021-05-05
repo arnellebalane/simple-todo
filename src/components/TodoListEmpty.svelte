@@ -51,7 +51,7 @@ p {
   position: relative;
   padding: 1.2rem 2.4rem;
   text-align: center;
-  color: #9ca3af;
+  color: #6b7280;
 }
 
 div :global(.Button) {

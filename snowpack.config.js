@@ -12,4 +12,8 @@ module.exports = {
     '@lib': './src/lib',
     '@styles': './src/styles',
   },
+
+  optimize: {
+    minify: true,
+  },
 };

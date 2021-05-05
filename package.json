@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "snowpack dev",
-    "build": "snowpack build"
+    "build": "snowpack build",
+    "lhci": "lhci autorun"
   },
   "keywords": [],
   "author": "Arnelle Balane <arnellebalane@gmail.com>",

@@ -5,3 +5,7 @@ ci:
 
   assert:
     preset: 'lighthouse:no-pwa'
+
+  upload:
+    target: 'lhci'
+    serverBaseUrl: 'https://lhci.arnelle.me/'

@@ -1,4 +1,4 @@
-# Todos NewTab
+# Simple Todo
 
 A Chrome extension that replaces the new tab page with a simple todo list.
 

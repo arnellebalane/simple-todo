@@ -6,6 +6,22 @@
 }
 
 html {
+  --light: #fff;
+  --dimmed-100: #f9fafb;
+  --dimmed-200: #f3f4f6;
+  --dimmed-300: #e5e7eb;
+  --dimmed-400: #9ca3af;
+  --dimmed-500: #6b7280;
+  --dark: #111827;
+  --dark-transparent: rgba(17, 24, 39, 0.5);
+
+  --text-main: var(--dark);
+  --text-dimmed: var(--dimmed-400);
+
+  --primary: var(--dimmed-300);
+  --primary-faded: var(--dimmed-200);
+  --danger: #ef4444;
+
   font-size: 62.5%;
 }
 

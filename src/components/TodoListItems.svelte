@@ -33,7 +33,7 @@ function handleDragAndDrop(event) {
       {todo}
       on:update={handleUpdateTodo}
       on:edit={() => handleEditTodo(todo)}
-      on:update={() => handleDeleteTodo(todo)}
+      on:delete={() => handleDeleteTodo(todo)}
     />
   {/each}
 </ol>

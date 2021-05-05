@@ -28,6 +28,10 @@ function editTodoItem(event) {
   toggleTodoForm(true, event.detail);
 }
 
+function deleteTodoItem(event) {
+  todos = todos.filter((todo) => todo.id !== event.detail.id);
+}
+
 function saveTodoItem(event) {
   const { id, body, list } = event.detail;
   const order = Math.max(...todos.filter((todo) => todo.list === list).map((todo) => todo.order), 0) + 1;
@@ -67,6 +71,7 @@ function updateTodos(event) {
     on:addtodo={(event) => toggleTodoForm(true, event.detail)}
     on:updatetodo={updateTodoItem}
     on:edittodo={editTodoItem}
+    on:deletetodo={deleteTodoItem}
     on:update={updateTodos}
   />
 </div>

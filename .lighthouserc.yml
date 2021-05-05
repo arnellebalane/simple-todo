@@ -2,6 +2,8 @@ ci:
   collect:
     staticDistDir: build
     numberOfRuns: 3
+    settings:
+      preset: desktop
 
   assert:
     preset: lighthouse:no-pwa

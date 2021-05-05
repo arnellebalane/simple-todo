@@ -6,6 +6,7 @@ import { todos } from '@stores/todos';
 
 const removeDoneTimer = todos.removeDoneTimer;
 $: canUndoRemove = $removeDoneTimer > 0;
+$: hasDoneTodos = $todos.some((todo) => todo.done);
 
 const dispatch = createEventDispatcher();
 
@@ -22,7 +23,7 @@ const today = dayjs().format('dddd, MMMM D');
       <span>Undo Remove</span>
     </Button>
   {:else}
-    <Button text on:click={() => dispatch('removedone')}>Remove Done</Button>
+    <Button text on:click={() => dispatch('removedone')} disabled={!hasDoneTodos}>Remove Done</Button>
   {/if}
 </header>
 

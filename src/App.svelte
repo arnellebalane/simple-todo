@@ -1,15 +1,9 @@
 <script>
-import * as uuid from 'uuid';
 import AppHeader from '@components/AppHeader.svelte';
 import Modal from '@components/Modal.svelte';
 import TodoForm from '@components/TodoForm.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
-import pick from '@lib/pick';
-import { LOCALSTORAGE_KEY } from '@lib/constants';
-
-const cachedTodos = localStorage.getItem(LOCALSTORAGE_KEY);
-let todos = cachedTodos ? JSON.parse(cachedTodos) : [];
-$: localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(todos));
+import { todos } from '@stores/todos';
 
 let todoFormData = {};
 let openTodoForm = false;
@@ -18,60 +12,26 @@ function toggleTodoForm(show, data) {
   todoFormData = data;
 }
 
-function updateTodoItem(event) {
-  todos = todos.map((todo) =>
-    todo.id === event.detail.id ? { ...todo, ...pick(event.detail, ['body', 'list', 'order', 'done']) } : todo
-  );
-}
-
-function editTodoItem(event) {
-  toggleTodoForm(true, event.detail);
-}
-
-function deleteTodoItem(event) {
-  todos = todos.filter((todo) => todo.id !== event.detail.id);
-}
-
-function saveTodoItem(event) {
-  const { id, body, list } = event.detail;
-  const order = Math.max(...todos.filter((todo) => todo.list === list).map((todo) => todo.order), 0) + 1;
-
-  if (id) {
-    todos = todos.map((todo) => (todo.id === id ? event.detail : todo));
-  } else {
-    todos = [
-      ...todos,
-      {
-        id: uuid.v4(),
-        body,
-        list,
-        order,
-        done: false,
-        createdAt: Date.now(),
-      },
-    ];
-  }
+const openTodoFormWithData = (event) => toggleTodoForm(true, event.detail);
+const updateTodoItem = (event) => todos.update(event.detail);
+const removeTodoItem = (event) => todos.remove(event.detail);
+const saveTodoItem = (event) => {
+  todos.save(event.detail);
   toggleTodoForm(false);
-}
-
-function removeDoneTodos() {
-  todos = todos.filter((todo) => !todo.done);
-}
-
-function updateTodos(event) {
-  todos = event.detail;
-}
+};
+const updateTodos = (event) => todos.set(event.detail);
+const removeDoneTodos = () => todos.removeDone();
 </script>
 
 <div class="AppContent">
   <AppHeader class="AppHeader" on:addtodo={() => toggleTodoForm(true)} on:removedone={removeDoneTodos} />
   <TodoBoard
     class="TodoBoard"
-    {todos}
-    on:addtodo={(event) => toggleTodoForm(true, event.detail)}
+    todos={$todos}
+    on:addtodo={openTodoFormWithData}
     on:updatetodo={updateTodoItem}
-    on:edittodo={editTodoItem}
-    on:deletetodo={deleteTodoItem}
+    on:edittodo={openTodoFormWithData}
+    on:deletetodo={removeTodoItem}
     on:update={updateTodos}
   />
 </div>

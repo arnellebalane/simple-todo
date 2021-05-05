@@ -21,10 +21,16 @@ const saveTodoItem = (event) => {
 };
 const updateTodos = (event) => todos.set(event.detail);
 const removeDoneTodos = () => todos.removeDone();
+const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 </script>
 
 <div class="AppContent">
-  <AppHeader class="AppHeader" on:addtodo={() => toggleTodoForm(true)} on:removedone={removeDoneTodos} />
+  <AppHeader
+    class="AppHeader"
+    on:addtodo={() => toggleTodoForm(true)}
+    on:removedone={removeDoneTodos}
+    on:undoremovedone={undoRemoveDoneTodos}
+  />
   <TodoBoard
     class="TodoBoard"
     todos={$todos}

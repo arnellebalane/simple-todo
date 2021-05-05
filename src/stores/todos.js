@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { tweened } from 'svelte/motion';
 import * as uuid from 'uuid';
 import pick from '@lib/pick';
 import { LOCALSTORAGE_KEY } from '@lib/constants';
@@ -39,9 +40,32 @@ function createStore() {
 
   const remove = (data) => _update((todos) => todos.filter((todo) => todo.id !== data.id));
 
-  const removeDone = () => _update((todos) => todos.filter((todo) => !todo.done));
+  let removeDoneCache = [];
+  const removeDoneTimer = tweened(0, { duration: 2000 });
+  removeDoneTimer.subscribe((value) => {
+    if (value === 1) {
+      removeDoneCache = [];
+      removeDoneTimer.set(0, { duration: 0 });
+    }
+  });
 
-  return { subscribe, set, update, save, remove, removeDone };
+  const removeDone = () =>
+    _update((todos) => {
+      removeDoneCache = todos.filter((todo) => todo.done);
+      removeDoneTimer.set(0, { duration: 0 });
+      removeDoneTimer.set(1);
+      return todos.filter((todo) => !todo.done);
+    });
+
+  const undoRemoveDone = () =>
+    _update((todos) => {
+      todos = [...todos, ...removeDoneCache];
+      removeDoneCache = [];
+      removeDoneTimer.set(0, { duration: 0 });
+      return todos;
+    });
+
+  return { subscribe, set, update, save, remove, removeDone, undoRemoveDone, removeDoneTimer };
 }
 
 export const todos = createStore();

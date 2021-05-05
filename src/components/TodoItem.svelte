@@ -7,10 +7,7 @@ import TodoItemMenu from '@components/TodoItemMenu.svelte';
 export let todo;
 
 const dispatch = createEventDispatcher();
-
-function toggleTodoDone(event) {
-  dispatch('update', { id: todo.id, done: event.detail });
-}
+const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.detail });
 </script>
 
 <li class={$$props.class} class:done={todo.done}>

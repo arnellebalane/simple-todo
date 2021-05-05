@@ -4,19 +4,19 @@ import { dndzone, TRIGGERS } from 'svelte-dnd-action';
 import Button from '@components/Button.svelte';
 import TodoItem from '@components/TodoItem.svelte';
 
-const dispatch = createEventDispatcher();
-
 export let text;
 
 let todos = [];
 $: isEmpty = todos.length === 0;
 
-function handleDragAndDrop(event) {
+const dispatch = createEventDispatcher();
+
+const handleDragAndDrop = (event) => {
   todos = event.detail.items;
   if (event.detail.info.trigger == TRIGGERS.DROPPED_INTO_ZONE) {
     dispatch('update', todos);
   }
-}
+};
 </script>
 
 <div class={`TodoListEmpty ${$$props.class ?? ''}`}>

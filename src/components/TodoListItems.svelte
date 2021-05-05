@@ -3,28 +3,19 @@ import { createEventDispatcher } from 'svelte';
 import { dndzone, TRIGGERS } from 'svelte-dnd-action';
 import TodoItem from '@components/TodoItem.svelte';
 
-const dispatch = createEventDispatcher();
-
 export let todos;
 
-function handleUpdateTodo(event) {
-  dispatch('updatetodo', event.detail);
-}
+const dispatch = createEventDispatcher();
 
-function handleEditTodo(todo) {
-  dispatch('edittodo', todo);
-}
-
-function handleDeleteTodo(todo) {
-  dispatch('deletetodo', todo);
-}
-
-function handleDragAndDrop(event) {
+const handleUpdateTodo = (event) => dispatch('updatetodo', event.detail);
+const handleEditTodo = (todo) => dispatch('edittodo', todo);
+const handleDeleteTodo = (todo) => dispatch('deletetodo', todo);
+const handleDragAndDrop = (event) => {
   todos = event.detail.items.map((todo, i, items) => ({ ...todo, order: items.length - i }));
   if (event.detail.info.trigger == TRIGGERS.DROPPED_INTO_ZONE) {
     dispatch('update', todos);
   }
-}
+};
 </script>
 
 <ol use:dndzone={{ items: todos, dropTargetStyle: {} }} on:consider={handleDragAndDrop} on:finalize={handleDragAndDrop}>

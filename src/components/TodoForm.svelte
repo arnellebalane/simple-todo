@@ -4,8 +4,6 @@ import Selector from '@components/Selector.svelte';
 import Button from '@components/Button.svelte';
 import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
 
-const dispatch = createEventDispatcher();
-
 export let data = {
   list: TODOS_EVENTUALLY,
 };
@@ -18,7 +16,9 @@ let listChoices = [
 $: formValid = data.body && data.list;
 let errors = {};
 
-function submitForm() {
+const dispatch = createEventDispatcher();
+
+const submitForm = () => {
   if (formValid) {
     return dispatch('submit', data);
   }
@@ -29,11 +29,8 @@ function submitForm() {
   if (!data.list) {
     errors.list = 'Todo schedule is required';
   }
-}
-
-function cancelForm() {
-  dispatch('cancel');
-}
+};
+const cancelForm = () => dispatch('cancel');
 </script>
 
 <form class={$$props.class} on:submit|preventDefault={submitForm}>

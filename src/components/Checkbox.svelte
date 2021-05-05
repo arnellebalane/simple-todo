@@ -4,10 +4,7 @@ import { createEventDispatcher } from 'svelte';
 export let checked = false;
 
 const dispatch = createEventDispatcher();
-
-function handleChange(event) {
-  dispatch('change', event.target.checked);
-}
+const handleChange = (event) => dispatch('change', event.target.checked);
 </script>
 
 <label class={$$props.class}>

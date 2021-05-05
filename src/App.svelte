@@ -7,10 +7,10 @@ import { todos } from '@stores/todos';
 
 let todoFormData = {};
 let openTodoForm = false;
-function toggleTodoForm(show, data) {
+const toggleTodoForm = (show, data) => {
   openTodoForm = show;
   todoFormData = data;
-}
+};
 
 const openTodoFormWithData = (event) => toggleTodoForm(true, event.detail);
 const updateTodoItem = (event) => todos.update(event.detail);

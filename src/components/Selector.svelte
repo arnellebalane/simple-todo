@@ -1,14 +1,12 @@
 <script>
 export let choices;
 export let value;
-
-$: name = $$props.name;
 </script>
 
 <div class={$$props.class}>
   {#each choices as choice}
     <label>
-      <input type="radio" bind:group={value} value={choice.value} {name} />
+      <input type="radio" bind:group={value} value={choice.value} name={$$props.name} />
       <span>{choice.label}</span>
     </label>
   {/each}

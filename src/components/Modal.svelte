@@ -1,17 +1,41 @@
 <script>
+import { createEventDispatcher } from 'svelte';
 import { portal } from 'svelte-portal';
 
 export let show = false;
+export let closeOnEscape = false;
+export let closeOnClickOutside = false;
+
+const dispatch = createEventDispatcher();
+const handleKeyDown = (event) => {
+  if (event.key === 'Escape') {
+    if (document.activeElement === document.body) {
+      if (closeOnEscape) {
+        dispatch('close');
+      }
+    } else {
+      document.activeElement.blur();
+    }
+  }
+};
+$: eventListenerMethod = show ? 'addEventListener' : 'removeEventListener';
+$: document[eventListenerMethod]('keydown', handleKeyDown);
 
 let modal;
 $: if (modal) {
   const focusableElements = 'a, button, input, textarea, select, [contenteditable]';
   modal.querySelector(focusableElements).focus();
 }
+
+const handleOutsideClick = (event) => {
+  if (closeOnClickOutside && !event.target.closest('.ModalContent')) {
+    dispatch('close');
+  }
+};
 </script>
 
 {#if show}
-  <div class="ModalBackground" use:portal={'body'}>
+  <div class="ModalBackground" use:portal={'body'} on:click={handleOutsideClick}>
     <div class="ModalContent" bind:this={modal}>
       <slot />
     </div>

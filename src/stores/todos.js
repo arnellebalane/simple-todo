@@ -4,18 +4,23 @@ import * as uuid from 'uuid';
 import pick from '@lib/pick';
 import { LOCALSTORAGE_KEY } from '@lib/constants';
 
+const REMOVE_TIMER_DURATION = 2000;
+const REMOVE_TIMER_INITIAL = 0;
+const REMOVE_TIMER_FINAL = 1;
+
 function createStore() {
   const cachedTodos = localStorage.getItem(LOCALSTORAGE_KEY);
 
   const { subscribe, set, update: _update } = writable(cachedTodos ? JSON.parse(cachedTodos) : []);
 
-  const update = (data) =>
+  function update(data) {
     _update((todos) => {
       const editableFields = ['body', 'list', 'order', 'done'];
       return todos.map((todo) => (todo.id === data.id ? { ...todo, ...pick(data, editableFields) } : todo));
     });
+  }
 
-  const save = (data) => {
+  function save(data) {
     if (data.id) {
       _update((todos) => todos.map((todo) => (todo.id === data.id ? data : todo)));
     } else {
@@ -36,39 +41,78 @@ function createStore() {
         ];
       });
     }
-  };
+  }
 
-  const remove = (data) => _update((todos) => todos.filter((todo) => todo.id !== data.id));
-
-  let removeDoneCache = [];
-  const removeDoneTimer = tweened(0, { duration: 2000 });
-  removeDoneTimer.subscribe((value) => {
-    if (value === 1) {
-      removeDoneCache = [];
-      removeDoneTimer.set(0, { duration: 0 });
+  let removeTodoCache = null;
+  const removeTodoTimer = tweened(REMOVE_TIMER_INITIAL, { duration: REMOVE_TIMER_DURATION });
+  removeTodoTimer.subscribe((value) => {
+    if (value === REMOVE_TIMER_FINAL) {
+      removeTodoCache = null;
+      removeTodoTimer.set(REMOVE_TIMER_INITIAL, { duration: 0 });
     }
   });
 
-  const removeDone = () =>
+  function remove(data) {
+    _update((todos) => {
+      removeTodoCache = todos.find((todo) => todo.id === data.id);
+      removeTodoTimer.set(REMOVE_TIMER_INITIAL, { duration: 0 });
+      removeTodoTimer.set(REMOVE_TIMER_FINAL);
+      return todos.filter((todo) => todo.id !== data.id);
+    });
+  }
+
+  function undoRemove() {
+    _update((todos) => {
+      todos = [...todos, removeTodoCache];
+      removeTodoCache = null;
+      removeTodoTimer.set(REMOVE_TIMER_INITIAL, { duration: 0 });
+      return todos;
+    });
+  }
+
+  let removeDoneCache = [];
+  const removeDoneTimer = tweened(REMOVE_TIMER_INITIAL, { duration: REMOVE_TIMER_DURATION });
+  removeDoneTimer.subscribe((value) => {
+    if (value === REMOVE_TIMER_FINAL) {
+      removeDoneCache = [];
+      removeDoneTimer.set(REMOVE_TIMER_INITIAL, { duration: 0 });
+    }
+  });
+
+  function removeDone() {
     _update((todos) => {
       removeDoneCache = todos.filter((todo) => todo.done);
-      removeDoneTimer.set(0, { duration: 0 });
-      removeDoneTimer.set(1);
+      removeDoneTimer.set(REMOVE_TIMER_INITIAL, { duration: 0 });
+      removeDoneTimer.set(REMOVE_TIMER_FINAL);
       return todos.filter((todo) => !todo.done);
     });
+  }
 
-  const undoRemoveDone = () =>
+  function undoRemoveDone() {
     _update((todos) => {
       todos = [...todos, ...removeDoneCache];
       removeDoneCache = [];
-      removeDoneTimer.set(0, { duration: 0 });
+      removeDoneTimer.set(REMOVE_TIMER_INITIAL, { duration: 0 });
       return todos;
     });
+  }
 
-  return { subscribe, set, update, save, remove, removeDone, undoRemoveDone, removeDoneTimer };
+  return {
+    subscribe,
+    set,
+    update,
+    save,
+    remove,
+    undoRemove,
+    removeTodoTimer,
+    removeDone,
+    undoRemoveDone,
+    removeDoneTimer,
+  };
 }
 
 export const todos = createStore();
 export const removeDoneTimer = todos.removeDoneTimer;
+export const removeTodoTimer = todos.removeTodoTimer;
 
 todos.subscribe((value) => localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(value)));

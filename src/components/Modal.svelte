@@ -2,11 +2,17 @@
 import { portal } from 'svelte-portal';
 
 export let show = false;
+
+let modal;
+$: if (modal) {
+  const focusableElements = 'a, button, input, textarea, select, [contenteditable]';
+  modal.querySelector(focusableElements).focus();
+}
 </script>
 
 {#if show}
   <div class="ModalBackground" use:portal={'body'}>
-    <div class="ModalContent">
+    <div class="ModalContent" bind:this={modal}>
       <slot />
     </div>
   </div>

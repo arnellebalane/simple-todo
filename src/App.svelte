@@ -6,13 +6,13 @@ import TodoBoard from '@components/TodoBoard.svelte';
 import { todos } from '@stores/todos';
 
 let todoFormData = {};
-let openTodoForm = false;
+let showTodoForm = false;
 const toggleTodoForm = (show, data) => {
-  openTodoForm = show;
+  showTodoForm = show;
   todoFormData = data;
 };
 
-const openTodoFormWithData = (event) => toggleTodoForm(true, event.detail);
+const showTodoFormWithData = (event) => toggleTodoForm(true, event.detail);
 const updateTodoItem = (event) => todos.update(event.detail);
 const removeTodoItem = (event) => todos.remove(event.detail);
 const saveTodoItem = (event) => {
@@ -34,15 +34,15 @@ const undoRemoveDoneTodos = () => todos.undoRemoveDone();
   <TodoBoard
     class="TodoBoard"
     todos={$todos}
-    on:addtodo={openTodoFormWithData}
+    on:addtodo={showTodoFormWithData}
     on:updatetodo={updateTodoItem}
-    on:edittodo={openTodoFormWithData}
+    on:edittodo={showTodoFormWithData}
     on:deletetodo={removeTodoItem}
     on:update={updateTodos}
   />
 </div>
 
-<Modal open={openTodoForm}>
+<Modal show={showTodoForm}>
   <TodoForm data={todoFormData} on:submit={saveTodoItem} on:cancel={() => toggleTodoForm(false)} />
 </Modal>
 

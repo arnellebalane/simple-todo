@@ -1,10 +1,10 @@
 <script>
 import { portal } from 'svelte-portal';
 
-export let open = false;
+export let show = false;
 </script>
 
-{#if open}
+{#if show}
   <div class="ModalBackground" use:portal={'body'}>
     <div class="ModalContent">
       <slot />

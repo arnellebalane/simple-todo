@@ -1,7 +1,6 @@
 <script>
 import AppHeader from '@components/AppHeader.svelte';
-import Modal from '@components/Modal.svelte';
-import TodoForm from '@components/TodoForm.svelte';
+import TodoFormModal from '@components/TodoFormModal.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
 import { todos } from '@stores/todos';
 
@@ -42,9 +41,12 @@ const undoRemoveDoneTodos = () => todos.undoRemoveDone();
   />
 </div>
 
-<Modal show={showTodoForm}>
-  <TodoForm data={todoFormData} on:submit={saveTodoItem} on:cancel={() => toggleTodoForm(false)} />
-</Modal>
+<TodoFormModal
+  show={showTodoForm}
+  data={todoFormData}
+  on:submit={saveTodoItem}
+  on:cancel={() => toggleTodoForm(false)}
+/>
 
 <style>
 .AppContent {

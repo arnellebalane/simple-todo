@@ -17,6 +17,7 @@ html {
 
   --text-main: var(--dark);
   --text-dimmed: var(--dimmed-400);
+  --text-inverted: var(--light);
 
   --primary: var(--dimmed-300);
   --primary-faded: var(--dimmed-200);

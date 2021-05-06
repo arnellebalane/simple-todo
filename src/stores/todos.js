@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 import { tweened } from 'svelte/motion';
 import * as uuid from 'uuid';
 import pick from '@lib/pick';
@@ -51,6 +51,7 @@ function createStore() {
       removeTodoTimer.set(REMOVE_TIMER_INITIAL, { duration: 0 });
     }
   });
+  const removeTodoTimerFinished = derived(removeTodoTimer, (value) => value === REMOVE_TIMER_FINAL);
 
   function remove(data) {
     _update((todos) => {
@@ -78,6 +79,7 @@ function createStore() {
       removeDoneTimer.set(REMOVE_TIMER_INITIAL, { duration: 0 });
     }
   });
+  const removeDoneTimerFinished = derived(removeDoneTimer, (value) => value === REMOVE_TIMER_FINAL);
 
   function removeDone() {
     _update((todos) => {
@@ -105,14 +107,18 @@ function createStore() {
     remove,
     undoRemove,
     removeTodoTimer,
+    removeTodoTimerFinished,
     removeDone,
     undoRemoveDone,
     removeDoneTimer,
+    removeDoneTimerFinished,
   };
 }
 
 export const todos = createStore();
 export const removeDoneTimer = todos.removeDoneTimer;
+export const removeDoneTimerFinished = todos.removeDoneTimerFinished;
 export const removeTodoTimer = todos.removeTodoTimer;
+export const removeTodoTimerFinished = todos.removeTodoTimerFinished;
 
 todos.subscribe((value) => localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(value)));

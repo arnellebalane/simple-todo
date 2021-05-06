@@ -1,8 +1,10 @@
 <script>
 import AppHeader from '@components/AppHeader.svelte';
+import Toast from '@components/Toast.svelte';
 import TodoFormModal from '@components/TodoFormModal.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
 import { todos } from '@stores/todos';
+import { toast } from '@stores/toast';
 
 let todoFormData = {};
 let showTodoForm = false;
@@ -13,7 +15,15 @@ const toggleTodoForm = (show, data) => {
 
 const showTodoFormWithData = (event) => toggleTodoForm(true, event.detail);
 const updateTodoItem = (event) => todos.update(event.detail);
-const removeTodoItem = (event) => todos.remove(event.detail);
+const removeTodoItem = (event) => {
+  todos.remove(event.detail);
+  toast.set({
+    text: 'Todo deleted',
+    actionText: 'Undo',
+    onAction: () => todos.undoRemove(),
+    timer: todos.removeTodoTimerFinished,
+  });
+};
 const saveTodoItem = (event) => {
   todos.save(event.detail);
   toggleTodoForm(false);
@@ -47,6 +57,8 @@ const undoRemoveDoneTodos = () => todos.undoRemoveDone();
   on:submit={saveTodoItem}
   on:cancel={() => toggleTodoForm(false)}
 />
+
+<Toast />
 
 <style>
 .AppContent {

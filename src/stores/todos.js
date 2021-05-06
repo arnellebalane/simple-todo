@@ -69,5 +69,6 @@ function createStore() {
 }
 
 export const todos = createStore();
+export const removeDoneTimer = todos.removeDoneTimer;
 
 todos.subscribe((value) => localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(value)));

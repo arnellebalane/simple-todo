@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Simple Todo",
+  "version": "1.0.0",
+
+  "description": "Replace the newtab page with a simple todo list",
+  "icons": {
+    "48": "build/icons/48x48.png",
+    "128": "build/icons/128x128.png"
+  },
+  "author": "Arnelle Balane",
+  "homepage_url": "https://simple-todo.arnelle.me",
+
+  "chrome_url_overrides": {
+    "newtab": "build/index.html"
+  }
+}

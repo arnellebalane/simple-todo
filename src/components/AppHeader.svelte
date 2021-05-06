@@ -23,7 +23,9 @@ const today = dayjs().format('dddd, MMMM D');
       <span>Undo Remove</span>
     </Button>
   {:else}
-    <Button text on:click={() => dispatch('removedone')} disabled={!hasDoneTodos}>Remove Done</Button>
+    <Button class="RemoveDoneButton" text on:click={() => dispatch('removedone')} disabled={!hasDoneTodos}>
+      Remove Done
+    </Button>
   {/if}
 </header>
 
@@ -36,14 +38,20 @@ header {
 
 h1 {
   margin-right: auto;
-  font-size: 4.8rem;
-  font-weight: 100;
+  font-size: 4.2rem;
+  font-weight: 700;
+  letter-spacing: -1px;
 }
 
 header :global(.UndoRemoveButton) {
   position: relative;
   background-color: var(--dimmed-200);
   overflow: hidden;
+}
+
+header :global(.UndoRemoveButton),
+header :global(.RemoveDoneButton) {
+  min-width: 15rem;
 }
 
 span {

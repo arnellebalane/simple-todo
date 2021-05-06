@@ -13,7 +13,7 @@ button {
   padding: 1.2rem 2.4rem;
   border: none;
   border-radius: 8px;
-  font-weight: 500;
+  font-weight: 700;
   background-color: var(--dimmed-300);
   cursor: pointer;
 }

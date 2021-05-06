@@ -23,7 +23,7 @@ header {
 h1 {
   margin-right: auto;
   font-size: 1.8rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 p {

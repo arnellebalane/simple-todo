@@ -63,7 +63,7 @@ label {
   display: block;
   margin-bottom: 8px;
   font-size: 1.8rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .Field.invalid label {

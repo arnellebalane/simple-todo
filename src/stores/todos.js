@@ -2,14 +2,14 @@ import { writable, derived } from 'svelte/store';
 import { tweened } from 'svelte/motion';
 import * as uuid from 'uuid';
 import pick from '@lib/pick';
-import { LOCALSTORAGE_KEY } from '@lib/constants';
+import { STORAGE_KEY_DATA } from '@lib/constants';
 
 const REMOVE_TIMER_DURATION = 2000;
 const REMOVE_TIMER_INITIAL = 0;
 const REMOVE_TIMER_FINAL = 1;
 
 function createStore() {
-  const cachedTodos = localStorage.getItem(LOCALSTORAGE_KEY);
+  const cachedTodos = localStorage.getItem(STORAGE_KEY_DATA);
 
   const { subscribe, set, update: _update } = writable(cachedTodos ? JSON.parse(cachedTodos) : []);
 
@@ -121,4 +121,4 @@ export const removeDoneTimerFinished = todos.removeDoneTimerFinished;
 export const removeTodoTimer = todos.removeTodoTimer;
 export const removeTodoTimerFinished = todos.removeTodoTimerFinished;
 
-todos.subscribe((value) => localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(value)));
+todos.subscribe((value) => localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify(value)));

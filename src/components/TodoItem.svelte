@@ -29,7 +29,7 @@ li {
 
   padding: 1.6rem;
   border-radius: 8px;
-  background-color: var(--light);
+  background-color: var(--main);
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.01) 0px 2px 4px -1px;
 }

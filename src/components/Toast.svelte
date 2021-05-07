@@ -43,7 +43,7 @@ div {
   max-width: 50rem;
   padding: 1rem 2rem;
   border-radius: 8px;
-  background-color: var(--dark);
+  background-color: var(--inverted);
 }
 
 p {

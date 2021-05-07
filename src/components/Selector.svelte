@@ -48,7 +48,7 @@ span {
   display: block;
   padding: 1.2rem 2.4rem;
   text-align: center;
-  background-color: var(--light);
+  background-color: var(--main);
 }
 
 label:first-child span {

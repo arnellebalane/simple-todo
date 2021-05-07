@@ -18,7 +18,7 @@ menu {
   padding: 1.4rem;
   padding-right: 8px;
   border-radius: 0 8px 8px 0;
-  background-color: var(--light);
+  background-color: var(--main);
 }
 
 menu::before {
@@ -28,7 +28,7 @@ menu::before {
   right: 100%;
   width: 3.2rem;
   height: 100%;
-  background-image: linear-gradient(to left, var(--light) 0%, transparent 100%);
+  background-image: linear-gradient(to left, var(--main) 0%, transparent 100%);
   pointer-events: none;
 }
 

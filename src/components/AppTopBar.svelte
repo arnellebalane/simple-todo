@@ -41,8 +41,23 @@ div {
   height: 3.6rem;
   border: none;
   font-size: 0;
-  background: transparent url('./dist/assets/icons/settings.svg') center center no-repeat;
+  background: transparent center center no-repeat;
+  background-image: url('./dist/assets/icons/settings-dark.svg');
   background-size: 2.4rem;
   cursor: pointer;
+}
+
+:global([data-theme='DARK']) .SettingsButton {
+  background-image: url('./dist/assets/icons/settings-light.svg');
+}
+
+@media (prefers-color-scheme: dark) {
+  .SettingsButton {
+    background-image: url('./dist/assets/icons/settings-light.svg');
+  }
+
+  :global([data-theme='LIGHT']) .SettingsButton {
+    background-image: url('./dist/assets/icons/settings-dark.svg');
+  }
 }
 </style>

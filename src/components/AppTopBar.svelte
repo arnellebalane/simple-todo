@@ -2,11 +2,20 @@
 import SettingsFormModal from '@components/SettingsFormModal.svelte';
 import { settings } from '@stores/settings';
 
+let settingsFormData = {};
 let showSettingsForm = false;
-const toggleSettingsForm = (show) => (showSettingsForm = show);
+const toggleSettingsForm = (show) => {
+  settingsFormData = show ? { ...$settings } : {};
+  showSettingsForm = show;
+};
 
+const handleChange = (event) => settings.preview(event.detail);
 const handleSubmit = (event) => {
-  settings.set(event.detail);
+  settings.save(event.detail);
+  toggleSettingsForm(false);
+};
+const handleCancel = () => {
+  settings.restore();
   toggleSettingsForm(false);
 };
 </script>
@@ -17,9 +26,10 @@ const handleSubmit = (event) => {
 
 <SettingsFormModal
   show={showSettingsForm}
-  data={$settings}
+  data={settingsFormData}
+  on:change={handleChange}
   on:submit={handleSubmit}
-  on:cancel={() => toggleSettingsForm(false)}
+  on:cancel={handleCancel}
 />
 
 <style>

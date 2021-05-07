@@ -1,13 +1,18 @@
 <script>
+import { createEventDispatcher } from 'svelte';
+
 export let choices;
 export let value;
 export let choiceComponent;
+
+const dispatch = createEventDispatcher();
+const handleChange = (event) => dispatch('change', event.target.value);
 </script>
 
 <div class={$$props.class} class:background={!choiceComponent}>
   {#each choices as choice}
     <label>
-      <input type="radio" bind:group={value} value={choice.value} name={$$props.name} />
+      <input type="radio" bind:group={value} value={choice.value} name={$$props.name} on:change={handleChange} />
 
       {#if choiceComponent}
         <svelte:component this={choiceComponent} {choice} selected={choice.value === value} />

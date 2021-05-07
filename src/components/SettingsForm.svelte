@@ -17,12 +17,18 @@ const themeChoices = [
 
 const dispatch = createEventDispatcher();
 const handleSubmit = () => dispatch('submit', data);
+const handleChange = () => dispatch('change', data);
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
   <div class="Field">
     <label for="theme">Choose your theme</label>
-    <Selector choices={themeChoices} bind:value={data.theme} choiceComponent={SettingsFormThemeChoice} />
+    <Selector
+      bind:value={data.theme}
+      choices={themeChoices}
+      choiceComponent={SettingsFormThemeChoice}
+      on:change={handleChange}
+    />
   </div>
 
   <div class="Actions">

@@ -4,10 +4,11 @@ import Modal from '@components/Modal.svelte';
 import SettingsForm from '@components/SettingsForm.svelte';
 
 export let show;
+export let data;
 
 const dispatch = createEventDispatcher();
 </script>
 
 <Modal {show} closeOnEscape closeOnClickOutside on:close={() => dispatch('cancel')}>
-  <SettingsForm on:submit on:cancel />
+  <SettingsForm {data} on:submit on:cancel />
 </Modal>

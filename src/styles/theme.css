@@ -45,6 +45,11 @@ body[data-color='green'] {
   --primary-faded: #a7f3d0;
 }
 
+body[data-color='green'][data-theme='DARK'] {
+  --primary: #047857;
+  --primary-faded: #10b981;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --light: #fff;
@@ -89,6 +94,11 @@ body[data-color='green'] {
   }
 
   body[data-color='green'] {
+    --primary: #047857;
+    --primary-faded: #10b981;
+  }
+
+  body[data-color='green'][data-theme='LIGHT'] {
     --primary: #34d399;
     --primary-faded: #a7f3d0;
   }

@@ -72,7 +72,7 @@ const undoRemoveDoneTodos = () => todos.undoRemoveDone();
   max-width: 140rem;
   min-height: 100vh;
   padding: 4.8rem;
-  padding-top: calc(4.8rem + 6.4rem);
+  padding-top: 6.4rem;
   margin: auto;
 }
 

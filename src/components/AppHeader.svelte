@@ -37,7 +37,7 @@ header {
 
 h1 {
   margin-right: auto;
-  font-size: 4.2rem;
+  font-size: 4.4rem;
   font-weight: 700;
   letter-spacing: -1px;
 }

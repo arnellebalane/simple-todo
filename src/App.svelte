@@ -1,4 +1,5 @@
 <script>
+import AppTopBar from '@components/AppTopBar.svelte';
 import AppHeader from '@components/AppHeader.svelte';
 import Toast from '@components/Toast.svelte';
 import TodoFormModal from '@components/TodoFormModal.svelte';
@@ -32,6 +33,8 @@ const updateTodos = (event) => todos.set(event.detail);
 const removeDoneTodos = () => todos.removeDone();
 const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 </script>
+
+<AppTopBar />
 
 <div class="AppContent">
   <AppHeader
@@ -69,11 +72,11 @@ const undoRemoveDoneTodos = () => todos.undoRemoveDone();
   max-width: 140rem;
   min-height: 100vh;
   padding: 4.8rem;
+  padding-top: calc(4.8rem + 6.4rem);
   margin: auto;
 }
 
 .AppContent :global(.AppHeader) {
-  flex-shrink: 0;
   margin-top: auto;
 }
 

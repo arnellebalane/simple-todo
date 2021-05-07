@@ -26,9 +26,6 @@ const submitForm = () => {
   if (!data.body) {
     errors.body = 'Todo body is required';
   }
-  if (!data.list) {
-    errors.list = 'Todo schedule is required';
-  }
 };
 const cancelForm = () => dispatch('cancel');
 </script>
@@ -40,9 +37,8 @@ const cancelForm = () => dispatch('cancel');
     <div contenteditable bind:textContent={data.body} />
   </div>
 
-  <div class="Field" class:invalid={errors.list}>
+  <div class="Field">
     <label for="list">When do you want to do this?</label>
-    {#if errors.list}<p class="Error">{errors.list}</p>{/if}
     <Selector bind:value={data.list} choices={listChoices} name="list" />
   </div>
 

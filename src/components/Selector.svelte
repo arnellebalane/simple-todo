@@ -1,13 +1,19 @@
 <script>
 export let choices;
 export let value;
+export let choiceComponent;
 </script>
 
-<div class={$$props.class}>
+<div class={$$props.class} class:background={!choiceComponent}>
   {#each choices as choice}
     <label>
       <input type="radio" bind:group={value} value={choice.value} name={$$props.name} />
-      <span>{choice.label}</span>
+
+      {#if choiceComponent}
+        <svelte:component this={choiceComponent} {choice} selected={choice.value === value} />
+      {:else}
+        <span class:selected={choice.value === value}>{choice.label}</span>
+      {/if}
     </label>
   {/each}
 </div>
@@ -16,8 +22,11 @@ export let value;
 div {
   display: flex;
   gap: 2px;
-  padding: 2px;
   border-radius: 8px;
+}
+
+div.background {
+  padding: 2px;
   background-color: var(--dimmed-300);
 }
 
@@ -50,7 +59,7 @@ label:last-child span {
   border-radius: 0 8px 8px 0;
 }
 
-input:checked + span {
+span.selected {
   background-color: var(--primary);
 }
 </style>

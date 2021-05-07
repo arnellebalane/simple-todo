@@ -24,7 +24,7 @@ $: document[eventListenerMethod]('keydown', handleKeyDown);
 let modal;
 $: if (modal) {
   const focusableElements = 'a, button, input, textarea, select, [contenteditable]';
-  modal.querySelector(focusableElements).focus();
+  modal.querySelector(focusableElements)?.focus();
 }
 
 const handleOutsideClick = (event) => {

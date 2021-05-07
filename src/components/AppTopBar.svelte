@@ -1,6 +1,19 @@
+<script>
+import SettingsFormModal from '@components/SettingsFormModal.svelte';
+
+let showSettingsForm = false;
+const toggleSettingsForm = (show) => (showSettingsForm = show);
+
+const handleSubmit = (event) => {
+  toggleSettingsForm(false);
+};
+</script>
+
 <div>
-  <button class="SettingsButton" />
+  <button class="SettingsButton" on:click={() => toggleSettingsForm(true)} />
 </div>
+
+<SettingsFormModal show={showSettingsForm} on:submit={handleSubmit} on:cancel={() => toggleSettingsForm(false)} />
 
 <style>
 div {

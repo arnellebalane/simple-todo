@@ -6,9 +6,11 @@ A Chrome extension that replaces the new tab page with a simple todo list.
 
 ## Features
 
-- Manage todo items across three predefined lists
-- All data are stored locally and not sent to any server
-- More features coming soon! ✨
+- 👉 Manage todo items across three predefined lists
+- 💾 All data are stored locally and not sent to any server
+- 🌒 Dark mode
+- 🎨 Configurable color schemes
+- ✨ More features coming soon!
 
 ## Contributing
 

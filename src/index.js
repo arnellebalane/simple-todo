@@ -1,5 +1,6 @@
 import App from './App.svelte';
 import '@styles/index.css';
+import '@styles/themes/light.css';
 import '@styles/themes/green.css';
 
 const app = new App({

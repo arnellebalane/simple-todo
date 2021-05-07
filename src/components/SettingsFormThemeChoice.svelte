@@ -4,7 +4,7 @@ export let selected;
 </script>
 
 <p class:selected>
-  <span data-theme={choice.value} />
+  <span data-value={choice.value} />
   {choice.label}
 </p>
 
@@ -43,15 +43,15 @@ span::before {
   background-clip: content-box;
 }
 
-span[data-theme='SYSTEM']::before {
+span[data-value='SYSTEM']::before {
   background-image: linear-gradient(to bottom right, var(--light), var(--light) 50%, var(--dark) 50%, var(--dark));
 }
 
-span[data-theme='LIGHT']::before {
+span[data-value='LIGHT']::before {
   background-color: var(--light);
 }
 
-span[data-theme='DARK']::before {
+span[data-value='DARK']::before {
   background-color: var(--dark);
 }
 </style>

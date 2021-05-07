@@ -1,13 +1,15 @@
 import { writable } from 'svelte/store';
-import { STORAGE_KEY_SETTINGS, THEME_SYSTEM } from '@lib/constants';
+import { STORAGE_KEY_SETTINGS, THEME_SYSTEM, COLOR_GREEN } from '@lib/constants';
 
 function createStore() {
   const cachedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
   const defaultSettings = {
     theme: THEME_SYSTEM,
+    color: COLOR_GREEN,
   };
+  const settings = Object.assign({}, defaultSettings, cachedSettings && JSON.parse(cachedSettings));
 
-  const { subscribe, set, update } = writable(cachedSettings ? JSON.parse(cachedSettings) : defaultSettings);
+  const { subscribe, set, update } = writable(settings);
 
   let settingsCache = null;
 

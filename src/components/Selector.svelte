@@ -3,7 +3,7 @@ import { createEventDispatcher } from 'svelte';
 
 export let choices;
 export let value;
-export let choiceComponent;
+export let choiceComponent = null;
 
 const dispatch = createEventDispatcher();
 const handleChange = (event) => dispatch('change', event.target.value);

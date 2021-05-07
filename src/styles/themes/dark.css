@@ -1,0 +1,20 @@
+:root {
+  --light: #fff;
+  --dark: #111827;
+
+  --main: var(--dark);
+  --dimmed-100: #1f2937;
+  --dimmed-200: #374151;
+  --dimmed-300: #4b5563;
+  --dimmed-400: #6b7280;
+  --dimmed-500: #9ca3af;
+  --inverted: var(--light);
+  --inverted-transparent: rgba(17, 24, 39, 0.5);
+
+  --text-main: var(--light);
+  --text-inverted: var(--dark);
+
+  --primary: var(--dimmed-300);
+  --primary-faded: var(--dimmed-200);
+  --danger: #ef4444;
+}

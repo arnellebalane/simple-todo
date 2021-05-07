@@ -10,7 +10,7 @@ const handleSubmit = (event) => {
 </script>
 
 <div>
-  <button class="SettingsButton" on:click={() => toggleSettingsForm(true)} />
+  <button class="SettingsButton" on:click={() => toggleSettingsForm(true)}>Settings</button>
 </div>
 
 <SettingsFormModal show={showSettingsForm} on:submit={handleSubmit} on:cancel={() => toggleSettingsForm(false)} />
@@ -33,6 +33,7 @@ div {
   width: 3.6rem;
   height: 3.6rem;
   border: none;
+  font-size: 0;
   background: transparent url('./dist/assets/icons/settings.svg') center center no-repeat;
   background-size: 2.4rem;
   cursor: pointer;

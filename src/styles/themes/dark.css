@@ -9,7 +9,7 @@
   --dimmed-400: #6b7280;
   --dimmed-500: #9ca3af;
   --inverted: var(--light);
-  --inverted-transparent: rgba(17, 24, 39, 0.5);
+  --inverted-transparent: rgba(31, 41, 55, 0.75);
 
   --text-main: var(--light);
   --text-inverted: var(--dark);

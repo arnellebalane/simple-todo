@@ -9,6 +9,8 @@ const toggleSettingsForm = (show) => {
   showSettingsForm = show;
 };
 
+const showChromeWebstoreButton = import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD === 'true';
+
 const handleChange = (event) => settings.preview(event.detail);
 const handleSubmit = (event) => {
   settings.save(event.detail);
@@ -22,6 +24,15 @@ const handleCancel = () => {
 
 <div>
   <button class="SettingsButton" on:click={() => toggleSettingsForm(true)}>Settings</button>
+
+  {#if showChromeWebstoreButton}
+    <a
+      href="https://chrome.google.com/webstore/detail/simple-todo/kobeijgkgkcgknodjkganceliljepmjf/"
+      rel="noopener noreferrer"
+    >
+      <img src="./dist/assets/images/chrome-webstore.png" alt="Available in the Chrome Webstore" />
+    </a>
+  {/if}
 </div>
 
 <SettingsFormModal
@@ -41,9 +52,15 @@ div {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 2rem;
   width: 100%;
   height: 6.4rem;
   padding: 1.4rem 3.6rem;
+}
+
+img {
+  display: block;
+  max-height: 4.2rem;
 }
 
 .SettingsButton {

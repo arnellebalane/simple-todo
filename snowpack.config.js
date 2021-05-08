@@ -4,7 +4,7 @@ module.exports = {
     src: '/dist',
   },
 
-  plugins: ['@snowpack/plugin-svelte'],
+  plugins: ['@snowpack/plugin-svelte', '@snowpack/plugin-dotenv'],
 
   alias: {
     '@assets': './src/assets',

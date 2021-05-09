@@ -33,4 +33,8 @@ article {
   border-radius: 1.6rem;
   background-color: var(--dimmed-100);
 }
+
+:global(body[data-background]) article {
+  background-color: var(--main-transparent);
+}
 </style>

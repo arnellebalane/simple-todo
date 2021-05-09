@@ -4,7 +4,8 @@
   "description": "A Chrome extension that replaces the new tab page with a simple todo list",
   "main": "index.js",
   "scripts": {
-    "dev": "snowpack dev",
+    "start": "snowpack dev",
+    "dev": "netlify dev",
     "build": "snowpack build",
     "lhci": "lhci autorun",
     "prezip": "npm run build",
@@ -25,6 +26,7 @@
     "@lhci/cli": "^0.7.2",
     "@snowpack/plugin-dotenv": "^2.1.0",
     "@snowpack/plugin-svelte": "^3.6.1",
+    "netlify-cli": "^3.29.0",
     "prettier": "^2.2.1",
     "prettier-plugin-svelte": "^2.2.0",
     "snowpack": "^3.3.7"

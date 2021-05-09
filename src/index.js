@@ -6,6 +6,7 @@ import '@styles/theme.css';
 settings.subscribe(({ theme, color }) => {
   document.body.dataset.theme = theme;
   document.body.dataset.color = color;
+  document.body.dataset.background = true;
 });
 
 const app = new App({

@@ -14,6 +14,7 @@ button {
   border: none;
   border-radius: 8px;
   font-weight: 700;
+  line-height: 2rem;
   background-color: var(--dimmed-300);
   cursor: pointer;
 }
@@ -35,5 +36,6 @@ button.small {
   padding: 6px 1.2rem;
   border-radius: 6px;
   font-size: 1.4rem;
+  line-height: initial;
 }
 </style>

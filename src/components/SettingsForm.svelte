@@ -15,6 +15,7 @@ import {
   COLOR_PURPLE,
   COLOR_PINK,
 } from '@lib/constants';
+import axios from '@lib/axios';
 
 export let data = {
   theme: THEME_SYSTEM,
@@ -38,6 +39,20 @@ const colorChoices = [
 const dispatch = createEventDispatcher();
 const handleSubmit = () => dispatch('submit', data);
 const handleChange = () => dispatch('change', data);
+
+let source;
+const handleBackgroundChange = async () => {
+  if (data.background) {
+    source = axios.CancelToken.source();
+    const response = await axios.get('/get-background-image', { cancelToken: source.token });
+    data.backgroundImage = response.data;
+  } else {
+    source?.cancel();
+    delete data.backgroundImage;
+  }
+  source = null;
+  handleChange();
+};
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
@@ -65,7 +80,7 @@ const handleChange = () => dispatch('change', data);
 
   <div class="Field Field--inline">
     <label for="background">Show background image</label>
-    <Switch name="background" bind:value={data.background} on:change={handleChange} />
+    <Switch name="background" bind:value={data.background} on:change={handleBackgroundChange} />
   </div>
 
   <div class="Actions">

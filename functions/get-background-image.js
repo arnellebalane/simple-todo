@@ -12,20 +12,39 @@ exports.handler = async (event, context) => {
         Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
       },
     });
+
+    let data = response.data;
     if (response.status >= 400 && response.status <= 599) {
-      const fallback = require('./data/unsplash-fallback-image.json');
-      return { statusCode: 200, body: JSON.stringify(fallback) };
+      data = require('./data/unsplash-fallback-image.json');
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify(response.data),
+      body: JSON.stringify({
+        photo_url: data.urls.full,
+        photo_link: data.links.html,
+        user_name: data.user.name,
+        user_link: data.user.links.html,
+      }),
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
     };
   } catch (error) {
     console.log(error);
+
+    data = require('./data/unsplash-fallback-image.json');
     return {
       statusCode: 500,
-      body: JSON.stringify(error.message),
+      body: JSON.stringify({
+        photo_url: data.urls.full,
+        photo_link: data.links.html,
+        user_name: data.user.name,
+        user_link: data.user.links.html,
+      }),
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
     };
   }
 };

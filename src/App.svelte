@@ -1,5 +1,6 @@
 <script>
 import AppTopBar from '@components/AppTopBar.svelte';
+import AppBottomBar from '@components/AppBottomBar.svelte';
 import AppHeader from '@components/AppHeader.svelte';
 import Toast from '@components/Toast.svelte';
 import TodoFormModal from '@components/TodoFormModal.svelte';
@@ -34,25 +35,29 @@ const removeDoneTodos = () => todos.removeDone();
 const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 </script>
 
-<AppTopBar />
+<main>
+  <AppTopBar />
 
-<div class="AppContent">
-  <AppHeader
-    class="AppHeader"
-    on:addtodo={() => toggleTodoForm(true)}
-    on:removedone={removeDoneTodos}
-    on:undoremovedone={undoRemoveDoneTodos}
-  />
-  <TodoBoard
-    class="TodoBoard"
-    todos={$todos}
-    on:addtodo={showTodoFormWithData}
-    on:updatetodo={updateTodoItem}
-    on:edittodo={showTodoFormWithData}
-    on:deletetodo={removeTodoItem}
-    on:update={updateTodos}
-  />
-</div>
+  <div class="AppContent">
+    <AppHeader
+      class="AppHeader"
+      on:addtodo={() => toggleTodoForm(true)}
+      on:removedone={removeDoneTodos}
+      on:undoremovedone={undoRemoveDoneTodos}
+    />
+    <TodoBoard
+      class="TodoBoard"
+      todos={$todos}
+      on:addtodo={showTodoFormWithData}
+      on:updatetodo={updateTodoItem}
+      on:edittodo={showTodoFormWithData}
+      on:deletetodo={removeTodoItem}
+      on:update={updateTodos}
+    />
+  </div>
+
+  <AppBottomBar />
+</main>
 
 <TodoFormModal
   show={showTodoForm}
@@ -64,16 +69,22 @@ const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 <Toast />
 
 <style>
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
 .AppContent {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   gap: 4.8rem;
+  width: 100%;
   min-width: 90rem;
   max-width: 140rem;
-  min-height: 100vh;
-  padding: 4.8rem;
-  padding-top: 6.4rem;
-  margin: auto;
+  padding: 0 4.8rem;
 }
 
 .AppContent :global(.AppHeader) {

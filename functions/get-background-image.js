@@ -35,7 +35,7 @@ exports.handler = async (event, context) => {
 
     data = require('./data/unsplash-fallback-image.json');
     return {
-      statusCode: 500,
+      statusCode: 200,
       body: JSON.stringify({
         photo_url: data.urls.full,
         photo_link: data.links.html,

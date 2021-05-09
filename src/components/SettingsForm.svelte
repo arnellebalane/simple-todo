@@ -5,6 +5,7 @@ import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
 import SettingsFormThemeChoice from '@components/SettingsFormThemeChoice.svelte';
 import SettingsFormColorChoice from '@components/SettingsFormColorChoice.svelte';
+import { settings } from '@stores/settings';
 import {
   THEME_SYSTEM,
   THEME_LIGHT,
@@ -15,7 +16,6 @@ import {
   COLOR_PURPLE,
   COLOR_PINK,
 } from '@lib/constants';
-import axios from '@lib/axios';
 
 export let data = {
   theme: THEME_SYSTEM,
@@ -40,17 +40,17 @@ const dispatch = createEventDispatcher();
 const handleSubmit = () => dispatch('submit', data);
 const handleChange = () => dispatch('change', data);
 
-let source;
+let sourceCache;
 const handleBackgroundChange = async () => {
   if (data.background) {
-    source = axios.CancelToken.source();
-    const response = await axios.get('/get-background-image', { cancelToken: source.token });
-    data.backgroundImage = response.data;
+    const { source, request } = settings.getBackgroundImage();
+    sourceCache = source;
+    data.backgroundImage = await request;
   } else {
-    source?.cancel();
+    sourceCache?.cancel();
     delete data.backgroundImage;
   }
-  source = null;
+  sourceCache = null;
   handleChange();
 };
 </script>

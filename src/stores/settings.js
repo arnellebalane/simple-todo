@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import axios from '@lib/axios';
 import { STORAGE_KEY_SETTINGS, THEME_SYSTEM, COLOR_GREEN } from '@lib/constants';
 
 function createStore() {
@@ -34,7 +35,13 @@ function createStore() {
     localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(data));
   }
 
-  return { subscribe, set, update, preview, restore, save };
+  function getBackgroundImage() {
+    const source = axios.CancelToken.source();
+    const request = axios.get('/get-background-image', { cancelToken: source.token }).then((response) => response.data);
+    return { source, request };
+  }
+
+  return { subscribe, set, update, preview, restore, save, getBackgroundImage };
 }
 
 export const settings = createStore();

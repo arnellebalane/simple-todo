@@ -2,10 +2,9 @@
 import { createEventDispatcher } from 'svelte';
 import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
-import Switch from '@components/Switch.svelte';
 import SettingsFormThemeChoice from '@components/SettingsFormThemeChoice.svelte';
 import SettingsFormColorChoice from '@components/SettingsFormColorChoice.svelte';
-import { settings } from '@stores/settings';
+import SettingsFormBackgroundImageField from '@components/SettingsFormBackgroundImageField.svelte';
 import {
   THEME_SYSTEM,
   THEME_LIGHT,
@@ -39,24 +38,10 @@ const colorChoices = [
 const dispatch = createEventDispatcher();
 const handleSubmit = () => dispatch('submit', data);
 const handleChange = () => dispatch('change', data);
-
-let sourceCache;
-const handleBackgroundChange = async () => {
-  if (data.background) {
-    const { source, request } = settings.getBackgroundImage();
-    sourceCache = source;
-    data.backgroundImage = await request;
-  } else {
-    sourceCache?.cancel();
-    delete data.backgroundImage;
-  }
-  sourceCache = null;
-  handleChange();
-};
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-  <div class="Field">
+  <div>
     <label for="theme">Choose your theme</label>
     <Selector
       name="theme"
@@ -67,7 +52,7 @@ const handleBackgroundChange = async () => {
     />
   </div>
 
-  <div class="Field">
+  <div>
     <label for="color">Choose your color</label>
     <Selector
       name="color"
@@ -78,10 +63,7 @@ const handleBackgroundChange = async () => {
     />
   </div>
 
-  <div class="Field Field--inline">
-    <label for="background">Show background image</label>
-    <Switch name="background" bind:value={data.background} on:change={handleBackgroundChange} />
-  </div>
+  <SettingsFormBackgroundImageField bind:data on:change={handleChange} />
 
   <div class="Actions">
     <Button primary>Save Settings</Button>
@@ -103,13 +85,7 @@ label {
   font-weight: 700;
 }
 
-.Field--inline {
+.Actions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.Field--inline label {
-  margin-bottom: 0;
 }
 </style>

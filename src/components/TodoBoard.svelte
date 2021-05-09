@@ -26,6 +26,7 @@ const handleUpdate = (event, list) => {
     title="Today"
     emptyText="Hurray! No more todos for today!"
     todos={todosToday}
+    class="TodoList"
     on:update={(event) => handleUpdate(event, TODOS_TODAY)}
     on:addtodo={() => addTodo(TODOS_TODAY)}
     on:updatetodo
@@ -36,6 +37,7 @@ const handleUpdate = (event, list) => {
     title="This week"
     emptyText="Great! No more todos for this week!"
     todos={todosThisWeek}
+    class="TodoList"
     on:update={(event) => handleUpdate(event, TODOS_THIS_WEEK)}
     on:addtodo={() => addTodo(TODOS_THIS_WEEK)}
     on:updatetodo
@@ -46,6 +48,7 @@ const handleUpdate = (event, list) => {
     title="Eventually"
     emptyText="No other things to do. Good job!"
     todos={todosEventually}
+    class="TodoList"
     on:update={(event) => handleUpdate(event, TODOS_EVENTUALLY)}
     on:addtodo={() => addTodo(TODOS_EVENTUALLY)}
     on:updatetodo
@@ -58,5 +61,15 @@ const handleUpdate = (event, list) => {
 section {
   display: flex;
   gap: 3.2rem;
+  min-height: 30rem;
+  max-height: 80rem;
+}
+
+:global(body[data-background]) section {
+  align-items: flex-start;
+}
+
+section :global(.TodoList) {
+  max-height: 80rem;
 }
 </style>

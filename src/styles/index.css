@@ -16,7 +16,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-main);
-  background: var(--main) center center no-repeat;
+  background: var(--main) center center no-repeat fixed;
   background-size: cover;
 }
 

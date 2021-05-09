@@ -82,8 +82,6 @@ const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 
 .AppContent :global(.TodoBoard) {
   flex-grow: 1;
-  min-height: 30rem;
-  max-height: 80rem;
   margin-bottom: auto;
 }
 </style>

@@ -23,6 +23,7 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({
         photo_url: data.urls.full,
         photo_link: data.links.html,
+        photo_blurhash: data.blur_hash,
         user_name: data.user.name,
         user_link: data.user.links.html,
       }),
@@ -39,6 +40,7 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({
         photo_url: data.urls.full,
         photo_link: data.links.html,
+        photo_blurhash: data.blur_hash,
         user_name: data.user.name,
         user_link: data.user.links.html,
       }),

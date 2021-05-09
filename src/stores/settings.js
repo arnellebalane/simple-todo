@@ -6,6 +6,7 @@ function createStore() {
   const defaultSettings = {
     theme: THEME_SYSTEM,
     color: COLOR_GREEN,
+    background: false,
   };
   const settings = Object.assign({}, defaultSettings, cachedSettings && JSON.parse(cachedSettings));
 

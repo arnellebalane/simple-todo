@@ -2,6 +2,7 @@
 import { createEventDispatcher } from 'svelte';
 import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
+import Switch from '@components/Switch.svelte';
 import SettingsFormThemeChoice from '@components/SettingsFormThemeChoice.svelte';
 import SettingsFormColorChoice from '@components/SettingsFormColorChoice.svelte';
 import {
@@ -18,6 +19,7 @@ import {
 export let data = {
   theme: THEME_SYSTEM,
   color: COLOR_GREEN,
+  background: false,
 };
 
 const themeChoices = [
@@ -61,6 +63,11 @@ const handleChange = () => dispatch('change', data);
     />
   </div>
 
+  <div class="Field Field--inline">
+    <label for="background">Show background image</label>
+    <Switch name="background" bind:value={data.background} on:change={handleChange} />
+  </div>
+
   <div class="Actions">
     <Button primary>Save Settings</Button>
     <Button type="button" text on:click={() => dispatch('cancel')}>Cancel</Button>
@@ -79,5 +86,15 @@ label {
   margin-bottom: 8px;
   font-size: 1.8rem;
   font-weight: 700;
+}
+
+.Field--inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Field--inline label {
+  margin-bottom: 0;
 }
 </style>

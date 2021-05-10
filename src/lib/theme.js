@@ -24,6 +24,11 @@ function renderBlurHash(backgroundImage) {
   delete document.body.dataset.backgroundLoaded;
 }
 
+function removeBlurHash() {
+  document.body.style.removeProperty('--background-blurhash');
+  delete document.body.dataset.background;
+}
+
 let currentRequest = null;
 
 async function renderBackgroundImage(backgroundImage) {
@@ -36,6 +41,12 @@ async function renderBackgroundImage(backgroundImage) {
   const photoUrl = URL.createObjectURL(response.data);
   document.body.style.backgroundImage = `url(${photoUrl})`;
   setTimeout(() => (document.body.dataset.backgroundLoaded = true), 100);
+}
+
+function removeBackgroundImage() {
+  currentRequest?.cancel();
+  document.body.style.backgroundImage = '';
+  delete document.body.dataset.backgroundLoaded;
 }
 
 async function checkBackgroundImageUpdate(settingsData) {
@@ -72,8 +83,8 @@ export function watchTheme() {
         checkBackgroundImageUpdate(settingsData);
       }
     } else {
-      delete document.body.dataset.background;
-      document.body.style.backgroundImage = '';
+      removeBlurHash();
+      removeBackgroundImage();
     }
   });
 }

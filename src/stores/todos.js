@@ -32,7 +32,7 @@ function createStore() {
   function save(data) {
     if (data.id) {
       _update((todos) => todos.map((todo) => (todo.id === data.id ? data : todo)));
-      trackEvent('todos', 'add');
+      trackEvent('todos', 'edit');
     } else {
       _update((todos) => {
         const { body, list } = data;
@@ -50,7 +50,7 @@ function createStore() {
           },
         ];
       });
-      trackEvent('todos', 'edit');
+      trackEvent('todos', 'add');
     }
   }
 

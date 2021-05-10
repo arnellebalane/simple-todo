@@ -5,25 +5,35 @@ $: image = $settings.backgroundImage;
 </script>
 
 <footer>
+  <small>
+    Built by <a href="https://arnellebalane.com" target="_blank" rel="noopener noreferrer">Arnelle Balane</a> &middot;
+    <a href="https://github.com/arnellebalane/simple-todo" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </small>
+
   {#if image}
-    <p>
+    <small>
       Photo by <a href={image.photo_link} target="_blank" rel="noopener noreferrer">{image.user_name}</a> on
       <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">Unsplash</a>
-    </p>
+    </small>
   {/if}
 </footer>
 
 <style>
 footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  gap: 3.6rem;
   width: 100%;
   height: 5rem;
   padding: 1.4rem 3.6rem;
 }
 
-p {
+small {
   font-size: 1.4rem;
+  color: var(--text-main);
+}
+
+:global(body[data-background]) small {
   color: var(--light);
 }
 </style>

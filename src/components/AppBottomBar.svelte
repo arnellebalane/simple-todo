@@ -4,20 +4,21 @@ import { settings } from '@stores/settings';
 $: image = $settings.backgroundImage;
 </script>
 
-<div>
+<footer>
   {#if image}
     <p>
       Photo by <a href={image.photo_link} target="_blank" rel="noopener noreferrer">{image.user_name}</a> on
       <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">Unsplash</a>
     </p>
   {/if}
-</div>
+</footer>
 
 <style>
-div {
+footer {
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  height: 5rem;
   padding: 1.4rem 3.6rem;
 }
 

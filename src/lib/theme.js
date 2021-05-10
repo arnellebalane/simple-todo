@@ -23,25 +23,27 @@ export function watchTheme() {
     document.body.dataset.color = color;
 
     if (backgroundImage) {
-      const blurHashUrl = blurHashToDataUrl(backgroundImage.photo_blurhash);
-      document.body.style.setProperty('--background-blurhash', `url(${blurHashUrl})`);
-      delete document.body.dataset.backgroundLoaded;
+      if (backgroundImage.photo_blurhash !== document.body.dataset.background) {
+        const blurHashUrl = blurHashToDataUrl(backgroundImage.photo_blurhash);
+        document.body.style.setProperty('--background-blurhash', `url(${blurHashUrl})`);
+        delete document.body.dataset.backgroundLoaded;
 
-      currentRequest?.cancel();
-      currentRequest = axios.CancelToken.source();
-      const response = await axios.get(backgroundImage.photo_url, {
-        cancelToken: currentRequest.token,
-        responseType: 'blob',
-      });
-      const photoUrl = URL.createObjectURL(response.data);
-      document.body.style.backgroundImage = `url(${photoUrl})`;
-      setTimeout(() => (document.body.dataset.backgroundLoaded = true), 100);
+        currentRequest?.cancel();
+        currentRequest = axios.CancelToken.source();
+        const response = await axios.get(backgroundImage.photo_url, {
+          cancelToken: currentRequest.token,
+          responseType: 'blob',
+        });
+        const photoUrl = URL.createObjectURL(response.data);
+        document.body.style.backgroundImage = `url(${photoUrl})`;
+        setTimeout(() => (document.body.dataset.backgroundLoaded = true), 100);
+      }
     } else {
       document.body.style.backgroundImage = '';
     }
 
     if (background) {
-      document.body.dataset.background = background;
+      document.body.dataset.background = backgroundImage?.photo_blurhash;
     } else {
       delete document.body.dataset.background;
     }

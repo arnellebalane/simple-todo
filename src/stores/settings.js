@@ -33,6 +33,10 @@ function createStore() {
   function save(data) {
     set(data);
     settingsCache = null;
+    saveInStorage(data);
+  }
+
+  function saveInStorage(data) {
     localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(data));
   }
 
@@ -42,7 +46,7 @@ function createStore() {
     return { source, request };
   }
 
-  return { subscribe, set, update, preview, restore, save, getBackgroundImage };
+  return { subscribe, set, update, preview, restore, save, saveInStorage, getBackgroundImage };
 }
 
 export const settings = createStore();

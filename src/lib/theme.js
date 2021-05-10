@@ -1,6 +1,8 @@
+import dayjs from 'dayjs';
 import { decode } from 'blurhash';
 import { settings } from '@stores/settings';
 import axios from '@lib/axios';
+import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY } from '@lib/constants';
 
 function blurHashToDataUrl(blurhash) {
   const size = 32;
@@ -36,8 +38,30 @@ async function renderBackgroundImage(backgroundImage) {
   setTimeout(() => (document.body.dataset.backgroundLoaded = true), 100);
 }
 
+async function checkBackgroundImageUpdate(settingsData) {
+  const { backgroundImageLastUpdate, backgroundRefreshFrequency } = settingsData;
+  const now = dayjs();
+  const lastUpdate = dayjs(backgroundImageLastUpdate);
+  const daysSinceLastUpdate = now.diff(lastUpdate, 'day');
+
+  let updateThresholdDays = Number.POSITIVE_INFINITY;
+  if (backgroundRefreshFrequency === BACKGROUND_REFRESH_DAILY) {
+    updateThresholdDays = 1;
+  } else if (backgroundRefreshFrequency === BACKGROUND_REFRESH_WEEKLY) {
+    updateThresholdDays = 7;
+  }
+
+  if (daysSinceLastUpdate >= updateThresholdDays) {
+    const { request } = settings.getBackgroundImage();
+    const backgroundImage = await request;
+    const backgroundImageLastUpdate = Date.now();
+    settings.saveInStorage({ ...settingsData, backgroundImage, backgroundImageLastUpdate });
+  }
+}
+
 export function watchTheme() {
-  settings.subscribe(({ theme, color, background, backgroundImage }) => {
+  settings.subscribe((settingsData) => {
+    const { theme, color, background, backgroundImage } = settingsData;
     document.body.dataset.theme = theme;
     document.body.dataset.color = color;
 
@@ -45,6 +69,7 @@ export function watchTheme() {
       if (backgroundImage.photo_blurhash !== document.body.dataset.background) {
         renderBlurHash(backgroundImage);
         renderBackgroundImage(backgroundImage);
+        checkBackgroundImageUpdate(settingsData);
       }
     } else {
       delete document.body.dataset.background;

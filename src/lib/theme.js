@@ -70,7 +70,7 @@ async function checkBackgroundImageUpdate(settingsData) {
   }
 }
 
-export function watchTheme() {
+export function initializeTheme() {
   settings.subscribe((settingsData) => {
     const { theme, color, background, backgroundImage } = settingsData;
     document.body.dataset.theme = theme;

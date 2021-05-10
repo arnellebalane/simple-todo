@@ -1,9 +1,9 @@
 import App from './App.svelte';
-import { watchTheme } from '@lib/theme.js';
+import { initializeTheme } from '@lib/theme.js';
 import '@styles/index.css';
 import '@styles/theme.css';
 
-watchTheme();
+initializeTheme();
 
 const app = new App({
   target: document.body,

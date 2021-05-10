@@ -40,7 +40,7 @@ const undoRemoveDoneTodos = () => todos.undoRemoveDone();
     <script
       async
       defer
-      data-website-id="a8463ca0-a0c2-4370-b786-938eb3d6894e"
+      data-website-id="3937ad1a-ecfd-44cb-8e16-07cda3b01dc4"
       src="https://umami.patootie.app/umami.js"></script>
   {/if}
 </svelte:head>

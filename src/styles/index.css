@@ -20,6 +20,24 @@ body {
   background-size: cover;
 }
 
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background: transparent var(--background-blurhash) center center no-repeat;
+  background-size: cover;
+  opacity: 1;
+}
+
+body[data-background-loaded]::before {
+  transition: opacity 500ms ease;
+  opacity: 0;
+}
+
 a,
 input,
 textarea,

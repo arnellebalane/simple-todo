@@ -24,7 +24,8 @@ export function watchTheme() {
 
     if (backgroundImage) {
       const blurHashUrl = blurHashToDataUrl(backgroundImage.photo_blurhash);
-      document.body.style.backgroundImage = `url(${blurHashUrl})`;
+      document.body.style.setProperty('--background-blurhash', `url(${blurHashUrl})`);
+      delete document.body.dataset.backgroundLoaded;
 
       currentRequest?.cancel();
       currentRequest = axios.CancelToken.source();
@@ -34,6 +35,7 @@ export function watchTheme() {
       });
       const photoUrl = URL.createObjectURL(response.data);
       document.body.style.backgroundImage = `url(${photoUrl})`;
+      setTimeout(() => (document.body.dataset.backgroundLoaded = true), 100);
     } else {
       document.body.style.backgroundImage = '';
     }

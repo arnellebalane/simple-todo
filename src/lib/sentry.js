@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/browser';
+import { CaptureConsole } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 
 export function initializeSentry() {
@@ -6,7 +7,12 @@ export function initializeSentry() {
     Sentry.init({
       dsn: import.meta.env.SNOWPACK_PUBLIC_SENTRY_DSN,
       environment: import.meta.env.SNOWPACK_PUBLIC_SENTRY_ENVIRONMENT,
-      integrations: [new Integrations.BrowserTracing()],
+      integrations: [
+        new CaptureConsole({
+          levels: ['error', 'warn'],
+        }),
+        new Integrations.BrowserTracing(),
+      ],
       tracesSampleRate: 1,
     });
   }

@@ -1,16 +1,27 @@
 <script>
 import { createEventDispatcher } from 'svelte';
+import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
 import { settings } from '@stores/settings';
+import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY, BACKGROUND_REFRESH_MANUALLY } from '@lib/constants';
 
 export let data = {
   background: false,
+  backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
 };
+
+const backgroundRefreshFrequencyChoices = [
+  { label: 'Daily', value: BACKGROUND_REFRESH_DAILY },
+  { label: 'Weekly', value: BACKGROUND_REFRESH_WEEKLY },
+  { label: 'Manually', value: BACKGROUND_REFRESH_MANUALLY },
+];
 
 const dispatch = createEventDispatcher();
 
 let currentRequest;
 $: hasCurrentRequest = Boolean(currentRequest);
+
+const handleChange = () => dispatch('change', data);
 
 const handleRefresh = async () => {
   const { source, request } = settings.getBackgroundImage();
@@ -18,8 +29,9 @@ const handleRefresh = async () => {
 
   try {
     data.backgroundImage = await request;
+    data.backgroundImageLastUpdate = Date.now();
     currentRequest = null;
-    dispatch('change', data);
+    handleChange();
   } catch (error) {
     console.error(error);
   }
@@ -33,19 +45,22 @@ const handleBackgroundChange = async () => {
 
     try {
       data.backgroundImage = await request;
+      data.backgroundImageLastUpdate = Date.now();
     } catch (error) {
       console.error(error);
       data.background = false;
     }
   } else {
     delete data.backgroundImage;
+    delete data.backgroundImageLastUpdate;
+    data.backgroundRefreshFrequency = BACKGROUND_REFRESH_DAILY;
   }
   currentRequest = null;
-  dispatch('change', data);
+  handleChange();
 };
 </script>
 
-<div>
+<div class="Field--inline">
   <label for="background">Show background image</label>
   {#if data.background}
     <button type="button" disabled={hasCurrentRequest} on:click={handleRefresh}>Refresh</button>
@@ -53,17 +68,35 @@ const handleBackgroundChange = async () => {
   <Switch name="background" bind:value={data.background} on:change={handleBackgroundChange} />
 </div>
 
+{#if data.background}
+  <div>
+    <label for="backgroundRefreshFrequency">Refresh background image</label>
+    <Selector
+      name="backgroundRefreshFrequency"
+      bind:value={data.backgroundRefreshFrequency}
+      choices={backgroundRefreshFrequencyChoices}
+      on:change={handleChange}
+    />
+  </div>
+{/if}
+
 <style>
-div {
+.Field--inline {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 label {
-  margin-right: auto;
+  display: block;
+  margin-bottom: 8px;
   font-size: 1.8rem;
   font-weight: 700;
+}
+
+.Field--inline label {
+  margin-right: auto;
+  margin-bottom: 0;
 }
 
 button {

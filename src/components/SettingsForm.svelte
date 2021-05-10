@@ -4,7 +4,7 @@ import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
 import SettingsFormThemeChoice from '@components/SettingsFormThemeChoice.svelte';
 import SettingsFormColorChoice from '@components/SettingsFormColorChoice.svelte';
-import SettingsFormBackgroundImageField from '@components/SettingsFormBackgroundImageField.svelte';
+import SettingsFormBackgroundFields from '@components/SettingsFormBackgroundFields.svelte';
 import {
   THEME_SYSTEM,
   THEME_LIGHT,
@@ -63,7 +63,7 @@ const handleChange = () => dispatch('change', data);
     />
   </div>
 
-  <SettingsFormBackgroundImageField bind:data on:change={handleChange} />
+  <SettingsFormBackgroundFields bind:data on:change={handleChange} />
 
   <div class="Actions">
     <Button primary>Save Settings</Button>

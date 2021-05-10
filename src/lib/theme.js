@@ -15,29 +15,36 @@ function blurHashToDataUrl(blurhash) {
   return canvas.toDataURL('image/jpg');
 }
 
+function renderBlurHash(backgroundImage) {
+  const blurHashUrl = blurHashToDataUrl(backgroundImage.photo_blurhash);
+  document.body.style.setProperty('--background-blurhash', `url(${blurHashUrl})`);
+  document.body.dataset.background = backgroundImage.photo_blurhash;
+  delete document.body.dataset.backgroundLoaded;
+}
+
 let currentRequest = null;
 
+async function renderBackgroundImage(backgroundImage) {
+  currentRequest?.cancel();
+  currentRequest = axios.CancelToken.source();
+  const response = await axios.get(backgroundImage.photo_url, {
+    cancelToken: currentRequest.token,
+    responseType: 'blob',
+  });
+  const photoUrl = URL.createObjectURL(response.data);
+  document.body.style.backgroundImage = `url(${photoUrl})`;
+  setTimeout(() => (document.body.dataset.backgroundLoaded = true), 100);
+}
+
 export function watchTheme() {
-  settings.subscribe(async ({ theme, color, background, backgroundImage }) => {
+  settings.subscribe(({ theme, color, background, backgroundImage }) => {
     document.body.dataset.theme = theme;
     document.body.dataset.color = color;
 
     if (background && backgroundImage) {
       if (backgroundImage.photo_blurhash !== document.body.dataset.background) {
-        const blurHashUrl = blurHashToDataUrl(backgroundImage.photo_blurhash);
-        document.body.style.setProperty('--background-blurhash', `url(${blurHashUrl})`);
-        document.body.dataset.background = backgroundImage.photo_blurhash;
-        delete document.body.dataset.backgroundLoaded;
-
-        currentRequest?.cancel();
-        currentRequest = axios.CancelToken.source();
-        const response = await axios.get(backgroundImage.photo_url, {
-          cancelToken: currentRequest.token,
-          responseType: 'blob',
-        });
-        const photoUrl = URL.createObjectURL(response.data);
-        document.body.style.backgroundImage = `url(${photoUrl})`;
-        setTimeout(() => (document.body.dataset.backgroundLoaded = true), 100);
+        renderBlurHash(backgroundImage);
+        renderBackgroundImage(backgroundImage);
       }
     } else {
       delete document.body.dataset.background;

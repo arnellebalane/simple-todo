@@ -35,7 +35,7 @@ const handleAction = () => {
 div {
   position: fixed;
   left: 3.2rem;
-  bottom: 3.2rem;
+  bottom: 5rem;
 
   display: flex;
   align-items: center;

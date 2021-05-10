@@ -22,10 +22,11 @@ export function watchTheme() {
     document.body.dataset.theme = theme;
     document.body.dataset.color = color;
 
-    if (backgroundImage) {
+    if (background && backgroundImage) {
       if (backgroundImage.photo_blurhash !== document.body.dataset.background) {
         const blurHashUrl = blurHashToDataUrl(backgroundImage.photo_blurhash);
         document.body.style.setProperty('--background-blurhash', `url(${blurHashUrl})`);
+        document.body.dataset.background = backgroundImage.photo_blurhash;
         delete document.body.dataset.backgroundLoaded;
 
         currentRequest?.cancel();
@@ -39,13 +40,8 @@ export function watchTheme() {
         setTimeout(() => (document.body.dataset.backgroundLoaded = true), 100);
       }
     } else {
-      document.body.style.backgroundImage = '';
-    }
-
-    if (background) {
-      document.body.dataset.background = backgroundImage?.photo_blurhash;
-    } else {
       delete document.body.dataset.background;
+      document.body.style.backgroundImage = '';
     }
   });
 }

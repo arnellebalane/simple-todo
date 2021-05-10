@@ -3,4 +3,5 @@ build
 .env.local
 .lighthouseci
 .netlify
+.vscode
 simple-todo.zip

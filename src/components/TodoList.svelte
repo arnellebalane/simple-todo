@@ -24,13 +24,17 @@ $: isEmpty = total === 0;
 
 <style>
 article {
-  display: grid;
-  grid-template-rows: max-content 1fr;
-  row-gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   width: 100%;
 
   padding: 2rem;
   border-radius: 1.6rem;
   background-color: var(--dimmed-100);
+}
+
+:global(body[data-background]) article {
+  background-color: var(--main-transparent);
 }
 </style>

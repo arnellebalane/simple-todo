@@ -45,10 +45,6 @@ const handleCancel = () => {
 
 <style>
 div {
-  position: absolute;
-  top: 0;
-  left: 0;
-
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -74,7 +70,12 @@ img {
   cursor: pointer;
 }
 
-:global([data-theme='DARK']) .SettingsButton {
+:global(body[data-background]) .SettingsButton {
+  border-radius: 8px;
+  background-color: var(--main-transparent);
+}
+
+:global(body[data-theme='DARK']) .SettingsButton {
   background-image: url('./dist/assets/icons/settings-light.svg');
 }
 
@@ -83,7 +84,7 @@ img {
     background-image: url('./dist/assets/icons/settings-light.svg');
   }
 
-  :global([data-theme='LIGHT']) .SettingsButton {
+  :global(body[data-theme='LIGHT']) .SettingsButton {
     background-image: url('./dist/assets/icons/settings-dark.svg');
   }
 }

@@ -9,6 +9,7 @@
   --dimmed-400: #9ca3af;
   --dimmed-500: #6b7280;
   --inverted: var(--dark);
+  --main-transparent: rgba(249, 250, 251, 0.85);
   --inverted-transparent: rgba(17, 24, 39, 0.5);
 
   --text-main: var(--dark);
@@ -38,6 +39,7 @@ body[data-theme='DARK'] {
   --dimmed-400: #6b7280;
   --dimmed-500: #9ca3af;
   --inverted: var(--light);
+  --main-transparent: rgba(31, 41, 55, 0.85);
   --inverted-transparent: rgba(31, 41, 55, 0.75);
 
   --text-main: var(--light);
@@ -93,6 +95,7 @@ body[data-color='PINK'] {
     --dimmed-400: #6b7280;
     --dimmed-500: #9ca3af;
     --inverted: var(--light);
+    --main-transparent: rgba(31, 41, 55, 0.85);
     --inverted-transparent: rgba(31, 41, 55, 0.75);
 
     --text-main: var(--light);
@@ -122,6 +125,7 @@ body[data-color='PINK'] {
     --dimmed-400: #9ca3af;
     --dimmed-500: #6b7280;
     --inverted: var(--dark);
+    --main-transparent: rgba(249, 250, 251, 0.85);
     --inverted-transparent: rgba(17, 24, 39, 0.5);
 
     --text-main: var(--dark);

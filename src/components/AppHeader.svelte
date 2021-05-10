@@ -15,31 +15,39 @@ const today = dayjs().format('dddd, MMMM D');
 <header class={$$props.class}>
   <h1>{today}</h1>
 
-  <Button primary on:click={() => dispatch('addtodo')}>Add Todo</Button>
-  {#if canUndoRemove}
-    <Button class="UndoRemoveButton" on:click={() => dispatch('undoremovedone')}>
-      <div class="Progress" style="--progress: {$removeDoneTimer * 100}%" />
-      <span>Undo Remove</span>
-    </Button>
-  {:else}
-    <Button class="RemoveDoneButton" text on:click={() => dispatch('removedone')} disabled={!hasDoneTodos}>
-      Remove Done
-    </Button>
-  {/if}
+  <div class="ButtonsWrapper">
+    <Button primary on:click={() => dispatch('addtodo')}>Add Todo</Button>
+    {#if canUndoRemove}
+      <Button class="UndoRemoveButton" on:click={() => dispatch('undoremovedone')}>
+        <div class="Progress" style="--progress: {$removeDoneTimer * 100}%" />
+        <span>Undo Remove</span>
+      </Button>
+    {:else}
+      <Button class="RemoveDoneButton" text on:click={() => dispatch('removedone')} disabled={!hasDoneTodos}>
+        Remove Done
+      </Button>
+    {/if}
+  </div>
 </header>
 
 <style>
 header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 4px;
 }
 
 h1 {
   margin-right: auto;
   font-size: 4.4rem;
   font-weight: 700;
+  line-height: 6rem;
   letter-spacing: -1px;
+}
+
+:global(body[data-background]) h1 {
+  text-shadow: 0 -1px 0 var(--main-transparent), 1px 0 0 var(--main-transparent), 0 1px 0 var(--main-transparent),
+    -1px 0 0 var(--main-transparent);
 }
 
 header :global(.UndoRemoveButton) {
@@ -51,6 +59,17 @@ header :global(.UndoRemoveButton) {
 header :global(.UndoRemoveButton),
 header :global(.RemoveDoneButton) {
   min-width: 15rem;
+}
+
+.ButtonsWrapper {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+:global(body[data-background]) .ButtonsWrapper {
+  background-color: var(--main-transparent);
 }
 
 span {

@@ -2,4 +2,6 @@ node_modules
 build
 .env.local
 .lighthouseci
+.netlify
+.vscode
 simple-todo.zip

@@ -1,12 +1,9 @@
 import App from './App.svelte';
-import { settings } from '@stores/settings';
+import { watchTheme } from '@lib/theme.js';
 import '@styles/index.css';
 import '@styles/theme.css';
 
-settings.subscribe(({ theme, color }) => {
-  document.body.dataset.theme = theme;
-  document.body.dataset.color = color;
-});
+watchTheme();
 
 const app = new App({
   target: document.body,

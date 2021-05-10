@@ -22,6 +22,7 @@ const handleDragAndDrop = (event) => {
 <div class={`TodoListEmpty ${$$props.class ?? ''}`}>
   <div
     class="DropZone"
+    class:absolute={isEmpty}
     use:dndzone={{ items: todos, dropTargetStyle: {} }}
     on:consider={handleDragAndDrop}
     on:finalize={handleDragAndDrop}
@@ -44,7 +45,7 @@ const handleDragAndDrop = (event) => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 50%;
+  height: calc(50% - 2rem);
 }
 
 p {
@@ -64,5 +65,14 @@ div :global(.Button) {
   left: 0;
   width: 100%;
   height: 200%;
+}
+
+:global(body[data-background]) .DropZone {
+  position: initial;
+}
+
+:global(body[data-background]) .DropZone.absolute {
+  position: absolute;
+  height: 100%;
 }
 </style>

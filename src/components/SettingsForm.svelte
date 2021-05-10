@@ -4,6 +4,7 @@ import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
 import SettingsFormThemeChoice from '@components/SettingsFormThemeChoice.svelte';
 import SettingsFormColorChoice from '@components/SettingsFormColorChoice.svelte';
+import SettingsFormBackgroundFields from '@components/SettingsFormBackgroundFields.svelte';
 import {
   THEME_SYSTEM,
   THEME_LIGHT,
@@ -18,6 +19,7 @@ import {
 export let data = {
   theme: THEME_SYSTEM,
   color: COLOR_GREEN,
+  background: false,
 };
 
 const themeChoices = [
@@ -39,7 +41,7 @@ const handleChange = () => dispatch('change', data);
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-  <div class="Field">
+  <div>
     <label for="theme">Choose your theme</label>
     <Selector
       name="theme"
@@ -50,7 +52,7 @@ const handleChange = () => dispatch('change', data);
     />
   </div>
 
-  <div class="Field">
+  <div>
     <label for="color">Choose your color</label>
     <Selector
       name="color"
@@ -60,6 +62,8 @@ const handleChange = () => dispatch('change', data);
       on:change={handleChange}
     />
   </div>
+
+  <SettingsFormBackgroundFields bind:data on:change={handleChange} />
 
   <div class="Actions">
     <Button primary>Save Settings</Button>
@@ -79,5 +83,9 @@ label {
   margin-bottom: 8px;
   font-size: 1.8rem;
   font-weight: 700;
+}
+
+.Actions {
+  display: flex;
 }
 </style>

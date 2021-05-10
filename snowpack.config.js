@@ -17,4 +17,9 @@ module.exports = {
   optimize: {
     minify: true,
   },
+
+  devOptions: {
+    open: 'none',
+    port: 8080,
+  },
 };

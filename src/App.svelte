@@ -35,6 +35,16 @@ const removeDoneTodos = () => todos.removeDone();
 const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 </script>
 
+<svelte:head>
+  {#if import.meta.env.NODE_ENV === 'production'}
+    <script
+      async
+      defer
+      data-website-id="a8463ca0-a0c2-4370-b786-938eb3d6894e"
+      src="https://umami.patootie.app/umami.js"></script>
+  {/if}
+</svelte:head>
+
 <main>
   <AppTopBar />
 

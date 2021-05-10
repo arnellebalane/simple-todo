@@ -2,6 +2,7 @@ import { writable, derived } from 'svelte/store';
 import { tweened } from 'svelte/motion';
 import * as uuid from 'uuid';
 import pick from '@lib/pick';
+import { trackEvent } from '@lib/analytics';
 import { STORAGE_KEY_DATA } from '@lib/constants';
 
 const REMOVE_TIMER_DURATION = 2000;
@@ -16,13 +17,22 @@ function createStore() {
   function update(data) {
     _update((todos) => {
       const editableFields = ['body', 'list', 'order', 'done'];
-      return todos.map((todo) => (todo.id === data.id ? { ...todo, ...pick(data, editableFields) } : todo));
+      return todos.map((todo) => {
+        if (todo.id === data.id) {
+          if (todo.done !== data.done) {
+            trackEvent('todos', data.done ? 'done' : 'undone');
+          }
+          return { ...todo, ...pick(data, editableFields) };
+        }
+        return todo;
+      });
     });
   }
 
   function save(data) {
     if (data.id) {
       _update((todos) => todos.map((todo) => (todo.id === data.id ? data : todo)));
+      trackEvent('todos', 'add');
     } else {
       _update((todos) => {
         const { body, list } = data;
@@ -40,6 +50,7 @@ function createStore() {
           },
         ];
       });
+      trackEvent('todos', 'edit');
     }
   }
 
@@ -60,6 +71,7 @@ function createStore() {
       removeTodoTimer.set(REMOVE_TIMER_FINAL);
       return todos.filter((todo) => todo.id !== data.id);
     });
+    trackEvent('todos', 'remove');
   }
 
   function undoRemove() {
@@ -69,6 +81,7 @@ function createStore() {
       removeTodoTimer.set(REMOVE_TIMER_INITIAL, { duration: 0 });
       return todos;
     });
+    trackEvent('todos', 'undo-remove');
   }
 
   let removeDoneCache = [];
@@ -88,6 +101,7 @@ function createStore() {
       removeDoneTimer.set(REMOVE_TIMER_FINAL);
       return todos.filter((todo) => !todo.done);
     });
+    trackEvent('todos', 'remove-done');
   }
 
   function undoRemoveDone() {
@@ -97,6 +111,7 @@ function createStore() {
       removeDoneTimer.set(REMOVE_TIMER_INITIAL, { duration: 0 });
       return todos;
     });
+    trackEvent('todos', 'undo-remove-done');
   }
 
   return {

@@ -29,6 +29,7 @@ const handleCancel = () => {
     <a
       href="https://chrome.google.com/webstore/detail/simple-todo/kobeijgkgkcgknodjkganceliljepmjf/"
       rel="noopener noreferrer"
+      class="umami--click--chrome-webstore-link"
     >
       <img src="./dist/assets/images/chrome-webstore.png" alt="Available in the Chrome Webstore" />
     </a>

@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import axios from '@lib/axios';
+import { trackEvent } from '@lib/analytics';
 import { STORAGE_KEY_SETTINGS, THEME_SYSTEM, COLOR_GREEN, BACKGROUND_REFRESH_DAILY } from '@lib/constants';
 
 function createStore() {
@@ -37,12 +38,22 @@ function createStore() {
   }
 
   function saveInStorage(data) {
+    const settings = JSON.parse(localStorage.getItem(STORAGE_KEY_SETTINGS) || '{}');
+    if (settings.theme !== data.theme) {
+      trackEvent('settings', `theme-${data.theme}`);
+    }
+    if (settings.color !== data.color) {
+      trackEvent('settings', `color-${data.color}`);
+    }
     localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(data));
   }
 
   function getBackgroundImage() {
     const source = axios.CancelToken.source();
-    const request = axios.get('/get-background-image', { cancelToken: source.token }).then((response) => response.data);
+    const request = axios.get('/get-background-image', { cancelToken: source.token }).then((response) => {
+      trackEvent('background', 'refresh');
+      return response.data;
+    });
     return { source, request };
   }
 

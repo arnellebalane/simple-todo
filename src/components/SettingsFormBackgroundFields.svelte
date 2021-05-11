@@ -30,6 +30,7 @@ const handleRefresh = async () => {
   try {
     data.backgroundImage = await request;
     data.backgroundImageLastUpdate = Date.now();
+    delete data.backgroundPreloaded;
     currentRequest = null;
     handleChange();
   } catch (error) {
@@ -53,6 +54,7 @@ const handleBackgroundChange = async () => {
   } else {
     delete data.backgroundImage;
     delete data.backgroundImageLastUpdate;
+    delete data.backgroundPreloaded;
     data.backgroundRefreshFrequency = BACKGROUND_REFRESH_DAILY;
   }
   currentRequest = null;

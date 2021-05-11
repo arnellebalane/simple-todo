@@ -20,7 +20,7 @@ function createStore() {
   function preview(data) {
     update((settings) => {
       settingsCache = settingsCache || settings;
-      return data;
+      return { ...data, preview: true };
     });
   }
 

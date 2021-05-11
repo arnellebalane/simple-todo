@@ -1,36 +1,52 @@
 <script>
+import { createEventDispatcher } from 'svelte';
+
 export let title;
-export let done;
 export let total;
 
 $: isEmpty = total === 0;
+
+const dispatch = createEventDispatcher();
 </script>
 
 <header class={$$props.class}>
   <h1>{title}</h1>
 
   {#if !isEmpty}
-    <p>{done}<span>/{total}</span></p>
+    <button on:click={() => dispatch('addtodo')}>
+      <svg viewBox="0 0 24 24">
+        <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+      </svg>
+      Add Todo
+    </button>
   {/if}
 </header>
 
 <style>
 header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
 }
 
 h1 {
   margin-right: auto;
   font-size: 1.8rem;
   font-weight: 700;
+  line-height: 2.4rem;
 }
 
-p {
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 1.5rem;
-  background-color: var(--primary);
+button {
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  border: none;
+  font-size: 0;
+  color: var(--primary);
+  background: none;
+  cursor: pointer;
+}
+
+svg {
+  display: block;
 }
 </style>

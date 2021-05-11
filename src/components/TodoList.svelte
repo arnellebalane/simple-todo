@@ -7,13 +7,12 @@ export let title;
 export let todos;
 export let emptyText;
 
-$: done = todos.filter((todo) => todo.done).length;
 $: total = todos.length;
 $: isEmpty = total === 0;
 </script>
 
 <article class={$$props.class}>
-  <TodoListHeader {title} {done} {total} />
+  <TodoListHeader {title} {total} on:addtodo />
 
   {#if isEmpty}
     <TodoListEmpty text={emptyText} on:update on:addtodo />

@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        photo_url: data.urls.full,
+        photo_url: data.urls.regular,
         photo_link: data.links.html,
         photo_blurhash: data.blur_hash,
         user_name: data.user.name,
@@ -38,7 +38,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        photo_url: data.urls.full,
+        photo_url: data.urls.regular,
         photo_link: data.links.html,
         photo_blurhash: data.blur_hash,
         user_name: data.user.name,

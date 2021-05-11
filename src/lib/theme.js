@@ -17,10 +17,10 @@ function blurHashToDataUrl(blurhash) {
   return canvas.toDataURL('image/jpg');
 }
 
-function renderBlurHash(backgroundImage) {
-  const blurHashUrl = blurHashToDataUrl(backgroundImage.photo_blurhash);
+function renderBlurHash(blurhash) {
+  const blurHashUrl = blurHashToDataUrl(blurhash);
   document.body.style.setProperty('--background-blurhash', `url(${blurHashUrl})`);
-  document.body.dataset.background = backgroundImage.photo_blurhash;
+  document.body.dataset.background = blurhash;
   delete document.body.dataset.backgroundLoaded;
 }
 
@@ -31,14 +31,18 @@ function removeBlurHash() {
 
 let currentRequest = null;
 
-async function renderBackgroundImage(backgroundImage) {
+async function downloadBackgroundImage(imageUrl) {
   currentRequest?.cancel();
   currentRequest = axios.CancelToken.source();
-  const response = await axios.get(backgroundImage.photo_url, {
+  const response = await axios.get(imageUrl, {
     cancelToken: currentRequest.token,
     responseType: 'blob',
   });
-  const photoUrl = URL.createObjectURL(response.data);
+  return URL.createObjectURL(response.data);
+}
+
+async function renderBackgroundImage(imageUrl) {
+  const photoUrl = await downloadBackgroundImage(imageUrl);
   document.body.style.backgroundImage = `url(${photoUrl})`;
   setTimeout(() => (document.body.dataset.backgroundLoaded = true), 100);
 }
@@ -66,22 +70,33 @@ async function checkBackgroundImageUpdate(settingsData) {
     const { request } = settings.getBackgroundImage();
     const backgroundImage = await request;
     const backgroundImageLastUpdate = Date.now();
-    settings.saveInStorage({ ...settingsData, backgroundImage, backgroundImageLastUpdate });
+    settings.saveInStorage({
+      ...settingsData,
+      backgroundImage,
+      backgroundImageLastUpdate,
+      backgroundPreloaded: false,
+    });
   }
 }
 
 export function initializeTheme() {
-  settings.subscribe((settingsData) => {
-    const { theme, color, background, backgroundImage } = settingsData;
+  settings.subscribe(async (settingsData) => {
+    const { theme, color, background, backgroundImage, backgroundPreloaded, preview } = settingsData;
     document.body.dataset.theme = theme;
     document.body.dataset.color = color;
 
     if (background && backgroundImage) {
       if (backgroundImage.photo_blurhash !== document.body.dataset.background) {
-        renderBlurHash(backgroundImage);
-        renderBackgroundImage(backgroundImage);
-        checkBackgroundImageUpdate(settingsData);
+        renderBlurHash(backgroundImage.photo_blurhash);
+        await renderBackgroundImage(backgroundPreloaded ? backgroundImage.photo_url_full : backgroundImage.photo_url);
       }
+
+      if (backgroundImage.photo_url_full && !preview && !backgroundPreloaded) {
+        await downloadBackgroundImage(backgroundImage.photo_url_full);
+        settings.save({ ...settingsData, backgroundPreloaded: true });
+      }
+
+      await checkBackgroundImageUpdate(settingsData);
     } else {
       removeBlurHash();
       removeBackgroundImage();

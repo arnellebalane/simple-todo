@@ -31,11 +31,11 @@ const handleRefresh = async () => {
     data.backgroundImage = await request;
     data.backgroundImageLastUpdate = Date.now();
     delete data.backgroundPreloaded;
-    currentRequest = null;
     handleChange();
   } catch (error) {
     console.error(error);
   }
+  currentRequest = null;
 };
 
 const handleBackgroundChange = async () => {

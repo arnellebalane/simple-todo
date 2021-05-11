@@ -41,6 +41,8 @@ const undoRemoveDoneTodos = () => todos.undoRemoveDone();
       async
       defer
       data-website-id="3937ad1a-ecfd-44cb-8e16-07cda3b01dc4"
+      data-do-not-track="true"
+      data-auto-track={import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD === 'true'}
       src="https://umami.patootie.app/umami.js"></script>
   {/if}
 </svelte:head>

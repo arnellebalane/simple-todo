@@ -16,9 +16,19 @@ exports.handler = async (event, context) => {
         client_id: process.env.UNSPLASH_ACCESS_KEY,
       },
     });
-    return { statusCode: 200 };
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    };
   } catch (error) {
     console.error(error);
-    return { statusCode: 500 };
+    return {
+      statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    };
   }
 };

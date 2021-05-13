@@ -21,12 +21,14 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
+        id: data.id,
         photo_url: data.urls.regular,
         photo_url_full: data.urls.full,
         photo_link: data.links.html,
         photo_blurhash: data.blur_hash,
         user_name: data.user.name,
         user_link: data.user.links.html,
+        download_location: data.links.download_location,
       }),
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -39,12 +41,14 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
+        id: data.id,
         photo_url: data.urls.regular,
         photo_url_full: data.urls.full,
         photo_link: data.links.html,
         photo_blurhash: data.blur_hash,
         user_name: data.user.name,
         user_link: data.user.links.html,
+        download_location: data.links.download_location,
       }),
       headers: {
         'Access-Control-Allow-Origin': '*',

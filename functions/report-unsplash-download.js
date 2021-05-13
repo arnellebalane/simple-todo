@@ -1,4 +1,5 @@
 const axios = require('axios');
+require('./_lib/sentry');
 
 exports.handler = async (event, context) => {
   if (!event.body) {
@@ -9,16 +10,15 @@ exports.handler = async (event, context) => {
     return { statusCode: 400, body: { message: 'Parameter download_location not found in request body' } };
   }
 
-  console.log(body.download_location);
   try {
     await axios.get(body.download_location, {
       params: {
         client_id: process.env.UNSPLASH_ACCESS_KEY,
       },
     });
+    return { statusCode: 200 };
   } catch (error) {
     console.error(error);
+    return { statusCode: 500 };
   }
-
-  return { statusCode: 200 };
 };

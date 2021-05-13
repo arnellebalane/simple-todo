@@ -17,6 +17,7 @@
   "dependencies": {
     "@sentry/browser": "^6.3.6",
     "@sentry/integrations": "^6.3.6",
+    "@sentry/node": "^6.3.6",
     "@sentry/tracing": "^6.3.6",
     "axios": "^0.21.1",
     "blurhash": "^1.1.3",

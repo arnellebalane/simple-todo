@@ -1,4 +1,5 @@
 const axios = require('axios');
+require('./_lib/sentry');
 
 exports.handler = async (event, context) => {
   try {

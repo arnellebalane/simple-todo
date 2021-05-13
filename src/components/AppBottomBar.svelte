@@ -12,8 +12,17 @@ $: image = $settings.backgroundImage;
 
   {#if image}
     <small>
-      Photo by <a href={image.photo_link} target="_blank" rel="noopener noreferrer">{image.user_name}</a> on
-      <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">Unsplash</a>
+      Photo by <a
+        href="{image.photo_link}?utm_source=simple-todo&utm_medium=referral "
+        target="_blank"
+        rel="noopener noreferrer">{image.user_name}</a
+      >
+      on
+      <a
+        href="https://unsplash.com?utm_source=simple-todo&utm_medium=referral "
+        target="_blank"
+        rel="noopener noreferrer">Unsplash</a
+      >
     </small>
   {/if}
 </footer>

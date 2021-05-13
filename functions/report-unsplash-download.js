@@ -3,11 +3,14 @@ require('./_lib/sentry');
 
 exports.handler = async (event, context) => {
   if (!event.body) {
-    return { statusCode: 400, body: { message: 'Request body not found' } };
+    return { statusCode: 400, body: JSON.stringify({ message: 'Request body not found' }) };
   }
   const body = JSON.parse(event.body);
   if (!body.download_location) {
-    return { statusCode: 400, body: { message: 'Parameter download_location not found in request body' } };
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: 'Parameter download_location not found in request body' }),
+    };
   }
 
   try {

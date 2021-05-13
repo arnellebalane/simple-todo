@@ -1,6 +1,6 @@
 {
   "name": "simple-todo",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "A Chrome extension that replaces the new tab page with a simple todo list",
   "main": "index.js",
   "scripts": {

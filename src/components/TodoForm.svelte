@@ -21,6 +21,15 @@ let listChoices = [
 $: formValid = data.body && data.list;
 let errors = {};
 
+const handlePaste = async () => {
+  // Svelte's tick() doesn't work here, so setTimeout() to the rescue!
+  // We need this to make sure that the DOM has updated with new content before
+  // we try to sanitize its content.
+  setTimeout(() => {
+    data.body = unsanitizeText(sanitizeText(data.body));
+  }, 0);
+};
+
 const dispatch = createEventDispatcher();
 const submitForm = () => {
   if (formValid) {
@@ -39,7 +48,7 @@ const cancelForm = () => dispatch('cancel');
   <div class="Field" class:invalid={errors.body}>
     <label for="body">What do you want to do?</label>
     {#if errors.body}<p class="Error">{errors.body}</p>{/if}
-    <div contenteditable bind:innerHTML={data.body} />
+    <div contenteditable bind:innerHTML={data.body} on:paste={handlePaste} />
   </div>
 
   <div class="Field">

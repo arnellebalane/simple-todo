@@ -7,8 +7,8 @@ const dispatch = createEventDispatcher();
 <menu class={$$props.class}>
   <button class="ToggleButton">Toggle</button>
 
-  <button class="EditButton" on:click={() => dispatch('edit')}>Edit</button>
   <button class="DeleteButton" on:click={() => dispatch('delete')}>Delete</button>
+  <button class="EditButton" on:click={() => dispatch('edit')}>Edit</button>
 </menu>
 
 <style>

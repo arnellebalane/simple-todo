@@ -2,11 +2,16 @@
 import { createEventDispatcher } from 'svelte';
 import Selector from '@components/Selector.svelte';
 import Button from '@components/Button.svelte';
+import { sanitizeText, unsanitizeText } from '@lib/sanitize';
 import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
 
 export let data = {
   list: TODOS_EVENTUALLY,
 };
+
+if (data.body) {
+  data.body = unsanitizeText(data.body);
+}
 
 let listChoices = [
   { label: 'Today', value: TODOS_TODAY },
@@ -17,10 +22,10 @@ $: formValid = data.body && data.list;
 let errors = {};
 
 const dispatch = createEventDispatcher();
-
 const submitForm = () => {
   if (formValid) {
-    return dispatch('submit', data);
+    data.body = sanitizeText(data.body);
+    dispatch('submit', data);
   }
 
   if (!data.body) {
@@ -34,7 +39,7 @@ const cancelForm = () => dispatch('cancel');
   <div class="Field" class:invalid={errors.body}>
     <label for="body">What do you want to do?</label>
     {#if errors.body}<p class="Error">{errors.body}</p>{/if}
-    <div contenteditable bind:textContent={data.body} />
+    <div contenteditable bind:innerHTML={data.body} />
   </div>
 
   <div class="Field">

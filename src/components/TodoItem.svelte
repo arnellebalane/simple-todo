@@ -12,7 +12,7 @@ const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.
 
 <li class={$$props.class} class:done={todo.done}>
   <Checkbox checked={todo.done} on:change={toggleTodoDone} />
-  <p>{todo.body}</p>
+  <p><span>{todo.body}</span></p>
   <TodoItemMenu class="TodoItemMenu" on:edit on:delete />
 
   {#if todo[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
@@ -39,7 +39,12 @@ li.done {
 }
 
 p {
+  flex-grow: 1;
   word-break: break-word;
+}
+
+p span {
+  white-space: pre-line;
 }
 
 li.done p {

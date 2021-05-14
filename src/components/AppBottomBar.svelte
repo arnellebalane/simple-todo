@@ -13,7 +13,7 @@ $: image = $settings.backgroundImage;
   {#if image}
     <small>
       Photo by <a
-        href="{image.photo_link}?utm_source=simple-todo&utm_medium=referral "
+        href="{image.user_link}?utm_source=simple-todo&utm_medium=referral "
         target="_blank"
         rel="noopener noreferrer">{image.user_name}</a
       >

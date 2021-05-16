@@ -45,6 +45,12 @@ h1 {
   letter-spacing: -1px;
 }
 
+:global(body.fonts-loading) h1 {
+  font-size: 4.1rem;
+  line-height: 1.45;
+  letter-spacing: -0.45px;
+}
+
 :global(body[data-background]) h1 {
   text-shadow: 0 -1px 0 var(--main-transparent), 1px 0 0 var(--main-transparent), 0 1px 0 var(--main-transparent),
     -1px 0 0 var(--main-transparent);

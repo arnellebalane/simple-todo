@@ -5,9 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="https://use.typekit.net/qde5crh.css" />
     <link rel="preconnect" href="https://p.typekit.net" />
-    <link rel="preconnect" href="https://use.typekit.net" />
+    <link rel="preload" href="https://use.typekit.net/qde5crh.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.typekit.net/qde5crh.css"
+      media="print"
+      onload="this.media = 'all'; document.body.classList.remove('fonts-loading')"
+    />
 
     <title>Simple Todo</title>
     <link rel="shortcut icon" href="./icons/48x48.png" />
@@ -22,7 +27,7 @@
     <meta name="twitter:card" content="summary_large_image" />
   </head>
 
-  <body>
+  <body class="fonts-loading">
     <script type="module" src="./dist/index.js"></script>
   </body>
 </html>

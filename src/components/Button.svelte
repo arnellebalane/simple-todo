@@ -19,6 +19,12 @@ button {
   cursor: pointer;
 }
 
+:global(body.fonts-loading) button {
+  font-family: Helvetica;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+}
+
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;

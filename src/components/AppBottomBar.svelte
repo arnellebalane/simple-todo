@@ -7,7 +7,8 @@ $: image = $settings.backgroundImage;
 <footer>
   <small>
     Built by <a href="https://arnellebalane.com" target="_blank" rel="noopener noreferrer">Arnelle Balane</a> &middot;
-    <a href="https://github.com/arnellebalane/simple-todo" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://github.com/arnellebalane/simple-todo" target="_blank" rel="noopener noreferrer">GitHub</a> &middot;
+    <a href="https://twitter.com/simpletodoapp" target="_blank" rel="noopener norefeffer">Twitter</a>
   </small>
 
   {#if image}

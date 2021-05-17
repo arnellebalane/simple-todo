@@ -110,7 +110,9 @@ export function initializeTheme() {
 
     if (background && backgroundImage) {
       if (backgroundImage.photo_blurhash !== document.body.dataset.background) {
-        renderBlurHash(backgroundImage.photo_blurhash);
+        if (backgroundImage.photo_blurhash?.length ?? 0 >= 6) {
+          renderBlurHash(backgroundImage.photo_blurhash);
+        }
         await renderBackgroundImage(backgroundPreloaded ? backgroundImage.photo_url_full : backgroundImage.photo_url);
       }
 

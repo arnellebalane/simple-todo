@@ -1,10 +1,12 @@
 <script>
+import { onMount, onDestroy } from 'svelte';
 import AppTopBar from '@components/AppTopBar.svelte';
 import AppBottomBar from '@components/AppBottomBar.svelte';
 import AppHeader from '@components/AppHeader.svelte';
 import Toast from '@components/Toast.svelte';
 import TodoFormModal from '@components/TodoFormModal.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
+import { addKeyBinding, removeKeyBinding } from '@lib/keybindings';
 import { todos } from '@stores/todos';
 import { toast } from '@stores/toast';
 
@@ -33,6 +35,10 @@ const saveTodoItem = (event) => {
 const updateTodos = (event) => todos.set(event.detail);
 const removeDoneTodos = () => todos.removeDone();
 const undoRemoveDoneTodos = () => todos.undoRemoveDone();
+
+const addTodoBinding = (event) => event.code === 'KeyN' && event.altKey;
+onMount(() => addKeyBinding(addTodoBinding, () => toggleTodoForm(true)));
+onDestroy(() => removeKeyBinding(addTodoBinding));
 </script>
 
 <svelte:head>

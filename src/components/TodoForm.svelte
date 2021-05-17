@@ -1,8 +1,9 @@
 <script>
-import { createEventDispatcher } from 'svelte';
+import { createEventDispatcher, onMount, onDestroy } from 'svelte';
 import Selector from '@components/Selector.svelte';
 import Button from '@components/Button.svelte';
 import { sanitizeText, unsanitizeText } from '@lib/sanitize';
+import { addKeyBinding, removeKeyBinding } from '@lib/keybindings';
 import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
 
 export let data = {
@@ -42,6 +43,10 @@ const submitForm = () => {
   }
 };
 const cancelForm = () => dispatch('cancel');
+
+const submitFormBinding = (event) => event.code === 'Enter' && (event.metaKey || event.ctrlKey);
+onMount(() => addKeyBinding(submitFormBinding, submitForm));
+onDestroy(() => removeKeyBinding(submitFormBinding));
 </script>
 
 <form class={$$props.class} on:submit|preventDefault={submitForm}>

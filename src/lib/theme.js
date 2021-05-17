@@ -79,7 +79,30 @@ async function checkBackgroundImageUpdate(settingsData) {
   }
 }
 
+async function lazyLoadExternalStyles() {
+  const stylesheets = [...document.querySelectorAll('link[media="print"]')];
+  await Promise.all(
+    stylesheets.map(
+      (stylesheet) =>
+        new Promise((resolve) => {
+          if ([...document.styleSheets].includes(stylesheet.sheet)) {
+            stylesheet.media = 'all';
+            return resolve();
+          }
+
+          stylesheet.addEventListener('load', () => {
+            stylesheet.media = 'all';
+            resolve();
+          });
+        })
+    )
+  );
+  document.body.classList.remove('fonts-loading');
+}
+
 export function initializeTheme() {
+  lazyLoadExternalStyles();
+
   settings.subscribe(async (settingsData) => {
     const { theme, color, background, backgroundImage, backgroundPreloaded, preview } = settingsData;
     document.body.dataset.theme = theme;

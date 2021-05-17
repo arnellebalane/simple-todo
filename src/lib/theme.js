@@ -115,7 +115,7 @@ export function initializeTheme() {
       }
 
       const shouldLoadBetterImage =
-        backgroundImage.photo_url_full && !preview && !backgroundPreloaded && !navigator.connection.saveData;
+        backgroundImage.photo_url_full && !preview && !backgroundPreloaded && !navigator.connection?.saveData;
       if (shouldLoadBetterImage) {
         await downloadBackgroundImage(backgroundImage.photo_url_full);
         settings.save({ ...settingsData, backgroundPreloaded: true });

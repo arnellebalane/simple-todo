@@ -1,0 +1,54 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin-top: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Europa', sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #111827;
+  background: #ffffff center center no-repeat fixed;
+}
+
+a {
+  font: inherit;
+  color: #34d399;
+}
+
+.Wrapper {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 5rem 1.6rem;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+header img {
+  width: 2.4rem;
+}
+
+header p {
+  margin: 0;
+}
+
+section {
+  margin-bottom: 2.8rem;
+}
+
+section h2 {
+  margin-bottom: 1.2rem;
+}

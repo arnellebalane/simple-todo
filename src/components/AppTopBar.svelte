@@ -1,6 +1,7 @@
 <script>
 import Button from '@components/Button.svelte';
 import SettingsFormModal from '@components/SettingsFormModal.svelte';
+import WhatsNewModal from '@components/WhatsNewModal.svelte';
 import { settings } from '@stores/settings';
 
 let settingsFormData = {};
@@ -10,20 +11,32 @@ const toggleSettingsForm = (show) => {
   showSettingsForm = show;
 };
 
+let showWhatsNewModal = false;
+const toggleWhatsNewModal = (show) => (showWhatsNewModal = show);
+
 const showChromeWebstoreButton = import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD === 'true';
 
-const handleChange = (event) => settings.preview(event.detail);
-const handleSubmit = (event) => {
+const handleSettingsChange = (event) => settings.preview(event.detail);
+const handleSettingsSubmit = (event) => {
   settings.save(event.detail);
   toggleSettingsForm(false);
 };
-const handleCancel = () => {
+const handleSettingsClose = () => {
   settings.restore();
   toggleSettingsForm(false);
 };
 </script>
 
 <div>
+  <Button
+    icon
+    medium
+    iconLight="./dist/assets/icons/launch-light.svg"
+    iconDark="./dist/assets/icons/launch-dark.svg"
+    on:click={() => toggleWhatsNewModal(true)}
+  >
+    What's New
+  </Button>
   <Button
     icon
     medium
@@ -48,17 +61,19 @@ const handleCancel = () => {
 <SettingsFormModal
   show={showSettingsForm}
   data={settingsFormData}
-  on:change={handleChange}
-  on:submit={handleSubmit}
-  on:cancel={handleCancel}
+  on:change={handleSettingsChange}
+  on:submit={handleSettingsSubmit}
+  on:close={handleSettingsClose}
 />
+
+<WhatsNewModal show={showWhatsNewModal} on:close={() => toggleWhatsNewModal(false)} />
 
 <style>
 div {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 2rem;
+  gap: 8px;
   width: 100%;
   height: 6.4rem;
   padding: 1.4rem 3.6rem;
@@ -67,5 +82,6 @@ div {
 img {
   display: block;
   max-height: 4.2rem;
+  margin-left: 1.2rem;
 }
 </style>

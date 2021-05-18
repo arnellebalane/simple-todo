@@ -9,6 +9,6 @@ export let data;
 const dispatch = createEventDispatcher();
 </script>
 
-<Modal {show} closeOnEscape closeOnClickOutside on:close={() => dispatch('cancel')}>
-  <SettingsForm {data} on:change on:submit on:cancel />
+<Modal {show} closeOnEscape closeOnClickOutside on:close>
+  <SettingsForm {data} on:change on:submit on:cancel={() => dispatch('close')} />
 </Modal>

@@ -36,9 +36,8 @@ const updateTodos = (event) => todos.set(event.detail);
 const removeDoneTodos = () => todos.removeDone();
 const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 
-const addTodoBinding = (event) => event.code === 'KeyN' && event.altKey;
-onMount(() => addKeyBinding(addTodoBinding, () => toggleTodoForm(true)));
-onDestroy(() => removeKeyBinding(addTodoBinding));
+onMount(() => addKeyBinding(['altKey', 'KeyN'], () => toggleTodoForm(true)));
+onDestroy(() => removeKeyBinding(['altKey', 'KeyN']));
 </script>
 
 <svelte:head>

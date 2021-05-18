@@ -44,9 +44,14 @@ const submitForm = () => {
 };
 const cancelForm = () => dispatch('cancel');
 
-const submitFormBinding = (event) => event.code === 'Enter' && (event.metaKey || event.ctrlKey);
-onMount(() => addKeyBinding(submitFormBinding, submitForm));
-onDestroy(() => removeKeyBinding(submitFormBinding));
+onMount(() => {
+  addKeyBinding(['ctrlKey', 'Enter'], submitForm);
+  addKeyBinding(['metaKey', 'Enter'], submitForm);
+});
+onDestroy(() => {
+  removeKeyBinding(['ctrlKey', 'Enter']);
+  removeKeyBinding(['metaKey', 'Enter']);
+});
 </script>
 
 <form class={$$props.class} on:submit|preventDefault={submitForm}>

@@ -1,4 +1,5 @@
 <script>
+import Button from '@components/Button.svelte';
 import SettingsFormModal from '@components/SettingsFormModal.svelte';
 import { settings } from '@stores/settings';
 
@@ -23,7 +24,15 @@ const handleCancel = () => {
 </script>
 
 <div>
-  <button class="SettingsButton" on:click={() => toggleSettingsForm(true)}>Settings</button>
+  <Button
+    icon
+    medium
+    iconLight="./dist/assets/icons/settings-light.svg"
+    iconDark="./dist/assets/icons/settings-dark.svg"
+    on:click={() => toggleSettingsForm(true)}
+  >
+    Settings
+  </Button>
 
   {#if showChromeWebstoreButton}
     <a
@@ -58,35 +67,5 @@ div {
 img {
   display: block;
   max-height: 4.2rem;
-}
-
-.SettingsButton {
-  width: 3.6rem;
-  height: 3.6rem;
-  border: none;
-  font-size: 0;
-  background: transparent center center no-repeat;
-  background-image: url('./dist/assets/icons/settings-dark.svg');
-  background-size: 2.4rem;
-  cursor: pointer;
-}
-
-:global(body[data-background]) .SettingsButton {
-  border-radius: 8px;
-  background-color: var(--main-transparent);
-}
-
-:global(body[data-theme='DARK']) .SettingsButton {
-  background-image: url('./dist/assets/icons/settings-light.svg');
-}
-
-@media (prefers-color-scheme: dark) {
-  .SettingsButton {
-    background-image: url('./dist/assets/icons/settings-light.svg');
-  }
-
-  :global(body[data-theme='LIGHT']) .SettingsButton {
-    background-image: url('./dist/assets/icons/settings-dark.svg');
-  }
 }
 </style>

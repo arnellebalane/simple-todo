@@ -4,6 +4,10 @@ module.exports = {
     src: '/dist',
   },
 
+  env: {
+    APP_VERSION: require('./package.json').version,
+  },
+
   plugins: ['@snowpack/plugin-svelte', '@snowpack/plugin-dotenv'],
 
   alias: {

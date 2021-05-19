@@ -6,6 +6,7 @@ export function initializeSentry() {
   if (import.meta.env.NODE_ENV === 'production') {
     Sentry.init({
       dsn: import.meta.env.SNOWPACK_PUBLIC_SENTRY_DSN,
+      release: import.meta.env.APP_VERSION,
       environment: import.meta.env.SNOWPACK_PUBLIC_SENTRY_ENVIRONMENT || 'web:development',
       integrations: [
         new CaptureConsole({

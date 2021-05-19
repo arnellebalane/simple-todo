@@ -28,7 +28,9 @@ $: if (modal) {
 }
 
 const handleOutsideClick = (event) => {
-  if (closeOnClickOutside && !event.target.closest('.ModalContent')) {
+  const isAttachedToDocument = event.target.parentNode;
+  const isInsideModal = event.target.closest('.ModalContent');
+  if (closeOnClickOutside && isAttachedToDocument && !isInsideModal) {
     dispatch('close');
   }
 };

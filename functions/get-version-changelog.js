@@ -7,12 +7,16 @@ exports.handler = async (event, context) => {
     return { statusCode: 400, body: 'Missing "version" query parameter.' };
   }
 
+  let versionChangeLogs = [];
   const index = changelogs.findIndex((changelog) => semverGt(changelog.version, version));
-  const versionChangeLogs = changelogs.slice(index).map((changelog) => ({
-    ...changelog,
-    imageLight: process.env.URL + changelog.imageLight,
-    imageDark: process.env.URL + changelog.imageDark,
-  }));
+
+  if (index >= 0) {
+    versionChangeLogs = changelogs.slice(index).map((changelog) => ({
+      ...changelog,
+      imageLight: process.env.URL + changelog.imageLight,
+      imageDark: process.env.URL + changelog.imageDark,
+    }));
+  }
 
   return {
     statusCode: 200,

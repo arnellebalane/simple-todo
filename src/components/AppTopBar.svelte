@@ -3,6 +3,7 @@ import Button from '@components/Button.svelte';
 import SettingsFormModal from '@components/SettingsFormModal.svelte';
 import WhatsNewModal from '@components/WhatsNewModal.svelte';
 import { settings } from '@stores/settings';
+import { changelogs } from '@stores/changelogs';
 
 let settingsFormData = {};
 let showSettingsForm = false;
@@ -13,6 +14,7 @@ const toggleSettingsForm = (show) => {
 
 let showWhatsNewModal = false;
 const toggleWhatsNewModal = (show) => (showWhatsNewModal = show);
+$: hasChangeLogs = $changelogs.length > 0;
 
 const showChromeWebstoreButton = import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD === 'true';
 
@@ -28,15 +30,17 @@ const handleSettingsClose = () => {
 </script>
 
 <div>
-  <Button
-    icon
-    medium
-    iconLight="./dist/assets/icons/launch-light.svg"
-    iconDark="./dist/assets/icons/launch-dark.svg"
-    on:click={() => toggleWhatsNewModal(true)}
-  >
-    What's New
-  </Button>
+  {#if hasChangeLogs}
+    <Button
+      icon
+      medium
+      iconLight="./dist/assets/icons/launch-light.svg"
+      iconDark="./dist/assets/icons/launch-dark.svg"
+      on:click={() => toggleWhatsNewModal(true)}
+    >
+      What's New
+    </Button>
+  {/if}
   <Button
     icon
     medium

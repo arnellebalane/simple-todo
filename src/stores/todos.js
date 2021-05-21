@@ -14,6 +14,12 @@ function createStore() {
 
   const { subscribe, set, update: _update } = writable(cachedTodos ? JSON.parse(cachedTodos) : []);
 
+  window.addEventListener('storage', (event) => {
+    if (event.key === STORAGE_KEY_DATA) {
+      set(JSON.parse(event.newValue));
+    }
+  });
+
   function update(data) {
     _update((todos) => {
       const editableFields = ['body', 'list', 'order', 'done'];

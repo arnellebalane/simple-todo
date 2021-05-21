@@ -9,9 +9,9 @@ jobs:
         with:
           node-version: 15
       - run: npm ci
+      - run: cp .env.ci .env
       - run: npm run build
       - run: npm run lhci -- --upload.token=$LHCI_BUILD_TOKEN
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
           LHCI_BUILD_TOKEN: ${{ secrets.LHCI_BUILD_TOKEN }}
-          SNOWPACK_PUBLIC_FUNCTIONS_URL: https://simple-todo.arnelle.me/.netlify/functions

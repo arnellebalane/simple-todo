@@ -4,7 +4,13 @@ const semverGt = require('semver/functions/gt');
 exports.handler = async (event, context) => {
   const version = event.queryStringParameters.version;
   if (!version) {
-    return { statusCode: 400, body: 'Missing "version" query parameter.' };
+    return {
+      statusCode: 400,
+      body: 'Missing "version" query parameter.',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    };
   }
 
   let versionChangeLogs = [];
@@ -21,5 +27,8 @@ exports.handler = async (event, context) => {
   return {
     statusCode: 200,
     body: JSON.stringify(versionChangeLogs),
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
   };
 };

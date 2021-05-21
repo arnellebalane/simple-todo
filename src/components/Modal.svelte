@@ -38,7 +38,7 @@ const handleOutsideClick = (event) => {
 
 {#if show}
   <div class="ModalBackground" use:portal={'body'} on:click={handleOutsideClick}>
-    <div class="ModalContent" bind:this={modal}>
+    <div class="ModalContent {$$props.contentClass}" bind:this={modal}>
       <slot />
     </div>
   </div>

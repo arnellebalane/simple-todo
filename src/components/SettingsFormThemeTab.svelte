@@ -32,29 +32,37 @@ const colorChoices = [
 ];
 </script>
 
-<div>
-  <label for="theme">Choose your theme</label>
-  <Selector
-    name="theme"
-    bind:value={data.theme}
-    choices={themeChoices}
-    choiceComponent={SettingsFormThemeChoice}
-    on:change
-  />
-</div>
+<section>
+  <div>
+    <label for="theme">Choose your theme</label>
+    <Selector
+      name="theme"
+      bind:value={data.theme}
+      choices={themeChoices}
+      choiceComponent={SettingsFormThemeChoice}
+      on:change
+    />
+  </div>
 
-<div>
-  <label for="color">Choose your color</label>
-  <Selector
-    name="color"
-    bind:value={data.color}
-    choices={colorChoices}
-    choiceComponent={SettingsFormColorChoice}
-    on:change
-  />
-</div>
+  <div>
+    <label for="color">Choose your color</label>
+    <Selector
+      name="color"
+      bind:value={data.color}
+      choices={colorChoices}
+      choiceComponent={SettingsFormColorChoice}
+      on:change
+    />
+  </div>
+</section>
 
 <style>
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 3.6rem;
+}
+
 label {
   display: block;
   margin-bottom: 8px;

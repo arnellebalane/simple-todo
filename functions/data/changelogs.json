@@ -4,5 +4,17 @@
     "title": "Keyboard Shortcuts",
     "imageLight": "/whats-new/keyboard-shortcuts-light.jpg",
     "imageDark": "/whats-new/keyboard-shortcuts-dark.jpg"
+  },
+  {
+    "version": "1.9.0",
+    "title": "Redesigned Settings",
+    "imageLight": "/whats-new/redesigned-settings-light.jpg",
+    "imageDark": "/whats-new/redesigned-settings-dark.jpg"
+  },
+  {
+    "version": "1.9.0",
+    "title": "Privacy Mode",
+    "imageLight": "/whats-new/privacy-mode-light.jpg",
+    "imageDark": "/whats-new/privacy-mode-dark.jpg"
   }
 ]

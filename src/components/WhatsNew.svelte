@@ -94,6 +94,7 @@ article h3 {
 article img {
   display: flex;
   width: 100%;
+  aspect-ratio: calc(500 / 300);
   border-radius: 8px;
 }
 

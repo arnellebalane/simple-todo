@@ -9,7 +9,7 @@
     "build": "snowpack build",
     "lhci": "lhci autorun",
     "prezip": "npm run build",
-    "zip": "zip -r simple-todo.zip manifest.json build -x 'build/whats-new/*'"
+    "zip": "./scripts/zip.sh"
   },
   "keywords": [],
   "author": "Arnelle Balane <arnellebalane@gmail.com>",

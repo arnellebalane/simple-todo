@@ -12,7 +12,10 @@ export const version = writable(initialVersion);
 version.subscribe((value) => localStorage.setItem(STORAGE_KEY_VERSION, value));
 
 if (initialVersion !== import.meta.env.APP_VERSION) {
-  const params = { version: initialVersion };
+  const params = {
+    version: initialVersion,
+    next_version: import.meta.env.APP_VERSION,
+  };
   axios.get('/get-version-changelog', { params }).then((response) => {
     changelogs.set(response.data);
   });

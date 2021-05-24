@@ -2,15 +2,17 @@
 import { createEventDispatcher } from 'svelte';
 import Button from '@components/Button.svelte';
 import SettingsFormSidebar from '@components/SettingsFormSidebar.svelte';
+import SettingsFormMiscellaneousTab from '@components/SettingsFormMiscellaneousTab.svelte';
 import SettingsFormThemeTab from '@components/SettingsFormThemeTab.svelte';
 import SettingsFormBackgroundTab from '@components/SettingsFormBackgroundTab.svelte';
-import { SETTINGS_THEME, SETTINGS_BACKGROUND } from '@lib/constants';
+import { SETTINGS_THEME, SETTINGS_BACKGROUND, SETTINGS_MISCELLANEOUS } from '@lib/constants';
 
 export let data;
 
 const tabsMapping = {
   [SETTINGS_THEME]: SettingsFormThemeTab,
   [SETTINGS_BACKGROUND]: SettingsFormBackgroundTab,
+  [SETTINGS_MISCELLANEOUS]: SettingsFormMiscellaneousTab,
 };
 let currentTabKey = SETTINGS_THEME;
 $: currentTab = tabsMapping[currentTabKey];

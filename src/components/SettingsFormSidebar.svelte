@@ -1,11 +1,12 @@
 <script>
-import { SETTINGS_THEME, SETTINGS_BACKGROUND } from '@lib/constants';
+import { SETTINGS_THEME, SETTINGS_BACKGROUND, SETTINGS_MISCELLANEOUS } from '@lib/constants';
 
 export let value;
 
 const tabs = [
   { label: 'Theme', value: SETTINGS_THEME },
   { label: 'Background', value: SETTINGS_BACKGROUND },
+  { label: 'Miscellaneous', value: SETTINGS_MISCELLANEOUS },
 ];
 </script>
 

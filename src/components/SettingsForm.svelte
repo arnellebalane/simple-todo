@@ -4,8 +4,16 @@ import Button from '@components/Button.svelte';
 import SettingsFormSidebar from '@components/SettingsFormSidebar.svelte';
 import SettingsFormThemeTab from '@components/SettingsFormThemeTab.svelte';
 import SettingsFormBackgroundTab from '@components/SettingsFormBackgroundTab.svelte';
+import { SETTINGS_THEME, SETTINGS_BACKGROUND } from '@lib/constants';
 
 export let data;
+
+const tabsMapping = {
+  [SETTINGS_THEME]: SettingsFormThemeTab,
+  [SETTINGS_BACKGROUND]: SettingsFormBackgroundTab,
+};
+let currentTabKey = SETTINGS_THEME;
+$: currentTab = tabsMapping[currentTabKey];
 
 const dispatch = createEventDispatcher();
 const handleSubmit = () => dispatch('submit', data);
@@ -13,11 +21,10 @@ const handleChange = () => dispatch('change', data);
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-  <SettingsFormSidebar />
+  <SettingsFormSidebar bind:value={currentTabKey} />
 
   <div>
-    <SettingsFormThemeTab bind:data on:change={handleChange} />
-    <SettingsFormBackgroundTab bind:data on:change={handleChange} />
+    <svelte:component this={currentTab} bind:data on:change={handleChange} />
   </div>
 
   <div class="Actions">

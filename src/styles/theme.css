@@ -18,6 +18,7 @@
   --primary: var(--dimmed-300);
   --primary-faded: var(--dimmed-200);
   --danger: #dc2626;
+  --danger-transparent: rgba(220, 40, 40, 0.7);
 
   --green: #34d399;
   --green-faded: #a7f3d0;

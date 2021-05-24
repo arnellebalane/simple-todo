@@ -18,5 +18,6 @@ const dispatch = createEventDispatcher();
    instead of just leaving it as a global variable. */
 :global(.SettingsFormModalContent) {
   width: 72rem !important;
+  padding: 0 !important;
 }
 </style>

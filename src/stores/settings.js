@@ -10,6 +10,7 @@ function createStore() {
     color: COLOR_GREEN,
     background: false,
     backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
+    enablePrivacyMode: false,
   };
   const settings = Object.assign({}, defaultSettings, cachedSettings && JSON.parse(cachedSettings));
 

@@ -62,27 +62,35 @@ const handleBackgroundChange = async () => {
 };
 </script>
 
-<div class="Field--inline">
-  <label for="background">Show background image</label>
-  {#if data.background}
-    <button type="button" disabled={hasCurrentRequest} on:click={handleRefresh}>Refresh</button>
-  {/if}
-  <Switch name="background" bind:value={data.background} on:change={handleBackgroundChange} />
-</div>
-
-{#if data.background}
-  <div>
-    <label for="backgroundRefreshFrequency">Refresh background image</label>
-    <Selector
-      name="backgroundRefreshFrequency"
-      bind:value={data.backgroundRefreshFrequency}
-      choices={backgroundRefreshFrequencyChoices}
-      on:change={handleChange}
-    />
+<section>
+  <div class="Field--inline">
+    <label for="background">Show background image</label>
+    {#if data.background}
+      <button type="button" disabled={hasCurrentRequest} on:click={handleRefresh}>Refresh</button>
+    {/if}
+    <Switch name="background" bind:value={data.background} on:change={handleBackgroundChange} />
   </div>
-{/if}
+
+  {#if data.background}
+    <div>
+      <label for="backgroundRefreshFrequency">Refresh background image</label>
+      <Selector
+        name="backgroundRefreshFrequency"
+        bind:value={data.backgroundRefreshFrequency}
+        choices={backgroundRefreshFrequencyChoices}
+        on:change={handleChange}
+      />
+    </div>
+  {/if}
+</section>
 
 <style>
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 3.6rem;
+}
+
 .Field--inline {
   display: flex;
   align-items: center;

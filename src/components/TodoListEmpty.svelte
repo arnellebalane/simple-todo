@@ -19,7 +19,7 @@ const handleDragAndDrop = (event) => {
 };
 </script>
 
-<div class={`TodoListEmpty ${$$props.class ?? ''}`}>
+<div class="TodoListEmpty {$$props.class ?? ''}">
   <div
     class="DropZone"
     class:absolute={isEmpty}

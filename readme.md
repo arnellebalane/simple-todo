@@ -10,6 +10,7 @@ A Chrome extension that replaces the new tab page with a simple todo list.
 - 🌒 Dark mode
 - 🎨 Configurable color schemes
 - 🏞 Background images from Unsplash
+- 🙈 Privacy mode
 - ✨ More features coming soon!
 
 ## Contributing

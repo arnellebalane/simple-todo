@@ -7,6 +7,8 @@ ci:
 
   assert:
     preset: lighthouse:no-pwa
+    assertions:
+      non-composited-animations: off
 
   upload:
     target: lhci

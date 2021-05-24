@@ -10,14 +10,20 @@ const dispatch = createEventDispatcher();
 </script>
 
 <Modal {show} contentClass="SettingsFormModalContent" closeOnEscape closeOnClickOutside on:close>
-  <SettingsForm {data} on:change on:submit on:cancel={() => dispatch('close')} />
+  <SettingsForm class="SettingsForm" {data} on:change on:submit on:cancel={() => dispatch('close')} />
 </Modal>
 
 <style>
 /* NOTE: I wish there was a way to scope this class without modifying the template,
    instead of just leaving it as a global variable. */
 :global(.SettingsFormModalContent) {
+  display: flex;
   width: 72rem !important;
+  min-height: 50rem;
   padding: 0 !important;
+}
+
+:global(.SettingsFormModalContent > *) {
+  width: 100%;
 }
 </style>

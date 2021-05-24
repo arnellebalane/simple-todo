@@ -21,9 +21,9 @@ const handleChange = () => dispatch('change', data);
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-  <SettingsFormSidebar bind:value={currentTabKey} />
+  <SettingsFormSidebar class="SettingsFormSidebar" bind:value={currentTabKey} />
 
-  <div>
+  <div class="TabContent">
     <svelte:component this={currentTab} bind:data on:change={handleChange} />
   </div>
 
@@ -35,12 +35,22 @@ const handleChange = () => dispatch('change', data);
 
 <style>
 form {
-  display: flex;
-  flex-direction: column;
-  gap: 3.6rem;
+  display: grid;
+  grid-template-columns: 22rem 1fr;
+  grid-template-rows: 1fr max-content;
+  grid-template-areas: 'sidebar .' 'sidebar .';
+}
+
+form :global(.SettingsFormSidebar) {
+  grid-area: sidebar;
+}
+
+.TabContent {
+  padding: 3.6rem;
 }
 
 .Actions {
   display: flex;
+  padding: 3.6rem;
 }
 </style>

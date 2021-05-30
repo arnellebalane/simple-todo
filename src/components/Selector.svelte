@@ -52,6 +52,7 @@ input {
 span {
   display: block;
   padding: 1.2rem 2.4rem;
+  line-height: 2rem;
   text-align: center;
   background-color: var(--main);
 }

@@ -13,6 +13,7 @@ function createStore() {
   const cachedTodos = localStorage.getItem(STORAGE_KEY_DATA);
 
   const { subscribe, set, update: _update } = writable(cachedTodos ? JSON.parse(cachedTodos) : []);
+  const editableFields = ['body', 'list', 'order', 'done', 'tags'];
 
   window.addEventListener('storage', (event) => {
     if (event.key === STORAGE_KEY_DATA) {
@@ -22,7 +23,6 @@ function createStore() {
 
   function update(data) {
     _update((todos) => {
-      const editableFields = ['body', 'list', 'order', 'done'];
       return todos.map((todo) => {
         if (todo.id === data.id) {
           if (todo.done !== data.done) {
@@ -37,19 +37,16 @@ function createStore() {
 
   function save(data) {
     if (data.id) {
-      _update((todos) => todos.map((todo) => (todo.id === data.id ? data : todo)));
+      _update((todos) => todos.map((todo) => (todo.id === data.id ? pick(data, ['id', ...editableFields]) : todo)));
       trackEvent('todos', 'edit');
     } else {
       _update((todos) => {
-        const { body, list } = data;
-        const order = Math.max(...todos.filter((todo) => todo.list === list).map((todo) => todo.order), 0) + 1;
-
+        const order = Math.max(...todos.filter((todo) => todo.list === data.list).map((todo) => todo.order), 0) + 1;
         return [
           ...todos,
           {
+            ...pick(data, editableFields),
             id: uuid.v4(),
-            body,
-            list,
             order,
             done: false,
             createdAt: Date.now(),

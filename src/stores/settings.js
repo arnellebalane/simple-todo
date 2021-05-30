@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import axios from '@lib/axios';
-import { trackEvent } from '@lib/analytics';
+import { trackEvent } from '@lib/umami';
 import { STORAGE_KEY_SETTINGS, THEME_SYSTEM, COLOR_GREEN, BACKGROUND_REFRESH_DAILY } from '@lib/constants';
 
 function createStore() {

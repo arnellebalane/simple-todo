@@ -1,0 +1,7 @@
+{
+  "addTodo": ["altKey", "KeyN"],
+  "saveTodo": [
+    ["ctrlKey", "Enter"],
+    ["metaKey", "Enter"]
+  ]
+}

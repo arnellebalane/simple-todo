@@ -1,3 +1,5 @@
+import shortcuts from '@lib/shortcuts.json';
+
 let keybindings = [];
 
 function isEqual(a, b) {
@@ -28,4 +30,22 @@ export function addShortcut(combination, callback) {
 
 export function removeShortcut(combination) {
   keybindings = keybindings.filter((keybinding) => !isEqual(keybinding[0], combination));
+}
+
+export function enableShortcut(key, callback) {
+  const combinations = shortcuts[key];
+  if (Array.isArray(combinations[0])) {
+    combinations.map((combination) => addShortcut(combination, callback));
+  } else {
+    addShortcut(combinations, callback);
+  }
+}
+
+export function disableShortcut(key) {
+  const combinations = shortcuts[key];
+  if (Array.isArray(combinations[0])) {
+    combinations.map((combination) => removeShortcut(combination, callback));
+  } else {
+    removeShortcut(combinations, callback);
+  }
 }

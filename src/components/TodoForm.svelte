@@ -3,7 +3,7 @@ import { createEventDispatcher, onMount, onDestroy } from 'svelte';
 import Selector from '@components/Selector.svelte';
 import Button from '@components/Button.svelte';
 import { sanitizeText, unsanitizeText } from '@lib/sanitize';
-import { addShortcut, removeShortcut } from '@lib/shortcuts';
+import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
 
 export let data = {
@@ -44,14 +44,8 @@ const submitForm = () => {
 };
 const cancelForm = () => dispatch('cancel');
 
-onMount(() => {
-  addShortcut(['ctrlKey', 'Enter'], submitForm);
-  addShortcut(['metaKey', 'Enter'], submitForm);
-});
-onDestroy(() => {
-  removeShortcut(['ctrlKey', 'Enter']);
-  removeShortcut(['metaKey', 'Enter']);
-});
+onMount(() => enableShortcut('saveTodo', submitForm));
+onDestroy(() => disableShortcut('saveTodo'));
 </script>
 
 <form class={$$props.class} on:submit|preventDefault={submitForm}>

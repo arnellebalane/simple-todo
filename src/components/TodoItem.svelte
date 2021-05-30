@@ -11,7 +11,12 @@ const dispatch = createEventDispatcher();
 const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.detail });
 </script>
 
-<li class={$$props.class} class:done={todo.done} class:private={$settings.enablePrivacyMode}>
+<li
+  class={$$props.class}
+  class:done={todo.done}
+  class:private={$settings.enablePrivacyMode}
+  on:dblclick={() => dispatch('edit')}
+>
   <Checkbox checked={todo.done} on:change={toggleTodoDone} />
   <p><span>{todo.body}</span></p>
   <TodoItemMenu class="TodoItemMenu" on:edit on:delete />

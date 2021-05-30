@@ -1,5 +1,6 @@
 <script>
 import { createEventDispatcher, onMount, onDestroy } from 'svelte';
+import orderBy from 'lodash/orderBy';
 import Selector from '@components/Selector.svelte';
 import Button from '@components/Button.svelte';
 import TagsInput from '@components/TagsInput.svelte';
@@ -21,7 +22,7 @@ const listChoices = [
   { label: 'This week', value: TODOS_THIS_WEEK },
   { label: 'Eventually', value: TODOS_EVENTUALLY },
 ];
-$: tagsChoices = Object.values($tags);
+$: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
 $: formValid = data.body && data.list;
 let errors = {};
 

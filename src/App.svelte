@@ -8,6 +8,7 @@ import TodoFormModal from '@components/TodoFormModal.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { todos } from '@stores/todos';
+import { tags } from '@stores/tags';
 import { toast } from '@stores/toast';
 
 let todoFormData = {};
@@ -30,6 +31,7 @@ const removeTodoItem = (event) => {
 };
 const saveTodoItem = (event) => {
   todos.save(event.detail);
+  tags.add(event.detail.tags);
   toggleTodoForm(false);
 };
 const updateTodos = (event) => todos.set(event.detail);

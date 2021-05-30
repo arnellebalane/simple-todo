@@ -6,6 +6,7 @@ import TagsInput from '@components/TagsInput.svelte';
 import { sanitizeText, unsanitizeText } from '@lib/sanitize';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
+import { tags } from '@stores/tags';
 
 export let data = {
   list: TODOS_EVENTUALLY,
@@ -20,7 +21,7 @@ const listChoices = [
   { label: 'This week', value: TODOS_THIS_WEEK },
   { label: 'Eventually', value: TODOS_EVENTUALLY },
 ];
-const tagsChoices = ['Urgent', 'Movies', 'Music', 'Work', 'Personal'];
+$: tagsChoices = Object.values($tags);
 $: formValid = data.body && data.list;
 let errors = {};
 

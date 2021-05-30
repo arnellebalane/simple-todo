@@ -5,7 +5,7 @@ export let value = [];
 export let choices;
 
 let currentValue = '';
-$: filteredChoices = choices.filter((choice) => !value.includes(choice));
+$: filteredChoices = choices.filter((choice) => !value.includes(choice.label));
 
 const handleChange = () => {
   if (!value.includes(currentValue)) {
@@ -14,7 +14,7 @@ const handleChange = () => {
   currentValue = '';
 };
 const handleRemove = (tag) => {
-  value = value.filter((value) => value !== tag);
+  value = value.filter((t) => t !== tag);
 };
 </script>
 
@@ -35,8 +35,8 @@ const handleRemove = (tag) => {
 </div>
 
 <datalist id="tags-choices">
-  {#each filteredChoices as choice (choice)}
-    <option value={choice} />
+  {#each filteredChoices as choice (choice.label)}
+    <option value={choice.label} />
   {/each}
 </datalist>
 

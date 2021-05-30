@@ -44,8 +44,8 @@ export function enableShortcut(key, callback) {
 export function disableShortcut(key) {
   const combinations = shortcuts[key];
   if (Array.isArray(combinations[0])) {
-    combinations.map((combination) => removeShortcut(combination, callback));
+    combinations.map((combination) => removeShortcut(combination));
   } else {
-    removeShortcut(combinations, callback);
+    removeShortcut(combinations);
   }
 }

@@ -7,11 +7,15 @@ export let choices;
 let currentValue = '';
 $: filteredChoices = choices.filter((choice) => !value.includes(choice.label));
 
-const handleChange = () => {
-  if (!value.includes(currentValue)) {
-    value = [...value, currentValue];
+const handleChange = (event) => {
+  // Only accept changes triggered by pressing `Enter` on the input. Other
+  // reasons (pressing Escape/Tab, clicking outisde) are ignored.
+  if (event.target === document.activeElement) {
+    if (!value.includes(currentValue)) {
+      value = [...value, currentValue];
+    }
+    currentValue = '';
   }
-  currentValue = '';
 };
 const handleRemove = (tag) => {
   value = value.filter((t) => t !== tag);

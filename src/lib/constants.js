@@ -7,9 +7,10 @@ export const TODOS_TODAY = 'TODAY';
 export const TODOS_THIS_WEEK = 'THIS_WEEK';
 export const TODOS_EVENTUALLY = 'EVENTUALLY';
 
-export const SETTINGS_MISCELLANEOUS = 'MISCELLANEOUS';
 export const SETTINGS_THEME = 'THEME';
 export const SETTINGS_BACKGROUND = 'BACKGROUND';
+export const SETTINGS_TAGS = 'TAGS';
+export const SETTINGS_MISCELLANEOUS = 'MISCELLANEOUS';
 
 export const THEME_SYSTEM = 'SYSTEM';
 export const THEME_LIGHT = 'LIGHT';

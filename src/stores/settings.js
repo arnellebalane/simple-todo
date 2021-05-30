@@ -63,7 +63,17 @@ function createStore() {
     return { source, request };
   }
 
-  return { subscribe, set, update, preview, restore, save, saveInStorage, getBackgroundImage };
+  function togglePrivacyMode() {
+    update((settings) => {
+      settings.enablePrivacyMode = !settings.enablePrivacyMode;
+      if (!settings.preview) {
+        save(settings);
+      }
+      return settings;
+    });
+  }
+
+  return { subscribe, set, update, preview, restore, save, saveInStorage, getBackgroundImage, togglePrivacyMode };
 }
 
 export const settings = createStore();

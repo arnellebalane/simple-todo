@@ -11,6 +11,7 @@ export let tags = [];
 <style>
 ul {
   display: flex;
+  flex-wrap: wrap;
   gap: 4px;
   padding: 0;
   list-style: none;

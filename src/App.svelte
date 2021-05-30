@@ -3,7 +3,7 @@ import { onMount, onDestroy } from 'svelte';
 import AppTopBar from '@components/AppTopBar.svelte';
 import AppBottomBar from '@components/AppBottomBar.svelte';
 import AppHeader from '@components/AppHeader.svelte';
-import Toast from '@components/Toast.svelte';
+import AppToast from '@components/AppToast.svelte';
 import TodoFormModal from '@components/TodoFormModal.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
@@ -86,7 +86,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
   on:cancel={() => toggleTodoForm(false)}
 />
 
-<Toast />
+<AppToast />
 
 <style>
 main {

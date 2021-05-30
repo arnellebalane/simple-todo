@@ -22,10 +22,10 @@ export function initializeKeyBindings() {
   });
 }
 
-export function addKeyBinding(combination, callback) {
+export function addShortcut(combination, callback) {
   keybindings.push([combination, callback]);
 }
 
-export function removeKeyBinding(combination) {
+export function removeShortcut(combination) {
   keybindings = keybindings.filter((keybinding) => !isEqual(keybinding[0], combination));
 }

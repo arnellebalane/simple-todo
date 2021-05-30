@@ -6,7 +6,7 @@ import AppHeader from '@components/AppHeader.svelte';
 import Toast from '@components/Toast.svelte';
 import TodoFormModal from '@components/TodoFormModal.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
-import { addKeyBinding, removeKeyBinding } from '@lib/keybindings';
+import { addShortcut, removeShortcut } from '@lib/shortcuts';
 import { todos } from '@stores/todos';
 import { toast } from '@stores/toast';
 
@@ -36,8 +36,8 @@ const updateTodos = (event) => todos.set(event.detail);
 const removeDoneTodos = () => todos.removeDone();
 const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 
-onMount(() => addKeyBinding(['altKey', 'KeyN'], () => toggleTodoForm(true)));
-onDestroy(() => removeKeyBinding(['altKey', 'KeyN']));
+onMount(() => addShortcut(['altKey', 'KeyN'], () => toggleTodoForm(true)));
+onDestroy(() => removeShortcut(['altKey', 'KeyN']));
 </script>
 
 <svelte:head>

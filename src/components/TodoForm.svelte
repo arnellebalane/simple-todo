@@ -3,7 +3,7 @@ import { createEventDispatcher, onMount, onDestroy } from 'svelte';
 import Selector from '@components/Selector.svelte';
 import Button from '@components/Button.svelte';
 import { sanitizeText, unsanitizeText } from '@lib/sanitize';
-import { addKeyBinding, removeKeyBinding } from '@lib/keybindings';
+import { addShortcut, removeShortcut } from '@lib/shortcuts';
 import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
 
 export let data = {
@@ -45,12 +45,12 @@ const submitForm = () => {
 const cancelForm = () => dispatch('cancel');
 
 onMount(() => {
-  addKeyBinding(['ctrlKey', 'Enter'], submitForm);
-  addKeyBinding(['metaKey', 'Enter'], submitForm);
+  addShortcut(['ctrlKey', 'Enter'], submitForm);
+  addShortcut(['metaKey', 'Enter'], submitForm);
 });
 onDestroy(() => {
-  removeKeyBinding(['ctrlKey', 'Enter']);
-  removeKeyBinding(['metaKey', 'Enter']);
+  removeShortcut(['ctrlKey', 'Enter']);
+  removeShortcut(['metaKey', 'Enter']);
 });
 </script>
 

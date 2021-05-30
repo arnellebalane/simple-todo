@@ -8,11 +8,20 @@ import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { settings } from '@stores/settings';
 import { changelogs, version } from '@stores/changelogs';
 
+let settingsUnsubscribe = null;
 let settingsFormData = {};
 let showSettingsForm = false;
 const toggleSettingsForm = (show) => {
-  settingsFormData = show ? { ...$settings } : {};
   showSettingsForm = show;
+  if (show) {
+    settingsUnsubscribe = settings.subscribe((value) => {
+      settingsFormData = { ...value };
+    });
+    settings.preview({ ...$settings });
+  } else {
+    settingsUnsubscribe();
+    settingsFormData = {};
+  }
 };
 
 let showWhatsNewModal = false;

@@ -1,5 +1,6 @@
 <script>
 import { onMount, onDestroy } from 'svelte';
+import cloneDeep from 'lodash/cloneDeep';
 import Button from '@components/Button.svelte';
 import SettingsFormModal from '@components/SettingsFormModal.svelte';
 import WhatsNewModal from '@components/WhatsNewModal.svelte';
@@ -15,9 +16,9 @@ const toggleSettingsForm = (show) => {
   showSettingsForm = show;
   if (show) {
     settingsUnsubscribe = settings.subscribe((value) => {
-      settingsFormData = { ...value };
+      settingsFormData = cloneDeep(value);
     });
-    settings.preview({ ...$settings });
+    settings.preview(cloneDeep($settings));
   } else {
     settingsUnsubscribe();
     settingsFormData = {};

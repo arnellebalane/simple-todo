@@ -1,5 +1,6 @@
 <script>
 import { onMount, onDestroy } from 'svelte';
+import cloneDeep from 'lodash/cloneDeep';
 import AppTopBar from '@components/AppTopBar.svelte';
 import AppBottomBar from '@components/AppBottomBar.svelte';
 import AppHeader from '@components/AppHeader.svelte';
@@ -15,7 +16,7 @@ let todoFormData = {};
 let showTodoForm = false;
 const toggleTodoForm = (show, data) => {
   showTodoForm = show;
-  todoFormData = data;
+  todoFormData = cloneDeep(data);
 };
 
 const showTodoFormWithData = (event) => toggleTodoForm(true, event.detail);

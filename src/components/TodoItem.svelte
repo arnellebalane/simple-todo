@@ -48,6 +48,10 @@ li.done {
   opacity: 0.6;
 }
 
+li.private {
+  pointer-events: none;
+}
+
 li.private > :global(*) {
   opacity: 0;
 }

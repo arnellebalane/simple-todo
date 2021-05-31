@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import cloneDeep from 'lodash/cloneDeep';
+import pick from 'lodash/pick';
 import axios from '@lib/axios';
 import { trackEvent } from '@lib/umami';
 import { STORAGE_KEY_SETTINGS, THEME_SYSTEM, COLOR_GREEN, BACKGROUND_REFRESH_DAILY } from '@lib/constants';
@@ -14,6 +15,16 @@ function createStore() {
     enablePrivacyMode: false,
   };
   const settings = Object.assign({}, defaultSettings, cachedSettings && JSON.parse(cachedSettings));
+  const allowedFields = [
+    'background',
+    'backgroundImage',
+    'backgroundImageLastUpdate',
+    'backgroundRefreshFrequency',
+    'backgroundPreloaded',
+    'enablePrivacyMode',
+    'color',
+    'theme',
+  ];
 
   const { subscribe, set, update } = writable(settings);
 
@@ -34,6 +45,7 @@ function createStore() {
   }
 
   function save(data) {
+    data = pick(data, allowedFields);
     set(data);
     settingsCache = null;
     saveInStorage(data);

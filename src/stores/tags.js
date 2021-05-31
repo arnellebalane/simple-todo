@@ -8,6 +8,7 @@ import { todos } from '@stores/todos';
 
 function createStore() {
   const cachedTags = localStorage.getItem(STORAGE_KEY_TAGS);
+  const allowedFields = ['label'];
 
   const { subscribe, set, update } = writable(cachedTags ? JSON.parse(cachedTags) : {});
 
@@ -43,7 +44,7 @@ function createStore() {
   function save() {
     update((tags) => {
       tags = pickBy(tags, (tag) => !tag.removed);
-      tags = mapValues(tags, (tag) => pick(tag, ['label']));
+      tags = mapValues(tags, (tag) => pick(tag, allowedFields));
       todos.updateTags(tags);
       saveInStorage(tags);
       return tags;

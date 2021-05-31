@@ -1,14 +1,16 @@
 export const STORAGE_KEY_DATA = 'todos-newtab';
 export const STORAGE_KEY_SETTINGS = 'simple-todo-settings';
 export const STORAGE_KEY_VERSION = 'simple-todo-version';
+export const STORAGE_KEY_TAGS = 'simple-todo-tags';
 
 export const TODOS_TODAY = 'TODAY';
 export const TODOS_THIS_WEEK = 'THIS_WEEK';
 export const TODOS_EVENTUALLY = 'EVENTUALLY';
 
-export const SETTINGS_MISCELLANEOUS = 'MISCELLANEOUS';
 export const SETTINGS_THEME = 'THEME';
 export const SETTINGS_BACKGROUND = 'BACKGROUND';
+export const SETTINGS_TAGS = 'TAGS';
+export const SETTINGS_MISCELLANEOUS = 'MISCELLANEOUS';
 
 export const THEME_SYSTEM = 'SYSTEM';
 export const THEME_LIGHT = 'LIGHT';

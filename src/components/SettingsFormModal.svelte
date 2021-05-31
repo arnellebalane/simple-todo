@@ -10,7 +10,7 @@ const dispatch = createEventDispatcher();
 </script>
 
 <Modal {show} contentClass="SettingsFormModalContent" closeOnEscape closeOnClickOutside on:close>
-  <SettingsForm class="SettingsForm" {data} on:change on:submit on:cancel={() => dispatch('close')} />
+  <SettingsForm {data} on:change on:submit on:cancel={() => dispatch('close')} />
 </Modal>
 
 <style>

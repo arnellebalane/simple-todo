@@ -1,20 +1,23 @@
 <script>
 import { onMount, onDestroy } from 'svelte';
+import cloneDeep from 'lodash/cloneDeep';
 import AppTopBar from '@components/AppTopBar.svelte';
 import AppBottomBar from '@components/AppBottomBar.svelte';
 import AppHeader from '@components/AppHeader.svelte';
-import Toast from '@components/Toast.svelte';
+import AppToast from '@components/AppToast.svelte';
+import AppTooltip from '@components/AppTooltip.svelte';
 import TodoFormModal from '@components/TodoFormModal.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
-import { addKeyBinding, removeKeyBinding } from '@lib/keybindings';
+import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { todos } from '@stores/todos';
+import { tags } from '@stores/tags';
 import { toast } from '@stores/toast';
 
 let todoFormData = {};
 let showTodoForm = false;
 const toggleTodoForm = (show, data) => {
   showTodoForm = show;
-  todoFormData = data;
+  todoFormData = cloneDeep(data);
 };
 
 const showTodoFormWithData = (event) => toggleTodoForm(true, event.detail);
@@ -30,14 +33,15 @@ const removeTodoItem = (event) => {
 };
 const saveTodoItem = (event) => {
   todos.save(event.detail);
+  tags.add(event.detail.tags);
   toggleTodoForm(false);
 };
 const updateTodos = (event) => todos.set(event.detail);
 const removeDoneTodos = () => todos.removeDone();
 const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 
-onMount(() => addKeyBinding(['altKey', 'KeyN'], () => toggleTodoForm(true)));
-onDestroy(() => removeKeyBinding(['altKey', 'KeyN']));
+onMount(() => enableShortcut('addTodo', () => toggleTodoForm(true)));
+onDestroy(() => disableShortcut('togglePrivacyMode'));
 </script>
 
 <svelte:head>
@@ -84,7 +88,8 @@ onDestroy(() => removeKeyBinding(['altKey', 'KeyN']));
   on:cancel={() => toggleTodoForm(false)}
 />
 
-<Toast />
+<AppToast />
+<AppTooltip />
 
 <style>
 main {

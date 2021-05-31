@@ -1,6 +1,8 @@
 import { writable } from 'svelte/store';
+import cloneDeep from 'lodash/cloneDeep';
+import pick from 'lodash/pick';
 import axios from '@lib/axios';
-import { trackEvent } from '@lib/analytics';
+import { trackEvent } from '@lib/umami';
 import { STORAGE_KEY_SETTINGS, THEME_SYSTEM, COLOR_GREEN, BACKGROUND_REFRESH_DAILY } from '@lib/constants';
 
 function createStore() {
@@ -13,6 +15,16 @@ function createStore() {
     enablePrivacyMode: false,
   };
   const settings = Object.assign({}, defaultSettings, cachedSettings && JSON.parse(cachedSettings));
+  const allowedFields = [
+    'background',
+    'backgroundImage',
+    'backgroundImageLastUpdate',
+    'backgroundRefreshFrequency',
+    'backgroundPreloaded',
+    'enablePrivacyMode',
+    'color',
+    'theme',
+  ];
 
   const { subscribe, set, update } = writable(settings);
 
@@ -20,7 +32,7 @@ function createStore() {
 
   function preview(data) {
     update((settings) => {
-      settingsCache = settingsCache || settings;
+      settingsCache = settingsCache || cloneDeep(settings);
       return { ...data, preview: true };
     });
   }
@@ -33,6 +45,7 @@ function createStore() {
   }
 
   function save(data) {
+    data = pick(data, allowedFields);
     set(data);
     settingsCache = null;
     saveInStorage(data);
@@ -48,7 +61,7 @@ function createStore() {
     }
     if (data.background && data.backgroundImage?.id !== settings.backgroundImage?.id) {
       axios.post('/report-unsplash-download', {
-        download_location: data.backgroundImage.download_location,
+        download_location: data.backgroundImage?.download_location,
       });
     }
     localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(data));
@@ -63,7 +76,17 @@ function createStore() {
     return { source, request };
   }
 
-  return { subscribe, set, update, preview, restore, save, saveInStorage, getBackgroundImage };
+  function togglePrivacyMode() {
+    update((settings) => {
+      settings.enablePrivacyMode = !settings.enablePrivacyMode;
+      if (!settings.preview) {
+        save(settings);
+      }
+      return settings;
+    });
+  }
+
+  return { subscribe, set, update, preview, restore, save, saveInStorage, getBackgroundImage, togglePrivacyMode };
 }
 
 export const settings = createStore();

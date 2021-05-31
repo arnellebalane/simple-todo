@@ -8,7 +8,10 @@ export let data = {
 
 <section>
   <div class="Field--inline">
-    <label for="enablePrivacyMode">Enable privacy mode</label>
+    <label for="enablePrivacyMode">
+      Enable privacy mode
+      <small>Quickly toggle by pressing <kbd>Alt+P</kbd></small>
+    </label>
     <Switch name="enablePrivacyMode" bind:value={data.enablePrivacyMode} on:change />
   </div>
 </section>
@@ -22,7 +25,7 @@ section {
 
 .Field--inline {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
 }
 
@@ -33,8 +36,27 @@ label {
   font-weight: 700;
 }
 
+small {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--dimmed-500);
+}
+
+kbd {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background-color: var(--dimmed-200);
+}
+
 .Field--inline label {
   margin-right: auto;
   margin-bottom: 0;
+}
+
+.Field--inline label + :global(*) {
+  margin-top: 1px;
 }
 </style>

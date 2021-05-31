@@ -3,6 +3,7 @@ import { createEventDispatcher } from 'svelte';
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 import Checkbox from '@components/Checkbox.svelte';
 import TodoItemMenu from '@components/TodoItemMenu.svelte';
+import TodoItemTags from '@components/TodoItemTags.svelte';
 import { settings } from '@stores/settings';
 
 export let todo;
@@ -11,9 +12,17 @@ const dispatch = createEventDispatcher();
 const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.detail });
 </script>
 
-<li class={$$props.class} class:done={todo.done} class:private={$settings.enablePrivacyMode}>
+<li
+  class={$$props.class}
+  class:done={todo.done}
+  class:private={$settings.enablePrivacyMode}
+  on:dblclick={() => dispatch('edit')}
+>
   <Checkbox checked={todo.done} on:change={toggleTodoDone} />
-  <p><span>{todo.body}</span></p>
+  <div class="TodoDetails">
+    <p><span>{todo.body}</span></p>
+    <TodoItemTags class="TodoItemTags" tags={todo.tags} />
+  </div>
   <TodoItemMenu class="TodoItemMenu" on:edit on:delete />
 
   {#if todo[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
@@ -37,6 +46,10 @@ li {
 
 li.done {
   opacity: 0.6;
+}
+
+li.private {
+  pointer-events: none;
 }
 
 li.private > :global(*) {
@@ -85,5 +98,9 @@ li :global(.TodoItemMenu) {
 
 li:not(:hover) :global(.TodoItemMenu) {
   display: none;
+}
+
+li :global(.TodoItemTags) {
+  margin-top: 1.6rem;
 }
 </style>

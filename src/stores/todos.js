@@ -1,8 +1,8 @@
 import { writable, derived } from 'svelte/store';
 import { tweened } from 'svelte/motion';
 import * as uuid from 'uuid';
-import pick from '@lib/pick';
-import { trackEvent } from '@lib/analytics';
+import pick from 'lodash/pick';
+import { trackEvent } from '@lib/umami';
 import { STORAGE_KEY_DATA } from '@lib/constants';
 
 const REMOVE_TIMER_DURATION = 2000;
@@ -11,6 +11,7 @@ const REMOVE_TIMER_FINAL = 1;
 
 function createStore() {
   const cachedTodos = localStorage.getItem(STORAGE_KEY_DATA);
+  const allowedFields = ['body', 'list', 'order', 'done', 'tags'];
 
   const { subscribe, set, update: _update } = writable(cachedTodos ? JSON.parse(cachedTodos) : []);
 
@@ -22,13 +23,12 @@ function createStore() {
 
   function update(data) {
     _update((todos) => {
-      const editableFields = ['body', 'list', 'order', 'done'];
       return todos.map((todo) => {
         if (todo.id === data.id) {
           if (todo.done !== data.done) {
             trackEvent('todos', data.done ? 'done' : 'undone');
           }
-          return { ...todo, ...pick(data, editableFields) };
+          return { ...todo, ...pick(data, allowedFields) };
         }
         return todo;
       });
@@ -37,19 +37,16 @@ function createStore() {
 
   function save(data) {
     if (data.id) {
-      _update((todos) => todos.map((todo) => (todo.id === data.id ? data : todo)));
+      _update((todos) => todos.map((todo) => (todo.id === data.id ? pick(data, ['id', ...allowedFields]) : todo)));
       trackEvent('todos', 'edit');
     } else {
       _update((todos) => {
-        const { body, list } = data;
-        const order = Math.max(...todos.filter((todo) => todo.list === list).map((todo) => todo.order), 0) + 1;
-
+        const order = Math.max(...todos.filter((todo) => todo.list === data.list).map((todo) => todo.order), 0) + 1;
         return [
           ...todos,
           {
+            ...pick(data, allowedFields),
             id: uuid.v4(),
-            body,
-            list,
             order,
             done: false,
             createdAt: Date.now(),
@@ -120,6 +117,16 @@ function createStore() {
     trackEvent('todos', 'undo-remove-done');
   }
 
+  function updateTags(tags) {
+    _update((todos) => {
+      todos = todos.map((todo) => ({
+        ...todo,
+        tags: todo.tags.filter((tag) => tags.hasOwnProperty(tag)),
+      }));
+      return todos;
+    });
+  }
+
   return {
     subscribe,
     set,
@@ -133,6 +140,7 @@ function createStore() {
     undoRemoveDone,
     removeDoneTimer,
     removeDoneTimerFinished,
+    updateTags,
   };
 }
 

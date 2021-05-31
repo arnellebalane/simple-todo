@@ -1,11 +1,14 @@
 <script>
 import { createEventDispatcher } from 'svelte';
+import isEmpty from 'lodash/isEmpty';
 import Button from '@components/Button.svelte';
 import SettingsFormSidebar from '@components/SettingsFormSidebar.svelte';
-import SettingsFormMiscellaneousTab from '@components/SettingsFormMiscellaneousTab.svelte';
 import SettingsFormThemeTab from '@components/SettingsFormThemeTab.svelte';
 import SettingsFormBackgroundTab from '@components/SettingsFormBackgroundTab.svelte';
-import { SETTINGS_THEME, SETTINGS_BACKGROUND, SETTINGS_MISCELLANEOUS } from '@lib/constants';
+import SettingsFormTagsTab from '@components/SettingsFormTagsTab.svelte';
+import SettingsFormMiscellaneousTab from '@components/SettingsFormMiscellaneousTab.svelte';
+import { SETTINGS_THEME, SETTINGS_BACKGROUND, SETTINGS_TAGS, SETTINGS_MISCELLANEOUS } from '@lib/constants';
+import { tags } from '@stores/tags';
 
 export let data;
 
@@ -14,6 +17,9 @@ const tabsMapping = {
   [SETTINGS_BACKGROUND]: SettingsFormBackgroundTab,
   [SETTINGS_MISCELLANEOUS]: SettingsFormMiscellaneousTab,
 };
+if (!isEmpty($tags)) {
+  tabsMapping[SETTINGS_TAGS] = SettingsFormTagsTab;
+}
 let currentTabKey = SETTINGS_THEME;
 $: currentTab = tabsMapping[currentTabKey];
 

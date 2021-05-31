@@ -16,5 +16,17 @@
     "title": "Privacy Mode",
     "imageLight": "/whats-new/privacy-mode-light.jpg",
     "imageDark": "/whats-new/privacy-mode-dark.jpg"
+  },
+  {
+    "version": "1.10.0",
+    "title": "Todo Tags",
+    "imageLight": "/whats-new/todo-tags-form-light.jpg",
+    "imageDark": "/whats-new/todo-tags-form-dark.jpg"
+  },
+  {
+    "version": "1.10.0",
+    "title": "Todo Tags",
+    "imageLight": "/whats-new/todo-tags-light.jpg",
+    "imageDark": "/whats-new/todo-tags-dark.jpg"
   }
 ]

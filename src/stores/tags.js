@@ -1,7 +1,10 @@
 import { writable } from 'svelte/store';
 import cloneDeep from 'lodash/cloneDeep';
+import mapValues from 'lodash/mapValues';
+import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
 import { STORAGE_KEY_TAGS } from '@lib/constants';
+import { todos } from '@stores/todos';
 
 function createStore() {
   const cachedTags = localStorage.getItem(STORAGE_KEY_TAGS);
@@ -40,6 +43,8 @@ function createStore() {
   function save() {
     update((tags) => {
       tags = pickBy(tags, (tag) => !tag.removed);
+      tags = mapValues(tags, (tag) => pick(tag, ['label']));
+      todos.updateTags(tags);
       saveInStorage(tags);
       return tags;
     });

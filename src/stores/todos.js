@@ -117,6 +117,16 @@ function createStore() {
     trackEvent('todos', 'undo-remove-done');
   }
 
+  function updateTags(tags) {
+    _update((todos) => {
+      todos = todos.map((todo) => ({
+        ...todo,
+        tags: todo.tags.filter((tag) => tags.hasOwnProperty(tag)),
+      }));
+      return todos;
+    });
+  }
+
   return {
     subscribe,
     set,
@@ -130,6 +140,7 @@ function createStore() {
     undoRemoveDone,
     removeDoneTimer,
     removeDoneTimerFinished,
+    updateTags,
   };
 }
 

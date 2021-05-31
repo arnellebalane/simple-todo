@@ -27,7 +27,7 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
 
 <h2>What's new in Simple Todo</h2>
 
-{#each screens as screen}
+{#each screens as screen, i}
   <article class:active={i === index}>
     <h3>{screen.title}</h3>
     <picture class="Image--light">

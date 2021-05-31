@@ -34,7 +34,9 @@ const handleRemove = (tag) => {
 
 <div>
   {#each value as tag (tag)}
-    <Button class="Button" type="button" small on:click={handleRemove(tag)}>{tag}</Button>
+    <Button class="Button" type="button" data-tooltip="Click to remove" small on:click={handleRemove(tag)}>
+      {tag}
+    </Button>
   {/each}
 </div>
 

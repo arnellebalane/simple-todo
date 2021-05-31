@@ -5,6 +5,7 @@ import AppTopBar from '@components/AppTopBar.svelte';
 import AppBottomBar from '@components/AppBottomBar.svelte';
 import AppHeader from '@components/AppHeader.svelte';
 import AppToast from '@components/AppToast.svelte';
+import AppTooltip from '@components/AppTooltip.svelte';
 import TodoFormModal from '@components/TodoFormModal.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
@@ -88,6 +89,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
 />
 
 <AppToast />
+<AppTooltip />
 
 <style>
 main {

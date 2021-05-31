@@ -1,10 +1,13 @@
 <script>
 import { createEventDispatcher, onMount, onDestroy } from 'svelte';
+import orderBy from 'lodash/orderBy';
 import Selector from '@components/Selector.svelte';
 import Button from '@components/Button.svelte';
+import TagsInput from '@components/TagsInput.svelte';
 import { sanitizeText, unsanitizeText } from '@lib/sanitize';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
+import { tags } from '@stores/tags';
 
 export let data = {
   list: TODOS_EVENTUALLY,
@@ -14,11 +17,12 @@ if (data.body) {
   data.body = unsanitizeText(data.body);
 }
 
-let listChoices = [
+const listChoices = [
   { label: 'Today', value: TODOS_TODAY },
   { label: 'This week', value: TODOS_THIS_WEEK },
   { label: 'Eventually', value: TODOS_EVENTUALLY },
 ];
+$: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
 $: formValid = data.body && data.list;
 let errors = {};
 
@@ -60,6 +64,11 @@ onDestroy(() => disableShortcut('saveTodo'));
     <Selector bind:value={data.list} choices={listChoices} name="list" />
   </div>
 
+  <div class="Field">
+    <label for="tags">Tags <span>(optional, press <kbd>Enter</kbd> to add)</span></label>
+    <TagsInput bind:value={data.tags} choices={tagsChoices} name="tags" type="password" />
+  </div>
+
   <div class="Actions">
     <Button primary disabled={!formValid}>Save Todo</Button>
     <Button type="button" text on:click={cancelForm}>Cancel</Button>
@@ -78,6 +87,20 @@ label {
   margin-bottom: 8px;
   font-size: 1.8rem;
   font-weight: 700;
+}
+
+label span {
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--dimmed-500);
+}
+
+label kbd {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background-color: var(--dimmed-200);
 }
 
 .Field.invalid label {

@@ -1,13 +1,16 @@
 <script>
-import { SETTINGS_THEME, SETTINGS_BACKGROUND, SETTINGS_MISCELLANEOUS } from '@lib/constants';
+import isEmpty from 'lodash/isEmpty';
+import { SETTINGS_THEME, SETTINGS_BACKGROUND, SETTINGS_TAGS, SETTINGS_MISCELLANEOUS } from '@lib/constants';
+import { tags } from '@stores/tags';
 
 export let value;
 
 const tabs = [
   { label: 'Theme', value: SETTINGS_THEME },
   { label: 'Background', value: SETTINGS_BACKGROUND },
+  { label: 'Tags', value: SETTINGS_TAGS, hidden: isEmpty($tags) },
   { label: 'Miscellaneous', value: SETTINGS_MISCELLANEOUS },
-];
+].filter((tab) => !tab.hidden);
 </script>
 
 <aside class={$$props.class}>
@@ -54,6 +57,7 @@ span {
   display: block;
   padding: 8px 1.8rem;
   border-radius: 8px;
+  line-height: 2rem;
 }
 
 label:hover span,

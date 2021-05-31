@@ -1,10 +1,14 @@
 import { writable } from 'svelte/store';
+import cloneDeep from 'lodash/cloneDeep';
+import pickBy from 'lodash/pickBy';
 import { STORAGE_KEY_TAGS } from '@lib/constants';
 
 function createStore() {
   const cachedTags = localStorage.getItem(STORAGE_KEY_TAGS);
 
   const { subscribe, set, update } = writable(cachedTags ? JSON.parse(cachedTags) : {});
+
+  let tagsCache = null;
 
   function add(newTags) {
     update((tags) => {
@@ -13,13 +17,39 @@ function createStore() {
           tags[tag] = { label: tag };
         }
       }
+      saveInStorage(tags);
       return tags;
     });
   }
 
-  return { subscribe, set, update, add };
+  function updateTag(tag, changes) {
+    update((tags) => {
+      tagsCache = tagsCache || cloneDeep(tags);
+      tags[tag] = Object.assign({}, tags[tag], changes);
+      return tags;
+    });
+  }
+
+  function restore() {
+    if (tagsCache) {
+      set(tagsCache);
+      tagsCache = null;
+    }
+  }
+
+  function save() {
+    update((tags) => {
+      tags = pickBy(tags, (tag) => !tag.removed);
+      saveInStorage(tags);
+      return tags;
+    });
+  }
+
+  function saveInStorage(data) {
+    localStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify(data));
+  }
+
+  return { subscribe, set, update, add, updateTag, restore, save, saveInStorage };
 }
 
 export const tags = createStore();
-
-tags.subscribe((value) => localStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify(value)));

@@ -1,6 +1,5 @@
 <script>
 import { onMount, onDestroy } from 'svelte';
-import cloneDeep from 'lodash/cloneDeep';
 import Button from '@components/Button.svelte';
 import SettingsFormModal from '@components/SettingsFormModal.svelte';
 import WhatsNewModal from '@components/WhatsNewModal.svelte';
@@ -8,6 +7,7 @@ import WhatsNewButton from '@components/WhatsNewButton.svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { settings } from '@stores/settings';
 import { changelogs, version } from '@stores/changelogs';
+import { tags } from '@stores/tags';
 
 let settingsUnsubscribe = null;
 let settingsFormData = {};
@@ -16,9 +16,9 @@ const toggleSettingsForm = (show) => {
   showSettingsForm = show;
   if (show) {
     settingsUnsubscribe = settings.subscribe((value) => {
-      settingsFormData = cloneDeep(value);
+      settingsFormData = value;
     });
-    settings.preview(cloneDeep($settings));
+    settings.preview($settings);
   } else {
     settingsUnsubscribe();
     settingsFormData = {};
@@ -35,10 +35,12 @@ const showChromeWebstoreButton = import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD ==
 const handleSettingsChange = (event) => settings.preview(event.detail);
 const handleSettingsSubmit = (event) => {
   settings.save(event.detail);
+  tags.save();
   toggleSettingsForm(false);
 };
 const handleSettingsClose = () => {
   settings.restore();
+  tags.restore();
   toggleSettingsForm(false);
 };
 

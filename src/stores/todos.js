@@ -1,7 +1,7 @@
 import { writable, derived } from 'svelte/store';
 import { tweened } from 'svelte/motion';
 import * as uuid from 'uuid';
-import pick from '@lib/pick';
+import pick from 'lodash/pick';
 import { trackEvent } from '@lib/umami';
 import { STORAGE_KEY_DATA } from '@lib/constants';
 

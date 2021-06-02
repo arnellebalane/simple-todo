@@ -19,7 +19,7 @@ module.exports = {
   },
 
   optimize: {
-    minify: false,
+    minify: true,
   },
 
   devOptions: {

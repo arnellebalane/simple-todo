@@ -7,6 +7,7 @@ import TodoItemTags from '@components/TodoItemTags.svelte';
 import { settings } from '@stores/settings';
 
 export let todo;
+$: hasTags = (todo.tags?.length ?? 0) > 0;
 
 const dispatch = createEventDispatcher();
 const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.detail });
@@ -21,7 +22,9 @@ const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.
   <Checkbox checked={todo.done} on:change={toggleTodoDone} />
   <div class="TodoDetails">
     <p><span>{todo.body}</span></p>
-    <TodoItemTags class="TodoItemTags" tags={todo.tags} />
+    {#if hasTags}
+      <TodoItemTags class="TodoItemTags" tags={todo.tags} />
+    {/if}
   </div>
   <TodoItemMenu class="TodoItemMenu" on:edit on:delete />
 

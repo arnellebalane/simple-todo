@@ -3,7 +3,7 @@ export let tags = [];
 </script>
 
 <ul class={$$props.class}>
-  {#each tags as tag (tag)}
+  {#each tags as tag}
     <li>{tag}</li>
   {/each}
 </ul>

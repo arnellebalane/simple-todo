@@ -121,7 +121,7 @@ function createStore() {
     _update((todos) => {
       todos = todos.map((todo) => ({
         ...todo,
-        tags: todo.tags.filter((tag) => tags.hasOwnProperty(tag)),
+        tags: todo.tags?.filter((tag) => tags.hasOwnProperty(tag)),
       }));
       return todos;
     });

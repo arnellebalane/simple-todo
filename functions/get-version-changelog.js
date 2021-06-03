@@ -10,18 +10,35 @@ exports.handler = async (event, context) => {
     imageDark: process.env.URL + changelog.imageDark,
   }));
 
-  if (version) {
-    const index = versionChangeLogs.findIndex((changelog) => semverGt(changelog.version, version));
-    if (index >= 0) {
-      versionChangeLogs = versionChangeLogs.slice(index);
-    }
+  if (!version && !nextVersion) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify(versionChangeLogs),
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    };
   }
 
-  if (nextVersion) {
-    const index = versionChangeLogs.findIndex((changelog) => semverGt(changelog.version, nextVersion));
-    if (index >= 0) {
-      versionChangeLogs = versionChangeLogs.slice(0, index);
-    }
+  const versionIndex = version ? versionChangeLogs.findIndex((changelog) => semverGt(changelog.version, version)) : -1;
+  const nextVersionIndex = nextVersion
+    ? versionChangeLogs.findIndex((changelog) => semverGt(changelog.version, nextVersion))
+    : -1;
+  if (versionIndex < 0 && nextVersionIndex < 0) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify([]),
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    };
+  }
+
+  if (versionIndex >= 0) {
+    versionChangeLogs = versionChangeLogs.slice(versionIndex);
+  }
+  if (nextVersionIndex >= 0) {
+    versionChangeLogs = versionChangeLogs.slice(0, nextVersionIndex);
   }
 
   return {

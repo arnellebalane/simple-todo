@@ -11,15 +11,19 @@ const REMOVE_TIMER_FINAL = 1;
 
 function createStore() {
   const cachedTodos = localStorage.getItem(STORAGE_KEY_DATA);
-  const allowedFields = ['body', 'list', 'order', 'done', 'tags'];
+  const allowedFields = ['id', 'body', 'list', 'order', 'done', 'tags'];
 
-  const { subscribe, set, update: _update } = writable(cachedTodos ? JSON.parse(cachedTodos) : []);
+  const { subscribe, set: _set, update: _update } = writable(cachedTodos ? JSON.parse(cachedTodos) : []);
 
   window.addEventListener('storage', (event) => {
     if (event.key === STORAGE_KEY_DATA) {
       set(JSON.parse(event.newValue));
     }
   });
+
+  function set(data) {
+    _set(data.map((todo) => pick(todo, allowedFields)));
+  }
 
   function update(data) {
     _update((todos) => {
@@ -37,7 +41,7 @@ function createStore() {
 
   function save(data) {
     if (data.id) {
-      _update((todos) => todos.map((todo) => (todo.id === data.id ? pick(data, ['id', ...allowedFields]) : todo)));
+      _update((todos) => todos.map((todo) => (todo.id === data.id ? pick(data, allowedFields) : todo)));
       trackEvent('todos', 'edit');
     } else {
       _update((todos) => {

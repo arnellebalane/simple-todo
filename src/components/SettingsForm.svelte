@@ -6,8 +6,15 @@ import SettingsFormSidebar from '@components/SettingsFormSidebar.svelte';
 import SettingsFormThemeTab from '@components/SettingsFormThemeTab.svelte';
 import SettingsFormBackgroundTab from '@components/SettingsFormBackgroundTab.svelte';
 import SettingsFormTagsTab from '@components/SettingsFormTagsTab.svelte';
+import SettingsFormShortcutsTab from '@components/SettingsFormShortcutsTab.svelte';
 import SettingsFormMiscellaneousTab from '@components/SettingsFormMiscellaneousTab.svelte';
-import { SETTINGS_THEME, SETTINGS_BACKGROUND, SETTINGS_TAGS, SETTINGS_MISCELLANEOUS } from '@lib/constants';
+import {
+  SETTINGS_THEME,
+  SETTINGS_BACKGROUND,
+  SETTINGS_TAGS,
+  SETTINGS_SHORTCUTS,
+  SETTINGS_MISCELLANEOUS,
+} from '@lib/constants';
 import { tags } from '@stores/tags';
 
 export let data;
@@ -15,6 +22,7 @@ export let data;
 const tabsMapping = {
   [SETTINGS_THEME]: SettingsFormThemeTab,
   [SETTINGS_BACKGROUND]: SettingsFormBackgroundTab,
+  [SETTINGS_SHORTCUTS]: SettingsFormShortcutsTab,
   [SETTINGS_MISCELLANEOUS]: SettingsFormMiscellaneousTab,
 };
 if (!isEmpty($tags)) {

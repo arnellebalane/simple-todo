@@ -5,6 +5,7 @@ import AppTopBar from '@components/AppTopBar.svelte';
 import AppBottomBar from '@components/AppBottomBar.svelte';
 import AppHeader from '@components/AppHeader.svelte';
 import AppTooltip from '@components/AppTooltip.svelte';
+import ConfirmationModal from '@components/ConfirmationModal.svelte';
 import TodoFormModal from '@components/TodoFormModal.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
@@ -13,12 +14,17 @@ import { tags } from '@stores/tags';
 
 let todoFormData = {};
 let showTodoForm = false;
-const toggleTodoForm = (show, data) => {
+const setShowTodoForm = (show, data) => {
   showTodoForm = show;
   todoFormData = cloneDeep(data);
 };
 
-const showTodoFormWithData = (event) => toggleTodoForm(true, event.detail);
+let showConfirmationModal = true;
+const setShowConfirmationModal = (show) => {
+  showConfirmationModal = show;
+};
+
+const showTodoFormWithData = (event) => setShowTodoForm(true, event.detail);
 const updateTodoItem = (event) => todos.update(event.detail);
 const removeTodoItem = (event) => {
   todos.remove(event.detail);
@@ -26,13 +32,13 @@ const removeTodoItem = (event) => {
 const saveTodoItem = (event) => {
   todos.save(event.detail);
   tags.add(event.detail.tags);
-  toggleTodoForm(false);
+  setShowTodoForm(false);
 };
 const updateTodos = (event) => todos.set(event.detail);
 const removeDoneTodos = () => todos.removeDone();
 const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 
-onMount(() => enableShortcut('addTodo', () => toggleTodoForm(true)));
+onMount(() => enableShortcut('addTodo', () => setShowTodoForm(true)));
 onDestroy(() => disableShortcut('togglePrivacyMode'));
 </script>
 
@@ -55,7 +61,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
   <div class="AppContent">
     <AppHeader
       class="AppHeader"
-      on:addtodo={() => toggleTodoForm(true)}
+      on:addtodo={() => setShowTodoForm(true)}
       on:removedone={removeDoneTodos}
       on:undoremovedone={undoRemoveDoneTodos}
     />
@@ -77,7 +83,12 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
   show={showTodoForm}
   data={todoFormData}
   on:submit={saveTodoItem}
-  on:cancel={() => toggleTodoForm(false)}
+  on:cancel={() => setShowTodoForm(false)}
+/>
+<ConfirmationModal
+  show={showConfirmationModal}
+  message="Are you sure you want to delete this todo?"
+  on:close={() => setShowConfirmationModal(false)}
 />
 
 <AppTooltip />

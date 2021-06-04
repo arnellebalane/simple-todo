@@ -1,6 +1,12 @@
 <script>
 import isEmpty from 'lodash/isEmpty';
-import { SETTINGS_THEME, SETTINGS_BACKGROUND, SETTINGS_TAGS, SETTINGS_MISCELLANEOUS } from '@lib/constants';
+import {
+  SETTINGS_THEME,
+  SETTINGS_BACKGROUND,
+  SETTINGS_TAGS,
+  SETTINGS_SHORTCUTS,
+  SETTINGS_MISCELLANEOUS,
+} from '@lib/constants';
 import { tags } from '@stores/tags';
 
 export let value;
@@ -9,6 +15,7 @@ const tabs = [
   { label: 'Theme', value: SETTINGS_THEME },
   { label: 'Background', value: SETTINGS_BACKGROUND },
   { label: 'Tags', value: SETTINGS_TAGS, hidden: isEmpty($tags) },
+  { label: 'Shortcuts', value: SETTINGS_SHORTCUTS },
   { label: 'Miscellaneous', value: SETTINGS_MISCELLANEOUS },
 ].filter((tab) => !tab.hidden);
 </script>

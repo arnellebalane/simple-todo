@@ -4,14 +4,12 @@ import cloneDeep from 'lodash/cloneDeep';
 import AppTopBar from '@components/AppTopBar.svelte';
 import AppBottomBar from '@components/AppBottomBar.svelte';
 import AppHeader from '@components/AppHeader.svelte';
-import AppToast from '@components/AppToast.svelte';
 import AppTooltip from '@components/AppTooltip.svelte';
 import TodoFormModal from '@components/TodoFormModal.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { todos } from '@stores/todos';
 import { tags } from '@stores/tags';
-import { toast } from '@stores/toast';
 
 let todoFormData = {};
 let showTodoForm = false;
@@ -24,12 +22,6 @@ const showTodoFormWithData = (event) => toggleTodoForm(true, event.detail);
 const updateTodoItem = (event) => todos.update(event.detail);
 const removeTodoItem = (event) => {
   todos.remove(event.detail);
-  toast.set({
-    text: 'Todo deleted',
-    actionText: 'Undo',
-    onAction: () => todos.undoRemove(),
-    timer: todos.removeTodoTimerFinished,
-  });
 };
 const saveTodoItem = (event) => {
   todos.save(event.detail);
@@ -88,7 +80,6 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
   on:cancel={() => toggleTodoForm(false)}
 />
 
-<AppToast />
 <AppTooltip />
 
 <style>

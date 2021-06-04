@@ -36,6 +36,10 @@ const restoreTag = (tag) => {
 
 <style>
 ol {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
   padding: 0;
   padding-right: 3rem;
   margin-right: -3rem;
@@ -57,7 +61,6 @@ li {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  padding: 4px 0;
   border-radius: 8px;
   line-height: 2rem;
 }

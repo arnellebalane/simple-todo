@@ -22,7 +22,7 @@ export function removeShortcut(combination) {
 }
 
 export function enableShortcut(key, callback) {
-  const combinations = shortcuts[key];
+  const combinations = shortcuts[key].keys;
   if (Array.isArray(combinations[0])) {
     combinations.map((combination) => addShortcut(combination, callback));
   } else {
@@ -31,7 +31,7 @@ export function enableShortcut(key, callback) {
 }
 
 export function disableShortcut(key) {
-  const combinations = shortcuts[key];
+  const combinations = shortcuts[key].keys;
   if (Array.isArray(combinations[0])) {
     combinations.map((combination) => removeShortcut(combination));
   } else {

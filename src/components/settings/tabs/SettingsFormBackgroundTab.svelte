@@ -20,6 +20,7 @@ export let data = {
   backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
 };
 
+let backgroundSource = data.backgroundSource;
 const backgroundSourceChoices = [
   { label: 'Automatic', subtext: 'Random from Unsplash', value: BACKGROUND_AUTOMATIC },
   { label: 'Custom', subtext: 'Specify your own image', value: BACKGROUND_CUSTOM },
@@ -45,6 +46,7 @@ const handleRefresh = async () => {
   try {
     data.backgroundImage = await request;
     data.backgroundImageLastUpdate = Date.now();
+    data.backgroundSource = BACKGROUND_AUTOMATIC;
     delete data.backgroundPreloaded;
     handleChange();
   } catch (error) {
@@ -56,13 +58,14 @@ const handleRefresh = async () => {
 const handleBackgroundChange = async () => {
   currentRequest?.cancel();
   if (data.background) {
-    if (data.backgroundSource === BACKGROUND_AUTOMATIC) {
+    if (backgroundSource === BACKGROUND_AUTOMATIC) {
       const { source, request } = settings.getBackgroundImage();
       currentRequest = source;
 
       try {
         data.backgroundImage = await request;
         data.backgroundImageLastUpdate = Date.now();
+        data.backgroundSource = BACKGROUND_AUTOMATIC;
         delete data.backgroundPreloaded;
       } catch (error) {
         console.error(error);
@@ -76,6 +79,7 @@ const handleBackgroundChange = async () => {
         try {
           data.backgroundImage = await request;
           data.backgroundImageLastUpdate = Date.now();
+          data.backgroundSource = BACKGROUND_CUSTOM;
           delete data.backgroundPreloaded;
         } catch (error) {
           console.error(error);
@@ -103,13 +107,13 @@ const handleBackgroundChange = async () => {
   {#if data.background}
     <Selector
       name="backgroundSource"
-      bind:value={data.backgroundSource}
+      bind:value={backgroundSource}
       disabled={hasCurrentRequest}
       choices={backgroundSourceChoices}
       choiceComponent={SettingsFormBackgroundSourceChoice}
     />
 
-    {#if data.backgroundSource === BACKGROUND_AUTOMATIC}
+    {#if backgroundSource === BACKGROUND_AUTOMATIC}
       <div class="Field">
         <label for="backgroundRefreshFrequency">Refresh background image</label>
         <div class="RefreshBackground">

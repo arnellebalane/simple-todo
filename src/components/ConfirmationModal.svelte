@@ -5,6 +5,8 @@ import Modal from '@components/Modal.svelte';
 
 export let show = false;
 export let message = 'Are you sure?';
+export let confirmLabel = 'Confirm';
+export let cancelLabel = 'Cancel';
 
 const dispatch = createEventDispatcher();
 const confirm = () => dispatch('confirm');
@@ -15,8 +17,8 @@ const cancel = () => dispatch('cancel');
   <p>{message}</p>
 
   <div>
-    <Button primary medium on:click={confirm}>Confirm</Button>
-    <Button text medium on:click={cancel}>Cancel</Button>
+    <Button primary medium on:click={confirm}>{confirmLabel}</Button>
+    <Button text medium on:click={cancel}>{cancelLabel}</Button>
   </div>
 </Modal>
 

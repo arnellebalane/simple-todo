@@ -5,8 +5,9 @@ function createStore() {
 
   let promiseResolve = null;
 
-  function show(message) {
-    set(message);
+  function show(options = {}) {
+    const { message = 'Are you sure?', confirmLabel = 'Confirm', cancelLabel = 'Cancel' } = options;
+    set({ message, confirmLabel, cancelLabel });
     return new Promise((resolve) => {
       promiseResolve = resolve;
     });

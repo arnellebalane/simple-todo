@@ -23,7 +23,10 @@ const setShowTodoForm = (show, data) => {
 const showTodoFormWithData = (event) => setShowTodoForm(true, event.detail);
 const updateTodoItem = (event) => todos.update(event.detail);
 const removeTodoItem = async (event) => {
-  const confirmed = await confirmation.show('Are you sure you want to remove this todo?');
+  const confirmed = await confirmation.show({
+    message: 'Are you sure you want to remove this todo?',
+    confirmLabel: 'Remove',
+  });
   if (confirmed) {
     todos.remove(event.detail);
   }
@@ -86,7 +89,9 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
 />
 <ConfirmationModal
   show={Boolean($confirmation)}
-  message={$confirmation}
+  message={$confirmation?.message}
+  confirmLabel={$confirmation?.confirmLabel}
+  cancelLabel={$confirmation?.cancelLabel}
   on:confirm={confirmation.confirm}
   on:cancel={confirmation.cancel}
 />

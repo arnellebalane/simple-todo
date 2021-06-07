@@ -88,7 +88,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
   show={Boolean($confirmation)}
   message={$confirmation}
   on:confirm={confirmation.confirm}
-  on:close={confirmation.cancel}
+  on:cancel={confirmation.cancel}
 />
 
 <AppTooltip />

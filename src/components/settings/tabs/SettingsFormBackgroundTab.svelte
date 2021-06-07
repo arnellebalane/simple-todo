@@ -108,7 +108,21 @@ const handleBackgroundChangeCustomUrl = async () => {
 };
 
 const handleBackgroundChangeCustomFile = async () => {
-  console.log(backgroundCustomFile);
+  if (!backgroundCustomFile.type.startsWith('image/')) {
+    backgroundCustomFileError = 'Selected file is not an image.';
+    return;
+  }
+  data.backgroundImage = {
+    photo_url: await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (event) => resolve(event.target.result);
+      reader.readAsDataURL(backgroundCustomFile);
+    }),
+  };
+  data.backgroundImageLastUpdate = Date.now();
+  data.backgroundSource = BACKGROUND_CUSTOM;
+  data.backgroundRefreshFrequency = BACKGROUND_REFRESH_MANUALLY;
+  delete data.backgroundPreloaded;
 };
 
 const handleBackgroundUnset = () => {

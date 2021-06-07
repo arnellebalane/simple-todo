@@ -2,6 +2,7 @@
 import { settings } from '@stores/settings';
 
 $: image = $settings.backgroundImage;
+$: isUnsplashImage = $settings.backgroundImage.user_link;
 </script>
 
 <footer>
@@ -11,7 +12,7 @@ $: image = $settings.backgroundImage;
     <a href="https://twitter.com/simpletodoapp" target="_blank" rel="noopener norefeffer">Twitter</a>
   </small>
 
-  {#if image}
+  {#if isUnsplashImage}
     <small>
       Photo by <a
         href="{image.user_link}?utm_source=simple-todo&utm_medium=referral "

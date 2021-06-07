@@ -67,9 +67,13 @@ function createStore() {
     if (settings.color !== data.color) {
       trackEvent('settings', `color-${data.color}`);
     }
-    if (data.background && data.backgroundImage?.id !== settings.backgroundImage?.id) {
+    if (
+      data.background &&
+      data.backgroundImage?.download_location &&
+      data.backgroundImage?.id !== settings.backgroundImage?.id
+    ) {
       axios.post('/report-unsplash-download', {
-        download_location: data.backgroundImage?.download_location,
+        download_location: data.backgroundImage.download_location,
       });
     }
     localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(data));

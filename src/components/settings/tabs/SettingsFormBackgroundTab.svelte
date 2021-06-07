@@ -5,6 +5,7 @@ import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
 import SettingsFormBackgroundSourceChoice from '@components/settings/fields/SettingsFormBackgroundSourceChoice.svelte';
 import SettingsFormImageUrlField from '@components/settings/fields/SettingsFormImageUrlField.svelte';
+import SettingsFormImageUploadField from '@components/settings/fields/SettingsFormImageUploadField.svelte';
 import { settings } from '@stores/settings';
 import {
   BACKGROUND_AUTOMATIC,
@@ -32,6 +33,8 @@ const backgroundRefreshFrequencyChoices = [
 ];
 let backgroundCustomUnsplash = '';
 let backgroundCustomUnsplashError = null;
+let backgroundCustomFile = null;
+let backgroundCustomFileError = null;
 
 const dispatch = createEventDispatcher();
 
@@ -56,15 +59,15 @@ const handleRefresh = async () => {
   currentRequest = null;
 };
 
-const handleBackgroundChange = async () => {
+const handleBackgroundChange = async (event) => {
   currentRequest?.cancel();
   if (data.background) {
     if (backgroundSource === BACKGROUND_AUTOMATIC) {
       await handleBackgroundChangeAutomatic();
-    } else {
-      if (backgroundCustomUnsplash) {
-        await handleBackgroundChangeCustomUrl();
-      }
+    } else if (event.detail === 'backgroundCustomUnsplash') {
+      await handleBackgroundChangeCustomUrl();
+    } else if (event.detail === 'backgroundCustomFile') {
+      await handleBackgroundChangeCustomFile();
     }
   } else {
     handleBackgroundUnset();
@@ -101,6 +104,10 @@ const handleBackgroundChangeCustomUrl = async () => {
     console.error(error);
     backgroundCustomUnsplashError = error.response.data.message || 'Something went wrong, please try again.';
   }
+};
+
+const handleBackgroundChangeCustomFile = async () => {
+  console.log(backgroundCustomFile);
 };
 
 const handleBackgroundUnset = () => {
@@ -154,6 +161,16 @@ const handleRefreshFrequencyChange = () => {
           bind:value={backgroundCustomUnsplash}
           error={backgroundCustomUnsplashError}
           disabled={hasCurrentRequest}
+          on:change={handleBackgroundChange}
+        />
+      </div>
+
+      <div class="Field">
+        <label for="backgroundCustomFile">Upload an image</label>
+        <SettingsFormImageUploadField
+          name="backgroundCustomFile"
+          bind:value={backgroundCustomFile}
+          error={backgroundCustomFileError}
           on:change={handleBackgroundChange}
         />
       </div>

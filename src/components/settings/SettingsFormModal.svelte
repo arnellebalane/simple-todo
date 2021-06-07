@@ -19,7 +19,7 @@ const dispatch = createEventDispatcher();
 :global(.SettingsFormModalContent) {
   display: flex;
   width: 72rem !important;
-  min-height: 50rem;
+  min-height: 55rem;
   padding: 0 !important;
 }
 

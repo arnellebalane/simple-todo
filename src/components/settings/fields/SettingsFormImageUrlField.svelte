@@ -2,30 +2,31 @@
 import { createEventDispatcher } from 'svelte';
 import Button from '@components/Button.svelte';
 
+export let name;
 export let value;
 export let error;
 export let disabled;
 
-const name = `image-url-field-${$$props.name}`;
+const form = `image-url-field-${name}`;
 
 const dispatch = createEventDispatcher();
 const handleChange = () => (error = null);
 </script>
 
-<form id={name} on:submit|preventDefault={() => dispatch('change')}>
+<form id={form} on:submit|preventDefault={() => dispatch('change', name)}>
   <input
     type="text"
     placeholder="Example: https://unsplash.com/photos/ppEfmAINyns"
-    id={$$props.name}
-    name={$$props.name}
     bind:value
     class:error
-    form={name}
+    id={name}
+    {name}
+    {form}
     {disabled}
     on:change={handleChange}
   />
 
-  <Button class="Button" form={name} disabled={disabled || !value}>Set image</Button>
+  <Button class="Button" disabled={disabled || !value} {form}>Set image</Button>
 </form>
 
 {#if error}

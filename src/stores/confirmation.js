@@ -4,24 +4,22 @@ function createStore() {
   const { subscribe, set, update } = writable(null);
 
   let promiseResolve = null;
-  let promiseReject = null;
 
   function show(message) {
     set(message);
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       promiseResolve = resolve;
-      promiseReject = reject;
     });
   }
 
   function confirm() {
     set(null);
-    promiseResolve();
+    promiseResolve(true);
   }
 
   function cancel() {
     set(null);
-    promiseReject();
+    promiseResolve(false);
   }
 
   return { subscribe, set, update, show, confirm, cancel };

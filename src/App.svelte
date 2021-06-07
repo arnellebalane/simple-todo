@@ -22,8 +22,11 @@ const setShowTodoForm = (show, data) => {
 
 const showTodoFormWithData = (event) => setShowTodoForm(true, event.detail);
 const updateTodoItem = (event) => todos.update(event.detail);
-const removeTodoItem = (event) => {
-  todos.remove(event.detail);
+const removeTodoItem = async (event) => {
+  const confirmed = await confirmation.show('Are you sure you want to remove this todo?');
+  if (confirmed) {
+    todos.remove(event.detail);
+  }
 };
 const saveTodoItem = (event) => {
   todos.save(event.detail);

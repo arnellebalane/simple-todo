@@ -4,6 +4,7 @@ import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
 import SettingsFormBackgroundSourceChoice from '@components/SettingsFormBackgroundSourceChoice.svelte';
+import SettingsFormImageUrlField from '@components/SettingsFormImageUrlField.svelte';
 import { settings } from '@stores/settings';
 import {
   BACKGROUND_AUTOMATIC,
@@ -28,6 +29,7 @@ const backgroundRefreshFrequencyChoices = [
   { label: 'Weekly', value: BACKGROUND_REFRESH_WEEKLY },
   { label: 'Manually', value: BACKGROUND_REFRESH_MANUALLY },
 ];
+let backgroundCustomUnsplash = '';
 
 const dispatch = createEventDispatcher();
 
@@ -61,9 +63,23 @@ const handleBackgroundChange = async () => {
       try {
         data.backgroundImage = await request;
         data.backgroundImageLastUpdate = Date.now();
+        delete data.backgroundPreloaded;
       } catch (error) {
         console.error(error);
         data.background = false;
+      }
+    } else {
+      if (backgroundCustomUnsplash) {
+        const { source, request } = settings.getBackgroundImage(backgroundCustomUnsplash);
+        currentRequest = source;
+
+        try {
+          data.backgroundImage = await request;
+          data.backgroundImageLastUpdate = Date.now();
+          delete data.backgroundPreloaded;
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
   } else {
@@ -107,7 +123,17 @@ const handleBackgroundChange = async () => {
           <Button type="button" disabled={hasCurrentRequest} on:click={handleRefresh}>Refresh</Button>
         </div>
       </div>
-    {:else}{/if}
+    {:else}
+      <div class="Field">
+        <label for="backgroundCustomUnsplash">Unsplash image URL</label>
+        <SettingsFormImageUrlField
+          name="backgroundCustomUnsplash"
+          bind:value={backgroundCustomUnsplash}
+          disabled={hasCurrentRequest}
+          on:change={handleBackgroundChange}
+        />
+      </div>
+    {/if}
   {/if}
 </section>
 
@@ -148,33 +174,5 @@ label {
 .RefreshBackground :global(.RefreshBackgroundFrequency span) {
   padding-left: 1.8rem;
   padding-right: 1.8rem;
-}
-
-button {
-  width: 2.4rem;
-  height: 2.4rem;
-  border: none;
-  font-size: 0;
-  background: transparent url('./dist/assets/icons/refresh-dark.svg') center center no-repeat;
-  cursor: pointer;
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-:global(body[data-theme='DARK']) button {
-  background-image: url('./dist/assets/icons/refresh-light.svg');
-}
-
-@media (prefers-color-scheme: dark) {
-  button {
-    background-image: url('./dist/assets/icons/refresh-light.svg');
-  }
-
-  :global(body[data-theme='LIGHT']) button {
-    background-image: url('./dist/assets/icons/refresh-dark.svg');
-  }
 }
 </style>

@@ -75,9 +75,10 @@ function createStore() {
     localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(data));
   }
 
-  function getBackgroundImage() {
+  function getBackgroundImage(url) {
     const source = axios.CancelToken.source();
-    const request = axios.get('/get-background-image', { cancelToken: source.token }).then((response) => {
+    const params = url ? { url } : {};
+    const request = axios.get('/get-background-image', { params, cancelToken: source.token }).then((response) => {
       trackEvent('background', 'refresh');
       return response.data;
     });

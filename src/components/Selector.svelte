@@ -3,6 +3,7 @@ import { createEventDispatcher } from 'svelte';
 
 export let choices;
 export let value;
+export let disabled = false;
 export let choiceComponent = null;
 
 const dispatch = createEventDispatcher();
@@ -11,8 +12,15 @@ const handleChange = (event) => dispatch('change', event.target.value);
 
 <div class={$$props.class} class:background={!choiceComponent}>
   {#each choices as choice}
-    <label>
-      <input type="radio" bind:group={value} value={choice.value} name={$$props.name} on:change={handleChange} />
+    <label class:disabled>
+      <input
+        type="radio"
+        bind:group={value}
+        value={choice.value}
+        name={$$props.name}
+        {disabled}
+        on:change={handleChange}
+      />
 
       {#if choiceComponent}
         <svelte:component this={choiceComponent} {choice} selected={choice.value === value} />
@@ -41,6 +49,11 @@ label {
   cursor: pointer;
 }
 
+label.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 input {
   position: absolute;
   top: 0;
@@ -52,7 +65,7 @@ input {
 span {
   display: block;
   padding: 1.2rem 2.4rem;
-  line-height: 2rem;
+  line-height: 1.6rem;
   text-align: center;
   background-color: var(--main);
 }
@@ -67,5 +80,6 @@ label:last-child span {
 
 span.selected {
   background-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary);
 }
 </style>

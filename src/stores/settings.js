@@ -3,7 +3,13 @@ import cloneDeep from 'lodash/cloneDeep';
 import pick from 'lodash/pick';
 import axios from '@lib/axios';
 import { trackEvent } from '@lib/umami';
-import { STORAGE_KEY_SETTINGS, THEME_SYSTEM, COLOR_GREEN, BACKGROUND_REFRESH_DAILY } from '@lib/constants';
+import {
+  STORAGE_KEY_SETTINGS,
+  THEME_SYSTEM,
+  COLOR_GREEN,
+  BACKGROUND_REFRESH_DAILY,
+  BACKGROUND_AUTOMATIC,
+} from '@lib/constants';
 
 function createStore() {
   const cachedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
@@ -12,6 +18,7 @@ function createStore() {
     color: COLOR_GREEN,
     background: false,
     backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
+    backgroundSource: BACKGROUND_AUTOMATIC,
     enablePrivacyMode: false,
   };
   const settings = Object.assign({}, defaultSettings, cachedSettings && JSON.parse(cachedSettings));
@@ -21,6 +28,7 @@ function createStore() {
     'backgroundImageLastUpdate',
     'backgroundRefreshFrequency',
     'backgroundPreloaded',
+    'backgroundSource',
     'enablePrivacyMode',
     'color',
     'theme',
@@ -59,17 +67,22 @@ function createStore() {
     if (settings.color !== data.color) {
       trackEvent('settings', `color-${data.color}`);
     }
-    if (data.background && data.backgroundImage?.id !== settings.backgroundImage?.id) {
+    if (
+      data.background &&
+      data.backgroundImage?.download_location &&
+      data.backgroundImage?.id !== settings.backgroundImage?.id
+    ) {
       axios.post('/report-unsplash-download', {
-        download_location: data.backgroundImage?.download_location,
+        download_location: data.backgroundImage.download_location,
       });
     }
     localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(data));
   }
 
-  function getBackgroundImage() {
+  function getBackgroundImage(url) {
     const source = axios.CancelToken.source();
-    const request = axios.get('/get-background-image', { cancelToken: source.token }).then((response) => {
+    const params = url ? { url } : {};
+    const request = axios.get('/get-background-image', { params, cancelToken: source.token }).then((response) => {
       trackEvent('background', 'refresh');
       return response.data;
     });

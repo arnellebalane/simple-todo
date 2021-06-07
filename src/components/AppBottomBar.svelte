@@ -14,17 +14,18 @@ $: isUnsplashImage = $settings.backgroundImage?.user_link;
 
   {#if isUnsplashImage}
     <small>
-      Photo by <a
-        href="{image.user_link}?utm_source=simple-todo&utm_medium=referral "
-        target="_blank"
-        rel="noopener noreferrer">{image.user_name}</a
-      >
+      Photo by
+      <a href="{image.user_link}?utm_source=simple-todo&utm_medium=referral" target="_blank" rel="noopener noreferrer">
+        {image.user_name}
+      </a>
       on
       <a
-        href="https://unsplash.com?utm_source=simple-todo&utm_medium=referral "
+        href="https://unsplash.com?utm_source=simple-todo&utm_medium=referral"
         target="_blank"
-        rel="noopener noreferrer">Unsplash</a
+        rel="noopener noreferrer"
       >
+        Unsplash
+      </a>
     </small>
   {/if}
 </footer>

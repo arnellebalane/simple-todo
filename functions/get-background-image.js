@@ -1,9 +1,8 @@
-const url = require('url');
 const axios = require('axios');
 require('./_lib/sentry');
 
 async function getSpecificPhoto(photoURL) {
-  const { pathname } = url.parse(photoURL);
+  const { pathname } = new URL(photoURL);
   const pattern = /^\/photos\/(?<id>.+?)\/?$/;
   const match = pattern.exec(pathname);
 

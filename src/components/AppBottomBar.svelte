@@ -2,7 +2,7 @@
 import { settings } from '@stores/settings';
 
 $: image = $settings.backgroundImage;
-$: isUnsplashImage = $settings.backgroundImage.user_link;
+$: isUnsplashImage = $settings.backgroundImage?.user_link;
 </script>
 
 <footer>

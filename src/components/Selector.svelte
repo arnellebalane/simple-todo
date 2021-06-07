@@ -65,7 +65,7 @@ input {
 span {
   display: block;
   padding: 1.2rem 2.4rem;
-  line-height: 2rem;
+  line-height: 1.6rem;
   text-align: center;
   background-color: var(--main);
 }
@@ -80,5 +80,6 @@ label:last-child span {
 
 span.selected {
   background-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary);
 }
 </style>

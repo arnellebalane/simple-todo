@@ -110,6 +110,11 @@ const handleBackgroundUnset = () => {
   data.backgroundSource = BACKGROUND_AUTOMATIC;
   data.backgroundRefreshFrequency = BACKGROUND_REFRESH_DAILY;
 };
+
+const handleRefreshFrequencyChange = () => {
+  data.backgroundSource = BACKGROUND_AUTOMATIC;
+  handleChange();
+};
 </script>
 
 <section>
@@ -136,7 +141,7 @@ const handleBackgroundUnset = () => {
             name="backgroundRefreshFrequency"
             bind:value={data.backgroundRefreshFrequency}
             choices={backgroundRefreshFrequencyChoices}
-            on:change={handleChange}
+            on:change={handleRefreshFrequencyChange}
           />
           <Button type="button" disabled={hasCurrentRequest} on:click={handleRefresh}>Refresh</Button>
         </div>

@@ -3,11 +3,13 @@ import { createEventDispatcher } from 'svelte';
 import Button from '@components/Button.svelte';
 
 export let value;
+export let error;
 export let disabled;
 
 const name = `image-url-field-${$$props.name}`;
 
 const dispatch = createEventDispatcher();
+const handleChange = () => (error = null);
 </script>
 
 <form id={name} on:submit|preventDefault={() => dispatch('change')}>
@@ -17,12 +19,18 @@ const dispatch = createEventDispatcher();
     id={$$props.name}
     name={$$props.name}
     bind:value
+    class:error
     form={name}
     {disabled}
+    on:change={handleChange}
   />
 
-  <Button class="Button" form={name} {disabled}>Set image</Button>
+  <Button class="Button" form={name} disabled={disabled || !value}>Set image</Button>
 </form>
+
+{#if error}
+  <p class="Error">{error}</p>
+{/if}
 
 <style>
 form {
@@ -40,9 +48,18 @@ input {
   background-color: transparent;
 }
 
+input.error {
+  border-color: var(--danger);
+}
+
 input:disabled,
 form :global(.Button:disabled) {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.Error {
+  margin-top: 8px;
+  color: var(--danger);
 }
 </style>

@@ -31,6 +31,7 @@ const backgroundRefreshFrequencyChoices = [
   { label: 'Manually', value: BACKGROUND_REFRESH_MANUALLY },
 ];
 let backgroundCustomUnsplash = '';
+let backgroundCustomUnsplashError = null;
 
 const dispatch = createEventDispatcher();
 
@@ -89,6 +90,7 @@ const handleBackgroundChangeAutomatic = async () => {
 const handleBackgroundChangeCustomUrl = async () => {
   const { source, request } = settings.getBackgroundImage(backgroundCustomUnsplash);
   currentRequest = source;
+  backgroundCustomUnsplashError = null;
   try {
     data.backgroundImage = await request;
     data.backgroundImageLastUpdate = Date.now();
@@ -97,6 +99,7 @@ const handleBackgroundChangeCustomUrl = async () => {
     delete data.backgroundPreloaded;
   } catch (error) {
     console.error(error);
+    backgroundCustomUnsplashError = error.response.data.message || 'Something went wrong, please try again.';
   }
 };
 
@@ -144,6 +147,7 @@ const handleBackgroundUnset = () => {
         <SettingsFormImageUrlField
           name="backgroundCustomUnsplash"
           bind:value={backgroundCustomUnsplash}
+          error={backgroundCustomUnsplashError}
           disabled={hasCurrentRequest}
           on:change={handleBackgroundChange}
         />

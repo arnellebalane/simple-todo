@@ -122,7 +122,6 @@ div[contenteditable] {
 }
 
 .Error {
-  border-radius: 8px;
   margin-bottom: 8px;
   color: var(--danger);
 }

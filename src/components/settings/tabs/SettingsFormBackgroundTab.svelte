@@ -93,6 +93,7 @@ const handleBackgroundChangeCustomUrl = async () => {
     data.backgroundImage = await request;
     data.backgroundImageLastUpdate = Date.now();
     data.backgroundSource = BACKGROUND_CUSTOM;
+    data.backgroundRefreshFrequency = BACKGROUND_REFRESH_MANUALLY;
     delete data.backgroundPreloaded;
   } catch (error) {
     console.error(error);

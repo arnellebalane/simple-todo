@@ -7,7 +7,7 @@ async function getSpecificPhoto(photoURL) {
   const pattern = /^\/photos\/(?<id>.+?)\/?$/;
   const match = pattern.exec(pathname);
 
-  if (!match.groups.id) {
+  if (!match?.groups.id) {
     return {
       statusCode: 400,
       body: JSON.stringify({

@@ -59,42 +59,52 @@ const handleBackgroundChange = async () => {
   currentRequest?.cancel();
   if (data.background) {
     if (backgroundSource === BACKGROUND_AUTOMATIC) {
-      const { source, request } = settings.getBackgroundImage();
-      currentRequest = source;
-
-      try {
-        data.backgroundImage = await request;
-        data.backgroundImageLastUpdate = Date.now();
-        data.backgroundSource = BACKGROUND_AUTOMATIC;
-        delete data.backgroundPreloaded;
-      } catch (error) {
-        console.error(error);
-        data.background = false;
-      }
+      await handleBackgroundChangeAutomatic();
     } else {
       if (backgroundCustomUnsplash) {
-        const { source, request } = settings.getBackgroundImage(backgroundCustomUnsplash);
-        currentRequest = source;
-
-        try {
-          data.backgroundImage = await request;
-          data.backgroundImageLastUpdate = Date.now();
-          data.backgroundSource = BACKGROUND_CUSTOM;
-          delete data.backgroundPreloaded;
-        } catch (error) {
-          console.error(error);
-        }
+        await handleBackgroundChangeCustomUrl();
       }
     }
   } else {
-    delete data.backgroundImage;
-    delete data.backgroundImageLastUpdate;
-    delete data.backgroundPreloaded;
-    data.backgroundSource = BACKGROUND_AUTOMATIC;
-    data.backgroundRefreshFrequency = BACKGROUND_REFRESH_DAILY;
+    handleBackgroundUnset();
   }
   currentRequest = null;
   handleChange();
+};
+
+const handleBackgroundChangeAutomatic = async () => {
+  const { source, request } = settings.getBackgroundImage();
+  currentRequest = source;
+  try {
+    data.backgroundImage = await request;
+    data.backgroundImageLastUpdate = Date.now();
+    data.backgroundSource = BACKGROUND_AUTOMATIC;
+    delete data.backgroundPreloaded;
+  } catch (error) {
+    console.error(error);
+    data.background = false;
+  }
+};
+
+const handleBackgroundChangeCustomUrl = async () => {
+  const { source, request } = settings.getBackgroundImage(backgroundCustomUnsplash);
+  currentRequest = source;
+  try {
+    data.backgroundImage = await request;
+    data.backgroundImageLastUpdate = Date.now();
+    data.backgroundSource = BACKGROUND_CUSTOM;
+    delete data.backgroundPreloaded;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const handleBackgroundUnset = () => {
+  delete data.backgroundImage;
+  delete data.backgroundImageLastUpdate;
+  delete data.backgroundPreloaded;
+  data.backgroundSource = BACKGROUND_AUTOMATIC;
+  data.backgroundRefreshFrequency = BACKGROUND_REFRESH_DAILY;
 };
 </script>
 

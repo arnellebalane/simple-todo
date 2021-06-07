@@ -9,6 +9,7 @@ import ConfirmationModal from '@components/ConfirmationModal.svelte';
 import TodoFormModal from '@components/TodoFormModal.svelte';
 import TodoBoard from '@components/TodoBoard.svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
+import { confirmation } from '@stores/confirmation';
 import { todos } from '@stores/todos';
 import { tags } from '@stores/tags';
 
@@ -17,11 +18,6 @@ let showTodoForm = false;
 const setShowTodoForm = (show, data) => {
   showTodoForm = show;
   todoFormData = cloneDeep(data);
-};
-
-let showConfirmationModal = true;
-const setShowConfirmationModal = (show) => {
-  showConfirmationModal = show;
 };
 
 const showTodoFormWithData = (event) => setShowTodoForm(true, event.detail);
@@ -86,9 +82,10 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
   on:cancel={() => setShowTodoForm(false)}
 />
 <ConfirmationModal
-  show={showConfirmationModal}
-  message="Are you sure you want to delete this todo?"
-  on:close={() => setShowConfirmationModal(false)}
+  show={Boolean($confirmation)}
+  message={$confirmation}
+  on:confirm={confirmation.confirm}
+  on:close={confirmation.cancel}
 />
 
 <AppTooltip />

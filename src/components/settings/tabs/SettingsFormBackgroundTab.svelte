@@ -31,8 +31,10 @@ const backgroundRefreshFrequencyChoices = [
   { label: 'Weekly', value: BACKGROUND_REFRESH_WEEKLY },
   { label: 'Manually', value: BACKGROUND_REFRESH_MANUALLY },
 ];
+const BACKGROUND_CUSTOM_UNSPLASH_NAME = 'backgroundCustomUnsplash';
 let backgroundCustomUnsplash = '';
 let backgroundCustomUnsplashError = null;
+const BACKGROUND_CUSTOM_FILE_NAME = 'backgroundCustomFile';
 let backgroundCustomFile = null;
 let backgroundCustomFileError = null;
 
@@ -46,7 +48,6 @@ const handleChange = () => dispatch('change', data);
 const handleRefresh = async () => {
   const { source, request } = settings.getBackgroundImage();
   currentRequest = source;
-
   try {
     data.backgroundImage = await request;
     data.backgroundImageLastUpdate = Date.now();
@@ -64,9 +65,9 @@ const handleBackgroundChange = async (event) => {
   if (data.background) {
     if (backgroundSource === BACKGROUND_AUTOMATIC) {
       await handleBackgroundChangeAutomatic();
-    } else if (event.detail === 'backgroundCustomUnsplash') {
+    } else if (event.detail === BACKGROUND_CUSTOM_UNSPLASH_NAME) {
       await handleBackgroundChangeCustomUrl();
-    } else if (event.detail === 'backgroundCustomFile') {
+    } else if (event.detail === BACKGROUND_CUSTOM_FILE_NAME) {
       await handleBackgroundChangeCustomFile();
     }
   } else {
@@ -155,9 +156,9 @@ const handleRefreshFrequencyChange = () => {
       </div>
     {:else}
       <div class="Field">
-        <label for="backgroundCustomUnsplash">Unsplash image URL</label>
+        <label for={BACKGROUND_CUSTOM_UNSPLASH_NAME}>Unsplash image URL</label>
         <SettingsFormImageUrlField
-          name="backgroundCustomUnsplash"
+          name={BACKGROUND_CUSTOM_UNSPLASH_NAME}
           bind:value={backgroundCustomUnsplash}
           error={backgroundCustomUnsplashError}
           disabled={hasCurrentRequest}
@@ -166,9 +167,9 @@ const handleRefreshFrequencyChange = () => {
       </div>
 
       <div class="Field">
-        <label for="backgroundCustomFile">Upload an image</label>
+        <label for={BACKGROUND_CUSTOM_FILE_NAME}>Upload an image</label>
         <SettingsFormImageUploadField
-          name="backgroundCustomFile"
+          name={BACKGROUND_CUSTOM_FILE_NAME}
           bind:value={backgroundCustomFile}
           error={backgroundCustomFileError}
           on:change={handleBackgroundChange}

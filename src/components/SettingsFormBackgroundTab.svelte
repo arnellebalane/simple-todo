@@ -1,15 +1,28 @@
 <script>
 import { createEventDispatcher } from 'svelte';
+import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
+import SettingsFormBackgroundSourceChoice from '@components/SettingsFormBackgroundSourceChoice.svelte';
 import { settings } from '@stores/settings';
-import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY, BACKGROUND_REFRESH_MANUALLY } from '@lib/constants';
+import {
+  BACKGROUND_AUTOMATIC,
+  BACKGROUND_CUSTOM,
+  BACKGROUND_REFRESH_DAILY,
+  BACKGROUND_REFRESH_WEEKLY,
+  BACKGROUND_REFRESH_MANUALLY,
+} from '@lib/constants';
 
 export let data = {
   background: false,
+  backgroundSource: BACKGROUND_AUTOMATIC,
   backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
 };
 
+const backgroundSourceChoices = [
+  { label: 'Automatic', subtext: 'Random from Unsplash', value: BACKGROUND_AUTOMATIC },
+  { label: 'Custom', subtext: 'Specify your own image', value: BACKGROUND_CUSTOM },
+];
 const backgroundRefreshFrequencyChoices = [
   { label: 'Daily', value: BACKGROUND_REFRESH_DAILY },
   { label: 'Weekly', value: BACKGROUND_REFRESH_WEEKLY },
@@ -41,20 +54,23 @@ const handleRefresh = async () => {
 const handleBackgroundChange = async () => {
   currentRequest?.cancel();
   if (data.background) {
-    const { source, request } = settings.getBackgroundImage();
-    currentRequest = source;
+    if (data.backgroundSource === BACKGROUND_AUTOMATIC) {
+      const { source, request } = settings.getBackgroundImage();
+      currentRequest = source;
 
-    try {
-      data.backgroundImage = await request;
-      data.backgroundImageLastUpdate = Date.now();
-    } catch (error) {
-      console.error(error);
-      data.background = false;
+      try {
+        data.backgroundImage = await request;
+        data.backgroundImageLastUpdate = Date.now();
+      } catch (error) {
+        console.error(error);
+        data.background = false;
+      }
     }
   } else {
     delete data.backgroundImage;
     delete data.backgroundImageLastUpdate;
     delete data.backgroundPreloaded;
+    data.backgroundSource = BACKGROUND_AUTOMATIC;
     data.backgroundRefreshFrequency = BACKGROUND_REFRESH_DAILY;
   }
   currentRequest = null;
@@ -65,22 +81,33 @@ const handleBackgroundChange = async () => {
 <section>
   <div class="Field--inline">
     <label for="background">Show background image</label>
-    {#if data.background}
-      <button type="button" disabled={hasCurrentRequest} on:click={handleRefresh}>Refresh</button>
-    {/if}
     <Switch name="background" bind:value={data.background} on:change={handleBackgroundChange} />
   </div>
 
   {#if data.background}
-    <div>
-      <label for="backgroundRefreshFrequency">Refresh background image</label>
-      <Selector
-        name="backgroundRefreshFrequency"
-        bind:value={data.backgroundRefreshFrequency}
-        choices={backgroundRefreshFrequencyChoices}
-        on:change={handleChange}
-      />
-    </div>
+    <Selector
+      name="backgroundSource"
+      bind:value={data.backgroundSource}
+      disabled={hasCurrentRequest}
+      choices={backgroundSourceChoices}
+      choiceComponent={SettingsFormBackgroundSourceChoice}
+    />
+
+    {#if data.backgroundSource === BACKGROUND_AUTOMATIC}
+      <div class="Field">
+        <label for="backgroundRefreshFrequency">Refresh background image</label>
+        <div class="RefreshBackground">
+          <Selector
+            class="RefreshBackgroundFrequency"
+            name="backgroundRefreshFrequency"
+            bind:value={data.backgroundRefreshFrequency}
+            choices={backgroundRefreshFrequencyChoices}
+            on:change={handleChange}
+          />
+          <Button type="button" disabled={hasCurrentRequest} on:click={handleRefresh}>Refresh</Button>
+        </div>
+      </div>
+    {:else}{/if}
   {/if}
 </section>
 
@@ -107,6 +134,20 @@ label {
 .Field--inline label {
   margin-right: auto;
   margin-bottom: 0;
+}
+
+.RefreshBackground {
+  display: flex;
+  gap: 8px;
+}
+
+.RefreshBackground :global(.RefreshBackgroundFrequency) {
+  flex-grow: 1;
+}
+
+.RefreshBackground :global(.RefreshBackgroundFrequency span) {
+  padding-left: 1.8rem;
+  padding-right: 1.8rem;
 }
 
 button {

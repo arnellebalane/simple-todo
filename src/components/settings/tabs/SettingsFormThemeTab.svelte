@@ -1,7 +1,7 @@
 <script>
 import Selector from '@components/Selector.svelte';
-import SettingsFormThemeChoice from '@components/SettingsFormThemeChoice.svelte';
-import SettingsFormColorChoice from '@components/SettingsFormColorChoice.svelte';
+import SettingsFormThemeChoice from '@components/settings/fields/SettingsFormThemeChoice.svelte';
+import SettingsFormColorChoice from '@components/settings/fields/SettingsFormColorChoice.svelte';
 import {
   THEME_SYSTEM,
   THEME_LIGHT,

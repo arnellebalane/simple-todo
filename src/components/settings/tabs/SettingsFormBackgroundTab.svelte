@@ -3,8 +3,8 @@ import { createEventDispatcher } from 'svelte';
 import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
-import SettingsFormBackgroundSourceChoice from '@components/SettingsFormBackgroundSourceChoice.svelte';
-import SettingsFormImageUrlField from '@components/SettingsFormImageUrlField.svelte';
+import SettingsFormBackgroundSourceChoice from '@components/settings/fields/SettingsFormBackgroundSourceChoice.svelte';
+import SettingsFormImageUrlField from '@components/settings/fields/SettingsFormImageUrlField.svelte';
 import { settings } from '@stores/settings';
 import {
   BACKGROUND_AUTOMATIC,

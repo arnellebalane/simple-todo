@@ -28,5 +28,23 @@
     "title": "Todo Tags",
     "imageLight": "/whats-new/todo-tags-light.jpg",
     "imageDark": "/whats-new/todo-tags-dark.jpg"
+  },
+  {
+    "version": "1.11.0",
+    "title": "Custom Backgrounds",
+    "imageLight": "/whats-new/custom-backgrounds-light.jpg",
+    "imageDark": "/whats-new/custom-backgrounds-dark.jpg"
+  },
+  {
+    "version": "1.11.0",
+    "title": "Delete Confirmation",
+    "imageLight": "/whats-new/delete-confirmation-light.jpg",
+    "imageDark": "/whats-new/delete-confirmation-dark.jpg"
+  },
+  {
+    "version": "1.11.0",
+    "title": "Shortcuts List",
+    "imageLight": "/whats-new/shortcuts-list-light.jpg",
+    "imageDark": "/whats-new/shortcuts-list-dark.jpg"
   }
 ]

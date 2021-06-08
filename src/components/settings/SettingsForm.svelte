@@ -5,12 +5,14 @@ import Button from '@components/Button.svelte';
 import SettingsFormSidebar from '@components/settings/SettingsFormSidebar.svelte';
 import SettingsFormThemeTab from '@components/settings/tabs/SettingsFormThemeTab.svelte';
 import SettingsFormBackgroundTab from '@components/settings/tabs/SettingsFormBackgroundTab.svelte';
+import SettingsFormQuickLinksTab from '@components/settings/tabs/SettingsFormQuickLinksTab.svelte';
 import SettingsFormTagsTab from '@components/settings/tabs/SettingsFormTagsTab.svelte';
 import SettingsFormShortcutsTab from '@components/settings/tabs/SettingsFormShortcutsTab.svelte';
 import SettingsFormMiscellaneousTab from '@components/settings/tabs/SettingsFormMiscellaneousTab.svelte';
 import {
   SETTINGS_THEME,
   SETTINGS_BACKGROUND,
+  SETTINGS_QUICK_LINKS,
   SETTINGS_TAGS,
   SETTINGS_SHORTCUTS,
   SETTINGS_MISCELLANEOUS,
@@ -22,6 +24,7 @@ export let data;
 const tabsMapping = {
   [SETTINGS_THEME]: SettingsFormThemeTab,
   [SETTINGS_BACKGROUND]: SettingsFormBackgroundTab,
+  [SETTINGS_QUICK_LINKS]: SettingsFormQuickLinksTab,
   [SETTINGS_SHORTCUTS]: SettingsFormShortcutsTab,
   [SETTINGS_MISCELLANEOUS]: SettingsFormMiscellaneousTab,
 };

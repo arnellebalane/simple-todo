@@ -1,7 +1,7 @@
 <script>
 import { onMount, onDestroy } from 'svelte';
 import Button from '@components/Button.svelte';
-import SettingsFormModal from '@components/SettingsFormModal.svelte';
+import SettingsFormModal from '@components/settings/SettingsFormModal.svelte';
 import WhatsNewModal from '@components/WhatsNewModal.svelte';
 import WhatsNewButton from '@components/WhatsNewButton.svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';

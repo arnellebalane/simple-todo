@@ -1,8 +1,17 @@
 {
-  "addTodo": ["altKey", "KeyN"],
-  "saveTodo": [
-    ["ctrlKey", "Enter"],
-    ["metaKey", "Enter"]
-  ],
-  "togglePrivacyMode": ["altKey", "KeyP"]
+  "addTodo": {
+    "label": "Add todo",
+    "keys": ["altKey", "KeyN"]
+  },
+  "saveTodo": {
+    "label": "Save todo",
+    "keys": [
+      ["ctrlKey", "Enter"],
+      ["metaKey", "Enter"]
+    ]
+  },
+  "togglePrivacyMode": {
+    "label": "Toggle privacy mode",
+    "keys": ["altKey", "KeyP"]
+  }
 }

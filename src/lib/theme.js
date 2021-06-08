@@ -42,7 +42,7 @@ async function downloadBackgroundImage(imageUrl) {
 }
 
 async function renderBackgroundImage(imageUrl) {
-  const photoUrl = await downloadBackgroundImage(imageUrl);
+  const photoUrl = imageUrl.startsWith('data:') ? imageUrl : await downloadBackgroundImage(imageUrl);
   document.body.style.backgroundImage = `url(${photoUrl})`;
   setTimeout(() => (document.body.dataset.backgroundLoaded = true), 100);
 }
@@ -109,6 +109,9 @@ export function initializeTheme() {
     document.body.dataset.color = color;
 
     if (background && backgroundImage) {
+      if (backgroundImage.photo_url.startsWith('data:')) {
+        document.body.dataset.background = 'custom';
+      }
       if (backgroundImage.photo_blurhash !== document.body.dataset.background) {
         if (backgroundImage.photo_blurhash?.length ?? 0 >= 6) {
           renderBlurHash(backgroundImage.photo_blurhash);

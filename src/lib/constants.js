@@ -10,6 +10,7 @@ export const TODOS_EVENTUALLY = 'EVENTUALLY';
 export const SETTINGS_THEME = 'THEME';
 export const SETTINGS_BACKGROUND = 'BACKGROUND';
 export const SETTINGS_TAGS = 'TAGS';
+export const SETTINGS_SHORTCUTS = 'SHORTCUTS';
 export const SETTINGS_MISCELLANEOUS = 'MISCELLANEOUS';
 
 export const THEME_SYSTEM = 'SYSTEM';
@@ -21,6 +22,9 @@ export const COLOR_YELLOW = 'YELLOW';
 export const COLOR_BLUE = 'BLUE';
 export const COLOR_PURPLE = 'PURPLE';
 export const COLOR_PINK = 'PINK';
+
+export const BACKGROUND_AUTOMATIC = 'AUTOMATIC';
+export const BACKGROUND_CUSTOM = 'CUSTOM';
 
 export const BACKGROUND_REFRESH_DAILY = 'REFRESH_DAILY';
 export const BACKGROUND_REFRESH_WEEKLY = 'REFRESH_WEEKLY';

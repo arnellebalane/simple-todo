@@ -1,7 +1,7 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 import Modal from '@components/Modal.svelte';
-import SettingsForm from '@components/SettingsForm.svelte';
+import SettingsForm from '@components/settings/SettingsForm.svelte';
 
 export let show;
 export let data;
@@ -19,7 +19,7 @@ const dispatch = createEventDispatcher();
 :global(.SettingsFormModalContent) {
   display: flex;
   width: 72rem !important;
-  min-height: 50rem;
+  min-height: 55rem;
   padding: 0 !important;
 }
 

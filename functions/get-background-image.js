@@ -1,4 +1,5 @@
 const axios = require('axios');
+const has = require('lodash/has');
 require('./_lib/sentry');
 
 async function getSpecificPhoto(photoURL) {
@@ -6,7 +7,7 @@ async function getSpecificPhoto(photoURL) {
   const pattern = /^\/photos\/(?<id>.+?)\/?$/;
   const match = pattern.exec(pathname);
 
-  if (!match?.groups.id) {
+  if (!has(match, 'groups.id')) {
     return {
       statusCode: 400,
       body: JSON.stringify({

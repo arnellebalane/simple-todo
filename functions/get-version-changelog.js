@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
   }
 
   const versionIndex = version ? versionChangeLogs.findIndex((changelog) => semverGt(changelog.version, version)) : -1;
-  const nextVersionIndex = nextVersion
+  let nextVersionIndex = nextVersion
     ? versionChangeLogs.findIndex((changelog) => semverGt(changelog.version, nextVersion))
     : -1;
   if (versionIndex < 0 && nextVersionIndex < 0) {
@@ -38,6 +38,7 @@ exports.handler = async (event, context) => {
     versionChangeLogs = versionChangeLogs.slice(versionIndex);
   }
   if (nextVersionIndex >= 0) {
+    nextVersionIndex -= versionIndex >= 0 ? versionIndex : 0;
     versionChangeLogs = versionChangeLogs.slice(0, nextVersionIndex);
   }
 

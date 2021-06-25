@@ -1,14 +1,33 @@
 <script>
+import pick from 'lodash/pick';
+
 export let choices = [];
 export let value = [];
-$: selectedChoices = value.reduce((obj, choice) => ({ ...obj, [choice.url]: true }), {});
+
+let selectedUrls = value.map((link) => link.url);
+$: choices = choices.map((link) => {
+  if (selectedUrls.includes(link.url)) {
+    link.selected = true;
+  } else {
+    delete link.selected;
+  }
+  return link;
+});
+
+const handleChange = () => {
+  const selectedUrlsSet = new Set(selectedUrls);
+  const selectedLinks = choices
+    .filter((link) => selectedUrlsSet.has(link.url))
+    .map((link) => pick(link, ['name', 'url']));
+  value.splice(0, value.length, ...selectedLinks);
+};
 </script>
 
 <div>
   {#each choices as link (link.url)}
-    <label class:selected={link.url in selectedChoices}>
+    <label class:selected={link.selected}>
       <p>{link.name}</p>
-      <input type="checkbox" bind:group={value} value={link} name="quicklinks" />
+      <input type="checkbox" name="quicklinks" bind:group={selectedUrls} value={link.url} on:change={handleChange} />
     </label>
   {/each}
 </div>

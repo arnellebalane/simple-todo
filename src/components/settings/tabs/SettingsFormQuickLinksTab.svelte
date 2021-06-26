@@ -20,7 +20,7 @@ const builtInQuickLinks = [
       Select the apps to add a quick link
       <small>You can select upto five quick links</small>
     </label>
-    <SettingsFormQuickLinksField choices={builtInQuickLinks} bind:value={data.quickLinks} />
+    <SettingsFormQuickLinksField choices={builtInQuickLinks} bind:value={data.quickLinks} on:change />
   </div>
 </section>
 

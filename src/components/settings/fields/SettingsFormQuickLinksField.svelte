@@ -1,4 +1,5 @@
 <script>
+import { createEventDispatcher } from 'svelte';
 import pick from 'lodash/pick';
 
 export let choices = [];
@@ -14,12 +15,15 @@ $: choices = choices.map((link) => {
   return link;
 });
 
+const dispatch = createEventDispatcher();
+
 const handleChange = () => {
   const selectedUrlsSet = new Set(selectedUrls);
   const selectedLinks = choices
     .filter((link) => selectedUrlsSet.has(link.url))
     .map((link) => pick(link, ['name', 'url', 'image']));
   value.splice(0, value.length, ...selectedLinks);
+  dispatch('change', value);
 };
 </script>
 

@@ -26,6 +26,7 @@ const handleChange = () => {
 <div>
   {#each choices as link (link.url)}
     <label class:selected={link.selected}>
+      <img src={link.image} alt={link.name} />
       <p>{link.name}</p>
       <input type="checkbox" name="quicklinks" bind:group={selectedUrls} value={link.url} on:change={handleChange} />
     </label>
@@ -56,5 +57,19 @@ label:focus-within {
 label.selected {
   border-style: solid;
   border-color: var(--primary);
+}
+
+img {
+  display: block;
+  width: 4.2rem;
+  margin: auto;
+}
+
+input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(0);
+  opacity: 0;
 }
 </style>

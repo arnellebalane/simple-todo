@@ -6,11 +6,11 @@ export let data = {
 };
 
 const builtInQuickLinks = [
-  { name: 'Gmail', url: 'https://mail.google.com/' },
-  { name: 'Meet', url: 'https://meet.google.com/' },
-  { name: 'Drive', url: 'https://drive.google.com/' },
-  { name: 'Calendar', url: 'https://calendar.google.com/' },
-  { name: 'Photos', url: 'https://photos.google.com/' },
+  { name: 'Gmail', url: 'https://mail.google.com/', image: './dist/assets/images/gmail.png' },
+  { name: 'Meet', url: 'https://meet.google.com/', image: './dist/assets/images/meet.png' },
+  { name: 'Drive', url: 'https://drive.google.com/', image: './dist/assets/images/drive.png' },
+  { name: 'Calendar', url: 'https://calendar.google.com/', image: './dist/assets/images/calendar.png' },
+  { name: 'Photos', url: 'https://photos.google.com/', image: './dist/assets/images/photos.png' },
 ];
 </script>
 

@@ -18,7 +18,7 @@ const handleChange = () => {
   const selectedUrlsSet = new Set(selectedUrls);
   const selectedLinks = choices
     .filter((link) => selectedUrlsSet.has(link.url))
-    .map((link) => pick(link, ['name', 'url']));
+    .map((link) => pick(link, ['name', 'url', 'image']));
   value.splice(0, value.length, ...selectedLinks);
 };
 </script>

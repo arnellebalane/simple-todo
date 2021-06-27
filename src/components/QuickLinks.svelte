@@ -1,7 +1,5 @@
 <script>
 export let links = [];
-
-$: console.log(links);
 </script>
 
 <ul>

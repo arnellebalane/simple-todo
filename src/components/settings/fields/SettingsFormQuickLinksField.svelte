@@ -1,6 +1,7 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 import pick from 'lodash/pick';
+import SettingsFormQuickLinksCustomUrlField from '@components/settings/fields/SettingsFormQuickLinksCustomUrlField.svelte';
 
 export let choices = [];
 export let value = [];
@@ -27,7 +28,7 @@ const handleChange = () => {
 };
 </script>
 
-<div>
+<div class="DefaultLinks">
   {#each choices as link (link.url)}
     <label class:selected={link.selected}>
       <img src={link.image} alt={link.name} />
@@ -37,8 +38,12 @@ const handleChange = () => {
   {/each}
 </div>
 
+<div class="CustomLinks">
+  <SettingsFormQuickLinksCustomUrlField class="CustomUrlField" name="customUrl" />
+</div>
+
 <style>
-div {
+.DefaultLinks {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-auto-rows: 8rem;
@@ -75,5 +80,9 @@ input {
   left: 0;
   transform: scale(0);
   opacity: 0;
+}
+
+.CustomLinks :global(.CustomUrlField) {
+  margin-top: 8px;
 }
 </style>

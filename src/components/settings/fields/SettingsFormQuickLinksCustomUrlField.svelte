@@ -1,4 +1,5 @@
 <script>
+import { createEventDispatcher } from 'svelte';
 import axios from '@lib/axios';
 import Button from '@components/Button.svelte';
 
@@ -8,6 +9,8 @@ const form = `quick-links-custom-url-field-${name}`;
 let value = '';
 let error = '';
 let isLoading = false;
+
+const dispatch = createEventDispatcher();
 
 const handleSubmit = async () => {
   let url;
@@ -22,9 +25,10 @@ const handleSubmit = async () => {
   try {
     const params = { url: value };
     const response = await axios.get('/get-quick-link-details', { params });
-    console.log(response.data);
+    dispatch('data', response.data);
   } catch (error) {
     console.error(error);
+    error = 'Failed to fetch quick link data, please try again.';
   }
   isLoading = false;
 };

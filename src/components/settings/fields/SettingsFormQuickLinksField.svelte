@@ -22,24 +22,29 @@ const handleChange = () => {
   const selectedUrlsSet = new Set(selectedUrls);
   const selectedLinks = choices
     .filter((link) => selectedUrlsSet.has(link.url))
-    .map((link) => pick(link, ['name', 'url', 'image']));
+    .map((link) => pick(link, ['title', 'url', 'icon']));
   value.splice(0, value.length, ...selectedLinks);
   dispatch('change', value);
+};
+
+const handleCustomQuickLink = (event) => {
+  const customLink = event.detail;
+  console.log(customLink);
 };
 </script>
 
 <div class="DefaultLinks">
   {#each choices as link (link.url)}
     <label class:selected={link.selected}>
-      <img src={link.image} alt={link.name} />
-      <p>{link.name}</p>
+      <img src={link.icon} alt={link.title} />
+      <p>{link.title}</p>
       <input type="checkbox" name="quicklinks" bind:group={selectedUrls} value={link.url} on:change={handleChange} />
     </label>
   {/each}
 </div>
 
 <div class="CustomLinks">
-  <SettingsFormQuickLinksCustomUrlField class="CustomUrlField" name="customUrl" />
+  <SettingsFormQuickLinksCustomUrlField class="CustomUrlField" name="customUrl" on:data={handleCustomQuickLink} />
 </div>
 
 <style>

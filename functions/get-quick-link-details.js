@@ -22,7 +22,7 @@ exports.handler = async (event, context) => {
 
     const iconElement = $('link[rel~="icon"]');
     if (iconElement.length > 0) {
-      const icon = iconElement.last().attr('href');
+      const icon = iconElement.first().attr('href');
       const httpPattern = /^https?:\/\//;
       if (httpPattern.test(icon)) {
         response.icon = icon;
@@ -39,7 +39,7 @@ exports.handler = async (event, context) => {
 
     const titleElement = $('title');
     if (titleElement.length > 0) {
-      response.title = titleElement.last().text();
+      response.title = titleElement.first().text();
     }
   } catch (error) {
     console.error(error);

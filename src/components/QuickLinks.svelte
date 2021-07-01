@@ -5,8 +5,8 @@ export let links = [];
 <ul>
   {#each links as link (link.url)}
     <li>
-      <a href={link.url} rel="noopener noreferrer" title={link.name}>
-        <img src={link.image} alt={link.name} />
+      <a href={link.url} rel="noopener noreferrer" title={link.title}>
+        <img src={link.icon} alt={link.title} />
       </a>
     </li>
   {/each}

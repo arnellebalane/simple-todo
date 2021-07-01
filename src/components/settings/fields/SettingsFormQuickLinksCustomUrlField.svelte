@@ -1,4 +1,5 @@
 <script>
+import axios from '@lib/axios';
 import Button from '@components/Button.svelte';
 
 export let name;
@@ -14,7 +15,22 @@ const handleSubmit = async () => {
     url = new URL(value);
   } catch {
     error = 'Please input a valid URL';
+    return;
   }
+
+  isLoading = true;
+  try {
+    const params = { url: value };
+    const response = await axios.get('/get-quick-link-details', { params });
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+  isLoading = false;
+};
+
+const handleInput = () => {
+  error = '';
 };
 </script>
 
@@ -28,6 +44,7 @@ const handleSubmit = async () => {
     disabled={isLoading}
     {name}
     {form}
+    on:input={handleInput}
   />
   <Button class="Button" disabled={isLoading} {form}>Add Link</Button>
 

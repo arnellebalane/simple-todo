@@ -2,6 +2,7 @@
 import { createEventDispatcher } from 'svelte';
 import pick from 'lodash/pick';
 import SettingsFormQuickLinksCustomUrlField from '@components/settings/fields/SettingsFormQuickLinksCustomUrlField.svelte';
+import SettingsFormQuickLinksCustomUrlsList from '@components/settings/fields/SettingsFormQuickLinksCustomUrlsList.svelte';
 
 export let choices = [];
 export let value = [];
@@ -16,20 +17,32 @@ $: choices = choices.map((link) => {
   return link;
 });
 
+$: customQuickLinks = value.filter((link) => link.custom);
+
 const dispatch = createEventDispatcher();
 
 const handleChange = () => {
   const selectedUrlsSet = new Set(selectedUrls);
   const selectedLinks = choices
     .filter((link) => selectedUrlsSet.has(link.url))
-    .map((link) => pick(link, ['title', 'url', 'icon']));
+    .map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
   value.splice(0, value.length, ...selectedLinks);
   dispatch('change', value);
 };
 
-const handleCustomQuickLink = (event) => {
+const addCustomQuickLink = (event) => {
   const customLink = event.detail;
-  console.log(customLink);
+  value.push({ ...customLink, custom: true });
+  dispatch('change', value);
+};
+
+const removeCustomQuickLink = (event) => {
+  const customLink = event.detail;
+  const index = value.indexOf(customLink);
+  if (index >= 0) {
+    value.splice(index, 1);
+    dispatch('change', value);
+  }
 };
 </script>
 
@@ -44,7 +57,8 @@ const handleCustomQuickLink = (event) => {
 </div>
 
 <div class="CustomLinks">
-  <SettingsFormQuickLinksCustomUrlField class="CustomUrlField" name="customUrl" on:data={handleCustomQuickLink} />
+  <SettingsFormQuickLinksCustomUrlsList links={customQuickLinks} on:remove={removeCustomQuickLink} />
+  <SettingsFormQuickLinksCustomUrlField name="customUrl" on:data={addCustomQuickLink} />
 </div>
 
 <style>
@@ -87,7 +101,11 @@ input {
   opacity: 0;
 }
 
-.CustomLinks :global(.CustomUrlField) {
-  margin-top: 8px;
+.CustomLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+
+  margin-top: 2.4rem;
 }
 </style>

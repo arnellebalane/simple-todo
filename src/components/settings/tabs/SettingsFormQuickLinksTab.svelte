@@ -16,10 +16,7 @@ const builtInQuickLinks = [
 
 <section>
   <div class="Field">
-    <label for="quicklinks">
-      Select the apps to add a quick link
-      <small>You can select upto five quick links</small>
-    </label>
+    <label for="quicklinks">Select the apps to add a quick link</label>
     <SettingsFormQuickLinksField choices={builtInQuickLinks} bind:value={data.quickLinks} on:change />
   </div>
 </section>
@@ -36,12 +33,5 @@ label {
   margin-bottom: 8px;
   font-size: 1.8rem;
   font-weight: 700;
-}
-
-small {
-  display: block;
-  font-size: 1.4rem;
-  font-weight: 400;
-  color: var(--dimmed-500);
 }
 </style>

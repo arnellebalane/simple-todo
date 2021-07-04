@@ -7,7 +7,7 @@ import SettingsFormQuickLinksCustomUrlsList from '@components/settings/fields/Se
 export let choices = [];
 export let value = [];
 
-let selectedUrls = value.map((link) => link.url);
+let selectedUrls = value.filter((link) => !link.custom).map((link) => link.url);
 $: choices = choices.map((link) => {
   if (selectedUrls.includes(link.url)) {
     link.selected = true;
@@ -18,6 +18,7 @@ $: choices = choices.map((link) => {
 });
 
 $: customQuickLinks = value.filter((link) => link.custom);
+$: hasCustomQuickLinks = customQuickLinks.length > 0;
 
 const dispatch = createEventDispatcher();
 
@@ -26,13 +27,13 @@ const handleChange = () => {
   const selectedLinks = choices
     .filter((link) => selectedUrlsSet.has(link.url))
     .map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
-  value.splice(0, value.length, ...selectedLinks);
+  value = [...selectedLinks, ...customQuickLinks];
   dispatch('change', value);
 };
 
 const addCustomQuickLink = (event) => {
   const customLink = event.detail;
-  value.push({ ...customLink, custom: true });
+  value = [...value, { ...customLink, custom: true }];
   dispatch('change', value);
 };
 
@@ -40,7 +41,7 @@ const removeCustomQuickLink = (event) => {
   const customLink = event.detail;
   const index = value.indexOf(customLink);
   if (index >= 0) {
-    value.splice(index, 1);
+    value = [...value.slice(0, index), ...value.slice(index + 1)];
     dispatch('change', value);
   }
 };
@@ -57,7 +58,9 @@ const removeCustomQuickLink = (event) => {
 </div>
 
 <div class="CustomLinks">
-  <SettingsFormQuickLinksCustomUrlsList links={customQuickLinks} on:remove={removeCustomQuickLink} />
+  {#if hasCustomQuickLinks}
+    <SettingsFormQuickLinksCustomUrlsList links={customQuickLinks} on:remove={removeCustomQuickLink} />
+  {/if}
   <SettingsFormQuickLinksCustomUrlField name="customUrl" on:data={addCustomQuickLink} />
 </div>
 

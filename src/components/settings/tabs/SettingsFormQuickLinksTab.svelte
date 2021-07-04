@@ -1,4 +1,5 @@
 <script>
+import { createEventDispatcher } from 'svelte';
 import SettingsFormQuickLinksField from '@components/settings/fields/SettingsFormQuickLinksField.svelte';
 
 export let data = {
@@ -12,12 +13,18 @@ const builtInQuickLinks = [
   { title: 'Calendar', url: 'https://calendar.google.com/', icon: './dist/assets/images/calendar.png' },
   { title: 'Photos', url: 'https://photos.google.com/', icon: './dist/assets/images/photos.png' },
 ];
+
+const dispatch = createEventDispatcher();
+const handleChange = (event) => {
+  data.quickLinks = event.detail;
+  dispatch('change', data);
+};
 </script>
 
 <section>
   <div class="Field">
     <label for="quicklinks">Select the apps to add a quick link</label>
-    <SettingsFormQuickLinksField choices={builtInQuickLinks} bind:value={data.quickLinks} on:change />
+    <SettingsFormQuickLinksField choices={builtInQuickLinks} bind:value={data.quickLinks} on:change={handleChange} />
   </div>
 </section>
 

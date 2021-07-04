@@ -52,6 +52,10 @@ img {
   height: 100%;
 }
 
+:global(body[data-background]) h3 {
+  color: var(--light);
+}
+
 :global(body[data-background]) li {
   background-color: var(--main-transparent);
 }

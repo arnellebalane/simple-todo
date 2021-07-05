@@ -2,6 +2,7 @@
 import { createEventDispatcher } from 'svelte';
 import Switch from '@components/Switch.svelte';
 import SettingsFormQuickLinksField from '@components/settings/fields/SettingsFormQuickLinksField.svelte';
+import { frequentLinksSupported } from '@stores/frequent-links';
 
 export let data = {
   quickLinks: [],
@@ -34,10 +35,12 @@ const handleQuickLinksChange = (event) => {
     />
   </div>
 
-  <div class="Field--inline">
-    <label for="frequentLinks">Show frequently visited links</label>
-    <Switch name="frequentLinks" bind:value={data.showFrequentLinks} on:change={handleChange} />
-  </div>
+  {#if frequentLinksSupported}
+    <div class="Field--inline">
+      <label for="frequentLinks">Show frequently visited links</label>
+      <Switch name="frequentLinks" bind:value={data.showFrequentLinks} on:change={handleChange} />
+    </div>
+  {/if}
 </section>
 
 <style>

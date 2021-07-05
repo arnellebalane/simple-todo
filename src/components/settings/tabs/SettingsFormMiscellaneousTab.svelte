@@ -36,6 +36,15 @@ label {
   font-weight: 700;
 }
 
+.Field--inline label {
+  margin-right: auto;
+  margin-bottom: 0;
+}
+
+.Field--inline label + :global(*) {
+  margin-top: 1px;
+}
+
 small {
   display: block;
   font-size: 1.4rem;
@@ -49,14 +58,5 @@ kbd {
   font-size: 1.2rem;
   font-weight: 700;
   background-color: var(--dimmed-200);
-}
-
-.Field--inline label {
-  margin-right: auto;
-  margin-bottom: 0;
-}
-
-.Field--inline label + :global(*) {
-  margin-top: 1px;
 }
 </style>

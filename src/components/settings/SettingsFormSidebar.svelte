@@ -3,6 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import {
   SETTINGS_THEME,
   SETTINGS_BACKGROUND,
+  SETTINGS_QUICK_LINKS,
   SETTINGS_TAGS,
   SETTINGS_SHORTCUTS,
   SETTINGS_MISCELLANEOUS,
@@ -14,6 +15,7 @@ export let value;
 const tabs = [
   { label: 'Theme', value: SETTINGS_THEME },
   { label: 'Background', value: SETTINGS_BACKGROUND },
+  { label: 'Quick Links', value: SETTINGS_QUICK_LINKS },
   { label: 'Tags', value: SETTINGS_TAGS, hidden: isEmpty($tags) },
   { label: 'Shortcuts', value: SETTINGS_SHORTCUTS },
   { label: 'Miscellaneous', value: SETTINGS_MISCELLANEOUS },

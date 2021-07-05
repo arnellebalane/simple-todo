@@ -13,6 +13,8 @@ let isLoading = false;
 const dispatch = createEventDispatcher();
 
 const handleSubmit = async () => {
+  error = '';
+
   let url;
   try {
     url = new URL(value);
@@ -25,6 +27,7 @@ const handleSubmit = async () => {
   try {
     const params = { url: value };
     const response = await axios.get('/get-quick-link-details', { params });
+    value = '';
     dispatch('data', response.data);
   } catch (error) {
     console.error(error);

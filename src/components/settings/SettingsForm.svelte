@@ -43,7 +43,9 @@ const handleChange = () => dispatch('change', data);
   <SettingsFormSidebar class="SettingsFormSidebar" bind:value={currentTabKey} />
 
   <div class="TabContent">
-    <svelte:component this={currentTab} bind:data on:change={handleChange} />
+    <div class="TabContentScroll">
+      <svelte:component this={currentTab} bind:data on:change={handleChange} />
+    </div>
   </div>
 
   <div class="Actions">
@@ -65,7 +67,25 @@ form :global(.SettingsFormSidebar) {
 }
 
 .TabContent {
+  height: 42rem;
   padding: 3.6rem;
+  padding-bottom: 0;
+}
+
+.TabContentScroll {
+  height: 100%;
+  padding-right: 3rem;
+  margin-right: -3rem;
+  overflow-y: auto;
+}
+
+.TabContentScroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.TabContentScroll::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: var(--dimmed-300);
 }
 
 .Actions {

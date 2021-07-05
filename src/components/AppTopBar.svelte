@@ -34,7 +34,7 @@ $: hasChangeLogs = $changelogs.length > 0;
 $: hasSeenChangeLogs = $version === import.meta.env.APP_VERSION;
 
 $: hasQuickLinks = $settings.quickLinks.length > 0;
-$: hasFrequentLinks = $frequentLinks.length > 0;
+$: showFrequentLinks = frequentLinksSupported && $frequentLinks.length > 0 && $settings.showFrequentLinks;
 
 const showChromeWebstoreButton = import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD === 'true';
 
@@ -59,7 +59,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
     {#if hasQuickLinks}
       <QuickLinks links={$settings.quickLinks} />
     {/if}
-    {#if frequentLinksSupported && hasFrequentLinks}
+    {#if showFrequentLinks}
       <FrequentLinks links={$frequentLinks} />
     {/if}
   </div>

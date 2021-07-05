@@ -21,6 +21,7 @@ function createStore() {
     backgroundSource: BACKGROUND_AUTOMATIC,
     enablePrivacyMode: false,
     quickLinks: [],
+    showFrequentLinks: false,
   };
   const settings = Object.assign({}, defaultSettings, cachedSettings && JSON.parse(cachedSettings));
   const allowedFields = [
@@ -32,6 +33,7 @@ function createStore() {
     'backgroundSource',
     'enablePrivacyMode',
     'quickLinks',
+    'showFrequentLinks',
     'color',
     'theme',
   ];

@@ -5,10 +5,12 @@ import SettingsFormModal from '@components/settings/SettingsFormModal.svelte';
 import WhatsNewModal from '@components/WhatsNewModal.svelte';
 import WhatsNewButton from '@components/WhatsNewButton.svelte';
 import QuickLinks from '@components/QuickLinks.svelte';
+import FrequentLinks from '@components/FrequentLinks.svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { settings } from '@stores/settings';
 import { changelogs, version } from '@stores/changelogs';
 import { tags } from '@stores/tags';
+import { frequentLinksSupported, frequentLinks } from '@stores/frequent-links';
 
 let settingsUnsubscribe = null;
 let settingsFormData = {};
@@ -32,6 +34,7 @@ $: hasChangeLogs = $changelogs.length > 0;
 $: hasSeenChangeLogs = $version === import.meta.env.APP_VERSION;
 
 $: hasQuickLinks = $settings.quickLinks.length > 0;
+$: hasFrequentLinks = $frequentLinks.length > 0;
 
 const showChromeWebstoreButton = import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD === 'true';
 
@@ -55,6 +58,9 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
   <div class="LeftColumn">
     {#if hasQuickLinks}
       <QuickLinks links={$settings.quickLinks} />
+    {/if}
+    {#if frequentLinksSupported && hasFrequentLinks}
+      <FrequentLinks links={$frequentLinks} />
     {/if}
   </div>
 
@@ -107,15 +113,16 @@ div {
   flex: 1 0 0;
   display: flex;
   align-items: center;
-  gap: 8px;
 }
 
 .LeftColumn {
   justify-content: flex-start;
+  gap: 3.6rem;
 }
 
 .RightColumn {
   justify-content: flex-end;
+  gap: 8px;
 }
 
 img {

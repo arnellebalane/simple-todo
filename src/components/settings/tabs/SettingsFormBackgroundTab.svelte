@@ -92,9 +92,18 @@ const handleBackgroundChangeAutomatic = async () => {
 };
 
 const handleBackgroundChangeCustomUrl = async () => {
+  backgroundCustomUnsplashError = null;
+  let url;
+  try {
+    url = new URL(backgroundCustomUnsplash);
+  } catch {
+    backgroundCustomUnsplashError = 'Please input a valid URL';
+    return;
+  }
+
   const { source, request } = settings.getBackgroundImage(backgroundCustomUnsplash);
   currentRequest = source;
-  backgroundCustomUnsplashError = null;
+
   try {
     data.backgroundImage = await request;
     data.backgroundImageLastUpdate = Date.now();

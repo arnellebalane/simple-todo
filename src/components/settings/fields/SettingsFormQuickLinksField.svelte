@@ -58,10 +58,10 @@ const removeCustomQuickLink = (event) => {
 </div>
 
 <div class="CustomLinks">
+  <SettingsFormQuickLinksCustomUrlField name="customUrl" on:data={addCustomQuickLink} />
   {#if hasCustomQuickLinks}
     <SettingsFormQuickLinksCustomUrlsList links={customQuickLinks} on:remove={removeCustomQuickLink} />
   {/if}
-  <SettingsFormQuickLinksCustomUrlField name="customUrl" on:data={addCustomQuickLink} />
 </div>
 
 <style>

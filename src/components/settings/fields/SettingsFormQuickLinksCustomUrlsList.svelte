@@ -4,12 +4,14 @@ import Button from '@components/Button.svelte';
 
 export let links = [];
 
+$: linksReversed = links.reverse();
+
 const dispatch = createEventDispatcher();
 const handleRemove = (link) => dispatch('remove', link);
 </script>
 
 <ul class={$$props.class}>
-  {#each links as link (link.url)}
+  {#each linksReversed as link (link.url)}
     <li>
       <img src={link.icon} alt={link.title} width="24" height="24" />
       <div>

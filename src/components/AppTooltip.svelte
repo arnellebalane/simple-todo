@@ -47,8 +47,9 @@ onDestroy(() => {
 <style>
 p {
   position: fixed;
-  border-radius: 6px;
+  max-width: 24rem;
   padding: 6px 1.2rem;
+  border-radius: 6px;
   font-size: 1.2rem;
   color: var(--main);
   background-color: var(--inverted);

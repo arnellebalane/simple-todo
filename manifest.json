@@ -14,7 +14,7 @@
   "chrome_url_overrides": {
     "newtab": "build/index.html"
   },
-  "permissions": ["https://simple-todo.arnelle.me/"],
+  "permissions": ["topSites", "https://simple-todo.arnelle.me/"],
 
-  "content_security_policy": "default-src 'self'; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net; font-src 'self' https://use.typekit.net; img-src 'self' data: blob: https://simple-todo.arnelle.me; script-src 'self'; connect-src 'self' https://simple-todo.arnelle.me https://images.unsplash.com https://umami.patootie.app https://sentry.patootie.app"
+  "content_security_policy": "default-src 'self'; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net; font-src 'self' https://use.typekit.net; img-src 'self' data: blob: https: http:; script-src 'self'; connect-src 'self' https://simple-todo.arnelle.me https://images.unsplash.com https://umami.patootie.app https://sentry.patootie.app"
 }

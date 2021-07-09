@@ -41,20 +41,7 @@ ol {
   gap: 8px;
 
   padding: 0;
-  padding-right: 3rem;
-  margin-right: -3rem;
   list-style: none;
-  max-height: 31.2rem;
-  overflow-y: auto;
-}
-
-ol::-webkit-scrollbar {
-  width: 8px;
-}
-
-ol::-webkit-scrollbar-thumb {
-  border-radius: 1rem;
-  background-color: var(--dimmed-300);
 }
 
 li {

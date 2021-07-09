@@ -4,10 +4,13 @@ import Button from '@components/Button.svelte';
 import SettingsFormModal from '@components/settings/SettingsFormModal.svelte';
 import WhatsNewModal from '@components/WhatsNewModal.svelte';
 import WhatsNewButton from '@components/WhatsNewButton.svelte';
+import QuickLinks from '@components/QuickLinks.svelte';
+import FrequentLinks from '@components/FrequentLinks.svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { settings } from '@stores/settings';
 import { changelogs, version } from '@stores/changelogs';
 import { tags } from '@stores/tags';
+import { frequentLinksSupported, frequentLinks } from '@stores/frequent-links';
 
 let settingsUnsubscribe = null;
 let settingsFormData = {};
@@ -30,6 +33,9 @@ const toggleWhatsNewModal = (show) => (showWhatsNewModal = show);
 $: hasChangeLogs = $changelogs.length > 0;
 $: hasSeenChangeLogs = $version === import.meta.env.APP_VERSION;
 
+$: hasQuickLinks = $settings.quickLinks.length > 0;
+$: showFrequentLinks = frequentLinksSupported && $frequentLinks.length > 0 && $settings.showFrequentLinks;
+
 const showChromeWebstoreButton = import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD === 'true';
 
 const handleSettingsChange = (event) => settings.preview(event.detail);
@@ -48,30 +54,41 @@ onMount(() => enableShortcut('togglePrivacyMode', settings.togglePrivacyMode));
 onDestroy(() => disableShortcut('togglePrivacyMode'));
 </script>
 
-<div>
-  {#if hasChangeLogs}
-    <WhatsNewButton pulse={!hasSeenChangeLogs} on:click={() => toggleWhatsNewModal(true)} />
-  {/if}
-  <Button
-    icon
-    medium
-    iconLight="./dist/assets/icons/settings-light.svg"
-    iconDark="./dist/assets/icons/settings-dark.svg"
-    on:click={() => toggleSettingsForm(true)}
-  >
-    Settings
-  </Button>
+<header>
+  <div class="LeftColumn">
+    {#if hasQuickLinks}
+      <QuickLinks links={$settings.quickLinks} />
+    {/if}
+    {#if showFrequentLinks}
+      <FrequentLinks links={$frequentLinks} />
+    {/if}
+  </div>
 
-  {#if showChromeWebstoreButton}
-    <a
-      href="https://chrome.google.com/webstore/detail/simple-todo/kobeijgkgkcgknodjkganceliljepmjf/"
-      rel="noopener noreferrer"
-      class="umami--click--chrome-webstore-link"
+  <div class="RightColumn">
+    {#if hasChangeLogs}
+      <WhatsNewButton pulse={!hasSeenChangeLogs} on:click={() => toggleWhatsNewModal(true)} />
+    {/if}
+    <Button
+      icon
+      medium
+      iconLight="./dist/assets/icons/settings-light.svg"
+      iconDark="./dist/assets/icons/settings-dark.svg"
+      on:click={() => toggleSettingsForm(true)}
     >
-      <img src="./dist/assets/images/chrome-webstore.png" alt="Available in the Chrome Webstore" />
-    </a>
-  {/if}
-</div>
+      Settings
+    </Button>
+
+    {#if showChromeWebstoreButton}
+      <a
+        href="https://chrome.google.com/webstore/detail/simple-todo/kobeijgkgkcgknodjkganceliljepmjf/"
+        rel="noopener noreferrer"
+        class="umami--click--chrome-webstore-link"
+      >
+        <img src="./dist/assets/images/chrome-webstore.png" alt="Available in the Chrome Webstore" />
+      </a>
+    {/if}
+  </div>
+</header>
 
 <SettingsFormModal
   show={showSettingsForm}
@@ -84,14 +101,28 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
 <WhatsNewModal show={showWhatsNewModal} on:close={() => toggleWhatsNewModal(false)} />
 
 <style>
-div {
+header {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px;
+  gap: 3.6rem;
   width: 100%;
   height: 6.4rem;
   padding: 1.4rem 3.6rem;
+}
+
+div {
+  flex: 1 0 0;
+  display: flex;
+  align-items: center;
+}
+
+.LeftColumn {
+  justify-content: flex-start;
+  gap: 3.6rem;
+}
+
+.RightColumn {
+  justify-content: flex-end;
+  gap: 8px;
 }
 
 img {

@@ -65,6 +65,7 @@ small {
 }
 
 small {
+  word-break: break-word;
   color: var(--dimmed-500);
 }
 

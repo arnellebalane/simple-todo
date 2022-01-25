@@ -1,34 +1,15 @@
 <script>
-import isEmpty from 'lodash/isEmpty';
-
-import {
-  SETTINGS_THEME,
-  SETTINGS_BACKGROUND,
-  SETTINGS_QUICK_LINKS,
-  SETTINGS_TAGS,
-  SETTINGS_SHORTCUTS,
-  SETTINGS_MISCELLANEOUS,
-} from '@lib/constants';
-import { tags } from '@features/tags/store';
+import { settingsTabs } from '../config';
 
 export let value;
-
-const tabs = [
-  { label: 'Theme', value: SETTINGS_THEME },
-  { label: 'Background', value: SETTINGS_BACKGROUND },
-  { label: 'Quick Links', value: SETTINGS_QUICK_LINKS },
-  { label: 'Tags', value: SETTINGS_TAGS, hidden: isEmpty($tags) },
-  { label: 'Shortcuts', value: SETTINGS_SHORTCUTS },
-  { label: 'Miscellaneous', value: SETTINGS_MISCELLANEOUS },
-].filter((tab) => !tab.hidden);
 </script>
 
 <aside class={$$props.class}>
   <h1>Settings</h1>
 
-  {#each tabs as tab (tab.value)}
+  {#each settingsTabs as tab, index (tab.id)}
     <label>
-      <input type="radio" name="sidebar" bind:group={value} value={tab.value} />
+      <input type="radio" name="sidebar" bind:group={value} value={index} />
       <span>{tab.label}</span>
     </label>
   {/each}

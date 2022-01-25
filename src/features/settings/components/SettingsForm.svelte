@@ -1,40 +1,14 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import isEmpty from 'lodash/isEmpty';
-
-import {
-  SETTINGS_THEME,
-  SETTINGS_BACKGROUND,
-  SETTINGS_QUICK_LINKS,
-  SETTINGS_TAGS,
-  SETTINGS_SHORTCUTS,
-  SETTINGS_MISCELLANEOUS,
-} from '@lib/constants';
-import { tags } from '@features/tags/store';
+import { settingsTabs } from '../config';
 
 import Button from '@components/Button.svelte';
-import SettingsFormThemeTab from '@components/settings/tabs/SettingsFormThemeTab.svelte';
-import SettingsFormBackgroundTab from '@components/settings/tabs/SettingsFormBackgroundTab.svelte';
-import SettingsFormQuickLinksTab from '@components/settings/tabs/SettingsFormQuickLinksTab.svelte';
-import SettingsFormTagsTab from '@components/settings/tabs/SettingsFormTagsTab.svelte';
-import SettingsFormShortcutsTab from '@components/settings/tabs/SettingsFormShortcutsTab.svelte';
-import SettingsFormMiscellaneousTab from '@components/settings/tabs/SettingsFormMiscellaneousTab.svelte';
 import SettingsFormSidebar from './SettingsFormSidebar.svelte';
 
 export let data;
 
-const tabsMapping = {
-  [SETTINGS_THEME]: SettingsFormThemeTab,
-  [SETTINGS_BACKGROUND]: SettingsFormBackgroundTab,
-  [SETTINGS_QUICK_LINKS]: SettingsFormQuickLinksTab,
-  [SETTINGS_SHORTCUTS]: SettingsFormShortcutsTab,
-  [SETTINGS_MISCELLANEOUS]: SettingsFormMiscellaneousTab,
-};
-if (!isEmpty($tags)) {
-  tabsMapping[SETTINGS_TAGS] = SettingsFormTagsTab;
-}
-let currentTabKey = SETTINGS_THEME;
-$: currentTab = tabsMapping[currentTabKey];
+let currentTabIndex = 0;
+$: currentTab = settingsTabs[currentTabIndex].component;
 
 const dispatch = createEventDispatcher();
 const handleSubmit = () => dispatch('submit', data);
@@ -42,7 +16,7 @@ const handleChange = () => dispatch('change', data);
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-  <SettingsFormSidebar class="SettingsFormSidebar" bind:value={currentTabKey} />
+  <SettingsFormSidebar class="SettingsFormSidebar" bind:value={currentTabIndex} />
 
   <div class="TabContent">
     <div class="TabContentScroll">

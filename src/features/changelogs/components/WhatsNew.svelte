@@ -1,7 +1,8 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import Button from '@components/Button.svelte';
 import { changelogs, setVersionIfHigher } from '../store';
+
+import Button from '@components/Button.svelte';
 
 const dispatch = createEventDispatcher();
 

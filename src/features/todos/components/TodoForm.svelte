@@ -1,10 +1,12 @@
 <script>
 import { createEventDispatcher, onMount, onDestroy } from 'svelte';
 import orderBy from 'lodash/orderBy';
+
 import { tags } from '@stores/tags';
 import { sanitizeText, unsanitizeText } from '@lib/sanitize';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
+
 import Selector from '@components/Selector.svelte';
 import Button from '@components/Button.svelte';
 import TagsInput from '@components/TagsInput.svelte';

@@ -2,13 +2,13 @@
 import { onMount, onDestroy } from 'svelte';
 import Button from '@components/Button.svelte';
 import SettingsFormModal from '@components/settings/SettingsFormModal.svelte';
-import WhatsNewModal from '@components/WhatsNewModal.svelte';
-import WhatsNewButton from '@components/WhatsNewButton.svelte';
+import WhatsNewModal from '@features/changelogs/components/WhatsNewModal.svelte';
+import WhatsNewButton from '@features/changelogs/components/WhatsNewButton.svelte';
 import QuickLinks from '@components/QuickLinks.svelte';
 import FrequentLinks from '@components/FrequentLinks.svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { settings } from '@stores/settings';
-import { changelogs, version } from '@stores/changelogs';
+import { changelogs, version } from '@features/changelogs/store';
 import { tags } from '@stores/tags';
 import { frequentLinksSupported, frequentLinks } from '@stores/frequent-links';
 

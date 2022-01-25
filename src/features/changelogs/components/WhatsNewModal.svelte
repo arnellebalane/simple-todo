@@ -1,6 +1,6 @@
 <script>
 import Modal from '@components/Modal.svelte';
-import WhatsNew from '@components/WhatsNew.svelte';
+import WhatsNew from './WhatsNew.svelte';
 
 export let show;
 </script>

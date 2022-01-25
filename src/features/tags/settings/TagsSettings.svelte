@@ -1,6 +1,6 @@
 <script>
 import orderBy from 'lodash/orderBy';
-import { tags } from '@features/tags/store';
+import { tags } from '../store';
 
 import Button from '@components/Button.svelte';
 

@@ -5,14 +5,14 @@ import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { settings } from '@features/settings/store';
 import { changelogs, version } from '@features/changelogs/store';
 import { tags } from '@features/tags/store';
-import { frequentLinksSupported, frequentLinks } from '@stores/frequent-links';
+import { frequentLinksSupported, frequentLinks } from '@features/quick-links/store';
 
 import Button from '@components/Button.svelte';
 import SettingsFormModal from '@features/settings/components/SettingsFormModal.svelte';
 import WhatsNewModal from '@features/changelogs/components/WhatsNewModal.svelte';
 import WhatsNewButton from '@features/changelogs/components/WhatsNewButton.svelte';
-import QuickLinks from '@components/QuickLinks.svelte';
-import FrequentLinks from '@components/FrequentLinks.svelte';
+import QuickLinks from '@features/quick-links/components/QuickLinks.svelte';
+import FrequentLinks from '@features/quick-links/components/FrequentLinks.svelte';
 
 let settingsUnsubscribe = null;
 let settingsFormData = {};

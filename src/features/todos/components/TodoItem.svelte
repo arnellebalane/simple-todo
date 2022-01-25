@@ -2,7 +2,7 @@
 import { createEventDispatcher } from 'svelte';
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 
-import { settings } from '@stores/settings';
+import { settings } from '@features/settings/store';
 
 import Checkbox from '@components/Checkbox.svelte';
 import TodoItemMenu from './TodoItemMenu.svelte';

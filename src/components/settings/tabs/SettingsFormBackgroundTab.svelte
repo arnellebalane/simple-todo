@@ -6,7 +6,7 @@ import Switch from '@components/Switch.svelte';
 import SettingsFormBackgroundSourceChoice from '@components/settings/fields/SettingsFormBackgroundSourceChoice.svelte';
 import SettingsFormImageUrlField from '@components/settings/fields/SettingsFormImageUrlField.svelte';
 import SettingsFormImageUploadField from '@components/settings/fields/SettingsFormImageUploadField.svelte';
-import { settings } from '@stores/settings';
+import { settings } from '@features/settings/store';
 import {
   BACKGROUND_AUTOMATIC,
   BACKGROUND_CUSTOM,

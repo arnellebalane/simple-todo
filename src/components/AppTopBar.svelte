@@ -1,16 +1,18 @@
 <script>
 import { onMount, onDestroy } from 'svelte';
+
+import { enableShortcut, disableShortcut } from '@lib/shortcuts';
+import { settings } from '@features/settings/store';
+import { changelogs, version } from '@features/changelogs/store';
+import { tags } from '@stores/tags';
+import { frequentLinksSupported, frequentLinks } from '@stores/frequent-links';
+
 import Button from '@components/Button.svelte';
-import SettingsFormModal from '@components/settings/SettingsFormModal.svelte';
+import SettingsFormModal from '@features/settings/components/SettingsFormModal.svelte';
 import WhatsNewModal from '@features/changelogs/components/WhatsNewModal.svelte';
 import WhatsNewButton from '@features/changelogs/components/WhatsNewButton.svelte';
 import QuickLinks from '@components/QuickLinks.svelte';
 import FrequentLinks from '@components/FrequentLinks.svelte';
-import { enableShortcut, disableShortcut } from '@lib/shortcuts';
-import { settings } from '@stores/settings';
-import { changelogs, version } from '@features/changelogs/store';
-import { tags } from '@stores/tags';
-import { frequentLinksSupported, frequentLinks } from '@stores/frequent-links';
 
 let settingsUnsubscribe = null;
 let settingsFormData = {};

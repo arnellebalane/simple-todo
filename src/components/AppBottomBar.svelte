@@ -1,5 +1,5 @@
 <script>
-import { settings } from '@stores/settings';
+import { settings } from '@features/settings/store';
 
 $: image = $settings.backgroundImage;
 $: isUnsplashImage = $settings.backgroundImage?.user_link;

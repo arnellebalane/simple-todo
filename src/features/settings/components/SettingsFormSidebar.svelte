@@ -1,5 +1,6 @@
 <script>
 import isEmpty from 'lodash/isEmpty';
+
 import {
   SETTINGS_THEME,
   SETTINGS_BACKGROUND,

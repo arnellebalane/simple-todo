@@ -1,14 +1,7 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 import isEmpty from 'lodash/isEmpty';
-import Button from '@components/Button.svelte';
-import SettingsFormSidebar from '@components/settings/SettingsFormSidebar.svelte';
-import SettingsFormThemeTab from '@components/settings/tabs/SettingsFormThemeTab.svelte';
-import SettingsFormBackgroundTab from '@components/settings/tabs/SettingsFormBackgroundTab.svelte';
-import SettingsFormQuickLinksTab from '@components/settings/tabs/SettingsFormQuickLinksTab.svelte';
-import SettingsFormTagsTab from '@components/settings/tabs/SettingsFormTagsTab.svelte';
-import SettingsFormShortcutsTab from '@components/settings/tabs/SettingsFormShortcutsTab.svelte';
-import SettingsFormMiscellaneousTab from '@components/settings/tabs/SettingsFormMiscellaneousTab.svelte';
+
 import {
   SETTINGS_THEME,
   SETTINGS_BACKGROUND,
@@ -18,6 +11,15 @@ import {
   SETTINGS_MISCELLANEOUS,
 } from '@lib/constants';
 import { tags } from '@stores/tags';
+
+import Button from '@components/Button.svelte';
+import SettingsFormThemeTab from '@components/settings/tabs/SettingsFormThemeTab.svelte';
+import SettingsFormBackgroundTab from '@components/settings/tabs/SettingsFormBackgroundTab.svelte';
+import SettingsFormQuickLinksTab from '@components/settings/tabs/SettingsFormQuickLinksTab.svelte';
+import SettingsFormTagsTab from '@components/settings/tabs/SettingsFormTagsTab.svelte';
+import SettingsFormShortcutsTab from '@components/settings/tabs/SettingsFormShortcutsTab.svelte';
+import SettingsFormMiscellaneousTab from '@components/settings/tabs/SettingsFormMiscellaneousTab.svelte';
+import SettingsFormSidebar from './SettingsFormSidebar.svelte';
 
 export let data;
 

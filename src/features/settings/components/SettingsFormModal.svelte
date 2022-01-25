@@ -1,7 +1,8 @@
 <script>
 import { createEventDispatcher } from 'svelte';
+
 import Modal from '@components/Modal.svelte';
-import SettingsForm from '@components/settings/SettingsForm.svelte';
+import SettingsForm from './SettingsForm.svelte';
 
 export let show;
 export let data;

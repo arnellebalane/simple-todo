@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
 import { decode } from 'blurhash';
-import { settings } from '@stores/settings';
+
 import axios from '@lib/axios';
 import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY } from '@lib/constants';
+import { settings } from '@features/settings/store';
 
 function blurHashToDataUrl(blurhash) {
   const size = 32;

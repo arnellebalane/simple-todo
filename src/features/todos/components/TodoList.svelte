@@ -1,7 +1,7 @@
 <script>
-import TodoListHeader from '@components/TodoListHeader.svelte';
-import TodoListEmpty from '@components/TodoListEmpty.svelte';
-import TodoListItems from '@components/TodoListItems.svelte';
+import TodoListHeader from './TodoListHeader.svelte';
+import TodoListEmpty from './TodoListEmpty.svelte';
+import TodoListItems from './TodoListItems.svelte';
 
 export let title;
 export let todos;

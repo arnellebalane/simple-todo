@@ -1,10 +1,10 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
-import Checkbox from '@components/Checkbox.svelte';
-import TodoItemMenu from '@components/TodoItemMenu.svelte';
-import TodoItemTags from '@components/TodoItemTags.svelte';
 import { settings } from '@stores/settings';
+import Checkbox from '@components/Checkbox.svelte';
+import TodoItemMenu from './TodoItemMenu.svelte';
+import TodoItemTags from './TodoItemTags.svelte';
 
 export let todo;
 $: hasTags = (todo.tags?.length ?? 0) > 0;

@@ -1,7 +1,7 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 import { dndzone, TRIGGERS } from 'svelte-dnd-action';
-import TodoItem from '@components/TodoItem.svelte';
+import TodoItem from './TodoItem.svelte';
 
 export let todos;
 

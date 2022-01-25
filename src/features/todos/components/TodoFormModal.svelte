@@ -1,7 +1,7 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 import Modal from '@components/Modal.svelte';
-import TodoForm from '@components/TodoForm.svelte';
+import TodoForm from './TodoForm.svelte';
 
 export let show;
 export let data;

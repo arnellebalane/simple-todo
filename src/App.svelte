@@ -6,12 +6,12 @@ import AppBottomBar from '@components/AppBottomBar.svelte';
 import AppHeader from '@components/AppHeader.svelte';
 import AppTooltip from '@components/AppTooltip.svelte';
 import ConfirmationModal from '@components/ConfirmationModal.svelte';
-import TodoFormModal from '@components/TodoFormModal.svelte';
-import TodoBoard from '@components/TodoBoard.svelte';
+import TodoFormModal from '@features/todos/components/TodoFormModal.svelte';
+import TodoBoard from '@features/todos/components/TodoBoard.svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { confirmation } from '@stores/confirmation';
-import { todos } from '@stores/todos';
 import { tags } from '@stores/tags';
+import { todos } from '@features/todos/store';
 
 let todoFormData = {};
 let showTodoForm = false;

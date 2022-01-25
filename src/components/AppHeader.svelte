@@ -2,7 +2,7 @@
 import { createEventDispatcher } from 'svelte';
 import dayjs from 'dayjs';
 import Button from '@components/Button.svelte';
-import { todos, removeDoneTimer } from '@stores/todos';
+import { todos, removeDoneTimer } from '@features/todos/store';
 
 $: canUndoRemove = $removeDoneTimer > 0;
 $: hasDoneTodos = $todos.some((todo) => todo.done);

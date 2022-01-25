@@ -4,7 +4,7 @@ import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
 import { STORAGE_KEY_TAGS } from '@lib/constants';
-import { todos } from '@stores/todos';
+import { todos } from '@features/todos/store';
 
 function createStore() {
   const cachedTags = localStorage.getItem(STORAGE_KEY_TAGS);

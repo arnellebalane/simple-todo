@@ -1,8 +1,9 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 import pick from 'lodash/pick';
-import SettingsFormQuickLinksCustomUrlField from '@components/settings/fields/SettingsFormQuickLinksCustomUrlField.svelte';
-import SettingsFormQuickLinksCustomUrlsList from '@components/settings/fields/SettingsFormQuickLinksCustomUrlsList.svelte';
+
+import SettingsFormQuickLinksCustomUrlField from './QuickLinksCustomUrlField.svelte';
+import SettingsFormQuickLinksCustomUrlsList from './QuickLinksCustomUrlsList.svelte';
 
 export let choices = [];
 export let value = [];

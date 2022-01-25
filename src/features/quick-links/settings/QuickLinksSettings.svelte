@@ -3,7 +3,7 @@ import { createEventDispatcher } from 'svelte';
 import { frequentLinksSupported } from '@features/quick-links/store';
 
 import Switch from '@components/Switch.svelte';
-import SettingsFormQuickLinksField from '@components/settings/fields/SettingsFormQuickLinksField.svelte';
+import SettingsFormQuickLinksField from './QuickLinksField.svelte';
 
 export let data = {
   quickLinks: [],

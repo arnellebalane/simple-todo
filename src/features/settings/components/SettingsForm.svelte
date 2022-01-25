@@ -10,7 +10,7 @@ import {
   SETTINGS_SHORTCUTS,
   SETTINGS_MISCELLANEOUS,
 } from '@lib/constants';
-import { tags } from '@stores/tags';
+import { tags } from '@features/tags/store';
 
 import Button from '@components/Button.svelte';
 import SettingsFormThemeTab from '@components/settings/tabs/SettingsFormThemeTab.svelte';

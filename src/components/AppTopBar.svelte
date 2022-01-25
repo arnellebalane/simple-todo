@@ -4,7 +4,7 @@ import { onMount, onDestroy } from 'svelte';
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { settings } from '@features/settings/store';
 import { changelogs, version } from '@features/changelogs/store';
-import { tags } from '@stores/tags';
+import { tags } from '@features/tags/store';
 import { frequentLinksSupported, frequentLinks } from '@stores/frequent-links';
 
 import Button from '@components/Button.svelte';

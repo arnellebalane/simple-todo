@@ -1,7 +1,8 @@
 <script>
 import orderBy from 'lodash/orderBy';
+import { tags } from '@features/tags/store';
+
 import Button from '@components/Button.svelte';
-import { tags } from '@stores/tags';
 
 export let data = {};
 

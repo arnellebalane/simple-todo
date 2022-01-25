@@ -4,7 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { confirmation } from '@stores/confirmation';
-import { tags } from '@stores/tags';
+import { tags } from '@features/tags/store';
 import { todos } from '@features/todos/store';
 
 import AppTopBar from '@components/AppTopBar.svelte';
@@ -43,7 +43,7 @@ const removeDoneTodos = () => todos.removeDone();
 const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 
 onMount(() => enableShortcut('addTodo', () => setShowTodoForm(true)));
-onDestroy(() => disableShortcut('togglePrivacyMode'));
+onDestroy(() => disableShortcut('addTodo'));
 </script>
 
 <svelte:head>

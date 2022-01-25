@@ -1,7 +1,7 @@
 <script>
 import { onMount, onDestroy } from 'svelte';
 
-import { enableShortcut, disableShortcut } from '@lib/shortcuts';
+import { enableShortcut, disableShortcut } from '@features/shortcuts';
 import { settings } from '@features/settings/store';
 import { changelogs, version } from '@features/changelogs/store';
 import { tags } from '@features/tags/store';

@@ -1,5 +1,5 @@
-import shortcuts from '@lib/shortcuts.json';
 import isEqual from 'lodash/isEqual';
+import shortcuts from './shortcuts.json';
 
 let keybindings = [];
 

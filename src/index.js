@@ -1,7 +1,7 @@
 import App from './App.svelte';
 import { initializeSentry } from '@lib/sentry';
 import { initializeTheme } from '@lib/theme';
-import { initializeKeyBindings } from '@lib/shortcuts';
+import { initializeKeyBindings } from '@features/shortcuts';
 import '@styles/index.css';
 import '@styles/theme.css';
 

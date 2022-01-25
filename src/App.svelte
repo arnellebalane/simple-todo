@@ -2,7 +2,7 @@
 import { onMount, onDestroy } from 'svelte';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { enableShortcut, disableShortcut } from '@lib/shortcuts';
+import { enableShortcut, disableShortcut } from '@features/shortcuts';
 import { confirmation } from '@stores/confirmation';
 import { tags } from '@features/tags/store';
 import { todos } from '@features/todos/store';

@@ -3,8 +3,8 @@ import { createEventDispatcher, onMount, onDestroy } from 'svelte';
 import orderBy from 'lodash/orderBy';
 
 import { sanitizeText, unsanitizeText } from '@lib/sanitize';
-import { enableShortcut, disableShortcut } from '@lib/shortcuts';
 import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '@lib/constants';
+import { enableShortcut, disableShortcut } from '@features/shortcuts';
 import { tags } from '@features/tags/store';
 
 import Selector from '@components/Selector.svelte';

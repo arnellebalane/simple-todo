@@ -1,3 +1,4 @@
+import axios from '@lib/axios';
 import { BACKGROUND_REFRESH_DAILY, BACKGROUND_AUTOMATIC } from '../constants';
 import BackgroundSettings from './BackgroundSettings.svelte';
 
@@ -18,3 +19,15 @@ export const allowedFields = [
   'backgroundPreloaded',
   'backgroundSource',
 ];
+
+export const onSave = (settings, updated) => {
+  if (
+    updated.background &&
+    updated.backgroundImage?.download_location &&
+    updated.backgroundImage?.id !== settings.backgroundImage?.id
+  ) {
+    axios.post('/report-unsplash-download', {
+      download_location: updated.backgroundImage.download_location,
+    });
+  }
+};

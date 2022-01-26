@@ -43,21 +43,11 @@ function createStore() {
 
   function saveInStorage(data) {
     const settings = JSON.parse(localStorage.getItem(STORAGE_KEY_SETTINGS) || '{}');
-    if (settings.theme !== data.theme) {
-      trackEvent('settings', `theme-${data.theme}`);
-    }
-    if (settings.color !== data.color) {
-      trackEvent('settings', `color-${data.color}`);
-    }
-    if (
-      data.background &&
-      data.backgroundImage?.download_location &&
-      data.backgroundImage?.id !== settings.backgroundImage?.id
-    ) {
-      axios.post('/report-unsplash-download', {
-        download_location: data.backgroundImage.download_location,
-      });
-    }
+    settingsTabs.forEach((tab) => {
+      if (typeof tab.onSave === 'function') {
+        tab.onSave(settings, data);
+      }
+    });
     localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(data));
   }
 

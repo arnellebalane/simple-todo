@@ -1,7 +1,4 @@
 <script>
-import Selector from '@components/Selector.svelte';
-import SettingsFormThemeChoice from '@components/settings/fields/SettingsFormThemeChoice.svelte';
-import SettingsFormColorChoice from '@components/settings/fields/SettingsFormColorChoice.svelte';
 import {
   THEME_SYSTEM,
   THEME_LIGHT,
@@ -11,7 +8,11 @@ import {
   COLOR_BLUE,
   COLOR_PURPLE,
   COLOR_PINK,
-} from '@lib/constants';
+} from '../constants';
+
+import Selector from '@components/Selector.svelte';
+import ThemeChoiceField from './ThemeChoiceField.svelte';
+import ColorChoiceField from './ColorChoiceField.svelte';
 
 export let data = {
   theme: THEME_SYSTEM,
@@ -39,7 +40,7 @@ const colorChoices = [
       name="theme"
       bind:value={data.theme}
       choices={themeChoices}
-      choiceComponent={SettingsFormThemeChoice}
+      choiceComponent={ThemeChoiceField}
       on:change
     />
   </div>
@@ -50,7 +51,7 @@ const colorChoices = [
       name="color"
       bind:value={data.color}
       choices={colorChoices}
-      choiceComponent={SettingsFormColorChoice}
+      choiceComponent={ColorChoiceField}
       on:change
     />
   </div>

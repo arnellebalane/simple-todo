@@ -1,12 +1,11 @@
 import App from './App.svelte';
 import { initializeSentry } from '@lib/sentry';
-import { initializeTheme } from '@lib/theme';
+import { initializeThemes } from '@features/themes';
 import { initializeKeyBindings } from '@features/shortcuts';
 import '@styles/index.css';
-import '@styles/theme.css';
 
 initializeSentry();
-initializeTheme();
+initializeThemes();
 initializeKeyBindings();
 
 const app = new App({

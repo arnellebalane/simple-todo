@@ -1,15 +1,11 @@
 import { writable } from 'svelte/store';
 import cloneDeep from 'lodash/cloneDeep';
 import pick from 'lodash/pick';
+
 import axios from '@lib/axios';
 import { trackEvent } from '@lib/umami';
-import {
-  STORAGE_KEY_SETTINGS,
-  THEME_SYSTEM,
-  COLOR_GREEN,
-  BACKGROUND_REFRESH_DAILY,
-  BACKGROUND_AUTOMATIC,
-} from '@lib/constants';
+import { STORAGE_KEY_SETTINGS, BACKGROUND_REFRESH_DAILY, BACKGROUND_AUTOMATIC } from '@lib/constants';
+import { THEME_SYSTEM, COLOR_GREEN } from '@features/themes/constants';
 
 function createStore() {
   const cachedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);

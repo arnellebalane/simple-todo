@@ -1,7 +1,7 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 
-import { settings } from '@features/settings/store';
+import { backgrounds } from '@features/backgrounds/store';
 import {
   BACKGROUND_AUTOMATIC,
   BACKGROUND_CUSTOM,
@@ -48,7 +48,7 @@ $: hasCurrentRequest = Boolean(currentRequest);
 const handleChange = () => dispatch('change', data);
 
 const handleRefresh = async () => {
-  const { source, request } = settings.getBackgroundImage();
+  const { source, request } = backgrounds.getBackgroundImage();
   currentRequest = source;
   try {
     data.backgroundImage = await request;
@@ -80,7 +80,7 @@ const handleBackgroundChange = async (event) => {
 };
 
 const handleBackgroundChangeAutomatic = async () => {
-  const { source, request } = settings.getBackgroundImage();
+  const { source, request } = backgrounds.getBackgroundImage();
   currentRequest = source;
   try {
     data.backgroundImage = await request;
@@ -103,7 +103,7 @@ const handleBackgroundChangeCustomUrl = async () => {
     return;
   }
 
-  const { source, request } = settings.getBackgroundImage(backgroundCustomUnsplash);
+  const { source, request } = backgrounds.getBackgroundImage(backgroundCustomUnsplash);
   currentRequest = source;
 
   try {

@@ -3,6 +3,7 @@ import { decode } from 'blurhash';
 
 import axios from '@lib/axios';
 import { settings } from '@features/settings/store';
+import { backgrounds } from './store';
 import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY } from './constants';
 
 function blurHashToDataUrl(blurhash) {
@@ -68,7 +69,7 @@ async function checkBackgroundImageUpdate(settingsData) {
   }
 
   if (daysSinceLastUpdate >= updateThresholdDays) {
-    const { request } = settings.getBackgroundImage();
+    const { request } = backgrounds.getBackgroundImage();
     const backgroundImage = await request;
     const backgroundImageLastUpdate = Date.now();
     settings.saveInStorage({

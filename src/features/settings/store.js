@@ -3,8 +3,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import pick from 'lodash/pick';
 
-import axios from '@lib/axios';
-import { trackEvent } from '@lib/umami';
 import { STORAGE_KEY_SETTINGS } from '@lib/constants';
 import { settingsTabs } from './config';
 
@@ -51,16 +49,6 @@ function createStore() {
     localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(data));
   }
 
-  function getBackgroundImage(url) {
-    const source = axios.CancelToken.source();
-    const params = url ? { url } : {};
-    const request = axios.get('/get-background-image', { params, cancelToken: source.token }).then((response) => {
-      trackEvent('background', 'refresh');
-      return response.data;
-    });
-    return { source, request };
-  }
-
   function togglePrivacyMode() {
     update((settings) => {
       settings.enablePrivacyMode = !settings.enablePrivacyMode;
@@ -71,7 +59,7 @@ function createStore() {
     });
   }
 
-  return { subscribe, set, update, preview, restore, save, saveInStorage, getBackgroundImage, togglePrivacyMode };
+  return { subscribe, set, update, preview, restore, save, saveInStorage, togglePrivacyMode };
 }
 
 export const settings = createStore();

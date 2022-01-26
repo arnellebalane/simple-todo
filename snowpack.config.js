@@ -11,6 +11,7 @@ module.exports = {
   plugins: ['@snowpack/plugin-svelte', '@snowpack/plugin-dotenv'],
 
   alias: {
+    '@app': './src/app',
     '@assets': './src/assets',
     '@components': './src/components',
     '@features': './src/features',

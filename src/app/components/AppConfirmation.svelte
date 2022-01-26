@@ -1,5 +1,6 @@
 <script>
 import { createEventDispatcher } from 'svelte';
+
 import Button from '@components/Button.svelte';
 import Modal from '@components/Modal.svelte';
 
@@ -13,7 +14,7 @@ const confirm = () => dispatch('confirm');
 const cancel = () => dispatch('cancel');
 </script>
 
-<Modal {show} contentClass="ConfirmationModalContent" closeOnEscape closeOnClickOutside on:close={cancel}>
+<Modal {show} contentClass="AppConfirmationContent" closeOnEscape closeOnClickOutside on:close={cancel}>
   <p>{message}</p>
 
   <div>
@@ -33,7 +34,7 @@ div {
   margin-top: 3.6rem;
 }
 
-:global(.ConfirmationModalContent) {
+:global(.AppConfirmationContent) {
   width: 44rem !important;
 }
 </style>

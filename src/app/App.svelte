@@ -3,15 +3,15 @@ import { onMount, onDestroy } from 'svelte';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { enableShortcut, disableShortcut } from '@features/shortcuts';
-import { confirmation } from '@stores/confirmation';
 import { tags } from '@features/tags/store';
 import { todos } from '@features/todos/store';
+import { confirmation } from './stores/confirmation';
 
-import AppTopBar from '@components/AppTopBar.svelte';
-import AppBottomBar from '@components/AppBottomBar.svelte';
-import AppHeader from '@components/AppHeader.svelte';
-import AppTooltip from '@components/AppTooltip.svelte';
-import ConfirmationModal from '@components/ConfirmationModal.svelte';
+import AppTopBar from './components/AppTopBar.svelte';
+import AppBottomBar from './components/AppBottomBar.svelte';
+import AppHeader from './components/AppHeader.svelte';
+import AppTooltip from './components/AppTooltip.svelte';
+import AppConfirmation from './components/AppConfirmation.svelte';
 import TodoFormModal from '@features/todos/components/TodoFormModal.svelte';
 import TodoBoard from '@features/todos/components/TodoBoard.svelte';
 
@@ -89,7 +89,7 @@ onDestroy(() => disableShortcut('addTodo'));
   on:submit={saveTodoItem}
   on:cancel={() => setShowTodoForm(false)}
 />
-<ConfirmationModal
+<AppConfirmation
   show={Boolean($confirmation)}
   message={$confirmation?.message}
   confirmLabel={$confirmation?.confirmLabel}

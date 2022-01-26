@@ -1,8 +1,9 @@
 <script>
 import { onDestroy } from 'svelte';
 import { portal } from 'svelte-portal';
+
+import { toast } from '../stores/toast';
 import Button from '@components/Button.svelte';
-import { toast } from '@stores/toast';
 
 $: show = Boolean($toast);
 

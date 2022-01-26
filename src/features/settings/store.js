@@ -4,8 +4,9 @@ import pick from 'lodash/pick';
 
 import axios from '@lib/axios';
 import { trackEvent } from '@lib/umami';
-import { STORAGE_KEY_SETTINGS, BACKGROUND_REFRESH_DAILY, BACKGROUND_AUTOMATIC } from '@lib/constants';
+import { STORAGE_KEY_SETTINGS } from '@lib/constants';
 import { THEME_SYSTEM, COLOR_GREEN } from '@features/themes/constants';
+import { BACKGROUND_REFRESH_DAILY, BACKGROUND_AUTOMATIC } from '@features/backgrounds/constants';
 
 function createStore() {
   const cachedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);

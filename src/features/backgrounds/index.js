@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import { decode } from 'blurhash';
 
 import axios from '@lib/axios';
-import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY } from '@lib/constants';
 import { settings } from '@features/settings/store';
+import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY } from './constants';
 
 function blurHashToDataUrl(blurhash) {
   const size = 32;
@@ -80,34 +80,9 @@ async function checkBackgroundImageUpdate(settingsData) {
   }
 }
 
-async function lazyLoadExternalStyles() {
-  const stylesheets = [...document.querySelectorAll('link[media="print"]')];
-  await Promise.all(
-    stylesheets.map(
-      (stylesheet) =>
-        new Promise((resolve) => {
-          if ([...document.styleSheets].includes(stylesheet.sheet)) {
-            stylesheet.media = 'all';
-            return resolve();
-          }
-
-          stylesheet.addEventListener('load', () => {
-            stylesheet.media = 'all';
-            resolve();
-          });
-        })
-    )
-  );
-  document.body.classList.remove('fonts-loading');
-}
-
-export function initializeTheme() {
-  lazyLoadExternalStyles();
-
+export function initializeBackgrounds() {
   settings.subscribe(async (settingsData) => {
-    const { theme, color, background, backgroundImage, backgroundPreloaded, preview } = settingsData;
-    document.body.dataset.theme = theme;
-    document.body.dataset.color = color;
+    const { background, backgroundImage, backgroundPreloaded, preview } = settingsData;
 
     if (background && backgroundImage) {
       if (backgroundImage.photo_url.startsWith('data:')) {

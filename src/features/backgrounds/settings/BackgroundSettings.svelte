@@ -1,11 +1,6 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import Button from '@components/Button.svelte';
-import Selector from '@components/Selector.svelte';
-import Switch from '@components/Switch.svelte';
-import SettingsFormBackgroundSourceChoice from '@components/settings/fields/SettingsFormBackgroundSourceChoice.svelte';
-import SettingsFormImageUrlField from '@components/settings/fields/SettingsFormImageUrlField.svelte';
-import SettingsFormImageUploadField from '@components/settings/fields/SettingsFormImageUploadField.svelte';
+
 import { settings } from '@features/settings/store';
 import {
   BACKGROUND_AUTOMATIC,
@@ -13,7 +8,14 @@ import {
   BACKGROUND_REFRESH_DAILY,
   BACKGROUND_REFRESH_WEEKLY,
   BACKGROUND_REFRESH_MANUALLY,
-} from '@lib/constants';
+} from '../constants';
+
+import Button from '@components/Button.svelte';
+import Selector from '@components/Selector.svelte';
+import Switch from '@components/Switch.svelte';
+import SourceChoiceField from './SourceChoiceField.svelte';
+import ImageUrlField from './ImageUrlField.svelte';
+import ImageUploadField from './ImageUploadField.svelte';
 
 export let data = {
   background: false,
@@ -160,7 +162,7 @@ const handleRefreshFrequencyChange = () => {
       bind:value={backgroundSource}
       disabled={hasCurrentRequest}
       choices={backgroundSourceChoices}
-      choiceComponent={SettingsFormBackgroundSourceChoice}
+      choiceComponent={SourceChoiceField}
     />
 
     {#if backgroundSource === BACKGROUND_AUTOMATIC}
@@ -180,7 +182,7 @@ const handleRefreshFrequencyChange = () => {
     {:else}
       <div class="Field">
         <label for={BACKGROUND_CUSTOM_UNSPLASH_NAME}>Unsplash image URL</label>
-        <SettingsFormImageUrlField
+        <ImageUrlField
           name={BACKGROUND_CUSTOM_UNSPLASH_NAME}
           bind:value={backgroundCustomUnsplash}
           error={backgroundCustomUnsplashError}
@@ -191,7 +193,7 @@ const handleRefreshFrequencyChange = () => {
 
       <div class="Field">
         <label for={BACKGROUND_CUSTOM_FILE_NAME}>Upload an image</label>
-        <SettingsFormImageUploadField
+        <ImageUploadField
           name={BACKGROUND_CUSTOM_FILE_NAME}
           bind:value={backgroundCustomFile}
           error={backgroundCustomFileError}

@@ -1,39 +1,20 @@
 import { writable } from 'svelte/store';
 import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
 import pick from 'lodash/pick';
 
 import axios from '@lib/axios';
 import { trackEvent } from '@lib/umami';
 import { STORAGE_KEY_SETTINGS } from '@lib/constants';
-import { THEME_SYSTEM, COLOR_GREEN } from '@features/themes/constants';
-import { BACKGROUND_REFRESH_DAILY, BACKGROUND_AUTOMATIC } from '@features/backgrounds/constants';
+import { settingsTabs } from './config';
 
 function createStore() {
   const cachedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
-  const defaultSettings = {
-    theme: THEME_SYSTEM,
-    color: COLOR_GREEN,
-    background: false,
-    backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
-    backgroundSource: BACKGROUND_AUTOMATIC,
-    enablePrivacyMode: false,
-    quickLinks: [],
-    showFrequentLinks: false,
-  };
+  const defaultSettings = settingsTabs.reduce((settings, tab) => {
+    return Object.assign(settings, tab.defaultSettings);
+  }, {});
   const settings = Object.assign({}, defaultSettings, cachedSettings && JSON.parse(cachedSettings));
-  const allowedFields = [
-    'background',
-    'backgroundImage',
-    'backgroundImageLastUpdate',
-    'backgroundRefreshFrequency',
-    'backgroundPreloaded',
-    'backgroundSource',
-    'enablePrivacyMode',
-    'quickLinks',
-    'showFrequentLinks',
-    'color',
-    'theme',
-  ];
+  const allowedFields = settingsTabs.map((tab) => get(tab, 'allowedFields', [])).flat();
 
   const { subscribe, set, update } = writable(settings);
 

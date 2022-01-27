@@ -5,6 +5,7 @@ import axios from '@lib/axios';
 import { settings } from '@features/settings/store';
 import { backgrounds } from './store';
 import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY } from './constants';
+import './styles.css';
 
 function blurHashToDataUrl(blurhash) {
   const size = 32;
@@ -31,6 +32,7 @@ function removeBlurHash() {
   delete document.body.dataset.background;
 }
 
+// We keep a reference to any ongoing request so that we can abort it later on.
 let currentRequest = null;
 
 async function downloadBackgroundImage(imageUrl) {

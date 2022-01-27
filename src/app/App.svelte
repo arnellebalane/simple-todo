@@ -89,6 +89,7 @@ onDestroy(() => disableShortcut('addTodo'));
   on:submit={saveTodoItem}
   on:cancel={() => setShowTodoForm(false)}
 />
+
 <AppConfirmation
   show={Boolean($confirmation)}
   message={$confirmation?.message}
@@ -97,7 +98,6 @@ onDestroy(() => disableShortcut('addTodo'));
   on:confirm={confirmation.confirm}
   on:cancel={confirmation.cancel}
 />
-
 <AppTooltip />
 
 <style>

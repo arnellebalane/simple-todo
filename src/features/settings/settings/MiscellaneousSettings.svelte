@@ -1,9 +1,8 @@
 <script>
 import Switch from '@components/Switch.svelte';
+import { getDefaultSettings } from '.';
 
-export let data = {
-  enablePrivacyMode: false,
-};
+export let data = getDefaultSettings();
 </script>
 
 <section>

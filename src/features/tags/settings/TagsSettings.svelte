@@ -1,11 +1,13 @@
 <script>
+import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
-import { tags } from '../store';
 
+import { tags } from '../store';
 import Button from '@components/Button.svelte';
 
 export let data = {};
 
+$: hasTags = !isEmpty($tags);
 $: sortedTags = orderBy($tags, (tag) => tag.label.toUpperCase());
 
 const removeTag = (tag) => {
@@ -16,24 +18,28 @@ const restoreTag = (tag) => {
 };
 </script>
 
-<ol>
-  {#each sortedTags as tag (tag.label)}
-    <li class:removed={tag.removed}>
-      <Button
-        medium
-        icon
-        iconLight={tag.removed ? './dist/assets/icons/restore.svg' : './dist/assets/icons/delete.svg'}
-        iconDark={tag.removed ? './dist/assets/icons/restore.svg' : './dist/assets/icons/delete.svg'}
-        type="button"
-        class="Button"
-        on:click={() => (tag.removed ? restoreTag(tag) : removeTag(tag))}
-      >
-        {tag.removed ? 'Restore' : 'Remove'}
-      </Button>
-      <span>{tag.label}</span>
-    </li>
-  {/each}
-</ol>
+{#if hasTags}
+  <ol>
+    {#each sortedTags as tag (tag.label)}
+      <li class:removed={tag.removed}>
+        <Button
+          medium
+          icon
+          iconLight={tag.removed ? './dist/assets/icons/restore.svg' : './dist/assets/icons/delete.svg'}
+          iconDark={tag.removed ? './dist/assets/icons/restore.svg' : './dist/assets/icons/delete.svg'}
+          type="button"
+          class="Button"
+          on:click={() => (tag.removed ? restoreTag(tag) : removeTag(tag))}
+        >
+          {tag.removed ? 'Restore' : 'Remove'}
+        </Button>
+        <span>{tag.label}</span>
+      </li>
+    {/each}
+  </ol>
+{:else}
+  <p>No tags available. Tags added to todo items will appear in this tab.</p>
+{/if}
 
 <style>
 ol {
@@ -68,5 +74,9 @@ span {
 li.removed span {
   text-decoration: line-through;
   opacity: 0.5;
+}
+
+p {
+  color: var(--dimmed-500);
 }
 </style>

@@ -1,4 +1,5 @@
 <script>
+import { getDefaultSettings } from '.';
 import {
   THEME_SYSTEM,
   THEME_LIGHT,
@@ -14,10 +15,7 @@ import Selector from '@components/Selector.svelte';
 import ThemeChoiceField from './ThemeChoiceField.svelte';
 import ColorChoiceField from './ColorChoiceField.svelte';
 
-export let data = {
-  theme: THEME_SYSTEM,
-  color: COLOR_GREEN,
-};
+export let data = getDefaultSettings();
 
 const themeChoices = [
   { label: 'System', value: THEME_SYSTEM },

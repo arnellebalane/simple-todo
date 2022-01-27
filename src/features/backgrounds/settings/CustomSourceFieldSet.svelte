@@ -2,7 +2,7 @@
 import { createEventDispatcher } from 'svelte';
 
 import { backgrounds } from '@features/backgrounds/store';
-import { BACKGROUND_CUSTOM, BACKGROUND_REFRESH_MANUALLY } from '../constants';
+import { BACKGROUND_SOURCE_CUSTOM, BACKGROUND_REFRESH_MANUALLY } from '../constants';
 
 import ImageUrlField from './ImageUrlField.svelte';
 import ImageUploadField from './ImageUploadField.svelte';
@@ -33,7 +33,7 @@ const handleCustomUnsplash = async () => {
   try {
     data.backgroundImage = await request;
     data.backgroundImageLastUpdate = Date.now();
-    data.backgroundSource = BACKGROUND_CUSTOM;
+    data.backgroundSource = BACKGROUND_SOURCE_CUSTOM;
     data.backgroundRefreshFrequency = BACKGROUND_REFRESH_MANUALLY;
     delete data.backgroundPreloaded;
     handleChange();
@@ -59,7 +59,7 @@ const handleCustomFile = async () => {
     }),
   };
   data.backgroundImageLastUpdate = Date.now();
-  data.backgroundSource = BACKGROUND_CUSTOM;
+  data.backgroundSource = BACKGROUND_SOURCE_CUSTOM;
   data.backgroundRefreshFrequency = BACKGROUND_REFRESH_MANUALLY;
   delete data.backgroundPreloaded;
   handleChange();

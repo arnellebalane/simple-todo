@@ -1,7 +1,9 @@
 <script>
 import { createEventDispatcher } from 'svelte';
+import omit from 'lodash/omit';
 
-import { BACKGROUND_AUTOMATIC, BACKGROUND_CUSTOM, BACKGROUND_REFRESH_DAILY } from '../constants';
+import { getDefaultSettings, allowedFields } from '.';
+import { BACKGROUND_SOURCE_AUTOMATIC, BACKGROUND_SOURCE_CUSTOM } from '../constants';
 
 import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
@@ -9,16 +11,12 @@ import SourceChoiceField from './SourceChoiceField.svelte';
 import AutomaticSourceFieldSet from './AutomaticSourceFieldSet.svelte';
 import CustomSourceFieldSet from './CustomSourceFieldSet.svelte';
 
-export let data = {
-  background: false,
-  backgroundSource: BACKGROUND_AUTOMATIC,
-  backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
-};
+export let data = getDefaultSettings();
 
 let backgroundSource = data.backgroundSource;
 const backgroundSourceChoices = [
-  { label: 'Automatic', subtext: 'Random from Unsplash', value: BACKGROUND_AUTOMATIC },
-  { label: 'Custom', subtext: 'Specify your own image', value: BACKGROUND_CUSTOM },
+  { label: 'Automatic', subtext: 'Random from Unsplash', value: BACKGROUND_SOURCE_AUTOMATIC },
+  { label: 'Custom', subtext: 'Specify your own image', value: BACKGROUND_SOURCE_CUSTOM },
 ];
 
 const dispatch = createEventDispatcher();
@@ -36,12 +34,8 @@ const handleRequest = (event) => {
 
 const handleBackgroundChange = async () => {
   if (!data.background) {
-    delete data.backgroundImage;
-    delete data.backgroundImageLastUpdate;
-    delete data.backgroundPreloaded;
-    data.backgroundSource = BACKGROUND_AUTOMATIC;
-    data.backgroundRefreshFrequency = BACKGROUND_REFRESH_DAILY;
-    backgroundSource = data.backgroundSource;
+    data = omit(data, allowedFields);
+    data = Object.assign(data, getDefaultSettings());
     handleChange();
   }
 };
@@ -62,7 +56,7 @@ const handleBackgroundChange = async () => {
       choiceComponent={SourceChoiceField}
     />
 
-    {#if backgroundSource === BACKGROUND_AUTOMATIC}
+    {#if backgroundSource === BACKGROUND_SOURCE_AUTOMATIC}
       <AutomaticSourceFieldSet
         {data}
         disabled={hasCurrentRequest}

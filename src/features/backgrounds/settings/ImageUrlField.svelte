@@ -13,7 +13,7 @@ const dispatch = createEventDispatcher();
 const handleChange = () => (error = null);
 </script>
 
-<form id={form} on:submit|preventDefault={() => dispatch('change', name)}>
+<form id={form} on:submit|preventDefault={() => dispatch('change', value)}>
   <input
     type="text"
     placeholder="Example: https://unsplash.com/photos/ppEfmAINyns"

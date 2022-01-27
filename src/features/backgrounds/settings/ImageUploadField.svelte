@@ -15,7 +15,7 @@ const handleFileChange = (event) => {
 };
 </script>
 
-<form id={form} on:submit|preventDefault={() => dispatch('change', name)}>
+<form id={form} on:submit|preventDefault={() => dispatch('change', value)}>
   <label>
     <span class:error>{label}</span>
     <input type="file" accept="image/*" id={name} bind:files={value} {name} {form} on:change={handleFileChange} />

@@ -3,7 +3,7 @@ import { onMount, createEventDispatcher } from 'svelte';
 
 import { backgrounds } from '@features/backgrounds/store';
 import {
-  BACKGROUND_AUTOMATIC,
+  BACKGROUND_SOURCE_AUTOMATIC,
   BACKGROUND_REFRESH_DAILY,
   BACKGROUND_REFRESH_WEEKLY,
   BACKGROUND_REFRESH_MANUALLY,
@@ -34,7 +34,7 @@ const handleChange = () => dispatch('change', data);
 const handleRequest = (source = null) => dispatch('request', source);
 
 const handleRefreshFrequencyChange = () => {
-  data.backgroundSource = BACKGROUND_AUTOMATIC;
+  data.backgroundSource = BACKGROUND_SOURCE_AUTOMATIC;
   handleChange();
 };
 
@@ -44,7 +44,7 @@ const refreshBackgroundImage = async () => {
   try {
     data.backgroundImage = await request;
     data.backgroundImageLastUpdate = Date.now();
-    data.backgroundSource = BACKGROUND_AUTOMATIC;
+    data.backgroundSource = BACKGROUND_SOURCE_AUTOMATIC;
     delete data.backgroundPreloaded;
     handleChange();
   } catch (error) {

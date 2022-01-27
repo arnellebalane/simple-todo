@@ -1,5 +1,5 @@
 import axios from '@lib/axios';
-import { BACKGROUND_REFRESH_DAILY, BACKGROUND_AUTOMATIC } from '../constants';
+import { BACKGROUND_REFRESH_DAILY, BACKGROUND_SOURCE_AUTOMATIC } from '../constants';
 import BackgroundSettings from './BackgroundSettings.svelte';
 
 export const id = 'BACKGROUND';
@@ -9,7 +9,7 @@ export const component = BackgroundSettings;
 export const getDefaultSettings = () => ({
   background: false,
   backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
-  backgroundSource: BACKGROUND_AUTOMATIC,
+  backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
 });
 export const allowedFields = [
   'background',

@@ -2,8 +2,8 @@
 import { createEventDispatcher } from 'svelte';
 import pick from 'lodash/pick';
 
-import SettingsFormQuickLinksCustomUrlField from './QuickLinksCustomUrlField.svelte';
-import SettingsFormQuickLinksCustomUrlsList from './QuickLinksCustomUrlsList.svelte';
+import CustomUrlField from './CustomUrlField.svelte';
+import CustomUrlsList from './CustomUrlsList.svelte';
 
 export let choices = [];
 export let value = [];
@@ -22,20 +22,21 @@ $: customQuickLinks = value.filter((link) => link.custom);
 $: hasCustomQuickLinks = customQuickLinks.length > 0;
 
 const dispatch = createEventDispatcher();
+const handleChange = () => dispatch('change', value);
 
-const handleChange = () => {
+const handleDefaultLinksChange = () => {
   const selectedUrlsSet = new Set(selectedUrls);
   const selectedLinks = choices
     .filter((link) => selectedUrlsSet.has(link.url))
     .map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
   value = [...selectedLinks, ...customQuickLinks];
-  dispatch('change', value);
+  handleChange();
 };
 
 const addCustomQuickLink = (event) => {
   const customLink = event.detail;
   value = [...value, { ...customLink, custom: true }];
-  dispatch('change', value);
+  handleChange();
 };
 
 const removeCustomQuickLink = (event) => {
@@ -43,7 +44,7 @@ const removeCustomQuickLink = (event) => {
   const index = value.indexOf(customLink);
   if (index >= 0) {
     value = [...value.slice(0, index), ...value.slice(index + 1)];
-    dispatch('change', value);
+    handleChange();
   }
 };
 </script>
@@ -53,15 +54,21 @@ const removeCustomQuickLink = (event) => {
     <label class:selected={link.selected}>
       <img src={link.icon} alt={link.title} />
       <p>{link.title}</p>
-      <input type="checkbox" name="quicklinks" bind:group={selectedUrls} value={link.url} on:change={handleChange} />
+      <input
+        type="checkbox"
+        name="quicklinks"
+        bind:group={selectedUrls}
+        value={link.url}
+        on:change={handleDefaultLinksChange}
+      />
     </label>
   {/each}
 </div>
 
 <div class="CustomLinks">
-  <SettingsFormQuickLinksCustomUrlField name="customUrl" on:data={addCustomQuickLink} />
+  <CustomUrlField name="customUrl" on:data={addCustomQuickLink} />
   {#if hasCustomQuickLinks}
-    <SettingsFormQuickLinksCustomUrlsList links={customQuickLinks} on:remove={removeCustomQuickLink} />
+    <CustomUrlsList links={customQuickLinks} on:remove={removeCustomQuickLink} />
   {/if}
 </div>
 

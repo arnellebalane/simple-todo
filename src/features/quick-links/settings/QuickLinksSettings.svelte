@@ -1,14 +1,13 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import { frequentLinksSupported } from '@features/quick-links/store';
+
+import { getDefaultSettings } from '.';
+import { frequentLinksSupported } from '../store';
 
 import Switch from '@components/Switch.svelte';
-import SettingsFormQuickLinksField from './QuickLinksField.svelte';
+import QuickLinksField from './QuickLinksField.svelte';
 
-export let data = {
-  quickLinks: [],
-  showFrequentLinks: false,
-};
+export let data = getDefaultSettings();
 
 const builtInQuickLinks = [
   { title: 'Gmail', url: 'https://mail.google.com/', icon: './dist/assets/images/gmail.png' },
@@ -20,6 +19,7 @@ const builtInQuickLinks = [
 
 const dispatch = createEventDispatcher();
 const handleChange = () => dispatch('change', data);
+
 const handleQuickLinksChange = (event) => {
   data.quickLinks = event.detail;
   handleChange();
@@ -29,11 +29,7 @@ const handleQuickLinksChange = (event) => {
 <section>
   <div class="Field">
     <label for="quicklinks">Select the apps to add a quick link</label>
-    <SettingsFormQuickLinksField
-      choices={builtInQuickLinks}
-      bind:value={data.quickLinks}
-      on:change={handleQuickLinksChange}
-    />
+    <QuickLinksField choices={builtInQuickLinks} bind:value={data.quickLinks} on:change={handleQuickLinksChange} />
   </div>
 
   {#if frequentLinksSupported}

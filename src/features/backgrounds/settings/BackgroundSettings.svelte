@@ -6,14 +6,13 @@ import {
   BACKGROUND_AUTOMATIC,
   BACKGROUND_CUSTOM,
   BACKGROUND_REFRESH_DAILY,
-  BACKGROUND_REFRESH_WEEKLY,
   BACKGROUND_REFRESH_MANUALLY,
 } from '../constants';
 
-import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
 import SourceChoiceField from './SourceChoiceField.svelte';
+import AutomaticSourceFieldSet from './AutomaticSourceFieldSet.svelte';
 import ImageUrlField from './ImageUrlField.svelte';
 import ImageUploadField from './ImageUploadField.svelte';
 
@@ -28,11 +27,7 @@ const backgroundSourceChoices = [
   { label: 'Automatic', subtext: 'Random from Unsplash', value: BACKGROUND_AUTOMATIC },
   { label: 'Custom', subtext: 'Specify your own image', value: BACKGROUND_CUSTOM },
 ];
-const backgroundRefreshFrequencyChoices = [
-  { label: 'Daily', value: BACKGROUND_REFRESH_DAILY },
-  { label: 'Weekly', value: BACKGROUND_REFRESH_WEEKLY },
-  { label: 'Manually', value: BACKGROUND_REFRESH_MANUALLY },
-];
+
 const BACKGROUND_CUSTOM_UNSPLASH_NAME = 'backgroundCustomUnsplash';
 let backgroundCustomUnsplash = '';
 let backgroundCustomUnsplashError = null;
@@ -46,51 +41,28 @@ let currentRequest;
 $: hasCurrentRequest = Boolean(currentRequest);
 
 const handleChange = () => dispatch('change', data);
-
-const handleRefresh = async () => {
-  const { source, request } = backgrounds.getBackgroundImage();
-  currentRequest = source;
-  try {
-    data.backgroundImage = await request;
-    data.backgroundImageLastUpdate = Date.now();
-    data.backgroundSource = BACKGROUND_AUTOMATIC;
-    delete data.backgroundPreloaded;
-    handleChange();
-  } catch (error) {
-    console.error(error);
+const handleRequest = (event) => {
+  if (event.detail) {
+    currentRequest?.cancel();
   }
-  currentRequest = null;
+  currentRequest = event.detail;
 };
 
 const handleBackgroundChange = async (event) => {
-  currentRequest?.cancel();
   if (data.background) {
-    if (backgroundSource === BACKGROUND_AUTOMATIC) {
-      await handleBackgroundChangeAutomatic();
-    } else if (event.detail === BACKGROUND_CUSTOM_UNSPLASH_NAME) {
-      await handleBackgroundChangeCustomUrl();
-    } else if (event.detail === BACKGROUND_CUSTOM_FILE_NAME) {
-      await handleBackgroundChangeCustomFile();
-    }
+    // if (event.detail === BACKGROUND_CUSTOM_UNSPLASH_NAME) {
+    //   await handleBackgroundChangeCustomUrl();
+    // } else if (event.detail === BACKGROUND_CUSTOM_FILE_NAME) {
+    //   await handleBackgroundChangeCustomFile();
+    // }
   } else {
-    handleBackgroundUnset();
-  }
-  currentRequest = null;
-  handleChange();
-};
-
-const handleBackgroundChangeAutomatic = async () => {
-  const { source, request } = backgrounds.getBackgroundImage();
-  currentRequest = source;
-  try {
-    data.backgroundImage = await request;
-    data.backgroundImageLastUpdate = Date.now();
-    data.backgroundSource = BACKGROUND_AUTOMATIC;
+    delete data.backgroundImage;
+    delete data.backgroundImageLastUpdate;
     delete data.backgroundPreloaded;
-  } catch (error) {
-    console.error(error);
-    data.background = false;
+    data.backgroundSource = BACKGROUND_AUTOMATIC;
+    data.backgroundRefreshFrequency = BACKGROUND_REFRESH_DAILY;
   }
+  handleChange();
 };
 
 const handleBackgroundChangeCustomUrl = async () => {
@@ -135,19 +107,6 @@ const handleBackgroundChangeCustomFile = async () => {
   data.backgroundRefreshFrequency = BACKGROUND_REFRESH_MANUALLY;
   delete data.backgroundPreloaded;
 };
-
-const handleBackgroundUnset = () => {
-  delete data.backgroundImage;
-  delete data.backgroundImageLastUpdate;
-  delete data.backgroundPreloaded;
-  data.backgroundSource = BACKGROUND_AUTOMATIC;
-  data.backgroundRefreshFrequency = BACKGROUND_REFRESH_DAILY;
-};
-
-const handleRefreshFrequencyChange = () => {
-  data.backgroundSource = BACKGROUND_AUTOMATIC;
-  handleChange();
-};
 </script>
 
 <section>
@@ -166,19 +125,12 @@ const handleRefreshFrequencyChange = () => {
     />
 
     {#if backgroundSource === BACKGROUND_AUTOMATIC}
-      <div class="Field">
-        <label for="backgroundRefreshFrequency">Refresh background image</label>
-        <div class="RefreshBackground">
-          <Selector
-            class="RefreshBackgroundFrequency"
-            name="backgroundRefreshFrequency"
-            bind:value={data.backgroundRefreshFrequency}
-            choices={backgroundRefreshFrequencyChoices}
-            on:change={handleRefreshFrequencyChange}
-          />
-          <Button type="button" disabled={hasCurrentRequest} on:click={handleRefresh}>Refresh</Button>
-        </div>
-      </div>
+      <AutomaticSourceFieldSet
+        {data}
+        disabled={hasCurrentRequest}
+        on:request={handleRequest}
+        on:change={handleChange}
+      />
     {:else}
       <div class="Field">
         <label for={BACKGROUND_CUSTOM_UNSPLASH_NAME}>Unsplash image URL</label>
@@ -227,19 +179,5 @@ label {
 .Field--inline label {
   margin-right: auto;
   margin-bottom: 0;
-}
-
-.RefreshBackground {
-  display: flex;
-  gap: 8px;
-}
-
-.RefreshBackground :global(.RefreshBackgroundFrequency) {
-  flex-grow: 1;
-}
-
-.RefreshBackground :global(.RefreshBackgroundFrequency span) {
-  padding-left: 1.8rem;
-  padding-right: 1.8rem;
 }
 </style>

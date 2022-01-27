@@ -6,11 +6,11 @@ export const id = 'BACKGROUND';
 export const label = 'Background';
 export const component = BackgroundSettings;
 
-export const defaultSettings = {
+export const getDefaultSettings = () => ({
   background: false,
   backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
   backgroundSource: BACKGROUND_AUTOMATIC,
-};
+});
 export const allowedFields = [
   'background',
   'backgroundImage',

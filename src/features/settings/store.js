@@ -9,7 +9,9 @@ import { settingsTabs } from './config';
 function createStore() {
   const cachedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
   const defaultSettings = settingsTabs.reduce((settings, tab) => {
-    return Object.assign(settings, tab.defaultSettings);
+    return typeof tab.getDefaultSettings === 'function'
+      ? Object.assign(settings, tab.getDefaultSettings?.())
+      : settings;
   }, {});
   const settings = Object.assign({}, defaultSettings, cachedSettings && JSON.parse(cachedSettings));
   const allowedFields = settingsTabs.map((tab) => get(tab, 'allowedFields', [])).flat();

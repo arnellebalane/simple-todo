@@ -4,7 +4,7 @@ export const id = 'MISCELLANEOUS';
 export const label = 'Miscellaneous';
 export const component = MiscellaneousSettings;
 
-export const defaultSettings = {
+export const getDefaultSettings = () => ({
   enablePrivacyMode: false,
-};
+});
 export const allowedFields = ['enablePrivacyMode'];

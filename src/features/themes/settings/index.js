@@ -6,10 +6,10 @@ export const id = 'THEME';
 export const label = 'Theme';
 export const component = ThemeSettings;
 
-export const defaultSettings = {
+export const getDefaultSettings = () => ({
   theme: THEME_SYSTEM,
   color: COLOR_GREEN,
-};
+});
 export const allowedFields = ['color', 'theme'];
 
 export const onSave = (settings, updated) => {

@@ -7,6 +7,10 @@ import { backgrounds } from './store';
 import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY } from './constants';
 import './styles.css';
 
+function isValidBlurHash(blurhash) {
+  return blurhash ? blurhash.length ?? 0 >= 6 : false;
+}
+
 function blurHashToDataUrl(blurhash) {
   const size = 32;
   const canvas = document.createElement('canvas');
@@ -57,7 +61,7 @@ function removeBackgroundImage() {
   delete document.body.dataset.backgroundLoaded;
 }
 
-async function checkBackgroundImageUpdate(settingsData) {
+function shouldUpdateBackgroundImage(settingsData) {
   const { backgroundImageLastUpdate, backgroundRefreshFrequency } = settingsData;
   const now = dayjs();
   const lastUpdate = dayjs(backgroundImageLastUpdate);
@@ -70,7 +74,11 @@ async function checkBackgroundImageUpdate(settingsData) {
     updateThresholdDays = 7;
   }
 
-  if (daysSinceLastUpdate >= updateThresholdDays) {
+  return daysSinceLastUpdate >= updateThresholdDays;
+}
+
+async function maybeUpdateBackgroundImage(settingsData) {
+  if (shouldUpdateBackgroundImage(settingsData)) {
     const { request } = backgrounds.getBackgroundImage();
     const backgroundImage = await request;
     const backgroundImageLastUpdate = Date.now();
@@ -83,29 +91,44 @@ async function checkBackgroundImageUpdate(settingsData) {
   }
 }
 
+async function maybeLoadBetterBackgroundImage(settingsData) {
+  const { backgroundImage, backgroundPreloaded, preview } = settingsData;
+
+  // We load a better background image if
+  //   - we are not in settings preview mode (settings form is already saved)
+  //   - a full image URL is available and we haven't preloaded it yet
+  //   - the device is not in data saver mode
+  const shouldLoadBetterImage =
+    !preview && backgroundImage.photo_url_full && !backgroundPreloaded && !navigator.connection?.saveData;
+
+  if (shouldLoadBetterImage) {
+    await downloadBackgroundImage(backgroundImage.photo_url_full);
+    settings.save({ ...settingsData, backgroundPreloaded: true });
+  }
+}
+
 export function initializeBackgrounds() {
   settings.subscribe(async (settingsData) => {
-    const { background, backgroundImage, backgroundPreloaded, preview } = settingsData;
+    const { background, backgroundImage, backgroundPreloaded } = settingsData;
 
     if (background && backgroundImage) {
       if (backgroundImage.photo_url.startsWith('data:')) {
         document.body.dataset.background = 'custom';
       }
       if (backgroundImage.photo_blurhash !== document.body.dataset.background) {
-        if (backgroundImage.photo_blurhash?.length ?? 0 >= 6) {
+        if (isValidBlurHash(backgroundImage.photo_blurhash)) {
           renderBlurHash(backgroundImage.photo_blurhash);
         }
-        await renderBackgroundImage(backgroundPreloaded ? backgroundImage.photo_url_full : backgroundImage.photo_url);
+
+        // If the background has been preloaded, it's hopefully already in the
+        // browser cache, so we load the higher-resolution image. Otherwise we
+        // load a smaller compressed image.
+        const photoUrl = backgroundPreloaded ? backgroundImage.photo_url_full : backgroundImage.photo_url;
+        await renderBackgroundImage(photoUrl);
       }
 
-      const shouldLoadBetterImage =
-        backgroundImage.photo_url_full && !preview && !backgroundPreloaded && !navigator.connection?.saveData;
-      if (shouldLoadBetterImage) {
-        await downloadBackgroundImage(backgroundImage.photo_url_full);
-        settings.save({ ...settingsData, backgroundPreloaded: true });
-      }
-
-      await checkBackgroundImageUpdate(settingsData);
+      await maybeLoadBetterBackgroundImage(settingsData);
+      await maybeUpdateBackgroundImage(settingsData);
     } else {
       removeBlurHash();
       removeBackgroundImage();

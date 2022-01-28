@@ -25,9 +25,8 @@ const dispatch = createEventDispatcher();
 const handleChange = () => dispatch('change', value);
 
 const handleDefaultLinksChange = () => {
-  const selectedUrlsSet = new Set(selectedUrls);
   const selectedLinks = choices
-    .filter((link) => selectedUrlsSet.has(link.url))
+    .filter((link) => selectedUrls.includes(link.url))
     .map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
   value = [...selectedLinks, ...customQuickLinks];
   handleChange();

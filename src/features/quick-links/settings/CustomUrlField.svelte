@@ -15,10 +15,8 @@ const dispatch = createEventDispatcher();
 
 const handleSubmit = async () => {
   error = '';
-
-  let url;
   try {
-    url = new URL(value);
+    new URL(value);
   } catch {
     error = 'Please input a valid URL.';
     return;

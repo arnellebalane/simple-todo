@@ -1,19 +1,42 @@
 <script>
 import { createEventDispatcher } from 'svelte';
+import { backgrounds } from '@features/backgrounds/store';
+
 import Button from '@components/Button.svelte';
 
 export let name;
-export let value;
-export let error;
-export let disabled;
+export let disabled = false;
 
 const form = `image-url-field-${name}`;
+let value = '';
+let error = '';
+const clearError = () => (error = '');
 
 const dispatch = createEventDispatcher();
-const handleChange = () => (error = null);
+const handleRequest = (source = null) => dispatch('request', source);
+
+const handleSubmit = async () => {
+  clearError();
+  try {
+    new URL(value);
+  } catch {
+    error = 'Please input a valid URL.';
+    return;
+  }
+
+  const { source, request } = backgrounds.getBackgroundImage(value);
+  handleRequest(source);
+  try {
+    dispatch('change', await request);
+  } catch (err) {
+    console.error(err);
+    error = err.response.data.message || 'Something went wrong, please try again.';
+  }
+  handleRequest();
+};
 </script>
 
-<form id={form} on:submit|preventDefault={() => dispatch('change', value)}>
+<form id={form} on:submit|preventDefault={handleSubmit}>
   <input
     type="text"
     placeholder="Example: https://unsplash.com/photos/ppEfmAINyns"
@@ -23,7 +46,7 @@ const handleChange = () => (error = null);
     {name}
     {form}
     {disabled}
-    on:change={handleChange}
+    on:input={clearError}
   />
 
   <Button class="Button" disabled={disabled || !value} {form}>Set image</Button>

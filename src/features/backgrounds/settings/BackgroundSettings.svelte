@@ -36,6 +36,7 @@ const handleBackgroundChange = async () => {
   if (!data.background) {
     data = omit(data, allowedFields);
     data = Object.assign(data, getDefaultSettings());
+    backgroundSource = data.backgroundSource;
     handleChange();
   }
 };

@@ -30,8 +30,8 @@ header {
 
 h1 {
   margin-right: auto;
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 1.7rem;
+  font-weight: 600;
   line-height: 2.4rem;
 }
 

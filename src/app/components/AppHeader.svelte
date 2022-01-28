@@ -40,16 +40,14 @@ header {
 
 h1 {
   margin-right: auto;
-  font-size: 4.4rem;
+  font-size: 3.6rem;
   font-weight: 700;
   line-height: 6rem;
   letter-spacing: -1px;
 }
 
 :global(body.fonts-loading) h1 {
-  font-size: 4.1rem;
-  line-height: 1.45;
-  letter-spacing: -0.45px;
+  letter-spacing: -1.5px;
 }
 
 :global(body[data-background]) h1 {
@@ -65,7 +63,7 @@ header :global(.UndoRemoveButton) {
 
 header :global(.UndoRemoveButton),
 header :global(.RemoveDoneButton) {
-  min-width: 15rem;
+  min-width: 15.6rem;
 }
 
 .ButtonsWrapper {

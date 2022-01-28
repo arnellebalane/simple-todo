@@ -65,7 +65,7 @@ section {
 label {
   display: block;
   margin-bottom: 8px;
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 1.7rem;
+  font-weight: 600;
 }
 </style>

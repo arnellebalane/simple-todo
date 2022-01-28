@@ -25,7 +25,7 @@ li {
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--dimmed-500);
   background-color: var(--dimmed-200);
 }

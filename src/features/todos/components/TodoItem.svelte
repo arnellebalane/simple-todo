@@ -70,6 +70,7 @@ li.private > :global(*) {
 
 p {
   flex-grow: 1;
+  line-height: 2rem;
   word-break: break-word;
 }
 

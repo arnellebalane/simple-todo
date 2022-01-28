@@ -62,9 +62,11 @@ p {
 }
 
 kbd {
+  min-height: 3.2rem;
   padding: 8px 1.2rem;
   border-radius: 4px;
-  font-size: 1.4rem;
+
+  font-size: 1.3rem;
   background-color: var(--dimmed-200);
 }
 </style>

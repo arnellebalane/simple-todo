@@ -86,3 +86,12 @@ const handleCustomFile = async () => {
     on:change={handleCustomFile}
   />
 </div>
+
+<style>
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+</style>

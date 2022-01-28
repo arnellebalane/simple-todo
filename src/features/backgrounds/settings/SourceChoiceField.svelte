@@ -13,8 +13,8 @@ p {
   padding: 1.2rem;
   border: 2px solid transparent;
   border-radius: 8px;
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 1.7rem;
+  font-weight: 600;
   text-align: center;
 }
 
@@ -24,7 +24,8 @@ p.selected {
 
 span {
   display: block;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 400;
+  color: var(--dimmed-500);
 }
 </style>

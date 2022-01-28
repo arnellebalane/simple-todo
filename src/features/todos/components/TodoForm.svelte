@@ -87,12 +87,12 @@ form {
 label {
   display: block;
   margin-bottom: 8px;
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 1.7rem;
+  font-weight: 600;
 }
 
 label span {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 400;
   color: var(--dimmed-500);
 }
@@ -115,7 +115,7 @@ div[contenteditable] {
   padding: 8px 1.2rem;
   border: 2px solid var(--dimmed-300);
   border-radius: 8px;
-  line-height: 2.4rem;
+  line-height: 2rem;
   resize: none;
 }
 

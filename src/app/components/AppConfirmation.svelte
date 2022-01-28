@@ -25,8 +25,8 @@ const cancel = () => dispatch('cancel');
 
 <style>
 p {
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 1.7rem;
+  font-weight: 600;
 }
 
 div {
@@ -35,6 +35,6 @@ div {
 }
 
 :global(.AppConfirmationContent) {
-  width: 44rem !important;
+  width: 45rem !important;
 }
 </style>

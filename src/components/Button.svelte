@@ -29,16 +29,10 @@ button {
   padding: 1.2rem 2.4rem;
   border: none;
   border-radius: 8px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 2rem;
   background-color: var(--dimmed-300);
   cursor: pointer;
-}
-
-:global(body.fonts-loading) button {
-  font-family: Helvetica;
-  line-height: 1.3;
-  letter-spacing: -0.3px;
 }
 
 button:disabled {
@@ -57,7 +51,7 @@ button.text {
 button.medium,
 button.small {
   padding: 8px 1.2rem;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 
 button.small {

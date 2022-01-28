@@ -20,7 +20,7 @@ const handleSubmit = async () => {
   try {
     url = new URL(value);
   } catch {
-    error = 'Please input a valid URL';
+    error = 'Please input a valid URL.';
     return;
   }
 

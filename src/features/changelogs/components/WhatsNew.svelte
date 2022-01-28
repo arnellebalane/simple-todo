@@ -77,7 +77,7 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
 <style>
 h2 {
   margin-bottom: 1.6rem;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 400;
   text-align: center;
 }
@@ -88,7 +88,8 @@ article:not(.active) {
 
 article h3 {
   margin-bottom: 2.4rem;
-  font-size: 2.8rem;
+  font-size: 2.6rem;
+  font-weight: 600;
   text-align: center;
 }
 

@@ -41,7 +41,7 @@ footer {
 }
 
 small {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: var(--text-main);
 }
 

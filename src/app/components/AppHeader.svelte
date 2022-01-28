@@ -3,7 +3,9 @@ import { createEventDispatcher } from 'svelte';
 import dayjs from 'dayjs';
 
 import { todos, removeDoneTimer } from '@features/todos/store';
+
 import Button from '@components/Button.svelte';
+import SearchForm from '@features/search/components/SearchForm.svelte';
 
 $: canUndoRemove = $removeDoneTimer > 0;
 $: hasDoneTodos = $todos.some((todo) => todo.done);
@@ -15,6 +17,8 @@ const today = dayjs().format('dddd, MMMM D');
 
 <header class={$$props.class}>
   <h1>{today}</h1>
+
+  <SearchForm />
 
   <div class="ButtonsWrapper">
     <Button primary on:click={() => dispatch('addtodo')}>Add Todo</Button>

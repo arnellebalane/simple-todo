@@ -4,7 +4,7 @@ import Button from '@components/Button.svelte';
 
 export let links = [];
 
-$: linksReversed = links.reverse();
+$: linksReversed = links.slice().reverse();
 
 const dispatch = createEventDispatcher();
 const handleRemove = (link) => dispatch('remove', link);
@@ -59,12 +59,15 @@ div {
   flex-grow: 1;
 }
 
-p,
-small {
+p {
   line-height: 1;
 }
 
 small {
+  display: block;
+  margin-top: 0.5rem;
+
+  line-height: 1.2;
   word-break: break-word;
   color: var(--dimmed-500);
 }

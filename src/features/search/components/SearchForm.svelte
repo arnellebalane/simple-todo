@@ -1,6 +1,7 @@
 <script>
 import orderBy from 'lodash/orderBy';
 
+import { settings } from '@features/settings/store';
 import { tags } from '@features/tags/store';
 import { search } from '../store';
 
@@ -8,31 +9,38 @@ import Button from '@components/Button.svelte';
 
 const { query, tag } = search;
 
-$: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
+$: enableSearchForm = $settings.enableTextFilter || $settings.enableTagsFilter;
 $: hasSearchFilters = Boolean($query) || Boolean($tag);
+$: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
 </script>
 
-<form class="SearchForm" on:submit|preventDefault>
-  <input class="SearchQuery" type="text" name="query" placeholder="Search todos" bind:value={$query} />
+{#if enableSearchForm}
+  <form class="SearchForm" on:submit|preventDefault>
+    {#if $settings.enableTextFilter}
+      <input class="SearchQuery" type="text" name="query" placeholder="Search todos" bind:value={$query} />
+    {/if}
 
-  <select class="SearchTags" name="tag" bind:value={$tag}>
-    <option value={null}>All todos</option>
-    {#each tagsChoices as tag}
-      <option value={tag.label}>{tag.label}</option>
-    {/each}
-  </select>
+    {#if $settings.enableTagsFilter}
+      <select class="SearchTags" name="tag" bind:value={$tag}>
+        <option value={null}>All todos</option>
+        {#each tagsChoices as tag}
+          <option value={tag.label}>{tag.label}</option>
+        {/each}
+      </select>
+    {/if}
 
-  <Button
-    icon
-    disabled={!hasSearchFilters}
-    data-tooltip="Clear search filters"
-    iconLight="./dist/assets/icons/close-light.svg"
-    iconDark="./dist/assets/icons/close-dark.svg"
-    on:click={search.clear}
-  >
-    Clear search
-  </Button>
-</form>
+    <Button
+      icon
+      disabled={!hasSearchFilters}
+      data-tooltip="Clear search filters"
+      iconLight="./dist/assets/icons/close-light.svg"
+      iconDark="./dist/assets/icons/close-dark.svg"
+      on:click={search.clear}
+    >
+      Clear search
+    </Button>
+  </form>
+{/if}
 
 <style>
 .SearchForm {

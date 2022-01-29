@@ -18,20 +18,22 @@ const today = dayjs().format('dddd, MMMM D');
 <header class={$$props.class}>
   <h1>{today}</h1>
 
-  <SearchForm />
+  <div class="HeaderActions">
+    <SearchForm />
 
-  <div class="ButtonsWrapper">
-    <Button primary on:click={() => dispatch('addtodo')}>Add Todo</Button>
-    {#if canUndoRemove}
-      <Button class="UndoRemoveButton" on:click={() => dispatch('undoremovedone')}>
-        <div class="Progress" style="--progress: {$removeDoneTimer * 100}%" />
-        <span>Undo Remove</span>
-      </Button>
-    {:else}
-      <Button class="RemoveDoneButton" text on:click={() => dispatch('removedone')} disabled={!hasDoneTodos}>
-        Remove Done
-      </Button>
-    {/if}
+    <div class="HeaderButtons">
+      <Button primary on:click={() => dispatch('addtodo')}>Add Todo</Button>
+      {#if canUndoRemove}
+        <Button class="UndoRemoveButton" on:click={() => dispatch('undoremovedone')}>
+          <div class="Progress" style="--progress: {$removeDoneTimer * 100}%" />
+          <span>Undo Remove</span>
+        </Button>
+      {:else}
+        <Button class="RemoveDoneButton" text on:click={() => dispatch('removedone')} disabled={!hasDoneTodos}>
+          Remove Done
+        </Button>
+      {/if}
+    </div>
   </div>
 </header>
 
@@ -70,14 +72,18 @@ header :global(.RemoveDoneButton) {
   min-width: 15.6rem;
 }
 
-.ButtonsWrapper {
+.HeaderActions,
+.HeaderButtons {
   display: flex;
   gap: 8px;
+}
+
+.HeaderButtons {
   padding: 8px;
   border-radius: 8px;
 }
 
-:global(body[data-background]) .ButtonsWrapper {
+:global(body[data-background]) .HeaderButtons {
   background-color: var(--main-transparent);
 }
 

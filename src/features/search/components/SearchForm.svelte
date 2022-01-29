@@ -1,11 +1,19 @@
 <script>
+import { tags } from '@features/tags/store';
 import { search } from '../store';
 
-const query = search.query;
+const { query, tag } = search;
 </script>
 
 <form class="SearchForm" on:submit|preventDefault>
-  <input class="SearchQuery" type="text" placeholder="Search todos" bind:value={$query} />
+  <input class="SearchQuery" type="text" name="query" placeholder="Search todos" bind:value={$query} />
+
+  <select class="SearchTags" name="tag" bind:value={$tag}>
+    <option value={null}>All todos</option>
+    {#each Object.values($tags) as tag}
+      <option value={tag.label}>{tag.label}</option>
+    {/each}
+  </select>
 </form>
 
 <style>
@@ -20,13 +28,21 @@ const query = search.query;
   background-color: var(--main-transparent);
 }
 
-.SearchQuery {
+.SearchQuery,
+.SearchTags {
   display: block;
-  width: 20rem;
   padding: 8px 1.2rem;
   border: 2px solid var(--dimmed-300);
   border-radius: 8px;
   line-height: 2.4rem;
   background-color: transparent;
+}
+
+.SearchQuery {
+  width: 24rem;
+}
+
+.SearchTags {
+  max-width: 15rem;
 }
 </style>

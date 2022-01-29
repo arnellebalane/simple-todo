@@ -2,7 +2,10 @@
 import { tags } from '@features/tags/store';
 import { search } from '../store';
 
+import Button from '@components/Button.svelte';
+
 const { query, tag } = search;
+$: hasSearchFilters = Boolean($query) || Boolean($tag);
 </script>
 
 <form class="SearchForm" on:submit|preventDefault>
@@ -14,6 +17,17 @@ const { query, tag } = search;
       <option value={tag.label}>{tag.label}</option>
     {/each}
   </select>
+
+  <Button
+    icon
+    disabled={!hasSearchFilters}
+    data-tooltip="Clear search filters"
+    iconLight="./dist/assets/icons/close-light.svg"
+    iconDark="./dist/assets/icons/close-dark.svg"
+    on:click={search.clear}
+  >
+    Clear search
+  </Button>
 </form>
 
 <style>

@@ -4,6 +4,11 @@ function createStore() {
   const query = writable('');
   const tag = writable(null);
 
+  function clear() {
+    query.set('');
+    tag.set(null);
+  }
+
   function filterTodos(todos) {
     const results = writable(todos);
     const matchesAny = (string, patterns) => patterns.some((pattern) => pattern.test(string));
@@ -39,7 +44,7 @@ function createStore() {
     return results;
   }
 
-  return { query, tag, filterTodos };
+  return { query, tag, clear, filterTodos };
 }
 
 export const search = createStore();

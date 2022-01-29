@@ -9,7 +9,7 @@ export let data = getDefaultSettings();
   <div class="Field--inline">
     <label for="enablePrivacyMode">
       Enable privacy mode
-      <small>Quickly toggle by pressing <kbd>Alt+P</kbd></small>
+      <small>Blur out todo contents. Toggle by pressing <kbd>Alt+P</kbd></small>
     </label>
     <Switch name="enablePrivacyMode" bind:value={data.enablePrivacyMode} on:change />
   </div>

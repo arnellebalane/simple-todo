@@ -1,10 +1,14 @@
 <script>
+import orderBy from 'lodash/orderBy';
+
 import { tags } from '@features/tags/store';
 import { search } from '../store';
 
 import Button from '@components/Button.svelte';
 
 const { query, tag } = search;
+
+$: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
 $: hasSearchFilters = Boolean($query) || Boolean($tag);
 </script>
 
@@ -13,7 +17,7 @@ $: hasSearchFilters = Boolean($query) || Boolean($tag);
 
   <select class="SearchTags" name="tag" bind:value={$tag}>
     <option value={null}>All todos</option>
-    {#each Object.values($tags) as tag}
+    {#each tagsChoices as tag}
       <option value={tag.label}>{tag.label}</option>
     {/each}
   </select>

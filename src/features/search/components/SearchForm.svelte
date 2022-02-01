@@ -1,7 +1,9 @@
 <script>
+import { onMount, onDestroy } from 'svelte';
 import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
 
+import { enableShortcut, disableShortcut } from '@features/shortcuts';
 import { settings } from '@features/settings/store';
 import { tags } from '@features/tags/store';
 import { search } from '../store';
@@ -22,10 +24,20 @@ const handleKeyDown = (event) => {
     search.clear();
   }
 };
+
+let searchForm;
+const focusSearchForm = () => {
+  if (searchForm) {
+    searchForm.firstElementChild.focus();
+  }
+};
+
+onMount(() => enableShortcut('focusSearch', () => focusSearchForm()));
+onDestroy(() => disableShortcut('focusSearch'));
 </script>
 
 {#if enableSearchForm}
-  <form class="SearchForm" on:submit|preventDefault on:keydown={handleKeyDown}>
+  <form class="SearchForm" bind:this={searchForm} on:submit|preventDefault on:keydown={handleKeyDown}>
     {#if enableTextFilter}
       <input class="SearchQuery" type="text" name="query" placeholder="Search todos" bind:value={$query} />
     {/if}
@@ -45,6 +57,7 @@ const handleKeyDown = (event) => {
       data-tooltip="Clear search filters"
       iconLight="./dist/assets/icons/close-light.svg"
       iconDark="./dist/assets/icons/close-dark.svg"
+      type="button"
       class="SearchClear"
       on:click={search.clear}
     >

@@ -46,5 +46,17 @@
     "title": "Shortcuts List",
     "imageLight": "/whats-new/shortcuts-list-light.jpg",
     "imageDark": "/whats-new/shortcuts-list-dark.jpg"
+  },
+  {
+    "version": "1.13.0",
+    "title": "Search and Filter",
+    "imageLight": "/whats-new/search-filters-light.jpg",
+    "imageDark": "/whats-new/search-filters-dark.jpg"
+  },
+  {
+    "version": "1.13.0",
+    "title": "Sortable Quick Links",
+    "imageLight": "/whats-new/sortable-quick-links-light.jpg",
+    "imageDark": "/whats-new/sortable-quick-links-dark.jpg"
   }
 ]

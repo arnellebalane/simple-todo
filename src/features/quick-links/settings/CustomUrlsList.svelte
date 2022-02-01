@@ -1,5 +1,7 @@
 <script>
 import { createEventDispatcher } from 'svelte';
+import { confirmation } from '@app/stores/confirmation';
+
 import Button from '@components/Button.svelte';
 
 export let links = [];
@@ -7,7 +9,14 @@ export let links = [];
 $: linksReversed = links.slice().reverse();
 
 const dispatch = createEventDispatcher();
-const handleRemove = (link) => dispatch('remove', link);
+const handleRemove = async (link) => {
+  const confirmed = await confirmation.show({
+    message: 'Are you sure you want to delete this custom quick link?',
+  });
+  if (confirmed) {
+    dispatch('remove', link);
+  }
+};
 </script>
 
 <ul class={$$props.class}>

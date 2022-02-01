@@ -19,31 +19,44 @@ const handleRemove = async (link) => {
 };
 </script>
 
-<ul class={$$props.class}>
+<ul class="CustomUrls">
   {#each linksReversed as link (link.url)}
-    <li>
-      <img src={link.icon} alt={link.title} width="24" height="24" />
-      <div>
-        <p>{link.title}</p>
-        <small>{link.url}</small>
+    <li class="CustomUrl">
+      <img class="CustomUrl_Icon" src={link.icon} alt={link.title} width="24" height="24" />
+      <div class="CustomUrl_Details">
+        <p class="CustomUrl_Title">{link.title}</p>
+        <small class="CustomUrl_Link">{link.url}</small>
       </div>
-      <Button
-        small
-        icon
-        iconLight="./dist/assets/icons/delete.svg"
-        iconDark="./dist/assets/icons/delete.svg"
-        class="RemoveButton"
-        type="button"
-        on:click={() => handleRemove(link)}
-      >
-        Remove
-      </Button>
+
+      <div class="ActionButtons">
+        <Button
+          small
+          icon
+          iconLight="./dist/assets/icons/drag.svg"
+          iconDark="./dist/assets/icons/drag.svg"
+          class="ActionButton"
+          type="button"
+        >
+          Drag
+        </Button>
+        <Button
+          small
+          icon
+          iconLight="./dist/assets/icons/delete.svg"
+          iconDark="./dist/assets/icons/delete.svg"
+          class="ActionButton"
+          type="button"
+          on:click={() => handleRemove(link)}
+        >
+          Remove
+        </Button>
+      </div>
     </li>
   {/each}
 </ul>
 
 <style>
-ul {
+.CustomUrls {
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
@@ -52,28 +65,28 @@ ul {
   list-style: none;
 }
 
-li {
+.CustomUrl {
   display: flex;
   align-items: flex-start;
   gap: 1.2rem;
 }
 
-img {
+.CustomUrl_Icon {
   display: flex;
   width: 2.4rem;
   height: 2.4rem;
 }
 
-div {
+.CustomUrl_Details {
   flex-grow: 1;
 }
 
-p {
+.CustomUrl_Title {
   line-height: 1;
   word-break: break-word;
 }
 
-small {
+.CustomUrl_Link {
   display: block;
   margin-top: 0.5rem;
 
@@ -82,8 +95,11 @@ small {
   color: var(--dimmed-500);
 }
 
-li :global(.RemoveButton) {
+.ActionButtons {
   flex-shrink: 0;
+}
+
+.ActionButtons :global(.ActionButton) {
   width: 2.4rem !important;
   height: 2.4rem !important;
   background-size: 1.8rem;

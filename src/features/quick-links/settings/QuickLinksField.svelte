@@ -46,7 +46,7 @@ const addCustomQuickLink = (event) => {
 
 const removeCustomQuickLink = (event) => {
   const customLink = event.detail;
-  const index = value.indexOf(customLink);
+  const index = value.findIndex((link) => link.url === customLink.url);
   if (index >= 0) {
     value = [...value.slice(0, index), ...value.slice(index + 1)];
     handleChange();

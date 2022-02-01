@@ -1,28 +1,42 @@
 <script>
-import { onMount, onDestroy } from 'svelte';
+import { onMount, onDestroy, afterUpdate } from 'svelte';
 import { portal } from 'svelte-portal';
+import { computePosition, offset, shift, arrow } from '@floating-ui/dom';
 
-let styles = null;
-let message = null;
+let target;
+let tooltip;
+let tooltipArrow;
+let styles = '';
+let message = '';
 
-const handleEnter = (event) => {
-  const target = event.target?.closest?.('[data-tooltip]');
-  if (!target) {
+const handleEnter = async (event) => {
+  if (!event.target.dataset?.tooltip) {
     return;
   }
-  const rect = target.getBoundingClientRect();
-  styles = `top: ${rect.bottom}px; left: ${rect.left + rect.width / 2}px`;
+  target = event.target;
   message = target.dataset.tooltip;
 };
+
 const handleLeave = (event) => {
-  const target = event.target.closest?.('[data-tooltip]');
-  if (!target) {
+  if (event.target !== target) {
     return;
   }
-  styles = null;
-  message = null;
-  handleEnter({ target: document.activeElement });
+  target = null;
+  message = '';
+  styles = '';
 };
+
+// Using `afterUpdate` here instead of `tick` or `setTimeout` inside
+// `handleEnter`, since both of them causes `computePosition` to get the wrong
+// rect of the target element.
+afterUpdate(async () => {
+  if (target) {
+    const { x, y, middlewareData } = await computePosition(target, tooltip, {
+      middleware: [offset(5), shift({ padding: 5 }), arrow({ element: tooltipArrow })],
+    });
+    styles = `display: block; top: ${y}px; left: ${x}px; --arrow-x: ${middlewareData.arrow.x}px;`;
+  }
+});
 
 onMount(() => {
   document.addEventListener('mouseenter', handleEnter, { capture: true });
@@ -38,33 +52,35 @@ onDestroy(() => {
 });
 </script>
 
-{#if message}
-  <p use:portal={'body'} style={styles}>
-    {message}
-  </p>
-{/if}
+<p class="AppTooltip" bind:this={tooltip} use:portal={'body'} style={styles}>
+  <span class="AppTooltip_Arrow" bind:this={tooltipArrow} />
+  {message}
+</p>
 
 <style>
-p {
+.AppTooltip {
   position: fixed;
+  z-index: 1;
+
+  display: none;
   max-width: 24rem;
   padding: 6px 1.2rem;
   border-radius: 6px;
+
   font-size: 1.2rem;
   color: var(--main);
   background-color: var(--inverted);
-  transform: translate(-50%, 4px);
 }
 
-p::before {
-  content: '';
+.AppTooltip_Arrow {
   position: absolute;
-  top: 0;
-  left: 50%;
+  top: -4px;
+  left: var(--arrow-x);
   width: 8px;
   height: 8px;
+
   background-color: var(--inverted);
-  transform: translate(-50%, -4px) rotate(45deg);
+  transform: rotate(45deg);
   transform-origin: center center;
 }
 </style>

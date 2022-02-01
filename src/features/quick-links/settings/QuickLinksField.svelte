@@ -25,10 +25,16 @@ const dispatch = createEventDispatcher();
 const handleChange = () => dispatch('change', value);
 
 const handleDefaultLinksChange = () => {
-  const selectedLinks = choices
-    .filter((link) => selectedUrls.includes(link.url))
-    .map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
+  const selectedLinks = choices.filter((link) => selectedUrls.includes(link.url));
   value = [...selectedLinks, ...customQuickLinks];
+  value = value.map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
+  handleChange();
+};
+
+const handleCustomQuickLinksChange = (event) => {
+  const selectedLinks = choices.filter((link) => selectedUrls.includes(link.url));
+  value = [...selectedLinks, ...event.detail];
+  value = value.map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
   handleChange();
 };
 
@@ -67,7 +73,11 @@ const removeCustomQuickLink = (event) => {
 <div class="CustomLinks">
   <CustomUrlField name="customUrl" on:data={addCustomQuickLink} />
   {#if hasCustomQuickLinks}
-    <CustomUrlsList links={customQuickLinks} on:remove={removeCustomQuickLink} />
+    <CustomUrlsList
+      links={customQuickLinks}
+      on:remove={removeCustomQuickLink}
+      on:change={handleCustomQuickLinksChange}
+    />
   {/if}
 </div>
 

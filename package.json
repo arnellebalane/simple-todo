@@ -15,6 +15,7 @@
   "author": "Arnelle Balane <arnellebalane@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@floating-ui/dom": "^0.2.0",
     "@sentry/browser": "^6.3.6",
     "@sentry/integrations": "^6.3.6",
     "@sentry/node": "^6.3.6",

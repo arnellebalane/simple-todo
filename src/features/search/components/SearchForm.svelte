@@ -35,6 +35,7 @@ $: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
       data-tooltip="Clear search filters"
       iconLight="./dist/assets/icons/close-light.svg"
       iconDark="./dist/assets/icons/close-dark.svg"
+      class="SearchClear"
       on:click={search.clear}
     >
       Clear search
@@ -55,13 +56,18 @@ $: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
 }
 
 .SearchQuery,
+.SearchTags,
+.SearchForm :global(button.icon.SearchClear) {
+  background-color: var(--main);
+}
+
+.SearchQuery,
 .SearchTags {
   display: block;
   padding: 8px 1.2rem;
   border: 2px solid var(--dimmed-300);
   border-radius: 8px;
   line-height: 2.4rem;
-  background-color: transparent;
 }
 
 .SearchQuery {

@@ -13,5 +13,12 @@
   "togglePrivacyMode": {
     "label": "Toggle privacy mode",
     "keys": ["altKey", "KeyP"]
+  },
+  "focusSearch": {
+    "label": "Focus search",
+    "keys": [
+      ["ctrlKey", "Slash"],
+      ["metaKey", "Slash"]
+    ]
   }
 }

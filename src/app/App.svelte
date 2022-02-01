@@ -5,6 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { enableShortcut, disableShortcut } from '@features/shortcuts';
 import { tags } from '@features/tags/store';
 import { todos } from '@features/todos/store';
+import { search } from '@features/search/store';
 import { confirmation } from './stores/confirmation';
 
 import AppTopBar from './components/AppTopBar.svelte';
@@ -14,6 +15,8 @@ import AppTooltip from './components/AppTooltip.svelte';
 import AppConfirmation from './components/AppConfirmation.svelte';
 import TodoFormModal from '@features/todos/components/TodoFormModal.svelte';
 import TodoBoard from '@features/todos/components/TodoBoard.svelte';
+
+$: filteredTodos = search.filterTodos($todos);
 
 let todoFormData = {};
 let showTodoForm = false;
@@ -71,7 +74,7 @@ onDestroy(() => disableShortcut('addTodo'));
     />
     <TodoBoard
       class="TodoBoard"
-      todos={$todos}
+      todos={$filteredTodos}
       on:addtodo={showTodoFormWithData}
       on:updatetodo={updateTodoItem}
       on:edittodo={showTodoFormWithData}

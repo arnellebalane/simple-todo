@@ -16,6 +16,7 @@ const getItemKeys = (item) => {
     altKey: 'Alt',
     metaKey: 'Cmd',
     ctrlKey: 'Ctrl',
+    Slash: '/',
   };
   return keys.map((key) =>
     key

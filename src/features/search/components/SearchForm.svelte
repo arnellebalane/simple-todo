@@ -16,10 +16,16 @@ $: enableSearchForm = enableTextFilter || enableTagsFilter;
 
 $: hasSearchFilters = Boolean($query) || Boolean($tag);
 $: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
+
+const handleKeyDown = (event) => {
+  if (event.key === 'Escape') {
+    search.clear();
+  }
+};
 </script>
 
 {#if enableSearchForm}
-  <form class="SearchForm" on:submit|preventDefault>
+  <form class="SearchForm" on:submit|preventDefault on:keydown={handleKeyDown}>
     {#if enableTextFilter}
       <input class="SearchQuery" type="text" name="query" placeholder="Search todos" bind:value={$query} />
     {/if}

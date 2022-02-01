@@ -24,7 +24,7 @@ function createStore() {
 
       let filtered = todos;
       if (tagValue) {
-        filtered = filtered.filter((todo) => todo.tags.includes(tagValue));
+        filtered = filtered.filter((todo) => todo.tags?.includes(tagValue));
       }
       if (queryValue) {
         filtered = filtered.filter((todo) => matchesAny(todo.body, patterns));

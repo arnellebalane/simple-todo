@@ -21,6 +21,8 @@ $: choices = choices.map((link) => {
 $: customQuickLinks = value.filter((link) => link.custom);
 $: hasCustomQuickLinks = customQuickLinks.length > 0;
 
+let customQuickLinkError = '';
+
 const dispatch = createEventDispatcher();
 const handleChange = () => dispatch('change', value);
 
@@ -40,8 +42,13 @@ const handleCustomQuickLinksChange = (event) => {
 
 const addCustomQuickLink = (event) => {
   const customLink = event.detail;
-  value = [...value, { ...customLink, custom: true }];
-  handleChange();
+  const duplicateLink = value.find((link) => link.url === customLink.url);
+  if (duplicateLink) {
+    customQuickLinkError = 'Custom link is a duplicate of an existing link.';
+  } else {
+    value = [...value, { ...customLink, custom: true }];
+    handleChange();
+  }
 };
 
 const removeCustomQuickLink = (event) => {
@@ -71,7 +78,7 @@ const removeCustomQuickLink = (event) => {
 </div>
 
 <div class="CustomLinks">
-  <CustomUrlField name="customUrl" on:data={addCustomQuickLink} />
+  <CustomUrlField name="customUrl" error={customQuickLinkError} on:data={addCustomQuickLink} />
   {#if hasCustomQuickLinks}
     <CustomUrlsList
       links={customQuickLinks}

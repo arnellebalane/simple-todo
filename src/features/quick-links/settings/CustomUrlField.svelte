@@ -5,10 +5,10 @@ import axios from '@lib/axios';
 import Button from '@components/Button.svelte';
 
 export let name;
+export let error = '';
 
 const form = `quick-links-custom-url-field-${name}`;
 let value = '';
-let error = '';
 let isLoading = false;
 
 const dispatch = createEventDispatcher();

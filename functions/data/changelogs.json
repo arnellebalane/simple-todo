@@ -46,5 +46,35 @@
     "title": "Shortcuts List",
     "imageLight": "/whats-new/shortcuts-list-light.jpg",
     "imageDark": "/whats-new/shortcuts-list-dark.jpg"
+  },
+  {
+    "version": "1.12.0",
+    "title": "Quick Links",
+    "imageLight": "/whats-new/quick-links-light.jpg",
+    "imageDark": "/whats-new/quick-links-dark.jpg"
+  },
+  {
+    "version": "1.12.0",
+    "title": "Quick Links Settings",
+    "imageLight": "/whats-new/quick-links-settings-light.jpg",
+    "imageDark": "/whats-new/quick-links-settings-dark.jpg"
+  },
+  {
+    "version": "1.12.0",
+    "title": "Frequently Visited Sites",
+    "imageLight": "/whats-new/frequently-visited-light.jpg",
+    "imageDark": "/whats-new/frequently-visited-dark.jpg"
+  },
+  {
+    "version": "1.13.0",
+    "title": "Search and Filter",
+    "imageLight": "/whats-new/search-filters-light.jpg",
+    "imageDark": "/whats-new/search-filters-dark.jpg"
+  },
+  {
+    "version": "1.13.0",
+    "title": "Sortable Quick Links",
+    "imageLight": "/whats-new/sortable-quick-links-light.jpg",
+    "imageDark": "/whats-new/sortable-quick-links-dark.jpg"
   }
 ]

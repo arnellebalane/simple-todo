@@ -1,6 +1,6 @@
 {
   "name": "simple-todo",
-  "version": "1.12.2",
+  "version": "1.13.0",
   "description": "A Chrome extension that replaces the new tab page with a simple todo list",
   "main": "index.js",
   "scripts": {
@@ -15,6 +15,7 @@
   "author": "Arnelle Balane <arnellebalane@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@floating-ui/dom": "^0.2.0",
     "@sentry/browser": "^6.3.6",
     "@sentry/integrations": "^6.3.6",
     "@sentry/node": "^6.3.6",

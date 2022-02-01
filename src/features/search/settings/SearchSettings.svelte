@@ -1,17 +1,25 @@
 <script>
-import Switch from '@components/Switch.svelte';
 import { getDefaultSettings } from '.';
+import Switch from '@components/Switch.svelte';
 
 export let data = getDefaultSettings();
 </script>
 
 <section>
   <div class="Field--inline">
-    <label for="enablePrivacyMode">
-      Enable privacy mode
-      <small>Blur out todo contents. Toggle by pressing <kbd>Alt+P</kbd>.</small>
+    <label for="enableTextFilter">
+      Enable text filter
+      <small>Show todos that match the search query.</small>
     </label>
-    <Switch name="enablePrivacyMode" bind:value={data.enablePrivacyMode} on:change />
+    <Switch name="enableTextFilter" bind:value={data.enableTextFilter} on:change />
+  </div>
+
+  <div class="Field--inline">
+    <label for="enableTagsFilter">
+      Enable tags filter
+      <small>Show todos containing the selected tag. Remains hidden if there are no tags available.</small>
+    </label>
+    <Switch name="enableTagsFilter" bind:value={data.enableTagsFilter} on:change />
   </div>
 </section>
 
@@ -50,13 +58,5 @@ small {
   font-size: 1.3rem;
   font-weight: 400;
   color: var(--dimmed-500);
-}
-
-kbd {
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  background-color: var(--dimmed-200);
 }
 </style>

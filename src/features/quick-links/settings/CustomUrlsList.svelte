@@ -1,40 +1,48 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import Button from '@components/Button.svelte';
+import { dndzone, TRIGGERS } from 'svelte-dnd-action';
+import omit from 'lodash/omit';
+
+import CustomUrlItem from './CustomUrlItem.svelte';
 
 export let links = [];
 
-$: linksReversed = links.slice().reverse();
+$: sortableLinks = links
+  .slice()
+  .reverse()
+  .map((link) => ({ ...link, id: link.url }));
+
+const transformDraggedElement = (element) => {
+  element.classList.add('CustomUrl-dragged');
+};
 
 const dispatch = createEventDispatcher();
-const handleRemove = (link) => dispatch('remove', link);
+
+const handleDragAndDrop = (event) => {
+  sortableLinks = event.detail.items;
+  if (event.detail.info.trigger === TRIGGERS.DROPPED_INTO_ZONE) {
+    const links = sortableLinks
+      .slice()
+      .reverse()
+      .map((link) => omit(link, ['id']));
+    dispatch('change', links);
+  }
+};
 </script>
 
-<ul class={$$props.class}>
-  {#each linksReversed as link (link.url)}
-    <li>
-      <img src={link.icon} alt={link.title} width="24" height="24" />
-      <div>
-        <p>{link.title}</p>
-        <small>{link.url}</small>
-      </div>
-      <Button
-        small
-        icon
-        iconLight="./dist/assets/icons/delete.svg"
-        iconDark="./dist/assets/icons/delete.svg"
-        class="RemoveButton"
-        type="button"
-        on:click={() => handleRemove(link)}
-      >
-        Remove
-      </Button>
-    </li>
+<ol
+  class="CustomUrls"
+  use:dndzone={{ items: sortableLinks, type: 'CustomUrls', dropTargetStyle: {}, transformDraggedElement }}
+  on:consider={handleDragAndDrop}
+  on:finalize={handleDragAndDrop}
+>
+  {#each sortableLinks as link (link.id)}
+    <CustomUrlItem {link} on:remove={() => dispatch('remove', link)} />
   {/each}
-</ul>
+</ol>
 
 <style>
-ul {
+.CustomUrls {
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
@@ -43,39 +51,11 @@ ul {
   list-style: none;
 }
 
-li {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.2rem;
-}
-
-img {
-  display: flex;
-  width: 2.4rem;
-  height: 2.4rem;
-}
-
-div {
-  flex-grow: 1;
-}
-
-p {
-  line-height: 1;
-}
-
-small {
-  display: block;
-  margin-top: 0.5rem;
-
-  line-height: 1.2;
-  word-break: break-word;
-  color: var(--dimmed-500);
-}
-
-li :global(.RemoveButton) {
-  flex-shrink: 0;
-  width: 2.4rem !important;
-  height: 2.4rem !important;
-  background-size: 1.8rem;
+:global(.CustomUrl-dragged) {
+  padding: 8px !important;
+  border-radius: 8px !important;
+  height: auto !important;
+  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 5%) 0px 4px 6px -1px,
+    rgb(0 0 0 / 1%) 0px 2px 4px -1px;
 }
 </style>

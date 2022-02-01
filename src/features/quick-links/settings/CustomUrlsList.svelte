@@ -61,6 +61,7 @@ div {
 
 p {
   line-height: 1;
+  word-break: break-word;
 }
 
 small {

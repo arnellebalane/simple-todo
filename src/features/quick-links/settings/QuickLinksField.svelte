@@ -21,26 +21,39 @@ $: choices = choices.map((link) => {
 $: customQuickLinks = value.filter((link) => link.custom);
 $: hasCustomQuickLinks = customQuickLinks.length > 0;
 
+let customQuickLinkError = '';
+
 const dispatch = createEventDispatcher();
 const handleChange = () => dispatch('change', value);
 
 const handleDefaultLinksChange = () => {
-  const selectedLinks = choices
-    .filter((link) => selectedUrls.includes(link.url))
-    .map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
+  const selectedLinks = choices.filter((link) => selectedUrls.includes(link.url));
   value = [...selectedLinks, ...customQuickLinks];
+  value = value.map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
+  handleChange();
+};
+
+const handleCustomQuickLinksChange = (event) => {
+  const selectedLinks = choices.filter((link) => selectedUrls.includes(link.url));
+  value = [...selectedLinks, ...event.detail];
+  value = value.map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
   handleChange();
 };
 
 const addCustomQuickLink = (event) => {
   const customLink = event.detail;
-  value = [...value, { ...customLink, custom: true }];
-  handleChange();
+  const duplicateLink = value.find((link) => link.url === customLink.url);
+  if (duplicateLink) {
+    customQuickLinkError = 'Custom link is a duplicate of an existing link.';
+  } else {
+    value = [...value, { ...customLink, custom: true }];
+    handleChange();
+  }
 };
 
 const removeCustomQuickLink = (event) => {
   const customLink = event.detail;
-  const index = value.indexOf(customLink);
+  const index = value.findIndex((link) => link.url === customLink.url);
   if (index >= 0) {
     value = [...value.slice(0, index), ...value.slice(index + 1)];
     handleChange();
@@ -65,9 +78,13 @@ const removeCustomQuickLink = (event) => {
 </div>
 
 <div class="CustomLinks">
-  <CustomUrlField name="customUrl" on:data={addCustomQuickLink} />
+  <CustomUrlField name="customUrl" error={customQuickLinkError} on:data={addCustomQuickLink} />
   {#if hasCustomQuickLinks}
-    <CustomUrlsList links={customQuickLinks} on:remove={removeCustomQuickLink} />
+    <CustomUrlsList
+      links={customQuickLinks}
+      on:remove={removeCustomQuickLink}
+      on:change={handleCustomQuickLinksChange}
+    />
   {/if}
 </div>
 

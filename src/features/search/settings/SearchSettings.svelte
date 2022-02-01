@@ -9,7 +9,7 @@ export let data = getDefaultSettings();
   <div class="Field--inline">
     <label for="enableTextFilter">
       Enable text filter
-      <small>Show todos that match the search query</small>
+      <small>Show todos that match the search query.</small>
     </label>
     <Switch name="enableTextFilter" bind:value={data.enableTextFilter} on:change />
   </div>
@@ -17,7 +17,7 @@ export let data = getDefaultSettings();
   <div class="Field--inline">
     <label for="enableTagsFilter">
       Enable tags filter
-      <small>Show todos containing the selected tag</small>
+      <small>Show todos containing the selected tag. Remains hidden if there are no tags available.</small>
     </label>
     <Switch name="enableTagsFilter" bind:value={data.enableTagsFilter} on:change />
   </div>
@@ -49,6 +49,7 @@ label {
 }
 
 .Field--inline label + :global(*) {
+  flex-shrink: 0;
   margin-top: 1px;
 }
 

@@ -6,6 +6,6 @@ export const component = SearchSettings;
 
 export const getDefaultSettings = () => ({
   enableTextFilter: true,
-  enableTagsFilter: false,
+  enableTagsFilter: true,
 });
 export const allowedFields = ['enableTextFilter', 'enableTagsFilter'];

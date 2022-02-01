@@ -1,4 +1,5 @@
 <script>
+import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
 
 import { settings } from '@features/settings/store';
@@ -9,18 +10,21 @@ import Button from '@components/Button.svelte';
 
 const { query, tag } = search;
 
-$: enableSearchForm = $settings.enableTextFilter || $settings.enableTagsFilter;
+$: enableTextFilter = $settings.enableTextFilter;
+$: enableTagsFilter = $settings.enableTagsFilter && !isEmpty($tags);
+$: enableSearchForm = enableTextFilter || enableTagsFilter;
+
 $: hasSearchFilters = Boolean($query) || Boolean($tag);
 $: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
 </script>
 
 {#if enableSearchForm}
   <form class="SearchForm" on:submit|preventDefault>
-    {#if $settings.enableTextFilter}
+    {#if enableTextFilter}
       <input class="SearchQuery" type="text" name="query" placeholder="Search todos" bind:value={$query} />
     {/if}
 
-    {#if $settings.enableTagsFilter}
+    {#if enableTagsFilter}
       <select class="SearchTags" name="tag" bind:value={$tag}>
         <option value={null}>All todos</option>
         {#each tagsChoices as tag}

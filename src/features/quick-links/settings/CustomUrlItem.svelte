@@ -32,8 +32,9 @@ const handleRemove = async () => {
       icon
       iconLight="./dist/assets/icons/drag.svg"
       iconDark="./dist/assets/icons/drag.svg"
-      class="CustomUrl_Action"
+      class="CustomUrl_Action CustomUrl_Action-drag"
       type="button"
+      tabindex="-1"
     >
       Drag
     </Button>
@@ -97,6 +98,10 @@ const handleRemove = async () => {
   width: 2.4rem !important;
   height: 2.4rem !important;
   background-size: 1.8rem;
+}
+
+.CustomUrl_Actions :global(.CustomUrl_Action-drag) {
+  pointer-events: none;
 }
 
 .CustomUrl_Shadow {

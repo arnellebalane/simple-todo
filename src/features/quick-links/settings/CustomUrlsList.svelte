@@ -12,6 +12,10 @@ $: sortableLinks = links
   .reverse()
   .map((link) => ({ ...link, id: link.url }));
 
+const transformDraggedElement = (element) => {
+  element.classList.add('CustomUrl-dragged');
+};
+
 const dispatch = createEventDispatcher();
 
 const handleDragAndDrop = (event) => {
@@ -28,7 +32,7 @@ const handleDragAndDrop = (event) => {
 
 <ol
   class="CustomUrls"
-  use:dndzone={{ items: sortableLinks, type: 'CustomUrls', dropTargetStyle: {} }}
+  use:dndzone={{ items: sortableLinks, type: 'CustomUrls', dropTargetStyle: {}, transformDraggedElement }}
   on:consider={handleDragAndDrop}
   on:finalize={handleDragAndDrop}
 >
@@ -45,5 +49,13 @@ const handleDragAndDrop = (event) => {
 
   padding: 0;
   list-style: none;
+}
+
+:global(.CustomUrl-dragged) {
+  padding: 8px !important;
+  border-radius: 8px !important;
+  height: auto !important;
+  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 5%) 0px 4px 6px -1px,
+    rgb(0 0 0 / 1%) 0px 2px 4px -1px;
 }
 </style>

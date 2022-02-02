@@ -19,7 +19,12 @@ const handleDragAndDrop = (event) => {
 };
 </script>
 
-<ol use:dndzone={{ items: todos, dropTargetStyle: {} }} on:consider={handleDragAndDrop} on:finalize={handleDragAndDrop}>
+<ol
+  class="TodoListItems"
+  use:dndzone={{ items: todos, dropTargetStyle: {} }}
+  on:consider={handleDragAndDrop}
+  on:finalize={handleDragAndDrop}
+>
   {#each todos as todo (todo.id)}
     <TodoItem
       {todo}
@@ -31,22 +36,22 @@ const handleDragAndDrop = (event) => {
 </ol>
 
 <style>
-ol {
+.TodoListItems {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 
-  padding: 0 6px 0 1.4rem;
+  padding: 0 6px 6px 1.4rem;
   margin: 0 -1.4rem;
   list-style: none;
   overflow-y: scroll;
 }
 
-ol::-webkit-scrollbar {
+.TodoListItems::-webkit-scrollbar {
   width: 8px;
 }
 
-ol::-webkit-scrollbar-thumb {
+.TodoListItems::-webkit-scrollbar-thumb {
   border-radius: 1rem;
   background-color: var(--dimmed-300);
 }

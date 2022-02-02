@@ -1,42 +1,43 @@
 <script>
-import { onMount, onDestroy, afterUpdate } from 'svelte';
+import { onMount, onDestroy } from 'svelte';
 import { portal } from 'svelte-portal';
 import { computePosition, offset, shift, arrow } from '@floating-ui/dom';
 
 let target;
 let tooltip;
 let tooltipArrow;
-let styles = '';
 let message = '';
+let styles = '';
 
 const handleEnter = async (event) => {
   if (!event.target.dataset?.tooltip) {
     return;
   }
   target = event.target;
-  message = target.dataset.tooltip;
+  message = event.target.dataset.tooltip;
+
+  // For some reason this needs to be called twice in order for the tooltip to
+  // be positioned properly. Only one call gives the wrong positions for the
+  // tooltip and its arrow, probably because it's not able to use the DOM
+  // element with its latest contents?
+  await positionTooltip();
+  await positionTooltip();
 };
 
 const handleLeave = (event) => {
   if (event.target !== target) {
     return;
   }
-  target = null;
   message = '';
   styles = '';
 };
 
-// Using `afterUpdate` here instead of `tick` or `setTimeout` inside
-// `handleEnter`, since both of them causes `computePosition` to get the wrong
-// rect of the target element.
-afterUpdate(async () => {
-  if (target) {
-    const { x, y, middlewareData } = await computePosition(target, tooltip, {
-      middleware: [offset(5), shift({ padding: 5 }), arrow({ element: tooltipArrow })],
-    });
-    styles = `display: block; top: ${y}px; left: ${x}px; --arrow-x: ${middlewareData.arrow.x}px;`;
-  }
-});
+const positionTooltip = async () => {
+  const { x, y, middlewareData } = await computePosition(target, tooltip, {
+    middleware: [offset(5), shift({ padding: 5 }), arrow({ element: tooltipArrow })],
+  });
+  styles = `display: block; top: ${y}px; left: ${x}px; --arrow-x: ${middlewareData.arrow.x}px`;
+};
 
 onMount(() => {
   document.addEventListener('mouseenter', handleEnter, { capture: true });

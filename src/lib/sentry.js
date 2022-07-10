@@ -14,7 +14,7 @@ export function initializeSentry() {
         }),
         new Integrations.BrowserTracing(),
       ],
-      tracesSampleRate: 1,
+      tracesSampleRate: 0.001,
     });
   }
 }

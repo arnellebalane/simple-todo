@@ -2,6 +2,8 @@ import * as Sentry from '@sentry/browser';
 import { CaptureConsole } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 
+const ignoredErrorMessages = ['Error: Network Error'];
+
 export function initializeSentry() {
   if (import.meta.env.NODE_ENV === 'production') {
     Sentry.init({
@@ -15,6 +17,12 @@ export function initializeSentry() {
         new Integrations.BrowserTracing(),
       ],
       tracesSampleRate: 0.001,
+      beforeSend(event) {
+        if (ignoredErrorMessages.includes(event.message)) {
+          return null;
+        }
+        return event;
+      },
     });
   }
 }

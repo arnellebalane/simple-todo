@@ -5,7 +5,7 @@ function createStore() {
   const { subscribe, set, update } = writable([]);
 
   if (frequentLinksSupported) {
-    chrome.topSites.get((sites) => {
+    window.chrome?.topSites.get((sites) => {
       set(
         sites.map((site) => ({
           ...pick(site, ['title', 'url']),
@@ -18,5 +18,5 @@ function createStore() {
   return { subscribe, set, update };
 }
 
-export const frequentLinksSupported = typeof chrome?.topSites?.get === 'function';
+export const frequentLinksSupported = typeof window.chrome?.topSites?.get === 'function';
 export const frequentLinks = createStore();

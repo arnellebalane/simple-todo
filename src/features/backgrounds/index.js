@@ -50,9 +50,13 @@ async function downloadBackgroundImage(imageUrl) {
 }
 
 async function renderBackgroundImage(imageUrl) {
-  const photoUrl = imageUrl.startsWith('data:') ? imageUrl : await downloadBackgroundImage(imageUrl);
-  document.body.style.backgroundImage = `url(${photoUrl})`;
-  setTimeout(() => (document.body.dataset.backgroundLoaded = true), 100);
+  try {
+    const photoUrl = imageUrl.startsWith('data:') ? imageUrl : await downloadBackgroundImage(imageUrl);
+    document.body.style.backgroundImage = `url(${photoUrl})`;
+    setTimeout(() => (document.body.dataset.backgroundLoaded = true), 100);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function removeBackgroundImage() {
@@ -80,14 +84,18 @@ function shouldUpdateBackgroundImage(settingsData) {
 async function maybeUpdateBackgroundImage(settingsData) {
   if (shouldUpdateBackgroundImage(settingsData)) {
     const { request } = backgrounds.getBackgroundImage();
-    const backgroundImage = await request;
-    const backgroundImageLastUpdate = Date.now();
-    settings.saveInStorage({
-      ...settingsData,
-      backgroundImage,
-      backgroundImageLastUpdate,
-      backgroundPreloaded: false,
-    });
+    try {
+      const backgroundImage = await request;
+      const backgroundImageLastUpdate = Date.now();
+      settings.saveInStorage({
+        ...settingsData,
+        backgroundImage,
+        backgroundImageLastUpdate,
+        backgroundPreloaded: false,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 
@@ -102,8 +110,12 @@ async function maybeLoadBetterBackgroundImage(settingsData) {
     !preview && backgroundImage.photo_url_full && !backgroundPreloaded && !navigator.connection?.saveData;
 
   if (shouldLoadBetterImage) {
-    await downloadBackgroundImage(backgroundImage.photo_url_full);
-    settings.save({ ...settingsData, backgroundPreloaded: true });
+    try {
+      await downloadBackgroundImage(backgroundImage.photo_url_full);
+      settings.save({ ...settingsData, backgroundPreloaded: true });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 

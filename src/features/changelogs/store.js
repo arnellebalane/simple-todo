@@ -19,12 +19,15 @@ if (initialVersion !== nextVersion) {
     version: initialVersion,
     next_version: nextVersion,
   };
-  axios.get('/get-version-changelog', { params }).then((response) => {
-    changelogs.set(response.data);
-    if (response.data.length === 0) {
-      version.set(nextVersion);
-    }
-  });
+  axios
+    .get('/get-version-changelog', { params })
+    .then((response) => {
+      changelogs.set(response.data);
+      if (response.data.length === 0) {
+        version.set(nextVersion);
+      }
+    })
+    .catch((error) => console.error(error));
 }
 
 export function setVersionIfHigher(value) {

@@ -28,13 +28,19 @@ $: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
 $: formValid = data.body && data.list;
 let errors = {};
 
-const handlePaste = async () => {
-  // Svelte's tick() doesn't work here, so setTimeout() to the rescue!
-  // We need this to make sure that the DOM has updated with new content before
-  // we try to sanitize its content.
-  setTimeout(() => {
-    data.body = unsanitizeText(sanitizeText(data.body));
-  }, 0);
+const handlePaste = async (e) => {
+  // Hijack the normal paste behaviour and strip it's formatting
+  e.preventDefault();
+  const paste = (e.clipboardData || window.clipboardData).getData('text');
+  const selection = window.getSelection();
+
+  if (!selection.rangeCount) {
+    return;
+  }
+
+  selection.deleteFromDocument();
+  selection.getRangeAt(0).insertNode(document.createTextNode(paste));
+  selection.collapseToEnd();
 };
 
 const dispatch = createEventDispatcher();

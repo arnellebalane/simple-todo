@@ -1,5 +1,14 @@
 import { writable } from 'svelte/store';
 
+function escapePattern(pattern) {
+  // https://stackoverflow.com/a/6969486/1343333
+  return pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function matchesAny(string, patterns) {
+  return patterns.some((pattern) => pattern.test(string));
+}
+
 function createStore() {
   const query = writable('');
   const tag = writable(null);
@@ -11,8 +20,6 @@ function createStore() {
 
   function filterTodos(todos) {
     const results = writable(todos);
-    const matchesAny = (string, patterns) => patterns.some((pattern) => pattern.test(string));
-
     let queryValue = '';
     let tagValue = null;
 
@@ -20,7 +27,7 @@ function createStore() {
       const patterns = queryValue
         .trim()
         .split(/\s+/g)
-        .map((word) => new RegExp(word, 'gi'));
+        .map((word) => new RegExp(escapePattern(word), 'gi'));
 
       let filtered = todos;
       if (tagValue) {

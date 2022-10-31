@@ -5,6 +5,10 @@ function escapePattern(pattern) {
   return pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+function matchesAny(string, patterns) {
+  return patterns.some((pattern) => pattern.test(string));
+}
+
 function createStore() {
   const query = writable('');
   const tag = writable(null);
@@ -16,8 +20,6 @@ function createStore() {
 
   function filterTodos(todos) {
     const results = writable(todos);
-    const matchesAny = (string, patterns) => patterns.some((pattern) => pattern.test(string));
-
     let queryValue = '';
     let tagValue = null;
 

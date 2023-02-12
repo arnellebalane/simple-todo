@@ -9,12 +9,12 @@
     "128": "build/icons/128x128.png"
   },
   "author": "Arnelle Balane",
-  "homepage_url": "https://simple-todo.arnelle.me",
+  "homepage_url": "https://simple-todo.arnelle.dev",
 
   "chrome_url_overrides": {
     "newtab": "build/index.html"
   },
-  "permissions": ["topSites", "https://simple-todo.arnelle.me/"],
+  "permissions": ["topSites", "https://simple-todo.arnelle.dev/"],
 
-  "content_security_policy": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https: http:; script-src 'self'; connect-src 'self' https://simple-todo.arnelle.me https://images.unsplash.com https://o31372.ingest.sentry.io"
+  "content_security_policy": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https: http:; script-src 'self'; connect-src 'self' https://simple-todo.arnelle.dev https://images.unsplash.com https://o31372.ingest.sentry.io"
 }

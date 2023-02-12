@@ -12,4 +12,4 @@ ci:
 
   upload:
     target: lhci
-    serverBaseUrl: https://lhci.arnelle.me/
+    serverBaseUrl: https://lhci.arnelle.dev/

@@ -41,7 +41,7 @@ const saveTodoItem = (event) => {
   tags.add(event.detail.tags);
   setShowTodoForm(false);
 };
-const updateTodos = (event) => todos.set(event.detail);
+const updateTodos = (event) => todos.updateList(event.detail);
 const removeDoneTodos = () => todos.removeDone();
 const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 
@@ -58,7 +58,8 @@ onDestroy(() => disableShortcut('addTodo'));
       data-do-not-track="true"
       data-auto-track={import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD === 'true'}
       data-host-url="https://umami.arnelle.dev"
-      src="./vendor/umami.js"></script>
+      src="./vendor/umami.js"
+    ></script>
   {/if}
 </svelte:head>
 

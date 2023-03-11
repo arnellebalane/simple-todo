@@ -26,6 +26,19 @@ function createStore() {
     _set(data.map((todo) => pick(todo, allowedFields)));
   }
 
+  function updateList(data) {
+    _update((todos) => {
+      // Handles updates to the list of todos collectively, but excluding addition/deletion of individual items.
+      // Potentially the list that the UI is working with is a filtered list, so we don't want to delete the items that
+      // were not included in the filter. This function takes care of making sure that the complete list is saved.
+      const todosById = data.reduce((state, todo) => {
+        state[todo.id] = todo;
+        return state;
+      }, {});
+      return todos.map((todo) => todosById[todo.id] || todo);
+    });
+  }
+
   function update(data) {
     _update((todos) => {
       return todos.map((todo) => {
@@ -110,6 +123,7 @@ function createStore() {
   return {
     subscribe,
     set,
+    updateList,
     update,
     save,
     remove,

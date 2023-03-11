@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Simple Todo",
-  "version": "1.13.8",
+  "version": "1.13.9",
 
   "description": "Replace the newtab page with a simple todo list",
   "icons": {

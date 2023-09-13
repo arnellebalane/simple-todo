@@ -25,8 +25,8 @@ const restoreTag = (tag) => {
                 <Button
                     medium
                     icon
-                    iconLight={tag.removed ? './dist/assets/icons/restore.svg' : './dist/assets/icons/delete.svg'}
-                    iconDark={tag.removed ? './dist/assets/icons/restore.svg' : './dist/assets/icons/delete.svg'}
+                    iconLight={tag.removed ? '/assets/icons/restore.svg' : '/assets/icons/delete.svg'}
+                    iconDark={tag.removed ? '/assets/icons/restore.svg' : '/assets/icons/delete.svg'}
                     type="button"
                     class="Button"
                     on:click={() => (tag.removed ? restoreTag(tag) : removeTag(tag))}

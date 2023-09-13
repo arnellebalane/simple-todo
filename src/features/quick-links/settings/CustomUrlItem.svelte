@@ -30,8 +30,8 @@ const handleRemove = async () => {
         <Button
             small
             icon
-            iconLight="./dist/assets/icons/drag.svg"
-            iconDark="./dist/assets/icons/drag.svg"
+            iconLight="/assets/icons/drag.svg"
+            iconDark="/assets/icons/drag.svg"
             class="CustomUrl_Action CustomUrl_Action-drag"
             type="button"
             tabindex="-1"
@@ -41,8 +41,8 @@ const handleRemove = async () => {
         <Button
             small
             icon
-            iconLight="./dist/assets/icons/delete.svg"
-            iconDark="./dist/assets/icons/delete.svg"
+            iconLight="/assets/icons/delete.svg"
+            iconDark="/assets/icons/delete.svg"
             class="CustomUrl_Action"
             type="button"
             on:click={handleRemove}

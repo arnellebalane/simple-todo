@@ -73,8 +73,8 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
         <Button
             icon
             medium
-            iconLight="./dist/assets/icons/settings-light.svg"
-            iconDark="./dist/assets/icons/settings-dark.svg"
+            iconLight="/assets/icons/settings-light.svg"
+            iconDark="/assets/icons/settings-dark.svg"
             on:click={() => toggleSettingsForm(true)}
         >
             Settings
@@ -86,7 +86,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
                 rel="noopener noreferrer"
                 class="umami--click--chrome-webstore-link"
             >
-                <img src="./dist/assets/images/chrome-webstore.png" alt="Available in the Chrome Webstore" />
+                <img src="/assets/images/chrome-webstore.png" alt="Available in the Chrome Webstore" />
             </a>
         {/if}
     </div>

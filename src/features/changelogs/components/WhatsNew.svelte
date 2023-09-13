@@ -10,8 +10,8 @@ $: screens = [
     ...$changelogs,
     {
         title: `You're now up to date!`,
-        imageLight: './dist/assets/images/whats-new-empty-light.jpg',
-        imageDark: './dist/assets/images/whats-new-empty-dark.jpg',
+        imageLight: '/assets/images/whats-new-empty-light.jpg',
+        imageDark: '/assets/images/whats-new-empty-dark.jpg',
     },
 ];
 
@@ -43,8 +43,8 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
         <Button
             icon
             small
-            iconLight="./dist/assets/icons/chevron-left-light.svg"
-            iconDark="./dist/assets/icons/chevron-left-dark.svg"
+            iconLight="/assets/icons/chevron-left-light.svg"
+            iconDark="/assets/icons/chevron-left-dark.svg"
             class="PreviousButton"
             on:click={handlePrevious}
         >
@@ -62,8 +62,8 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
         <Button
             icon
             small
-            iconLight="./dist/assets/icons/chevron-right-light.svg"
-            iconDark="./dist/assets/icons/chevron-right-dark.svg"
+            iconLight="/assets/icons/chevron-right-light.svg"
+            iconDark="/assets/icons/chevron-right-dark.svg"
             class="NextButton"
             on:click={handleNext}
         >

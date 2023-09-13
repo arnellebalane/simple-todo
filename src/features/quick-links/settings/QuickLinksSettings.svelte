@@ -10,11 +10,11 @@ import QuickLinksField from './QuickLinksField.svelte';
 export let data = getDefaultSettings();
 
 const builtInQuickLinks = [
-    { title: 'Gmail', url: 'https://mail.google.com/', icon: './dist/assets/images/gmail.png' },
-    { title: 'Meet', url: 'https://meet.google.com/', icon: './dist/assets/images/meet.png' },
-    { title: 'Drive', url: 'https://drive.google.com/', icon: './dist/assets/images/drive.png' },
-    { title: 'Calendar', url: 'https://calendar.google.com/', icon: './dist/assets/images/calendar.png' },
-    { title: 'Photos', url: 'https://photos.google.com/', icon: './dist/assets/images/photos.png' },
+    { title: 'Gmail', url: 'https://mail.google.com/', icon: '/assets/images/gmail.png' },
+    { title: 'Meet', url: 'https://meet.google.com/', icon: '/assets/images/meet.png' },
+    { title: 'Drive', url: 'https://drive.google.com/', icon: '/assets/images/drive.png' },
+    { title: 'Calendar', url: 'https://calendar.google.com/', icon: '/assets/images/calendar.png' },
+    { title: 'Photos', url: 'https://photos.google.com/', icon: '/assets/images/photos.png' },
 ];
 
 const dispatch = createEventDispatcher();

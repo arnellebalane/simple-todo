@@ -55,8 +55,8 @@ onDestroy(() => disableShortcut('focusSearch'));
             icon
             disabled={!hasSearchFilters}
             data-tooltip="Clear search filters"
-            iconLight="./dist/assets/icons/close-light.svg"
-            iconDark="./dist/assets/icons/close-dark.svg"
+            iconLight="/assets/icons/close-light.svg"
+            iconDark="/assets/icons/close-dark.svg"
             type="button"
             class="SearchClear"
             on:click={search.clear}

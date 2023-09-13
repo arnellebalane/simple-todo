@@ -6,5 +6,5 @@ export let show;
 </script>
 
 <Modal {show} closeOnEscape closeOnClickOutside on:close>
-  <WhatsNew on:close />
+    <WhatsNew on:close />
 </Modal>

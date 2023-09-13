@@ -15,26 +15,26 @@ const cancel = () => dispatch('cancel');
 </script>
 
 <Modal {show} contentClass="AppConfirmationContent" closeOnEscape closeOnClickOutside on:close={cancel}>
-  <p>{message}</p>
+    <p>{message}</p>
 
-  <div>
-    <Button primary medium on:click={confirm}>{confirmLabel}</Button>
-    <Button text medium on:click={cancel}>{cancelLabel}</Button>
-  </div>
+    <div>
+        <Button primary medium on:click={confirm}>{confirmLabel}</Button>
+        <Button text medium on:click={cancel}>{cancelLabel}</Button>
+    </div>
 </Modal>
 
 <style>
 p {
-  font-size: 1.7rem;
-  font-weight: 600;
+    font-size: 1.7rem;
+    font-weight: 600;
 }
 
 div {
-  display: flex;
-  margin-top: 3.6rem;
+    display: flex;
+    margin-top: 3.6rem;
 }
 
 :global(.AppConfirmationContent) {
-  width: 45rem !important;
+    width: 45rem !important;
 }
 </style>

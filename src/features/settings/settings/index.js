@@ -5,6 +5,6 @@ export const label = 'Miscellaneous';
 export const component = MiscellaneousSettings;
 
 export const getDefaultSettings = () => ({
-  enablePrivacyMode: false,
+    enablePrivacyMode: false,
 });
 export const allowedFields = ['enablePrivacyMode'];

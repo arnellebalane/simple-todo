@@ -3,60 +3,60 @@ export let links = [];
 </script>
 
 <div>
-  <h3>Quick Links</h3>
+    <h3>Quick Links</h3>
 
-  <ul>
-    {#each links as link (link.url)}
-      <li>
-        <a href={link.url} rel="noopener noreferrer" data-tooltip={link.title} class:custom={link.custom}>
-          <img src={link.icon} alt={link.title} />
-        </a>
-      </li>
-    {/each}
-  </ul>
+    <ul>
+        {#each links as link (link.url)}
+            <li>
+                <a href={link.url} rel="noopener noreferrer" data-tooltip={link.title} class:custom={link.custom}>
+                    <img src={link.icon} alt={link.title} />
+                </a>
+            </li>
+        {/each}
+    </ul>
 </div>
 
 <style>
 h3 {
-  margin-bottom: 4px;
-  font-size: 1rem;
-  line-height: 8px;
-  text-transform: uppercase;
+    margin-bottom: 4px;
+    font-size: 1rem;
+    line-height: 8px;
+    text-transform: uppercase;
 }
 
 ul {
-  display: flex;
-  gap: 4px;
+    display: flex;
+    gap: 4px;
 
-  padding: 0;
-  list-style: none;
-  overflow: auto;
+    padding: 0;
+    list-style: none;
+    overflow: auto;
 }
 
 li {
-  border-radius: 4px;
+    border-radius: 4px;
 }
 
 a {
-  display: block;
-  width: 2.6rem;
-  height: 2.6rem;
+    display: block;
+    width: 2.6rem;
+    height: 2.6rem;
 }
 
 a.custom {
-  padding: 4px;
+    padding: 4px;
 }
 
 img {
-  display: block;
-  height: 100%;
+    display: block;
+    height: 100%;
 }
 
 :global(body[data-background]) h3 {
-  color: var(--light);
+    color: var(--light);
 }
 
 :global(body[data-background]) li {
-  background-color: var(--main-transparent);
+    background-color: var(--main-transparent);
 }
 </style>

@@ -18,16 +18,16 @@ let settingsUnsubscribe = null;
 let settingsFormData = {};
 let showSettingsForm = false;
 const toggleSettingsForm = (show) => {
-  showSettingsForm = show;
-  if (show) {
-    settingsUnsubscribe = settings.subscribe((value) => {
-      settingsFormData = value;
-    });
-    settings.preview($settings);
-  } else {
-    settingsUnsubscribe();
-    settingsFormData = {};
-  }
+    showSettingsForm = show;
+    if (show) {
+        settingsUnsubscribe = settings.subscribe((value) => {
+            settingsFormData = value;
+        });
+        settings.preview($settings);
+    } else {
+        settingsUnsubscribe();
+        settingsFormData = {};
+    }
 };
 
 let showWhatsNewModal = false;
@@ -42,14 +42,14 @@ const showChromeWebstoreButton = import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD ==
 
 const handleSettingsChange = (event) => settings.preview(event.detail);
 const handleSettingsSubmit = (event) => {
-  settings.save(event.detail);
-  tags.save();
-  toggleSettingsForm(false);
+    settings.save(event.detail);
+    tags.save();
+    toggleSettingsForm(false);
 };
 const handleSettingsClose = () => {
-  settings.restore();
-  tags.restore();
-  toggleSettingsForm(false);
+    settings.restore();
+    tags.restore();
+    toggleSettingsForm(false);
 };
 
 onMount(() => enableShortcut('togglePrivacyMode', settings.togglePrivacyMode));
@@ -57,79 +57,79 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
 </script>
 
 <header>
-  <div class="LeftColumn">
-    {#if hasQuickLinks}
-      <QuickLinks links={$settings.quickLinks} />
-    {/if}
-    {#if showFrequentLinks}
-      <FrequentLinks links={$frequentLinks} />
-    {/if}
-  </div>
+    <div class="LeftColumn">
+        {#if hasQuickLinks}
+            <QuickLinks links={$settings.quickLinks} />
+        {/if}
+        {#if showFrequentLinks}
+            <FrequentLinks links={$frequentLinks} />
+        {/if}
+    </div>
 
-  <div class="RightColumn">
-    {#if hasChangeLogs}
-      <WhatsNewButton pulse={!hasSeenChangeLogs} on:click={() => toggleWhatsNewModal(true)} />
-    {/if}
-    <Button
-      icon
-      medium
-      iconLight="./dist/assets/icons/settings-light.svg"
-      iconDark="./dist/assets/icons/settings-dark.svg"
-      on:click={() => toggleSettingsForm(true)}
-    >
-      Settings
-    </Button>
+    <div class="RightColumn">
+        {#if hasChangeLogs}
+            <WhatsNewButton pulse={!hasSeenChangeLogs} on:click={() => toggleWhatsNewModal(true)} />
+        {/if}
+        <Button
+            icon
+            medium
+            iconLight="./dist/assets/icons/settings-light.svg"
+            iconDark="./dist/assets/icons/settings-dark.svg"
+            on:click={() => toggleSettingsForm(true)}
+        >
+            Settings
+        </Button>
 
-    {#if showChromeWebstoreButton}
-      <a
-        href="https://chrome.google.com/webstore/detail/simple-todo/kobeijgkgkcgknodjkganceliljepmjf/"
-        rel="noopener noreferrer"
-        class="umami--click--chrome-webstore-link"
-      >
-        <img src="./dist/assets/images/chrome-webstore.png" alt="Available in the Chrome Webstore" />
-      </a>
-    {/if}
-  </div>
+        {#if showChromeWebstoreButton}
+            <a
+                href="https://chrome.google.com/webstore/detail/simple-todo/kobeijgkgkcgknodjkganceliljepmjf/"
+                rel="noopener noreferrer"
+                class="umami--click--chrome-webstore-link"
+            >
+                <img src="./dist/assets/images/chrome-webstore.png" alt="Available in the Chrome Webstore" />
+            </a>
+        {/if}
+    </div>
 </header>
 
 <SettingsFormModal
-  show={showSettingsForm}
-  data={settingsFormData}
-  on:change={handleSettingsChange}
-  on:submit={handleSettingsSubmit}
-  on:close={handleSettingsClose}
+    show={showSettingsForm}
+    data={settingsFormData}
+    on:change={handleSettingsChange}
+    on:submit={handleSettingsSubmit}
+    on:close={handleSettingsClose}
 />
 
 <WhatsNewModal show={showWhatsNewModal} on:close={() => toggleWhatsNewModal(false)} />
 
 <style>
 header {
-  display: flex;
-  gap: 3.6rem;
-  width: 100%;
-  height: 6.4rem;
-  padding: 1.4rem 3.6rem;
+    display: flex;
+    gap: 3.6rem;
+    width: 100%;
+    height: 6.4rem;
+    padding: 1.4rem 3.6rem;
 }
 
 div {
-  flex: 1 0 0;
-  display: flex;
-  align-items: center;
+    flex: 1 0 0;
+    display: flex;
+    align-items: center;
 }
 
 .LeftColumn {
-  justify-content: flex-start;
-  gap: 3.6rem;
+    justify-content: flex-start;
+    gap: 3.6rem;
 }
 
 .RightColumn {
-  justify-content: flex-end;
-  gap: 8px;
+    justify-content: flex-end;
+    gap: 8px;
 }
 
 img {
-  display: block;
-  max-height: 4.2rem;
-  margin-left: 1.2rem;
+    display: block;
+    max-height: 4.2rem;
+    margin-left: 1.2rem;
 }
 </style>

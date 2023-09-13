@@ -15,23 +15,23 @@ version.subscribe((value) => localStorage.setItem(STORAGE_KEY_VERSION, value));
 
 const nextVersion = import.meta.env.APP_VERSION;
 if (initialVersion !== nextVersion) {
-  const params = {
-    version: initialVersion,
-    next_version: nextVersion,
-  };
-  axios
-    .get('/get-version-changelog', { params })
-    .then((response) => {
-      changelogs.set(response.data);
-      if (response.data.length === 0) {
-        version.set(nextVersion);
-      }
-    })
-    .catch((error) => console.error(error));
+    const params = {
+        version: initialVersion,
+        next_version: nextVersion,
+    };
+    axios
+        .get('/get-version-changelog', { params })
+        .then((response) => {
+            changelogs.set(response.data);
+            if (response.data.length === 0) {
+                version.set(nextVersion);
+            }
+        })
+        .catch((error) => console.error(error));
 }
 
 export function setVersionIfHigher(value) {
-  version.update((version) =>
-    semverGt(value, version) && semverGte(import.meta.env.APP_VERSION, value) ? value : version
-  );
+    version.update((version) =>
+        semverGt(value, version) && semverGte(import.meta.env.APP_VERSION, value) ? value : version,
+    );
 }

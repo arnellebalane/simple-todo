@@ -11,7 +11,7 @@ initializeBackgrounds();
 initializeKeyBindings();
 
 const app = new App({
-  target: document.body,
+    target: document.body,
 });
 
 export default app;

@@ -8,50 +8,50 @@ import Button from '@components/Button.svelte';
 $: show = Boolean($toast);
 
 $: if ($toast) {
-  const unsubscribe = $toast.timer.subscribe((finished) => {
-    if (finished) {
-      toast.clear();
-    }
-  });
-  onDestroy(unsubscribe);
+    const unsubscribe = $toast.timer.subscribe((finished) => {
+        if (finished) {
+            toast.clear();
+        }
+    });
+    onDestroy(unsubscribe);
 }
 
 const handleAction = () => {
-  $toast.onAction();
-  toast.clear();
+    $toast.onAction();
+    toast.clear();
 };
 </script>
 
 {#if show}
-  <div use:portal={'body'}>
-    <p>{$toast.text}</p>
+    <div use:portal={'body'}>
+        <p>{$toast.text}</p>
 
-    {#if $toast.onAction}
-      <Button class="ActionButton" small on:click={handleAction}>{$toast.actionText || 'OK'}</Button>
-    {/if}
-  </div>
+        {#if $toast.onAction}
+            <Button class="ActionButton" small on:click={handleAction}>{$toast.actionText || 'OK'}</Button>
+        {/if}
+    </div>
 {/if}
 
 <style>
 div {
-  position: fixed;
-  left: 3.2rem;
-  bottom: 5rem;
+    position: fixed;
+    left: 3.2rem;
+    bottom: 5rem;
 
-  display: flex;
-  align-items: center;
-  gap: 4.2rem;
-  max-width: 50rem;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  background-color: var(--inverted);
+    display: flex;
+    align-items: center;
+    gap: 4.2rem;
+    max-width: 50rem;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    background-color: var(--inverted);
 }
 
 p {
-  color: var(--text-inverted);
+    color: var(--text-inverted);
 }
 
 div :global(.ActionButton) {
-  margin-right: -1rem;
+    margin-right: -1rem;
 }
 </style>

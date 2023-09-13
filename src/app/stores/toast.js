@@ -6,31 +6,31 @@ const TOAST_TIMER_INITIAL = 0;
 const TOAST_TIMER_FINAL = 1;
 
 function createStore() {
-  const { subscribe, set: _set, update } = writable(null);
+    const { subscribe, set: _set, update } = writable(null);
 
-  const toastTimer = tweened(TOAST_TIMER_INITIAL, { duration: TOAST_TIMER_DURATION });
-  toastTimer.subscribe((value) => {
-    if (value === TOAST_TIMER_FINAL) {
-      toastTimer.set(TOAST_TIMER_INITIAL, { duration: 0 });
+    const toastTimer = tweened(TOAST_TIMER_INITIAL, { duration: TOAST_TIMER_DURATION });
+    toastTimer.subscribe((value) => {
+        if (value === TOAST_TIMER_FINAL) {
+            toastTimer.set(TOAST_TIMER_INITIAL, { duration: 0 });
+        }
+    });
+    const toastTimerFinished = derived(toastTimer, (value) => value === TOAST_TIMER_FINAL);
+
+    function set(data) {
+        toastTimer.set(TOAST_TIMER_INITIAL, { duration: 0 });
+        if (!data.timer) {
+            data.timer = toastTimerFinished;
+            toastTimer.set(TOAST_TIMER_FINAL);
+        }
+        _set(data);
     }
-  });
-  const toastTimerFinished = derived(toastTimer, (value) => value === TOAST_TIMER_FINAL);
 
-  function set(data) {
-    toastTimer.set(TOAST_TIMER_INITIAL, { duration: 0 });
-    if (!data.timer) {
-      data.timer = toastTimerFinished;
-      toastTimer.set(TOAST_TIMER_FINAL);
+    function clear() {
+        toastTimer.set(TOAST_TIMER_INITIAL, { duration: 0 });
+        _set(null);
     }
-    _set(data);
-  }
 
-  function clear() {
-    toastTimer.set(TOAST_TIMER_INITIAL, { duration: 0 });
-    _set(null);
-  }
-
-  return { subscribe, set, update, clear, toastTimer, toastTimerFinished };
+    return { subscribe, set, update, clear, toastTimer, toastTimerFinished };
 }
 
 export const toast = createStore();

@@ -1,16 +1,23 @@
 {
-  "tabWidth": 2,
+  "tabWidth": 4,
   "useTabs": false,
   "semi": true,
   "singleQuote": true,
   "printWidth": 120,
+  "bracketSameLine": false,
+  "plugins": ["prettier-plugin-svelte"],
 
   "overrides": [
     {
       "files": "*.svelte",
       "options": {
-        "svelteBracketNewLine": true,
         "svelteIndentScriptAndStyle": false
+      }
+    },
+    {
+      "files": "*.json",
+      "options": {
+        "tabWidth": 2
       }
     }
   ]

@@ -11,5 +11,5 @@ const dispatch = createEventDispatcher();
 </script>
 
 <Modal {show} closeOnEscape on:close={() => dispatch('cancel')}>
-  <TodoForm {data} on:submit on:cancel />
+    <TodoForm {data} on:submit on:cancel />
 </Modal>

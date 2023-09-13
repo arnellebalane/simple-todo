@@ -1,23 +1,23 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 html {
-  font-size: 62.5%;
+    font-size: 62.5%;
 }
 
 body {
-  min-height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.5rem;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: var(--text-main);
-  background: var(--main) center center no-repeat fixed;
-  background-size: cover;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--text-main);
+    background: var(--main) center center no-repeat fixed;
+    background-size: cover;
 }
 
 a,
@@ -25,6 +25,6 @@ input,
 select,
 textarea,
 button {
-  font: inherit;
-  color: inherit;
+    font: inherit;
+    color: inherit;
 }

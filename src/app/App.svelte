@@ -21,25 +21,25 @@ $: filteredTodos = search.filterTodos($todos);
 let todoFormData = {};
 let showTodoForm = false;
 const setShowTodoForm = (show, data) => {
-  showTodoForm = show;
-  todoFormData = cloneDeep(data);
+    showTodoForm = show;
+    todoFormData = cloneDeep(data);
 };
 
 const showTodoFormWithData = (event) => setShowTodoForm(true, event.detail);
 const updateTodoItem = (event) => todos.update(event.detail);
 const removeTodoItem = async (event) => {
-  const confirmed = await confirmation.show({
-    message: 'Are you sure you want to remove this todo?',
-    confirmLabel: 'Remove',
-  });
-  if (confirmed) {
-    todos.remove(event.detail);
-  }
+    const confirmed = await confirmation.show({
+        message: 'Are you sure you want to remove this todo?',
+        confirmLabel: 'Remove',
+    });
+    if (confirmed) {
+        todos.remove(event.detail);
+    }
 };
 const saveTodoItem = (event) => {
-  todos.save(event.detail);
-  tags.add(event.detail.tags);
-  setShowTodoForm(false);
+    todos.save(event.detail);
+    tags.add(event.detail.tags);
+    setShowTodoForm(false);
 };
 const updateTodos = (event) => todos.updateList(event.detail);
 const removeDoneTodos = () => todos.removeDone();
@@ -50,85 +50,85 @@ onDestroy(() => disableShortcut('addTodo'));
 </script>
 
 <svelte:head>
-  {#if import.meta.env.NODE_ENV === 'production'}
-    <script
-      async
-      defer
-      data-website-id="3937ad1a-ecfd-44cb-8e16-07cda3b01dc4"
-      data-do-not-track="true"
-      data-auto-track={import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD === 'true'}
-      data-host-url="https://umami.arnelle.dev"
-      src="./vendor/umami.js"
-    ></script>
-  {/if}
+    {#if import.meta.env.NODE_ENV === 'production'}
+        <script
+            async
+            defer
+            data-website-id="3937ad1a-ecfd-44cb-8e16-07cda3b01dc4"
+            data-do-not-track="true"
+            data-auto-track={import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD === 'true'}
+            data-host-url="https://umami.arnelle.dev"
+            src="./vendor/umami.js"
+        ></script>
+    {/if}
 </svelte:head>
 
 <main>
-  <AppTopBar />
+    <AppTopBar />
 
-  <div class="AppContent">
-    <AppHeader
-      class="AppHeader"
-      on:addtodo={() => setShowTodoForm(true)}
-      on:removedone={removeDoneTodos}
-      on:undoremovedone={undoRemoveDoneTodos}
-    />
-    <TodoBoard
-      class="TodoBoard"
-      todos={$filteredTodos}
-      on:addtodo={showTodoFormWithData}
-      on:updatetodo={updateTodoItem}
-      on:edittodo={showTodoFormWithData}
-      on:deletetodo={removeTodoItem}
-      on:update={updateTodos}
-    />
-  </div>
+    <div class="AppContent">
+        <AppHeader
+            class="AppHeader"
+            on:addtodo={() => setShowTodoForm(true)}
+            on:removedone={removeDoneTodos}
+            on:undoremovedone={undoRemoveDoneTodos}
+        />
+        <TodoBoard
+            class="TodoBoard"
+            todos={$filteredTodos}
+            on:addtodo={showTodoFormWithData}
+            on:updatetodo={updateTodoItem}
+            on:edittodo={showTodoFormWithData}
+            on:deletetodo={removeTodoItem}
+            on:update={updateTodos}
+        />
+    </div>
 
-  <AppBottomBar />
+    <AppBottomBar />
 </main>
 
 <TodoFormModal
-  show={showTodoForm}
-  data={todoFormData}
-  on:submit={saveTodoItem}
-  on:cancel={() => setShowTodoForm(false)}
+    show={showTodoForm}
+    data={todoFormData}
+    on:submit={saveTodoItem}
+    on:cancel={() => setShowTodoForm(false)}
 />
 
 <AppConfirmation
-  show={Boolean($confirmation)}
-  message={$confirmation?.message}
-  confirmLabel={$confirmation?.confirmLabel}
-  cancelLabel={$confirmation?.cancelLabel}
-  on:confirm={confirmation.confirm}
-  on:cancel={confirmation.cancel}
+    show={Boolean($confirmation)}
+    message={$confirmation?.message}
+    confirmLabel={$confirmation?.confirmLabel}
+    cancelLabel={$confirmation?.cancelLabel}
+    on:confirm={confirmation.confirm}
+    on:cancel={confirmation.cancel}
 />
 <AppTooltip />
 
 <style>
 main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
 .AppContent {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4.8rem;
-  width: 100%;
-  min-width: 90rem;
-  max-width: 140rem;
-  padding: 0 4.8rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4.8rem;
+    width: 100%;
+    min-width: 90rem;
+    max-width: 140rem;
+    padding: 0 4.8rem;
 }
 
 .AppContent :global(.AppHeader) {
-  margin-top: auto;
+    margin-top: auto;
 }
 
 .AppContent :global(.TodoBoard) {
-  flex-grow: 1;
-  margin-bottom: auto;
+    flex-grow: 1;
+    margin-bottom: auto;
 }
 </style>

@@ -5,7 +5,7 @@ export const label = 'Quick Links';
 export const component = QuickLinksSettings;
 
 export const getDefaultSettings = () => ({
-  quickLinks: [],
-  showFrequentLinks: false,
+    quickLinks: [],
+    showFrequentLinks: false,
 });
 export const allowedFields = ['quickLinks', 'showFrequentLinks'];

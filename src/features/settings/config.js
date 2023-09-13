@@ -7,11 +7,11 @@ import * as ShortcutsSettings from '@features/shortcuts/settings';
 import * as MiscellaneousSettings from '@features/settings/settings';
 
 export const settingsTabs = [
-  ThemeSettings,
-  BackgroundSettings,
-  QuickLinksSettings,
-  TagsSettings,
-  SearchSettings,
-  ShortcutsSettings,
-  MiscellaneousSettings,
+    ThemeSettings,
+    BackgroundSettings,
+    QuickLinksSettings,
+    TagsSettings,
+    SearchSettings,
+    ShortcutsSettings,
+    MiscellaneousSettings,
 ];

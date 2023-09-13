@@ -5,24 +5,24 @@ import { Integrations } from '@sentry/tracing';
 const ignoredErrorMessages = ['Error: Network Error'];
 
 export function initializeSentry() {
-  if (import.meta.env.NODE_ENV === 'production') {
-    Sentry.init({
-      dsn: import.meta.env.SNOWPACK_PUBLIC_SENTRY_DSN,
-      release: import.meta.env.APP_VERSION,
-      environment: import.meta.env.SNOWPACK_PUBLIC_SENTRY_ENVIRONMENT || 'web:development',
-      integrations: [
-        new CaptureConsole({
-          levels: ['error', 'warn'],
-        }),
-        new Integrations.BrowserTracing(),
-      ],
-      tracesSampleRate: 0.001,
-      beforeSend(event) {
-        if (ignoredErrorMessages.includes(event.message)) {
-          return null;
-        }
-        return event;
-      },
-    });
-  }
+    if (import.meta.env.NODE_ENV === 'production') {
+        Sentry.init({
+            dsn: import.meta.env.SNOWPACK_PUBLIC_SENTRY_DSN,
+            release: import.meta.env.APP_VERSION,
+            environment: import.meta.env.SNOWPACK_PUBLIC_SENTRY_ENVIRONMENT || 'web:development',
+            integrations: [
+                new CaptureConsole({
+                    levels: ['error', 'warn'],
+                }),
+                new Integrations.BrowserTracing(),
+            ],
+            tracesSampleRate: 0.001,
+            beforeSend(event) {
+                if (ignoredErrorMessages.includes(event.message)) {
+                    return null;
+                }
+                return event;
+            },
+        });
+    }
 }

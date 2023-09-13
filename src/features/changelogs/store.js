@@ -3,7 +3,7 @@ import semverGt from 'semver/functions/gt';
 import semverGte from 'semver/functions/gte';
 
 import axios from '@lib/axios';
-import { STORAGE_KEY_VERSION } from '@lib/constants';
+import { APP_VERSION, STORAGE_KEY_VERSION } from '@lib/constants';
 
 const defaultVersion = '1.7.2'; // The version before when this feature is added
 const initialVersion = localStorage.getItem(STORAGE_KEY_VERSION) || defaultVersion;
@@ -13,7 +13,7 @@ export const version = writable(initialVersion);
 
 version.subscribe((value) => localStorage.setItem(STORAGE_KEY_VERSION, value));
 
-const nextVersion = import.meta.env.APP_VERSION;
+const nextVersion = APP_VERSION;
 if (initialVersion !== nextVersion) {
     const params = {
         version: initialVersion,
@@ -31,7 +31,5 @@ if (initialVersion !== nextVersion) {
 }
 
 export function setVersionIfHigher(value) {
-    version.update((version) =>
-        semverGt(value, version) && semverGte(import.meta.env.APP_VERSION, value) ? value : version,
-    );
+    version.update((version) => (semverGt(value, version) && semverGte(APP_VERSION, value) ? value : version));
 }

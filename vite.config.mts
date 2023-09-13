@@ -16,6 +16,9 @@ export default defineConfig({
             '@styles': path.resolve(__dirname, 'src/styles'),
         },
     },
+    define: {
+        __APP_VERSION__: JSON.stringify(require('./package.json').version),
+    },
     server: {
         port: 8080,
     },

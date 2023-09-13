@@ -43,15 +43,15 @@ button {
 }
 
 .ToggleButton {
-    background-image: url('/assets/icons/dots.svg');
+    background-image: url('/src/assets/icons/dots.svg');
 }
 
 .EditButton {
-    background-image: url('/assets/icons/edit.svg');
+    background-image: url('/src/assets/icons/edit.svg');
 }
 
 .DeleteButton {
-    background-image: url('/assets/icons/delete.svg');
+    background-image: url('/src/assets/icons/delete.svg');
 }
 
 menu:hover .ToggleButton,

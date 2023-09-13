@@ -3,8 +3,8 @@ import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 
 export default defineConfig({
-    root: path.resolve(__dirname, 'src'),
     plugins: [svelte()],
+
     resolve: {
         alias: {
             '@app': path.resolve(__dirname, 'src/app'),
@@ -16,9 +16,11 @@ export default defineConfig({
             '@styles': path.resolve(__dirname, 'src/styles'),
         },
     },
+
     define: {
         __APP_VERSION__: JSON.stringify(require('./package.json').version),
     },
+
     server: {
         port: 8080,
     },

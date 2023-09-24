@@ -1,0 +1,27 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "dist",
+      "numberOfRuns": 3,
+      "settings": {
+        "preset": "desktop"
+      }
+    },
+
+    "assert": {
+      "preset": "lighthouse:no-pwa",
+      "assertions": {
+        "bf-cache": "off",
+        "csp-xss": "warn",
+        "errors-in-console": "warn",
+        "unused-javascript": "warn",
+        "non-composited-animations": "off"
+      }
+    },
+
+    "upload": {
+      "target": "lhci",
+      "serverBaseUrl": "https://lhci.arnelle.dev/"
+    }
+  }
+}

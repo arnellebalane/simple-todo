@@ -1,8 +1,8 @@
 #!/bin/bash
 zip -r simple-todo.zip \
   manifest.json \
-  build \
-  -x 'build/whats-new/*'
+  dist \
+  -x 'dist/whats-new/*'
 
 zip -r simple-todo-source.zip \
   src \

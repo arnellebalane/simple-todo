@@ -1,15 +1,15 @@
 ci:
-  collect:
-    staticDistDir: build
-    numberOfRuns: 3
-    settings:
-      preset: desktop
+    collect:
+        staticDistDir: dist
+        numberOfRuns: 3
+        settings:
+            preset: desktop
 
-  assert:
-    preset: lighthouse:no-pwa
-    assertions:
-      non-composited-animations: off
+    assert:
+        preset: lighthouse:no-pwa
+        assertions:
+            non-composited-animations: off
 
-  upload:
-    target: lhci
-    serverBaseUrl: https://lhci.arnelle.dev/
+    upload:
+        target: lhci
+        serverBaseUrl: https://lhci.arnelle.dev/

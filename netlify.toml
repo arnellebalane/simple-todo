@@ -6,4 +6,6 @@
     directory = "functions"
 
 [dev]
+    command = "npm start"
+    framework = "#custom"
     targetPort = 8080

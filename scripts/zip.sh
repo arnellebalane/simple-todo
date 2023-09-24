@@ -12,4 +12,4 @@ zip -r simple-todo-source.zip \
   manifest.json \
   package.json \
   package-lock.json \
-  snowpack.config.js
+  vite.config.js

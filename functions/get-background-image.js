@@ -106,7 +106,7 @@ async function getRandomPhoto() {
             },
         };
     } catch (error) {
-        console.log(error);
+        console.error(error);
 
         data = require('./data/unsplash-fallback-image.json');
         return {

@@ -1,6 +1,7 @@
 <script>
 import { onMount, onDestroy } from 'svelte';
 
+import { APP_VERSION } from '@lib/constants';
 import { enableShortcut, disableShortcut } from '@features/shortcuts';
 import { settings } from '@features/settings/store';
 import { changelogs, version } from '@features/changelogs/store';
@@ -33,12 +34,12 @@ const toggleSettingsForm = (show) => {
 let showWhatsNewModal = false;
 const toggleWhatsNewModal = (show) => (showWhatsNewModal = show);
 $: hasChangeLogs = $changelogs.length > 0;
-$: hasSeenChangeLogs = $version === import.meta.env.APP_VERSION;
+$: hasSeenChangeLogs = $version === APP_VERSION;
 
 $: hasQuickLinks = $settings.quickLinks.length > 0;
 $: showFrequentLinks = frequentLinksSupported && $frequentLinks.length > 0 && $settings.showFrequentLinks;
 
-const showChromeWebstoreButton = import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD === 'true';
+const showChromeWebstoreButton = import.meta.env.VITE_PUBLIC_IS_WEB_BUILD === 'true';
 
 const handleSettingsChange = (event) => settings.preview(event.detail);
 const handleSettingsSubmit = (event) => {
@@ -73,8 +74,8 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
         <Button
             icon
             medium
-            iconLight="./dist/assets/icons/settings-light.svg"
-            iconDark="./dist/assets/icons/settings-dark.svg"
+            iconLight="/src/assets/icons/settings-light.svg"
+            iconDark="/src/assets/icons/settings-dark.svg"
             on:click={() => toggleSettingsForm(true)}
         >
             Settings
@@ -86,7 +87,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
                 rel="noopener noreferrer"
                 class="umami--click--chrome-webstore-link"
             >
-                <img src="./dist/assets/images/chrome-webstore.png" alt="Available in the Chrome Webstore" />
+                <img src="/src/assets/images/chrome-webstore.png" alt="Available in the Chrome Webstore" />
             </a>
         {/if}
     </div>

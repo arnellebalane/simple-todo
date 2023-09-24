@@ -8,8 +8,8 @@ export let pulse = false;
     <Button
         icon
         medium
-        iconLight="./dist/assets/icons/launch-light.svg"
-        iconDark="./dist/assets/icons/launch-dark.svg"
+        iconLight="/src/assets/icons/launch-light.svg"
+        iconDark="/src/assets/icons/launch-dark.svg"
         class="WhatsNewButton {pulse ? 'pulse' : ''}"
         on:click
     >

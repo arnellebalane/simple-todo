@@ -56,7 +56,7 @@ onDestroy(() => disableShortcut('addTodo'));
             defer
             data-website-id="3937ad1a-ecfd-44cb-8e16-07cda3b01dc4"
             data-do-not-track="true"
-            data-auto-track={import.meta.env.SNOWPACK_PUBLIC_IS_WEB_BUILD === 'true'}
+            data-auto-track={import.meta.env.VITE_PUBLIC_IS_WEB_BUILD === 'true'}
             data-host-url="https://umami.arnelle.dev"
             src="./vendor/umami.js"
         ></script>

@@ -1,9 +1,11 @@
 [build]
     command = "npm run build"
-    publish = "build"
+    publish = "dist"
 
 [functions]
     directory = "functions"
 
 [dev]
+    command = "npm start"
+    framework = "#custom"
     targetPort = 8080

@@ -1,8 +1,12 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 import { changelogs, setVersionIfHigher } from '../store';
+import { icons } from '@lib/icons';
 
 import Button from '@components/Button.svelte';
+
+import WhatsNewImageLight from '@assets/images/whats-new-empty-light.jpg';
+import WhatsNewImageDark from '@assets/images/whats-new-empty-dark.jpg';
 
 const dispatch = createEventDispatcher();
 
@@ -10,8 +14,8 @@ $: screens = [
     ...$changelogs,
     {
         title: `You're now up to date!`,
-        imageLight: '/src/assets/images/whats-new-empty-light.jpg',
-        imageDark: '/src/assets/images/whats-new-empty-dark.jpg',
+        imageLight: WhatsNewImageLight,
+        imageDark: WhatsNewImageDark,
     },
 ];
 
@@ -43,8 +47,8 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
         <Button
             icon
             small
-            iconLight="/src/assets/icons/chevron-left-light.svg"
-            iconDark="/src/assets/icons/chevron-left-dark.svg"
+            iconLight={icons.chevronLeftLight}
+            iconDark={icons.chevronLeftDark}
             class="PreviousButton"
             on:click={handlePrevious}
         >
@@ -62,8 +66,8 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
         <Button
             icon
             small
-            iconLight="/src/assets/icons/chevron-right-light.svg"
-            iconDark="/src/assets/icons/chevron-right-dark.svg"
+            iconLight={icons.chevronRightLight}
+            iconDark={icons.chevronRightDark}
             class="NextButton"
             on:click={handleNext}
         >

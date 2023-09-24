@@ -1,4 +1,5 @@
 <script>
+import { icons } from '@lib/icons';
 import Button from '@components/Button.svelte';
 
 export let pulse = false;
@@ -8,8 +9,8 @@ export let pulse = false;
     <Button
         icon
         medium
-        iconLight="/src/assets/icons/launch-light.svg"
-        iconDark="/src/assets/icons/launch-dark.svg"
+        iconLight={icons.launchLight}
+        iconDark={icons.launchDark}
         class="WhatsNewButton {pulse ? 'pulse' : ''}"
         on:click
     >

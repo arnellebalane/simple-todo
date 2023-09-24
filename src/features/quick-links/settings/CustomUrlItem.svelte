@@ -2,6 +2,7 @@
 import { createEventDispatcher } from 'svelte';
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 
+import { icons } from '@lib/icons';
 import { confirmation } from '@app/stores/confirmation';
 import Button from '@components/Button.svelte';
 
@@ -30,8 +31,8 @@ const handleRemove = async () => {
         <Button
             small
             icon
-            iconLight="/src/assets/icons/drag.svg"
-            iconDark="/src/assets/icons/drag.svg"
+            iconLight={icons.drag}
+            iconDark={icons.drag}
             class="CustomUrl_Action CustomUrl_Action-drag"
             type="button"
             tabindex="-1"
@@ -41,8 +42,8 @@ const handleRemove = async () => {
         <Button
             small
             icon
-            iconLight="/src/assets/icons/delete.svg"
-            iconDark="/src/assets/icons/delete.svg"
+            iconLight={icons.remove}
+            iconDark={icons.remove}
             class="CustomUrl_Action"
             type="button"
             on:click={handleRemove}

@@ -2,6 +2,7 @@
 import { onMount, onDestroy } from 'svelte';
 
 import { APP_VERSION } from '@lib/constants';
+import { icons } from '@lib/icons';
 import { enableShortcut, disableShortcut } from '@features/shortcuts';
 import { settings } from '@features/settings/store';
 import { changelogs, version } from '@features/changelogs/store';
@@ -14,6 +15,8 @@ import WhatsNewModal from '@features/changelogs/components/WhatsNewModal.svelte'
 import WhatsNewButton from '@features/changelogs/components/WhatsNewButton.svelte';
 import QuickLinks from '@features/quick-links/components/QuickLinks.svelte';
 import FrequentLinks from '@features/quick-links/components/FrequentLinks.svelte';
+
+import ChromeWebStoreImage from '@assets/images/chrome-webstore.png';
 
 let settingsUnsubscribe = null;
 let settingsFormData = {};
@@ -74,8 +77,8 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
         <Button
             icon
             medium
-            iconLight="/src/assets/icons/settings-light.svg"
-            iconDark="/src/assets/icons/settings-dark.svg"
+            iconLight={icons.settingsLight}
+            iconDark={icons.settingsDark}
             on:click={() => toggleSettingsForm(true)}
         >
             Settings
@@ -87,7 +90,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
                 rel="noopener noreferrer"
                 class="umami--click--chrome-webstore-link"
             >
-                <img src="/src/assets/images/chrome-webstore.png" alt="Available in the Chrome Webstore" />
+                <img src={ChromeWebStoreImage} alt="Available in the Chrome Webstore" />
             </a>
         {/if}
     </div>

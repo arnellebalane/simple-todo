@@ -7,6 +7,7 @@
     "start": "vite dev",
     "dev": "netlify dev",
     "build": "vite build",
+    "preview": "vite preview",
     "lhci": "lhci autorun",
     "prezip": "npm run build",
     "zip": "./scripts/zip.sh"

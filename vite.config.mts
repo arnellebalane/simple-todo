@@ -5,6 +5,10 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 export default defineConfig({
     plugins: [svelte()],
 
+    build: {
+        assetsInlineLimit: 0,
+    },
+
     resolve: {
         alias: {
             '@app': path.resolve(__dirname, 'src/app'),

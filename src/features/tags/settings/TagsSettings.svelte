@@ -3,6 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
 
 import { tags } from '../store';
+import { icons } from '@lib/icons';
 import Button from '@components/Button.svelte';
 
 export let data = {};
@@ -25,8 +26,8 @@ const restoreTag = (tag) => {
                 <Button
                     medium
                     icon
-                    iconLight={tag.removed ? '/src/assets/icons/restore.svg' : '/src/assets/icons/delete.svg'}
-                    iconDark={tag.removed ? '/src/assets/icons/restore.svg' : '/src/assets/icons/delete.svg'}
+                    iconLight={tag.removed ? icons.restore : icons.remove}
+                    iconDark={tag.removed ? icons.restore : icons.remove}
                     type="button"
                     class="Button"
                     on:click={() => (tag.removed ? restoreTag(tag) : removeTag(tag))}

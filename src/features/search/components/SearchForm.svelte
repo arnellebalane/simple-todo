@@ -3,6 +3,7 @@ import { onMount, onDestroy } from 'svelte';
 import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
 
+import { icons } from '@lib/icons';
 import { enableShortcut, disableShortcut } from '@features/shortcuts';
 import { settings } from '@features/settings/store';
 import { tags } from '@features/tags/store';
@@ -55,8 +56,8 @@ onDestroy(() => disableShortcut('focusSearch'));
             icon
             disabled={!hasSearchFilters}
             data-tooltip="Clear search filters"
-            iconLight="/src/assets/icons/close-light.svg"
-            iconDark="/src/assets/icons/close-dark.svg"
+            iconLight={icons.closeLight}
+            iconDark={icons.closeDark}
             type="button"
             class="SearchClear"
             on:click={search.clear}

@@ -90,7 +90,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
                 rel="noopener noreferrer"
                 class="umami--click--chrome-webstore-link"
             >
-                <img src={ChromeWebStoreImage} alt="Available in the Chrome Webstore" />
+                <img src={ChromeWebStoreImage} alt="Available in the Chrome Webstore" width="150" height="42" />
             </a>
         {/if}
     </div>

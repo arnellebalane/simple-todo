@@ -16,20 +16,26 @@ const today = dayjs().format('dddd, MMMM D');
 </script>
 
 <header class={$$props.class}>
-    <h1>{today}</h1>
+    <h1 data-cy="today">{today}</h1>
 
     <div class="HeaderActions">
         <SearchForm />
 
         <div class="HeaderButtons">
-            <Button primary on:click={() => dispatch('addtodo')}>Add Todo</Button>
+            <Button primary on:click={() => dispatch('addtodo')} data-cy="add-todo">Add Todo</Button>
             {#if canUndoRemove}
-                <Button class="UndoRemoveButton" on:click={() => dispatch('undoremovedone')}>
+                <Button class="UndoRemoveButton" on:click={() => dispatch('undoremovedone')} data-cy="undo-remove">
                     <div class="Progress" style="--progress: {$removeDoneTimer * 100}%" />
                     <span>Undo Remove</span>
                 </Button>
             {:else}
-                <Button class="RemoveDoneButton" text on:click={() => dispatch('removedone')} disabled={!hasDoneTodos}>
+                <Button
+                    class="RemoveDoneButton"
+                    text
+                    on:click={() => dispatch('removedone')}
+                    disabled={!hasDoneTodos}
+                    data-cy="remove-done"
+                >
                     Remove Done
                 </Button>
             {/if}

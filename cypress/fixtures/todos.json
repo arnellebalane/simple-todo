@@ -1,0 +1,18 @@
+[
+  {
+    "body": "This is a todo item",
+    "done": false,
+    "id": "7b56e091-fbb8-427d-9d15-34c6eef40aaf",
+    "list": "TODAY",
+    "order": 1,
+    "tags": []
+  },
+  {
+    "body": "This is another todo item",
+    "done": false,
+    "id": "7b56e091-fbb8-427d-9d15-34c6eef40aae",
+    "list": "THIS_WEEK",
+    "order": 1,
+    "tags": []
+  }
+]

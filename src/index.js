@@ -3,7 +3,7 @@ import { initializeSentry } from '@lib/sentry';
 import { initializeThemes } from '@features/themes';
 import { initializeBackgrounds } from '@features/backgrounds';
 import { initializeKeyBindings } from '@features/shortcuts';
-import './setup';
+import '@app/app.css';
 
 initializeSentry();
 initializeThemes();

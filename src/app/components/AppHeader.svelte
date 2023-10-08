@@ -22,9 +22,9 @@ const today = dayjs().format('dddd, MMMM D');
         <SearchForm />
 
         <div class="HeaderButtons">
-            <Button primary on:click={() => dispatch('addtodo')} data-cy="add-todo">Add Todo</Button>
+            <Button primary on:click={() => dispatch('addtodo')} data-cy="add-todo-btn">Add Todo</Button>
             {#if canUndoRemove}
-                <Button class="UndoRemoveButton" on:click={() => dispatch('undoremovedone')} data-cy="undo-remove">
+                <Button class="UndoRemoveButton" on:click={() => dispatch('undoremovedone')} data-cy="undo-remove-btn">
                     <div class="Progress" style="--progress: {$removeDoneTimer * 100}%" />
                     <span>Undo Remove</span>
                 </Button>
@@ -34,7 +34,7 @@ const today = dayjs().format('dddd, MMMM D');
                     text
                     on:click={() => dispatch('removedone')}
                     disabled={!hasDoneTodos}
-                    data-cy="remove-done"
+                    data-cy="remove-done-btn"
                 >
                     Remove Done
                 </Button>

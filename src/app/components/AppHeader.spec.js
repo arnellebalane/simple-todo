@@ -27,8 +27,8 @@ describe('AppHeader', () => {
     it('displays remove done button when remove timer is not running', () => {
         cy.mount(AppHeader);
 
-        cy.get('[data-cy="remove-done"]').should('be.visible');
-        cy.get('[data-cy="undo-remove"]').should('not.exist');
+        cy.get('[data-cy="remove-done-btn"]').should('be.visible');
+        cy.get('[data-cy="undo-remove-btn"]').should('not.exist');
     });
 
     it('displays undo remove button when remove timer is running', () => {
@@ -36,15 +36,15 @@ describe('AppHeader', () => {
 
         cy.mount(AppHeader);
 
-        cy.get('[data-cy="undo-remove"]').should('be.visible');
-        cy.get('[data-cy="remove-done"]').should('not.exist');
+        cy.get('[data-cy="undo-remove-btn"]').should('be.visible');
+        cy.get('[data-cy="remove-done-btn"]').should('not.exist');
     });
 
     it('disables remove done button when there are no done todos', () => {
         mockTodos({ done: false }).then(() => {
             cy.mount(AppHeader);
 
-            cy.get('[data-cy="remove-done"]').should('be.disabled');
+            cy.get('[data-cy="remove-done-btn"]').should('be.disabled');
         });
     });
 
@@ -52,7 +52,7 @@ describe('AppHeader', () => {
         mockTodos({ done: true }).then(() => {
             cy.mount(AppHeader);
 
-            cy.get('[data-cy="remove-done"]').should('be.enabled');
+            cy.get('[data-cy="remove-done-btn"]').should('be.enabled');
         });
     });
 
@@ -64,7 +64,7 @@ describe('AppHeader', () => {
                 component.$on('removedone', onRemoveDone);
             });
 
-            cy.get('[data-cy="remove-done"]').click();
+            cy.get('[data-cy="remove-done-btn"]').click();
             cy.wrap(onRemoveDone).should('have.been.called');
         });
     });
@@ -76,7 +76,7 @@ describe('AppHeader', () => {
             component.$on('addtodo', onAddTodo);
         });
 
-        cy.get('[data-cy="add-todo"]').click();
+        cy.get('[data-cy="add-todo-btn"]').click();
         cy.wrap(onAddTodo).should('have.been.called');
     });
 
@@ -88,7 +88,7 @@ describe('AppHeader', () => {
             component.$on('undoremovedone', onUndoRemoveDone);
         });
 
-        cy.get('[data-cy="undo-remove"]').click();
+        cy.get('[data-cy="undo-remove-btn"]').click();
         cy.wrap(onUndoRemoveDone).should('have.been.called');
     });
 

@@ -53,7 +53,7 @@ onDestroy(() => {
 });
 </script>
 
-<p class="AppTooltip" bind:this={tooltip} use:portal={'body'} style={styles}>
+<p class="AppTooltip" bind:this={tooltip} use:portal={'body'} style={styles} data-cy="app-tooltip">
     <span class="AppTooltip_Arrow" bind:this={tooltipArrow} />
     {message}
 </p>

@@ -2,7 +2,7 @@
 export let links = [];
 </script>
 
-<div>
+<div data-cy="quick-links">
     <h3>Quick Links</h3>
 
     <ul>

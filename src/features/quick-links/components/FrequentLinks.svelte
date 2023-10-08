@@ -2,7 +2,7 @@
 export let links = [];
 </script>
 
-<div>
+<div data-cy="frequent-links">
     <h3>Frequently Visited</h3>
 
     <ul>

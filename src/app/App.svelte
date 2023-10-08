@@ -2,6 +2,7 @@
 import { onMount, onDestroy } from 'svelte';
 import cloneDeep from 'lodash/cloneDeep';
 
+import { config } from '@lib/config';
 import { enableShortcut, disableShortcut } from '@features/shortcuts';
 import { tags } from '@features/tags/store';
 import { todos } from '@features/todos/store';
@@ -50,13 +51,13 @@ onDestroy(() => disableShortcut('addTodo'));
 </script>
 
 <svelte:head>
-    {#if import.meta.env.NODE_ENV === 'production'}
+    {#if config.NODE_ENV === 'production'}
         <script
             async
             defer
             data-website-id="3937ad1a-ecfd-44cb-8e16-07cda3b01dc4"
             data-do-not-track="true"
-            data-auto-track={import.meta.env.VITE_PUBLIC_IS_WEB_BUILD === 'true'}
+            data-auto-track={config.VITE_PUBLIC_IS_WEB_BUILD === 'true'}
             data-host-url="https://umami.arnelle.dev"
             src="./vendor/umami.js"
         ></script>

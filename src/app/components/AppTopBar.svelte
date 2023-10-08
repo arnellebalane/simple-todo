@@ -2,6 +2,7 @@
 import { onMount, onDestroy } from 'svelte';
 
 import { APP_VERSION } from '@lib/constants';
+import { config } from '@lib/config';
 import { icons } from '@lib/icons';
 import { enableShortcut, disableShortcut } from '@features/shortcuts';
 import { settings } from '@features/settings/store';
@@ -42,7 +43,7 @@ $: hasSeenChangeLogs = $version === APP_VERSION;
 $: hasQuickLinks = $settings.quickLinks?.length ?? 0 > 0;
 $: showFrequentLinks = $frequentLinks.length > 0 && $settings.showFrequentLinks;
 
-const showChromeWebstoreButton = import.meta.env.VITE_PUBLIC_IS_WEB_BUILD === 'true';
+const showChromeWebstoreButton = config.VITE_PUBLIC_IS_WEB_BUILD === 'true';
 
 const handleSettingsChange = (event) => settings.preview(event.detail);
 const handleSettingsSubmit = (event) => {

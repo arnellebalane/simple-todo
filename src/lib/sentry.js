@@ -2,15 +2,16 @@ import * as Sentry from '@sentry/browser';
 import { CaptureConsole } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
 import { APP_VERSION } from '@lib/constants';
+import { config } from '@lib/config';
 
 const ignoredErrorMessages = ['Error: Network Error'];
 
 export function initializeSentry() {
-    if (import.meta.env.NODE_ENV === 'production') {
+    if (config.NODE_ENV === 'production') {
         Sentry.init({
-            dsn: import.meta.env.VITE_PUBLIC_SENTRY_DSN,
+            dsn: config.VITE_PUBLIC_SENTRY_DSN,
             release: APP_VERSION,
-            environment: import.meta.env.VITE_PUBLIC_SENTRY_ENVIRONMENT || 'web:development',
+            environment: config.VITE_PUBLIC_SENTRY_ENVIRONMENT || 'web:development',
             integrations: [
                 new CaptureConsole({
                     levels: ['error', 'warn'],

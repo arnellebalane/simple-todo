@@ -9,6 +9,12 @@ const mockTodos = ({ done = false } = {}) => {
 };
 
 describe('AppHeader', () => {
+    beforeEach(() => {
+        settings.set({});
+        todos.set([]);
+        removeDoneTimer.set(0, { duration: 0 });
+    });
+
     it('displays the current date', () => {
         const date = new Date(2023, 0, 1);
         cy.clock(date);
@@ -16,17 +22,6 @@ describe('AppHeader', () => {
         cy.mount(AppHeader);
 
         cy.get('[data-cy="today"]').should('have.text', 'Sunday, January 1');
-    });
-
-    it('dispatches "addtodo" event when add todo button is clicked', () => {
-        const onAddTodo = cy.spy();
-
-        cy.mount(AppHeader).then(({ component }) => {
-            component.$on('addtodo', onAddTodo);
-        });
-
-        cy.get('[data-cy="add-todo"]').click();
-        cy.wrap(onAddTodo).should('have.been.called');
     });
 
     it('displays remove done button when remove timer is not running', () => {
@@ -72,6 +67,17 @@ describe('AppHeader', () => {
             cy.get('[data-cy="remove-done"]').click();
             cy.wrap(onRemoveDone).should('have.been.called');
         });
+    });
+
+    it('dispatches "addtodo" event when add todo button is clicked', () => {
+        const onAddTodo = cy.spy();
+
+        cy.mount(AppHeader).then(({ component }) => {
+            component.$on('addtodo', onAddTodo);
+        });
+
+        cy.get('[data-cy="add-todo"]').click();
+        cy.wrap(onAddTodo).should('have.been.called');
     });
 
     it('dispatches "undoremovedone" event when undo remove button is clicked', () => {

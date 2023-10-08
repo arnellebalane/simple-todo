@@ -15,7 +15,7 @@ const dispatch = createEventDispatcher();
 const today = dayjs().format('dddd, MMMM D');
 </script>
 
-<header class={$$props.class}>
+<header class={$$props.class} data-cy="app-header">
     <h1 data-cy="today">{today}</h1>
 
     <div class="HeaderActions">

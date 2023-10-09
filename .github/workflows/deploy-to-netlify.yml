@@ -1,0 +1,59 @@
+name: Deploy to production
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-lighthouse-scores:
+    name: Check Lighthouse scores
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: cp .env.ci .env
+      - run: npm run build
+      - run: npm run lhci -- --upload.token=$LHCI_BUILD_TOKEN
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          LHCI_BUILD_TOKEN: ${{ secrets.LHCI_BUILD_TOKEN }}
+
+  run-unit-tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cypress-io/github-action@v6
+        with:
+          component: true
+          browser: chrome
+
+  deploy-to-netlify:
+    name: Deploy to Netlify
+    runs-on: ubuntu-latest
+    needs: [check-lighthouse-scores, run-unit-tests]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build
+        env:
+          VITE_PUBLIC_FUNCTIONS_URL: ${{ secrets.VITE_PUBLIC_FUNCTIONS_URL }}
+          VITE_PUBLIC_IS_WEB_BUILD: ${{ secrets.VITE_PUBLIC_IS_WEB_BUILD }}
+          VITE_PUBLIC_SENTRY_DSN: ${{ secrets.VITE_PUBLIC_SENTRY_DSN }}
+          VITE_PUBLIC_SENTRY_ENVIRONMENT: ${{ secrets.VITE_PUBLIC_SENTRY_ENVIRONMENT }}
+      - uses: nwtgck/actions-netlify@v2.0
+        with:
+          publish-dir: './dist'
+          production-branch: main
+          production-deploy: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: ${{ github.event.head_commit.message }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

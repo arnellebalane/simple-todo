@@ -74,18 +74,6 @@ describe('AppTopBar', () => {
         });
     });
 
-    it.skip('hides chrome web store link when the build is not for web', () => {
-        cy.mount(AppTopBar);
-
-        cy.get('[data-cy="chrome-webstore-link"]').should('not.exist');
-    });
-
-    it.skip('displays chrome web store link when the build is for web', () => {
-        cy.mount(AppTopBar);
-
-        cy.get('[data-cy="chrome-webstore-link"]').should('be.visible');
-    });
-
     it('opens whats new modal when whats new button is clicked', () => {
         cy.fixture('changelogs.json').then((changeLogs) => {
             changelogs.set(changeLogs);

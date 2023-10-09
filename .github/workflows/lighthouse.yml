@@ -1,5 +1,9 @@
-name: Lighthouse
-on: [push]
+name: Check lighthouse scores
+on:
+  push:
+    branches:
+      - main
+      - 'release/**'
 jobs:
   check-scores:
     runs-on: ubuntu-latest

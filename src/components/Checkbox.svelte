@@ -8,7 +8,7 @@ const handleChange = (event) => dispatch('change', event.target.checked);
 </script>
 
 <label class={$$props.class}>
-    <input type="checkbox" bind:checked on:change={handleChange} {...$$props} />
+    <input type="checkbox" bind:checked on:change={handleChange} {...$$restProps} />
     <span>
         {#if checked}
             <svg viewBox="0 0 24 24">

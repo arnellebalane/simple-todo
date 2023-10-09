@@ -3,7 +3,7 @@ export let value;
 </script>
 
 <label class:checked={value}>
-    <input type="checkbox" bind:checked={value} id={$$props.name} {...$$props} on:change />
+    <input type="checkbox" bind:checked={value} id={$$props.name} {...$$restProps} on:change />
     <span />
 </label>
 

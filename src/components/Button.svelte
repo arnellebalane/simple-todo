@@ -11,7 +11,6 @@ $: iconVariables = icon ? `--icon-light: url(${iconLight}); --icon-dark: url(${i
 </script>
 
 <button
-    {...$$props}
     style={iconVariables}
     class={$$props.class}
     class:primary
@@ -20,6 +19,7 @@ $: iconVariables = icon ? `--icon-light: url(${iconLight}); --icon-dark: url(${i
     class:small
     class:icon
     on:click
+    {...$$restProps}
 >
     <slot />
 </button>

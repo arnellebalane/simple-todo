@@ -13,6 +13,7 @@ export let pulse = false;
         iconDark={icons.launchDark}
         class="WhatsNewButton {pulse ? 'pulse' : ''}"
         on:click
+        data-cy="whats-new-btn"
     >
         What's New
     </Button>

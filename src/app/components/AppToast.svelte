@@ -23,11 +23,13 @@ const handleAction = () => {
 </script>
 
 {#if show}
-    <div use:portal={'body'}>
-        <p>{$toast.text}</p>
+    <div use:portal={'body'} data-cy="app-toast">
+        <p data-cy="toast-message">{$toast.text}</p>
 
         {#if $toast.onAction}
-            <Button class="ActionButton" small on:click={handleAction}>{$toast.actionText || 'OK'}</Button>
+            <Button class="ActionButton" small on:click={handleAction} data-cy="toast-action">
+                {$toast.actionText || 'OK'}
+            </Button>
         {/if}
     </div>
 {/if}

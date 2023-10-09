@@ -1,0 +1,11 @@
+name: Run unit tests
+on: [push]
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cypress-io/github-action@v6
+        with:
+          component: true
+          browser: chrome

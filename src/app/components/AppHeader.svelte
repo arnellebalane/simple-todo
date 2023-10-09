@@ -15,21 +15,27 @@ const dispatch = createEventDispatcher();
 const today = dayjs().format('dddd, MMMM D');
 </script>
 
-<header class={$$props.class}>
-    <h1>{today}</h1>
+<header class={$$props.class} data-cy="app-header">
+    <h1 data-cy="today">{today}</h1>
 
     <div class="HeaderActions">
         <SearchForm />
 
         <div class="HeaderButtons">
-            <Button primary on:click={() => dispatch('addtodo')}>Add Todo</Button>
+            <Button primary on:click={() => dispatch('addtodo')} data-cy="add-todo-btn">Add Todo</Button>
             {#if canUndoRemove}
-                <Button class="UndoRemoveButton" on:click={() => dispatch('undoremovedone')}>
+                <Button class="UndoRemoveButton" on:click={() => dispatch('undoremovedone')} data-cy="undo-remove-btn">
                     <div class="Progress" style="--progress: {$removeDoneTimer * 100}%" />
                     <span>Undo Remove</span>
                 </Button>
             {:else}
-                <Button class="RemoveDoneButton" text on:click={() => dispatch('removedone')} disabled={!hasDoneTodos}>
+                <Button
+                    class="RemoveDoneButton"
+                    text
+                    on:click={() => dispatch('removedone')}
+                    disabled={!hasDoneTodos}
+                    data-cy="remove-done-btn"
+                >
                     Remove Done
                 </Button>
             {/if}

@@ -1,0 +1,20 @@
+[
+  {
+    "version": "1.8.1",
+    "title": "Keyboard Shortcuts",
+    "imageLight": "http://localhost:8888/whats-new/keyboard-shortcuts-light.jpg",
+    "imageDark": "http://localhost:8888/whats-new/keyboard-shortcuts-dark.jpg"
+  },
+  {
+    "version": "1.9.0",
+    "title": "Redesigned Settings",
+    "imageLight": "http://localhost:8888/whats-new/redesigned-settings-light.jpg",
+    "imageDark": "http://localhost:8888/whats-new/redesigned-settings-dark.jpg"
+  },
+  {
+    "version": "1.9.0",
+    "title": "Privacy Mode",
+    "imageLight": "http://localhost:8888/whats-new/privacy-mode-light.jpg",
+    "imageDark": "http://localhost:8888/whats-new/privacy-mode-dark.jpg"
+  }
+]

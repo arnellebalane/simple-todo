@@ -2,12 +2,13 @@
 import { onMount, onDestroy } from 'svelte';
 
 import { APP_VERSION } from '@lib/constants';
+import { config } from '@lib/config';
 import { icons } from '@lib/icons';
 import { enableShortcut, disableShortcut } from '@features/shortcuts';
 import { settings } from '@features/settings/store';
 import { changelogs, version } from '@features/changelogs/store';
 import { tags } from '@features/tags/store';
-import { frequentLinksSupported, frequentLinks } from '@features/quick-links/store';
+import { frequentLinks } from '@features/quick-links/store';
 
 import Button from '@components/Button.svelte';
 import SettingsFormModal from '@features/settings/components/SettingsFormModal.svelte';
@@ -39,10 +40,10 @@ const toggleWhatsNewModal = (show) => (showWhatsNewModal = show);
 $: hasChangeLogs = $changelogs.length > 0;
 $: hasSeenChangeLogs = $version === APP_VERSION;
 
-$: hasQuickLinks = $settings.quickLinks.length > 0;
-$: showFrequentLinks = frequentLinksSupported && $frequentLinks.length > 0 && $settings.showFrequentLinks;
+$: hasQuickLinks = $settings.quickLinks?.length ?? 0 > 0;
+$: showFrequentLinks = $frequentLinks.length > 0 && $settings.showFrequentLinks;
 
-const showChromeWebstoreButton = import.meta.env.VITE_PUBLIC_IS_WEB_BUILD === 'true';
+const showChromeWebstoreButton = config.VITE_PUBLIC_IS_WEB_BUILD === 'true';
 
 const handleSettingsChange = (event) => settings.preview(event.detail);
 const handleSettingsSubmit = (event) => {
@@ -80,6 +81,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
             iconLight={icons.settingsLight}
             iconDark={icons.settingsDark}
             on:click={() => toggleSettingsForm(true)}
+            data-cy="settings-btn"
         >
             Settings
         </Button>
@@ -89,6 +91,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
                 href="https://chrome.google.com/webstore/detail/simple-todo/kobeijgkgkcgknodjkganceliljepmjf/"
                 rel="noopener noreferrer"
                 class="umami--click--chrome-webstore-link"
+                data-cy="chrome-webstore-link"
             >
                 <img src={ChromeWebStoreImage} alt="Available in the Chrome Webstore" width="150" height="42" />
             </a>

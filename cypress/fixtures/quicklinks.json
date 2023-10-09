@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Gmail",
+    "url": "https://mail.google.com/",
+    "icon": "/src/assets/images/gmail.png"
+  },
+  {
+    "custom": true,
+    "icon": "https://arnellebalane.com/favicon.png",
+    "title": "Arnelle Balane",
+    "url": "https://arnellebalane.com"
+  }
+]

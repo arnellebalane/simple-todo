@@ -38,7 +38,13 @@ onDestroy(() => disableShortcut('focusSearch'));
 </script>
 
 {#if enableSearchForm}
-    <form class="SearchForm" bind:this={searchForm} on:submit|preventDefault on:keydown={handleKeyDown}>
+    <form
+        class="SearchForm"
+        bind:this={searchForm}
+        on:submit|preventDefault
+        on:keydown={handleKeyDown}
+        data-cy="search-form"
+    >
         {#if enableTextFilter}
             <input class="SearchQuery" type="text" name="query" placeholder="Search todos" bind:value={$query} />
         {/if}

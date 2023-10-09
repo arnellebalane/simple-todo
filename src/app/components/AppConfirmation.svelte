@@ -14,12 +14,19 @@ const confirm = () => dispatch('confirm');
 const cancel = () => dispatch('cancel');
 </script>
 
-<Modal {show} contentClass="AppConfirmationContent" closeOnEscape closeOnClickOutside on:close={cancel}>
-    <p>{message}</p>
+<Modal
+    {show}
+    contentClass="AppConfirmationContent"
+    closeOnEscape
+    closeOnClickOutside
+    on:close={cancel}
+    data-cy="app-confirmation"
+>
+    <p data-cy="confirm-message">{message}</p>
 
     <div>
-        <Button primary medium on:click={confirm}>{confirmLabel}</Button>
-        <Button text medium on:click={cancel}>{cancelLabel}</Button>
+        <Button primary medium on:click={confirm} data-cy="confirm-btn">{confirmLabel}</Button>
+        <Button text medium on:click={cancel} data-cy="cancel-btn">{cancelLabel}</Button>
     </div>
 </Modal>
 

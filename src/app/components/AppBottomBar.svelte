@@ -16,7 +16,7 @@ $: isUnsplashImage = $settings.backgroundImage?.user_link;
     </small>
 
     {#if isUnsplashImage}
-        <small>
+        <small data-cy="unsplash-attribution">
             Photo by
             <a
                 href="{image.user_link}?utm_source=simple-todo&utm_medium=referral"

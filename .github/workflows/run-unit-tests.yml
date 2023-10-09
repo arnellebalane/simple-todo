@@ -1,6 +1,6 @@
 name: Run unit tests
 on:
-  pull-request:
+  pull_request:
 
 jobs:
   unit-tests:

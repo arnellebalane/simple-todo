@@ -1,6 +1,6 @@
 export const getConfig = () => {
     return {
-        NODE_ENV: import.meta.env.NODE_ENV,
+        MODE: import.meta.env.MODE,
         VITE_PUBLIC_IS_WEB_BUILD: import.meta.env.VITE_PUBLIC_IS_WEB_BUILD,
         VITE_PUBLIC_FUNCTIONS_URL: import.meta.env.VITE_PUBLIC_FUNCTIONS_URL,
         VITE_PUBLIC_SENTRY_DSN: import.meta.env.VITE_PUBLIC_SENTRY_DSN,

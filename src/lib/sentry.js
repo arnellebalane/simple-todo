@@ -7,7 +7,7 @@ import { config } from '@lib/config';
 const ignoredErrorMessages = ['Error: Network Error'];
 
 export function initializeSentry() {
-    if (config.NODE_ENV === 'production') {
+    if (config.MODE === 'production') {
         Sentry.init({
             dsn: config.VITE_PUBLIC_SENTRY_DSN,
             release: APP_VERSION,

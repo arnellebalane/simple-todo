@@ -51,7 +51,7 @@ onDestroy(() => disableShortcut('addTodo'));
 </script>
 
 <svelte:head>
-    {#if config.NODE_ENV === 'production'}
+    {#if config.MODE === 'production'}
         <script
             async
             defer

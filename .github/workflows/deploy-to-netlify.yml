@@ -47,7 +47,6 @@ jobs:
           VITE_PUBLIC_IS_WEB_BUILD: ${{ secrets.VITE_PUBLIC_IS_WEB_BUILD }}
           VITE_PUBLIC_SENTRY_DSN: ${{ secrets.VITE_PUBLIC_SENTRY_DSN }}
           VITE_PUBLIC_SENTRY_ENVIRONMENT: ${{ secrets.VITE_PUBLIC_SENTRY_ENVIRONMENT }}
-          NODE_ENV: production
       - uses: nwtgck/actions-netlify@v2.0
         with:
           publish-dir: './dist'

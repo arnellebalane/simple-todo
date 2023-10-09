@@ -15,7 +15,7 @@ jobs:
           node-version: 18
       - run: npm ci
       - run: cp .env.ci .env
-      - run: npm run build
+      - run: npm run build -- --mode=test
       - run: npm run lhci -- --upload.token=$LHCI_BUILD_TOKEN
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}

@@ -52,6 +52,8 @@ jobs:
           publish-dir: './dist'
           production-branch: main
           production-deploy: true
+          functions-dir: './functions'
+          netlify-config-path: './netlify.toml'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: ${{ github.event.head_commit.message }}
         env:

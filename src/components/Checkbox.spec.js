@@ -17,7 +17,7 @@ describe('Checkbox', () => {
         cy.get('input').should('be.checked');
     });
 
-    it('dispatches "change" event when checkbox is toggled', () => {
+    it('dispatches "change" event with false when unchecked checkbox is checked', () => {
         const onChange = cy.spy();
 
         cy.mount(Checkbox).then(({ component }) => {
@@ -25,6 +25,21 @@ describe('Checkbox', () => {
         });
 
         cy.get('label').click();
-        cy.wrap(onChange).should('have.been.called');
+        cy.wrap(onChange).should('have.been.calledWith', Cypress.sinon.match.has('detail', true));
+    });
+
+    it('dispatches "change" event with true when unchecked checkbox is checked', () => {
+        const onChange = cy.spy();
+
+        cy.mount(Checkbox, {
+            props: {
+                checked: true,
+            },
+        }).then(({ component }) => {
+            component.$on('change', onChange);
+        });
+
+        cy.get('label').click();
+        cy.wrap(onChange).should('have.been.calledWith', Cypress.sinon.match.has('detail', false));
     });
 });

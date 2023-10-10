@@ -7,7 +7,7 @@ import { enableShortcut, disableShortcut } from '@features/shortcuts';
 import { tags } from '@features/tags/store';
 import { todos } from '@features/todos/store';
 import { search } from '@features/search/store';
-import { confirmation } from './stores/confirmation';
+import { confirmation } from '@app/stores/confirmation';
 
 import AppTopBar from './components/AppTopBar.svelte';
 import AppBottomBar from './components/AppBottomBar.svelte';

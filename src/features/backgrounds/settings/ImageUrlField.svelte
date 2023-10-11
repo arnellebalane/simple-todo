@@ -30,7 +30,7 @@ const handleSubmit = async () => {
         dispatch('change', await request);
     } catch (err) {
         console.error(err);
-        error = err.response.data.message || 'Something went wrong, please try again.';
+        error = err.response?.data?.message ?? 'Something went wrong, please try again.';
     }
     handleRequest();
 };
@@ -54,7 +54,7 @@ const handleSubmit = async () => {
 </form>
 
 {#if error}
-    <p class="Error">{error}</p>
+    <p class="Error" data-cy="image-url-field-error">{error}</p>
 {/if}
 
 <style>

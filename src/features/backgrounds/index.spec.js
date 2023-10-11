@@ -8,7 +8,7 @@ describe('initializeBackgrounds', () => {
         settings.set(getDefaultSettings());
 
         cy.intercept('GET', '**/.netlify/functions/get-background-image**', {}).as('getBackgroundImage');
-        cy.intercept('GET', '**/.netlify/functions/report-unsplash-download**', {}).as('reportUnsplashDownload');
+        cy.intercept('POST', '**/.netlify/functions/report-unsplash-download**', {}).as('reportUnsplashDownload');
         cy.intercept('GET', 'https://images.unsplash.com/**', { fixture: 'unsplash-image.jpeg' }).as('downloadImage');
     });
 

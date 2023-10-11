@@ -54,7 +54,7 @@ const refreshBackgroundImage = async () => {
 };
 </script>
 
-<div class="Field">
+<div class="Field" data-cy="automatic-source-fieldset">
     <label for="backgroundRefreshFrequency">Refresh background image</label>
     <div class="RefreshBackground">
         <Selector

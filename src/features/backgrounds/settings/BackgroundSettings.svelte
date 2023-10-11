@@ -45,7 +45,12 @@ const handleBackgroundChange = async () => {
 <section>
     <div class="Field--inline">
         <label for="background">Show background image</label>
-        <Switch name="background" bind:value={data.background} on:change={handleBackgroundChange} />
+        <Switch
+            name="background"
+            bind:value={data.background}
+            on:change={handleBackgroundChange}
+            data-cy="toggle-background"
+        />
     </div>
 
     {#if data.background}
@@ -55,6 +60,7 @@ const handleBackgroundChange = async () => {
             disabled={hasCurrentRequest}
             choices={backgroundSourceChoices}
             choiceComponent={SourceChoiceField}
+            data-cy="background-source-selector"
         />
 
         {#if backgroundSource === BACKGROUND_SOURCE_AUTOMATIC}

@@ -47,9 +47,10 @@ const handleSubmit = async () => {
         {form}
         {disabled}
         on:input={clearError}
+        data-cy="image-url-field-input"
     />
 
-    <Button class="Button" disabled={disabled || !value} {form}>Set image</Button>
+    <Button class="Button" disabled={disabled || !value} {form} data-cy="image-url-field-button">Set image</Button>
 </form>
 
 {#if error}

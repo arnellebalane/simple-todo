@@ -10,7 +10,7 @@ const dispatch = createEventDispatcher();
 const handleChange = (event) => dispatch('change', event.target.value);
 </script>
 
-<div class={$$props.class} class:background={!choiceComponent}>
+<div class={$$props.class} class:background={!choiceComponent} {...$$restProps}>
     {#each choices as choice}
         <label class:disabled>
             <input

@@ -30,7 +30,7 @@ const handleSubmit = async () => {
         dispatch('change', await request);
     } catch (err) {
         console.error(err);
-        error = err.response.data.message || 'Something went wrong, please try again.';
+        error = err.response?.data?.message ?? 'Something went wrong, please try again.';
     }
     handleRequest();
 };
@@ -47,13 +47,14 @@ const handleSubmit = async () => {
         {form}
         {disabled}
         on:input={clearError}
+        data-cy="image-url-field-input"
     />
 
-    <Button class="Button" disabled={disabled || !value} {form}>Set image</Button>
+    <Button class="Button" disabled={disabled || !value} {form} data-cy="image-url-field-button">Set image</Button>
 </form>
 
 {#if error}
-    <p class="Error">{error}</p>
+    <p class="Error" data-cy="image-url-field-error">{error}</p>
 {/if}
 
 <style>

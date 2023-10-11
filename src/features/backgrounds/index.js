@@ -42,11 +42,19 @@ let currentRequest = null;
 async function downloadBackgroundImage(imageUrl) {
     currentRequest?.cancel();
     currentRequest = axios.CancelToken.source();
-    const response = await axios.get(imageUrl, {
-        cancelToken: currentRequest.token,
-        responseType: 'blob',
-    });
-    return URL.createObjectURL(response.data);
+    try {
+        const response = await axios.get(imageUrl, {
+            cancelToken: currentRequest.token,
+            responseType: 'blob',
+        });
+        return URL.createObjectURL(response.data);
+    } catch (error) {
+        if (axios.isCancel(error)) {
+            console.log(`Request cancelled`, error);
+        } else {
+            throw error;
+        }
+    }
 }
 
 async function renderBackgroundImage(imageUrl) {

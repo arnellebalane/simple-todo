@@ -6,7 +6,7 @@ import ImageUrlField from './ImageUrlField.svelte';
 import ImageUploadField from './ImageUploadField.svelte';
 
 export let data = {};
-export let disabled = {};
+export let disabled = false;
 
 const dispatch = createEventDispatcher();
 

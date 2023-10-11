@@ -57,7 +57,7 @@ const selectImageFile = (event) => {
 </form>
 
 {#if error}
-    <p class="Error">{error}</p>
+    <p class="Error" data-cy="image-upload-field-error">{error}</p>
 {/if}
 
 <style>

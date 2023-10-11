@@ -25,6 +25,11 @@ export default defineConfig({
         __APP_VERSION__: JSON.stringify(require('./package.json').version),
     },
 
+    // https://github.com/cypress-io/cypress/issues/22557#issuecomment-1229654837
+    optimizeDeps: {
+        include: ['@sentry/browser', '@sentry/integrations', '@sentry/tracing'],
+    },
+
     server: {
         port: 8080,
     },

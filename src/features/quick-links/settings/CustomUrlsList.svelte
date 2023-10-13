@@ -35,6 +35,7 @@ const handleDragAndDrop = (event) => {
     use:dndzone={{ items: sortableLinks, type: 'CustomUrls', dropTargetStyle: {}, transformDraggedElement }}
     on:consider={handleDragAndDrop}
     on:finalize={handleDragAndDrop}
+    data-cy="custom-urls-list"
 >
     {#each sortableLinks as link (link.id)}
         <CustomUrlItem {link} on:remove={() => dispatch('remove', link)} />

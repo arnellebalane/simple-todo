@@ -33,7 +33,7 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
 <h2>What's new in Simple Todo</h2>
 
 {#each screens as screen, i}
-    <article class:active={i === index}>
+    <article class:active={i === index} data-cy="changelog-screen">
         <h3>{screen.title}</h3>
         <picture class="Image--light">
             <source srcset={screen.imageDark} media="(prefers-color-scheme: dark)" />
@@ -51,6 +51,7 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
             iconDark={icons.chevronLeftDark}
             class="PreviousButton"
             on:click={handlePrevious}
+            data-cy="changelogs-previous-btn"
         >
             Previous
         </Button>
@@ -70,11 +71,12 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
             iconDark={icons.chevronRightDark}
             class="NextButton"
             on:click={handleNext}
+            data-cy="changelogs-next-btn"
         >
             Next
         </Button>
     {:else}
-        <Button primary small on:click={() => dispatch('close')}>Close</Button>
+        <Button primary small on:click={() => dispatch('close')} data-cy="changelogs-close-btn">Close</Button>
     {/if}
 </footer>
 

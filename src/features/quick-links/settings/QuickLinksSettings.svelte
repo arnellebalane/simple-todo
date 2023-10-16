@@ -2,21 +2,13 @@
 import { createEventDispatcher } from 'svelte';
 
 import { getDefaultSettings } from '.';
+import { BUILTIN_QUICK_LINKS } from '../constants';
 import { frequentLinksSupported } from '../store';
-import { icons } from '../icons';
 
 import Switch from '@components/Switch.svelte';
 import QuickLinksField from './QuickLinksField.svelte';
 
 export let data = getDefaultSettings();
-
-const builtInQuickLinks = [
-    { title: 'Gmail', url: 'https://mail.google.com/', icon: icons.gmail },
-    { title: 'Meet', url: 'https://meet.google.com/', icon: icons.meet },
-    { title: 'Drive', url: 'https://drive.google.com/', icon: icons.drive },
-    { title: 'Calendar', url: 'https://calendar.google.com/', icon: icons.calendar },
-    { title: 'Photos', url: 'https://photos.google.com/', icon: icons.photos },
-];
 
 const dispatch = createEventDispatcher();
 const handleChange = () => dispatch('change', data);
@@ -30,7 +22,11 @@ const handleQuickLinksChange = (event) => {
 <section>
     <div class="Field">
         <label for="quicklinks">Select the apps to add a quick link</label>
-        <QuickLinksField choices={builtInQuickLinks} bind:value={data.quickLinks} on:change={handleQuickLinksChange} />
+        <QuickLinksField
+            choices={BUILTIN_QUICK_LINKS}
+            bind:value={data.quickLinks}
+            on:change={handleQuickLinksChange}
+        />
     </div>
 
     {#if frequentLinksSupported}

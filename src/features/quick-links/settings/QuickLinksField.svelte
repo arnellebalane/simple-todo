@@ -61,9 +61,9 @@ const removeCustomQuickLink = (event) => {
 };
 </script>
 
-<div class="DefaultLinks">
+<div class="DefaultLinks" data-cy="default-links">
     {#each choices as link (link.url)}
-        <label class:selected={link.selected}>
+        <label class:selected={link.selected} data-cy="default-link">
             <img src={link.icon} alt={link.title} />
             <p>{link.title}</p>
             <input
@@ -77,7 +77,7 @@ const removeCustomQuickLink = (event) => {
     {/each}
 </div>
 
-<div class="CustomLinks">
+<div class="CustomLinks" data-cy="custom-links">
     <CustomUrlField name="customUrl" error={customQuickLinkError} on:data={addCustomQuickLink} />
     {#if hasCustomQuickLinks}
         <CustomUrlsList

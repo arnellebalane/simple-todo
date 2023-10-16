@@ -28,8 +28,8 @@ const handleSubmit = async () => {
         const response = await axios.get('/get-quick-link-details', { params });
         value = '';
         dispatch('data', response.data);
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        console.error(err);
         error = 'Failed to fetch quick link data, please try again.';
     }
     isLoading = false;
@@ -51,11 +51,12 @@ const handleInput = () => {
         {name}
         {form}
         on:input={handleInput}
+        data-cy="custom-url-field-input"
     />
-    <Button class="Button" disabled={isLoading} {form}>Add Link</Button>
+    <Button class="Button" disabled={isLoading} {form} data-cy="custom-url-field-button">Add Link</Button>
 
     {#if error}
-        <p class="Error">{error}</p>
+        <p class="Error" data-cy="custom-url-field-error">{error}</p>
     {/if}
 </form>
 

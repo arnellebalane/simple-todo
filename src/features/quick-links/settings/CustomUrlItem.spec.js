@@ -60,6 +60,7 @@ describe('CustomUrlItem', () => {
                 .click()
                 .then(() => {
                     confirmation.confirm();
+
                     cy.wrap(onRemove).should('have.been.called');
                 });
         });

@@ -31,10 +31,11 @@ jobs:
           component: true
           browser: chrome
 
-  deploy-to-netlify:
-    name: Deploy to Netlify
+  deploy-to-production:
+    name: Deploy to Production
     runs-on: ubuntu-latest
     needs: [check-lighthouse-scores, run-unit-tests]
+    environment: production
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3

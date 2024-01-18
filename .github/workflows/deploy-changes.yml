@@ -1,4 +1,4 @@
-name: Deploy to production
+name: Deploy changes
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   check-lighthouse-scores:
-    name: Check Lighthouse scores
+    name: Check lighthouse scores
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -32,7 +32,7 @@ jobs:
           browser: chrome
 
   deploy-to-production:
-    name: Deploy to Production
+    name: Deploy to production
     runs-on: ubuntu-latest
     needs: [check-lighthouse-scores, run-unit-tests]
     environment: production

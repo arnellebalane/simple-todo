@@ -44,10 +44,11 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          VITE_PUBLIC_FUNCTIONS_URL: ${{ secrets.VITE_PUBLIC_FUNCTIONS_URL }}
-          VITE_PUBLIC_IS_WEB_BUILD: ${{ secrets.VITE_PUBLIC_IS_WEB_BUILD }}
-          VITE_PUBLIC_SENTRY_DSN: ${{ secrets.VITE_PUBLIC_SENTRY_DSN }}
-          VITE_PUBLIC_SENTRY_ENVIRONMENT: ${{ secrets.VITE_PUBLIC_SENTRY_ENVIRONMENT }}
+          VITE_PUBLIC_FUNCTIONS_URL: ${{ vars.VITE_PUBLIC_FUNCTIONS_URL }}
+          VITE_PUBLIC_IS_WEB_BUILD: ${{ vars.VITE_PUBLIC_IS_WEB_BUILD }}
+          VITE_PUBLIC_SENTRY_DSN: ${{ vars.VITE_PUBLIC_SENTRY_DSN }}
+          VITE_PUBLIC_SENTRY_ENVIRONMENT: ${{ vars.VITE_PUBLIC_SENTRY_ENVIRONMENT }}
+          FUNCTIONS_SENTRY_ENVIRONMENT: ${{ vars.FUNCTIONS_SENTRY_ENVIRONMENT }}
       - uses: netlify/actions/cli@master
         with:
           args: deploy --prod

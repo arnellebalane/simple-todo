@@ -51,7 +51,7 @@ jobs:
           FUNCTIONS_SENTRY_ENVIRONMENT: ${{ vars.FUNCTIONS_SENTRY_ENVIRONMENT }}
       - uses: netlify/actions/cli@master
         with:
-          args: deploy --prod
+          args: deploy --prod --message "${{ github.event.head_commit.message }}"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

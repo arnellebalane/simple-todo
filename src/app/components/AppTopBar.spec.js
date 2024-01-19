@@ -89,6 +89,6 @@ describe('AppTopBar', () => {
         cy.mount(AppTopBar);
 
         cy.get('[data-cy="settings-btn"]').click();
-        cy.get('[data-cy="settings-modal"]').should('be.visible');
+        cy.get('[data-cy="settings-form-modal"]').should('be.visible');
     });
 });

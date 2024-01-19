@@ -40,6 +40,7 @@ const colorChoices = [
             choices={themeChoices}
             choiceComponent={ThemeChoiceField}
             on:change
+            data-cy="theme-settings-selector"
         />
     </div>
 
@@ -51,6 +52,7 @@ const colorChoices = [
             choices={colorChoices}
             choiceComponent={ColorChoiceField}
             on:change
+            data-cy="color-settings-selector"
         />
     </div>
 </section>

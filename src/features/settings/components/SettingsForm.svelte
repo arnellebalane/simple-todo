@@ -25,8 +25,8 @@ const handleChange = () => dispatch('change', data);
     </div>
 
     <div class="Actions">
-        <Button primary>Save Settings</Button>
-        <Button type="button" text on:click={() => dispatch('cancel')}>Cancel</Button>
+        <Button primary data-cy="settings-form-submit">Save Settings</Button>
+        <Button type="button" text on:click={() => dispatch('cancel')} data-cy="settings-form-cancel">Cancel</Button>
     </div>
 </form>
 

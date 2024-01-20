@@ -11,7 +11,12 @@ export let data = getDefaultSettings();
             Enable privacy mode
             <small>Blur out todo contents. Toggle by pressing <kbd>Alt+P</kbd>.</small>
         </label>
-        <Switch name="enablePrivacyMode" bind:value={data.enablePrivacyMode} on:change />
+        <Switch
+            name="enablePrivacyMode"
+            bind:value={data.enablePrivacyMode}
+            on:change
+            data-cy="enable-privacy-mode-toggle"
+        />
     </div>
 </section>
 

@@ -16,7 +16,7 @@ const dispatch = createEventDispatcher();
     closeOnEscape
     closeOnClickOutside
     on:close
-    data-cy="settings-modal"
+    data-cy="settings-form-modal"
 >
     <SettingsForm {data} on:change on:submit on:cancel={() => dispatch('close')} />
 </Modal>

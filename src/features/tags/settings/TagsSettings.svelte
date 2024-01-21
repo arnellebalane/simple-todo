@@ -22,7 +22,7 @@ const restoreTag = (tag) => {
 {#if hasTags}
     <ol>
         {#each sortedTags as tag (tag.label)}
-            <li class:removed={tag.removed}>
+            <li class:removed={tag.removed} data-cy="tag-item">
                 <Button
                     medium
                     icon
@@ -31,6 +31,7 @@ const restoreTag = (tag) => {
                     type="button"
                     class="Button"
                     on:click={() => (tag.removed ? restoreTag(tag) : removeTag(tag))}
+                    data-cy="tag-action-btn"
                 >
                     {tag.removed ? 'Restore' : 'Remove'}
                 </Button>
@@ -39,7 +40,7 @@ const restoreTag = (tag) => {
         {/each}
     </ol>
 {:else}
-    <p>No tags available. Tags added to todo items will appear in this tab.</p>
+    <p data-cy="tags-empty">No tags available. Tags added to todo items will appear in this tab.</p>
 {/if}
 
 <style>

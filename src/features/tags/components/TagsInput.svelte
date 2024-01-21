@@ -30,11 +30,19 @@ const handleRemove = (tag) => {
     name={$$props.name}
     id={$$props.name}
     form
+    data-cy="tags-input"
 />
 
 <div>
     {#each value as tag (tag)}
-        <Button class="Button" type="button" data-tooltip="Click to remove" small on:click={handleRemove(tag)}>
+        <Button
+            class="Button"
+            type="button"
+            data-tooltip="Click to remove"
+            small
+            on:click={handleRemove(tag)}
+            data-cy="tags-value"
+        >
             {tag}
         </Button>
     {/each}

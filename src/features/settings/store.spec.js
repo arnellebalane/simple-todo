@@ -56,9 +56,6 @@ describe('settings store', () => {
 
         cy.window().then((win) => {
             cy.getAllLocalStorage().then((localStorage) => {
-                cy.log(win.location.origin);
-                cy.log(localStorage);
-
                 const storedSettings = localStorage[win.location.origin][STORAGE_KEY_SETTINGS];
                 const expectedSettings = JSON.stringify(data);
 

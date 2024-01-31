@@ -58,12 +58,12 @@ onDestroy(() => disableShortcut('saveTodo'));
     <div class="Field" class:invalid={errors.body}>
         <label for="body">What do you want to do?</label>
         {#if errors.body}<p class="Error">{errors.body}</p>{/if}
-        <div contenteditable bind:innerHTML={data.body} on:paste={handlePaste} />
+        <div contenteditable bind:innerHTML={data.body} on:paste={handlePaste} data-cy="todo-form-body" />
     </div>
 
     <div class="Field">
         <label for="list">When do you want to do this?</label>
-        <Selector bind:value={data.list} choices={listChoices} name="list" />
+        <Selector bind:value={data.list} choices={listChoices} name="list" data-cy="todo-form-list" />
     </div>
 
     <div class="Field">
@@ -72,8 +72,8 @@ onDestroy(() => disableShortcut('saveTodo'));
     </div>
 
     <div class="Actions">
-        <Button primary disabled={!formValid}>Save Todo</Button>
-        <Button type="button" text on:click={cancelForm}>Cancel</Button>
+        <Button primary disabled={!formValid} data-cy="todo-form-save-btn">Save Todo</Button>
+        <Button type="button" text on:click={cancelForm} data-cy="todo-form-cancel-btn">Cancel</Button>
     </div>
 </form>
 

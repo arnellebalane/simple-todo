@@ -19,7 +19,12 @@ const handleDragAndDrop = (event) => {
 };
 </script>
 
-<ol use:dndzone={{ items: todos, dropTargetStyle: {} }} on:consider={handleDragAndDrop} on:finalize={handleDragAndDrop}>
+<ol
+    use:dndzone={{ items: todos, dropTargetStyle: {} }}
+    on:consider={handleDragAndDrop}
+    on:finalize={handleDragAndDrop}
+    data-cy="todo-list-dropzone"
+>
     {#each todos as todo (todo.id)}
         <TodoItem
             {todo}

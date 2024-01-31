@@ -33,6 +33,7 @@ const handleUpdate = (event, list) => {
         on:updatetodo
         on:edittodo
         on:deletetodo
+        data-cy="todo-list-today"
     />
     <TodoList
         title="This week"
@@ -44,6 +45,7 @@ const handleUpdate = (event, list) => {
         on:updatetodo
         on:edittodo
         on:deletetodo
+        data-cy="todo-list-this-week"
     />
     <TodoList
         title="Eventually"
@@ -55,6 +57,7 @@ const handleUpdate = (event, list) => {
         on:updatetodo
         on:edittodo
         on:deletetodo
+        data-cy="todo-list-eventually"
     />
 </section>
 

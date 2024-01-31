@@ -27,6 +27,7 @@ const handleDragAndDrop = (event) => {
         use:dndzone={{ items: todos, dropTargetStyle: {} }}
         on:consider={handleDragAndDrop}
         on:finalize={handleDragAndDrop}
+        data-cy="todo-list-dropzone"
     >
         {#each todos as todo (todos.id)}
             <TodoItem {todo} />
@@ -35,7 +36,7 @@ const handleDragAndDrop = (event) => {
 
     {#if isEmpty}
         <p>{text}</p>
-        <Button class="Button" small on:click={() => dispatch('addtodo')}>Add Todo</Button>
+        <Button class="Button" small on:click={() => dispatch('addtodo')} data-cy="todo-list-add-btn">Add Todo</Button>
     {/if}
 </div>
 

@@ -53,7 +53,7 @@ describe('TodoBoard', () => {
             component.$on('addtodo', addTodoSpy);
         });
 
-        cy.get('[data-cy="todo-list-today"] [data-cy="todo-list-add-btn"]').click();
+        cy.get('[data-cy="todo-list-today"] [data-cy="todo-list-empty-add-btn"]').click();
         cy.wrap(addTodoSpy).should(
             'have.been.calledWith',
             Cypress.sinon.match({
@@ -71,7 +71,7 @@ describe('TodoBoard', () => {
             component.$on('addtodo', addTodoSpy);
         });
 
-        cy.get('[data-cy="todo-list-this-week"] [data-cy="todo-list-add-btn"]').click();
+        cy.get('[data-cy="todo-list-this-week"] [data-cy="todo-list-empty-add-btn"]').click();
         cy.wrap(addTodoSpy).should(
             'have.been.calledWith',
             Cypress.sinon.match({
@@ -89,7 +89,7 @@ describe('TodoBoard', () => {
             component.$on('addtodo', addTodoSpy);
         });
 
-        cy.get('[data-cy="todo-list-eventually"] [data-cy="todo-list-add-btn"]').click();
+        cy.get('[data-cy="todo-list-eventually"] [data-cy="todo-list-empty-add-btn"]').click();
         cy.wrap(addTodoSpy).should(
             'have.been.calledWith',
             Cypress.sinon.match({

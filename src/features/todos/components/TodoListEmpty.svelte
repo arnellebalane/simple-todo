@@ -36,7 +36,9 @@ const handleDragAndDrop = (event) => {
 
     {#if isEmpty}
         <p>{text}</p>
-        <Button class="Button" small on:click={() => dispatch('addtodo')} data-cy="todo-list-add-btn">Add Todo</Button>
+        <Button class="Button" small on:click={() => dispatch('addtodo')} data-cy="todo-list-empty-add-btn">
+            Add Todo
+        </Button>
     {/if}
 </div>
 

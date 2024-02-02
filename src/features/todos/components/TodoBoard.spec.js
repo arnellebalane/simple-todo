@@ -1,22 +1,11 @@
 import { TRIGGERS } from 'svelte-dnd-action';
 import TodoBoard from './TodoBoard.svelte';
 import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
-
-const getTodo = (overrides = {}) => {
-    return {
-        id: '1',
-        body: 'test todo',
-        list: TODOS_TODAY,
-        order: 1,
-        done: false,
-        tags: [],
-        ...overrides,
-    };
-};
+import { generateTodo } from '../utils/test-helpers';
 
 describe('TodoBoard', () => {
     it('displays todos today in the correct list', () => {
-        const todo = getTodo({ list: TODOS_TODAY });
+        const todo = generateTodo({ list: TODOS_TODAY });
 
         cy.mount(TodoBoard, {
             props: {
@@ -30,7 +19,7 @@ describe('TodoBoard', () => {
     });
 
     it('displays todos this week in the correct list', () => {
-        const todo = getTodo({ list: TODOS_THIS_WEEK });
+        const todo = generateTodo({ list: TODOS_THIS_WEEK });
 
         cy.mount(TodoBoard, {
             props: {
@@ -44,7 +33,7 @@ describe('TodoBoard', () => {
     });
 
     it('displays todos eventually in the correct list', () => {
-        const todo = getTodo({ list: TODOS_EVENTUALLY });
+        const todo = generateTodo({ list: TODOS_EVENTUALLY });
 
         cy.mount(TodoBoard, {
             props: {
@@ -112,7 +101,7 @@ describe('TodoBoard', () => {
     });
 
     it('dispatches "update" event when there are changes in the todos list', () => {
-        const todo = getTodo({ list: TODOS_TODAY });
+        const todo = generateTodo({ list: TODOS_TODAY });
         const updateSpy = cy.spy();
 
         cy.mount(TodoBoard, {

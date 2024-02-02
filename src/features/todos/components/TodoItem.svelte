@@ -20,9 +20,10 @@ const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.
     class:done={todo.done}
     class:private={$settings.enablePrivacyMode}
     on:dblclick={() => dispatch('edit')}
+    data-cy="todo-item"
 >
-    <Checkbox checked={todo.done} on:change={toggleTodoDone} />
-    <div class="TodoDetails">
+    <Checkbox checked={todo.done} on:change={toggleTodoDone} data-cy="todo-item-done" />
+    <div class="TodoDetails" data-cy="todo-item-details">
         <p><span>{todo.body}</span></p>
         {#if hasTags}
             <TodoItemTags class="TodoItemTags" tags={todo.tags} />
@@ -31,7 +32,7 @@ const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.
     <TodoItemMenu class="TodoItemMenu" on:edit on:delete />
 
     {#if todo[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
-        <div class="TodoItemShadow" />
+        <div class="TodoItemShadow" data-cy="todo-item-shadow" />
     {/if}
 </li>
 

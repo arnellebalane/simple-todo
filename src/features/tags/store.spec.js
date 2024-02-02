@@ -8,84 +8,92 @@ describe('tags store', () => {
         tags.set({});
     });
 
-    it('adds tag to store when tags.add is called', () => {
-        const tagsSpy = cy.spy();
-        tags.subscribe(tagsSpy);
+    describe('tags.add', () => {
+        it('adds tag to store', () => {
+            const tagsSpy = cy.spy();
+            tags.subscribe(tagsSpy);
 
-        tags.add(['one', 'two']);
+            tags.add(['one', 'two']);
 
-        cy.wrap(tagsSpy).should('have.been.calledWith', {
-            one: { label: 'one' },
-            two: { label: 'two' },
+            cy.wrap(tagsSpy).should('have.been.calledWith', {
+                one: { label: 'one' },
+                two: { label: 'two' },
+            });
         });
     });
 
-    it('updates tag data when tags.updateTag is called', () => {
-        tags.set({
-            one: { label: 'one' },
-        });
+    describe('tags.updateTag', () => {
+        it('updates tag data', () => {
+            tags.set({
+                one: { label: 'one' },
+            });
 
-        const tagsSpy = cy.spy();
-        tags.subscribe(tagsSpy);
+            const tagsSpy = cy.spy();
+            tags.subscribe(tagsSpy);
 
-        tags.updateTag('one', { removed: true });
+            tags.updateTag('one', { removed: true });
 
-        cy.wrap(tagsSpy).should('have.been.calledWith', {
-            one: { label: 'one', removed: true },
-        });
-    });
-
-    it('saves only tags that are not removed and their allowed fields when tags.save is called', () => {
-        tags.set({
-            one: { label: 'one', unknown: 'field' },
-            two: { label: 'two', removed: true },
-        });
-
-        const tagsSpy = cy.spy();
-        tags.subscribe(tagsSpy);
-
-        tags.save();
-
-        cy.wrap(tagsSpy).should('have.been.calledWith', {
-            one: { label: 'one' },
+            cy.wrap(tagsSpy).should('have.been.calledWith', {
+                one: { label: 'one', removed: true },
+            });
         });
     });
 
-    it('updates todos to only include tags that are not removed when tags.save is called', () => {
-        const todo = {
-            id: 1,
-            body: 'todo',
-            list: TODOS_TODAY,
-            order: 1,
-            done: false,
-            tags: ['one', 'two'],
-        };
-        todos.set([todo]);
+    describe('tags.save', () => {
+        it('saves only tags that are not removed and their allowed fields', () => {
+            tags.set({
+                one: { label: 'one', unknown: 'field' },
+                two: { label: 'two', removed: true },
+            });
 
-        const todosSpy = cy.spy();
-        todos.subscribe(todosSpy);
+            const tagsSpy = cy.spy();
+            tags.subscribe(tagsSpy);
 
-        tags.set({
-            one: { label: 'one' },
-            two: { label: 'two', removed: true },
+            tags.save();
+
+            cy.wrap(tagsSpy).should('have.been.calledWith', {
+                one: { label: 'one' },
+            });
         });
-        tags.save();
 
-        cy.wrap(todosSpy).should('have.been.calledWith', [{ ...todo, tags: ['one'] }]);
+        it('updates todos to only include tags that are not removed', () => {
+            const todo = {
+                id: 1,
+                body: 'todo',
+                list: TODOS_TODAY,
+                order: 1,
+                done: false,
+                tags: ['one', 'two'],
+            };
+            todos.set([todo]);
+
+            const todosSpy = cy.spy();
+            todos.subscribe(todosSpy);
+
+            tags.set({
+                one: { label: 'one' },
+                two: { label: 'two', removed: true },
+            });
+            tags.save();
+
+            cy.wrap(todosSpy).should('have.been.calledWith', [{ ...todo, tags: ['one'] }]);
+        });
     });
 
-    it('saves data in localStorage when tags.saveInStorage is called', () => {
-        const data = {
-            one: { label: 'one' },
-        };
-        tags.saveInStorage(data);
+    describe('tags.saveInStorage', () => {
+        it('saves data in localStorage', () => {
+            const data = {
+                one: { label: 'one' },
+            };
+            tags.saveInStorage(data);
 
-        cy.window().then((win) => {
-            cy.getAllLocalStorage().then((localStorage) => {
-                const storedTags = localStorage[win.location.origin][STORAGE_KEY_TAGS];
-                const expectedTags = JSON.stringify(data);
+            cy.window().then((win) => {
+                cy.getAllLocalStorage().then((localStorage) => {
+                    const storedTags = localStorage[win.location.origin][STORAGE_KEY_TAGS];
+                    const expectedTags = JSON.stringify(data);
 
-                cy.wrap(storedTags).should('equal', expectedTags);
+                    cy.wrap(storedTags).should('equal', expectedTags);
+                });
             });
         });
     });

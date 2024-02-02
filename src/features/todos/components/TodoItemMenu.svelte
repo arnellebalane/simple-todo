@@ -5,7 +5,7 @@ const dispatch = createEventDispatcher();
 </script>
 
 <menu class={$$props.class} data-cy="todo-item-menu">
-    <button class="ToggleButton">Toggle</button>
+    <button class="ToggleButton" data-cy="todo-item-toggle">Toggle</button>
 
     <button class="DeleteButton" on:click={() => dispatch('delete')} data-cy="todo-item-delete">Delete</button>
     <button class="EditButton" on:click={() => dispatch('edit')} data-cy="todo-item-edit">Edit</button>

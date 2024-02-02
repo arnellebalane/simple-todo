@@ -10,6 +10,6 @@ export let data;
 const dispatch = createEventDispatcher();
 </script>
 
-<Modal {show} closeOnEscape on:close={() => dispatch('cancel')}>
+<Modal {show} closeOnEscape on:close={() => dispatch('cancel')} data-cy="todo-form-modal">
     <TodoForm {data} on:submit on:cancel />
 </Modal>

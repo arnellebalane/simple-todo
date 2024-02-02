@@ -2,7 +2,7 @@
 export let tags = [];
 </script>
 
-<ul class={$$props.class}>
+<ul class={$$props.class} data-cy="todo-item-tags">
     {#each tags as tag (tag)}
         <li>{tag}</li>
     {/each}

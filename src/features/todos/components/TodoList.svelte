@@ -11,7 +11,7 @@ $: total = todos.length;
 $: isEmpty = total === 0;
 </script>
 
-<article class={$$props.class}>
+<article {...$$restProps}>
     <TodoListHeader {title} {total} on:addtodo />
 
     {#if isEmpty}

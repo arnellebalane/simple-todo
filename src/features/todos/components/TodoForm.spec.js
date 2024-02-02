@@ -1,0 +1,84 @@
+import TodoForm from './TodoForm.svelte';
+import { TODOS_THIS_WEEK } from '../constants';
+
+describe('TodoForm', () => {
+    beforeEach(() => {
+        cy.viewport(500, 500);
+    });
+
+    it('prepopulates form with values from data prop', () => {
+        const data = {
+            body: 'test todo',
+            list: TODOS_THIS_WEEK,
+        };
+
+        cy.mount(TodoForm, {
+            props: { data },
+        });
+
+        cy.get('[data-cy="todo-form-body"]').should('have.text', data.body);
+        cy.get(`[data-cy="todo-form-list"] input[value="${data.list}"]`).should('be.checked');
+    });
+
+    it('unsanitizes todo body from data prop when displaying it in the form', () => {
+        const data = {
+            body: '&lt;test todo&gt;',
+            list: TODOS_THIS_WEEK,
+        };
+
+        cy.mount(TodoForm, {
+            props: { data },
+        });
+
+        cy.get('[data-cy="todo-form-body"]').should('have.text', '<test todo>');
+    });
+
+    it('disables submit button when todo body is not specified', () => {
+        cy.mount(TodoForm);
+
+        cy.get('[data-cy="todo-form-body"]').should('have.text', '');
+        cy.get('[data-cy="todo-form-save-btn"]').should('be.disabled');
+    });
+
+    it('disables submit button when todo list is not specified', () => {
+        const data = {
+            body: 'test todo',
+        };
+
+        cy.mount(TodoForm, {
+            props: { data },
+        });
+
+        cy.get('[data-cy="todo-form-body"]').should('have.text', data.body);
+        cy.get('[data-cy="todo-form-save-btn"]').should('be.disabled');
+    });
+
+    it('dispatches "submit" event when form is submitted with valid todo', () => {
+        const data = {
+            body: '&lt;test todo&gt;',
+            list: TODOS_THIS_WEEK,
+        };
+        const submitSpy = cy.spy();
+
+        cy.mount(TodoForm).then(({ component }) => {
+            component.$on('submit', submitSpy);
+        });
+
+        cy.get('[data-cy="todo-form-body"]').type(data.body);
+        cy.get(`[data-cy="todo-form-list"] input[value="${data.list}"]`).click({ force: true });
+        cy.get('[data-cy="todo-form-save-btn"]').click();
+
+        cy.wrap(submitSpy).should('have.been.calledWith', Cypress.sinon.match({ detail: data }));
+    });
+
+    it('dispatches "cancel" event when cancel button is clicked', () => {
+        const cancelSpy = cy.spy();
+
+        cy.mount(TodoForm).then(({ component }) => {
+            component.$on('cancel', cancelSpy);
+        });
+
+        cy.get('[data-cy="todo-form-cancel-btn"]').click();
+        cy.wrap(cancelSpy).should('have.been.called');
+    });
+});

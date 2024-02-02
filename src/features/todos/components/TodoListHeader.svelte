@@ -9,7 +9,7 @@ $: isEmpty = total === 0;
 const dispatch = createEventDispatcher();
 </script>
 
-<header class={$$props.class}>
+<header class={$$props.class} data-cy="todo-list-header">
     <h1>{title}</h1>
 
     {#if !isEmpty}

@@ -1,9 +1,10 @@
+import { faker } from '@faker-js/faker';
 import { TODOS_TODAY } from '../constants';
 
 export const generateTodo = (overrides = {}) => {
     return {
-        id: '1',
-        body: 'test todo',
+        id: faker.string.uuid(),
+        body: faker.string.alpha(10),
         list: TODOS_TODAY,
         order: 1,
         done: false,

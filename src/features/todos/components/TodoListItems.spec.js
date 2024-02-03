@@ -76,10 +76,7 @@ describe('TodoListItems', () => {
     });
 
     it('dispatches "update" event when a todo is dropped into the drag and drop zone', () => {
-        const newTodo = generateTodo({
-            id: '2',
-            body: 'another todo',
-        });
+        const newTodo = generateTodo({ body: 'another todo' });
         const updateSpy = cy.spy();
 
         cy.mount(TodoListItems, {

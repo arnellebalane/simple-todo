@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { STORAGE_KEY_DATA } from '@lib/constants';
 import { generateTodo } from './utils/test-helpers';
 import { TODOS_TODAY } from './constants';
@@ -26,8 +27,8 @@ describe('todos store', () => {
 
     describe('todos.updateList', () => {
         it('updates the provided todos and keep the others that are not updated', () => {
-            const todoOne = generateTodo({ id: '1' });
-            const todoTwo = generateTodo({ id: '2' });
+            const todoOne = generateTodo();
+            const todoTwo = generateTodo();
             todos.set([todoOne, todoTwo]);
 
             const todosSpy = cy.spy();
@@ -72,7 +73,7 @@ describe('todos store', () => {
 
         it('adds new todo with initial fields and picks only the allowed fields when given a new todo item', () => {
             const todo = {
-                body: 'test todo',
+                body: faker.string.alpha(10),
                 list: TODOS_TODAY,
                 unknownField: true,
             };
@@ -102,8 +103,8 @@ describe('todos store', () => {
 
     describe('todos.remove', () => {
         it('removes given todo from the todo list', () => {
-            const todoOne = generateTodo({ id: '1' });
-            const todoTwo = generateTodo({ id: '2' });
+            const todoOne = generateTodo();
+            const todoTwo = generateTodo();
             todos.set([todoOne, todoTwo]);
 
             const todosSpy = cy.spy();
@@ -117,8 +118,8 @@ describe('todos store', () => {
 
     describe('todos.removeDone', () => {
         it('removes todo items that are marked as done from the todo list', () => {
-            const todoOne = generateTodo({ id: '1', done: true });
-            const todoTwo = generateTodo({ id: '2' });
+            const todoOne = generateTodo({ done: true });
+            const todoTwo = generateTodo();
             todos.set([todoOne, todoTwo]);
 
             const todosSpy = cy.spy();
@@ -132,8 +133,8 @@ describe('todos store', () => {
 
     describe('todos.undoRemoveDone', () => {
         it('adds back removed todo items into the todo list', () => {
-            const todoOne = generateTodo({ id: '1', done: true });
-            const todoTwo = generateTodo({ id: '2' });
+            const todoOne = generateTodo({ done: true });
+            const todoTwo = generateTodo();
             todos.set([todoOne, todoTwo]);
             todos.removeDone();
 

@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import TodoForm from './TodoForm.svelte';
 import { TODOS_THIS_WEEK } from '../constants';
 
@@ -8,7 +9,7 @@ describe('TodoForm', () => {
 
     it('prepopulates form with values from data prop', () => {
         const data = {
-            body: 'test todo',
+            body: faker.string.alpha(10),
             list: TODOS_THIS_WEEK,
         };
 
@@ -42,7 +43,7 @@ describe('TodoForm', () => {
 
     it('disables submit button when todo list is not specified', () => {
         const data = {
-            body: 'test todo',
+            body: faker.string.alpha(10),
         };
 
         cy.mount(TodoForm, {

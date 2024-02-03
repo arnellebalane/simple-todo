@@ -1,16 +1,15 @@
+import { faker } from '@faker-js/faker';
 import { generateTodo } from '@features/todos/utils/test-helpers';
 import { TODOS_TODAY, TODOS_EVENTUALLY } from '@features/todos/constants';
 import { search } from './store';
 
 const todos = [
     generateTodo({
-        id: '1',
         list: TODOS_TODAY,
         tags: ['test'],
     }),
     generateTodo({
-        id: '2',
-        body: 'another test todo',
+        body: faker.string.alpha(10),
         list: TODOS_EVENTUALLY,
     }),
 ];
@@ -43,7 +42,7 @@ describe('search store', () => {
             const resultSpy = cy.spy();
             result.subscribe(resultSpy);
 
-            search.query.set('another');
+            search.query.set(todos[1].body);
 
             cy.wrap(resultSpy).should('have.been.calledWith', [todos[1]]);
         });

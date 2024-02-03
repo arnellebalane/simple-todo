@@ -10,6 +10,8 @@
     "preview": "vite preview",
     "test": "cypress run --component",
     "test:open": "cypress open --component --browser chrome",
+    "e2e": "cypress run --e2e",
+    "e2e:open": "cypress open --e2e --browser chrome",
     "lhci": "lhci autorun",
     "prezip": "npm run build",
     "zip": "./scripts/zip.sh"

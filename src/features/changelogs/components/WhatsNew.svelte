@@ -59,7 +59,7 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
 
     <ul>
         {#each screens as screen, i}
-            <li class:active={i === index} />
+            <li class:active={i === index} data-cy="changelogs-page" />
         {/each}
     </ul>
 

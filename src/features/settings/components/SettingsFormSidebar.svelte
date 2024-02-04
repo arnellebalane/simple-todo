@@ -4,7 +4,7 @@ import { settingsTabs } from '../config';
 export let value;
 </script>
 
-<aside class={$$props.class}>
+<aside class={$$props.class} data-cy="settings-form-sidebar">
     <h1>Settings</h1>
 
     {#each settingsTabs as tab, index (tab.id)}

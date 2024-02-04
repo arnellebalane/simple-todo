@@ -48,7 +48,7 @@ const handleRemove = (tag) => {
     {/each}
 </div>
 
-<datalist id="tags-choices">
+<datalist id="tags-choices" data-cy="tags-input-datalist">
     {#each filteredChoices as choice (choice.label)}
         <option value={choice.label} />
     {/each}

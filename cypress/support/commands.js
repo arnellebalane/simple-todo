@@ -32,8 +32,12 @@ Cypress.Commands.add('clearInitialData', (key) => {
 });
 
 Cypress.Commands.add('setInitialData', (key, value) => {
+    const initialDataMap = typeof key === 'string' ? { [key]: value } : key;
+
     return cy.window().then((win) => {
-        win.localStorage.setItem(key, JSON.stringify(value));
+        for (const [key, value] of Object.entries(initialDataMap)) {
+            win.localStorage.setItem(key, JSON.stringify(value));
+        }
         cy.reload();
     });
 });

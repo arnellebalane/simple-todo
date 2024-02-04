@@ -20,7 +20,7 @@ const restoreTag = (tag) => {
 </script>
 
 {#if hasTags}
-    <ol>
+    <ol data-cy="tags-settings">
         {#each sortedTags as tag (tag.label)}
             <li class:removed={tag.removed} data-cy="tag-item">
                 <Button

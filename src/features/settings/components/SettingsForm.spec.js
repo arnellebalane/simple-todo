@@ -21,7 +21,7 @@ describe('SettingsForm', () => {
             component.$on('submit', submitSpy);
         });
 
-        cy.get('[data-cy="settings-form-submit"]').click();
+        cy.get('[data-cy="settings-form-submit-btn"]').click();
         cy.wrap(submitSpy).should('have.been.calledWith', Cypress.sinon.match({ detail: data }));
     });
 
@@ -32,7 +32,7 @@ describe('SettingsForm', () => {
             component.$on('cancel', cancelSpy);
         });
 
-        cy.get('[data-cy="settings-form-cancel"]').click();
+        cy.get('[data-cy="settings-form-cancel-btn"]').click();
         cy.wrap(cancelSpy).should('have.been.called');
     });
 

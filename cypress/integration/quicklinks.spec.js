@@ -16,7 +16,7 @@ describe('quicklinks', () => {
         for (const title of linkTitles) {
             [cy.get('[data-cy="default-links"]').contains(title).closest('[data-cy="default-link"]').click()];
         }
-        cy.get('[data-cy="settings-form-submit"]').click();
+        cy.get('[data-cy="settings-form-submit-btn"]').click();
 
         cy.get('[data-cy="quick-link"]').should('have.length', linkUrls.length);
         for (const url of linkUrls) {
@@ -54,7 +54,7 @@ describe('quicklinks', () => {
                     cy.get('[data-cy="custom-url-field-button"]').click();
                     cy.get('[data-cy="custom-url-item"]').contains(url).should('be.visible');
                 }
-                cy.get('[data-cy="settings-form-submit"]').click();
+                cy.get('[data-cy="settings-form-submit-btn"]').click();
 
                 cy.get('[data-cy="quick-link"]').should('have.length', linkUrls.length);
                 for (const url of linkUrls) {

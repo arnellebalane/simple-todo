@@ -90,7 +90,7 @@ describe('tags', () => {
                 .within(() => {
                     cy.get('[data-cy="tag-action-btn"]').click();
                 });
-            cy.get('[data-cy="settings-form-submit"]').click();
+            cy.get('[data-cy="settings-form-submit-btn"]').click();
 
             cy.get('[data-cy="todo-item"]').each((element) => {
                 cy.wrap(element).within(() => {

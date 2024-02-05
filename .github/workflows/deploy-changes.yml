@@ -9,7 +9,7 @@ jobs:
     name: Check lighthouse scores
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -25,7 +25,7 @@ jobs:
     name: Run unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: cypress-io/github-action@v6
         with:
           component: true
@@ -37,7 +37,7 @@ jobs:
     needs: [check-lighthouse-scores, run-unit-tests]
     environment: production
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: 18

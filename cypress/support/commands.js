@@ -23,3 +23,21 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('clearInitialData', (key) => {
+    return cy.window().then((win) => {
+        win.localStorage.removeItem(key);
+        cy.reload();
+    });
+});
+
+Cypress.Commands.add('setInitialData', (key, value) => {
+    const initialDataMap = typeof key === 'string' ? { [key]: value } : key;
+
+    return cy.window().then((win) => {
+        for (const [key, value] of Object.entries(initialDataMap)) {
+            win.localStorage.setItem(key, JSON.stringify(value));
+        }
+        cy.reload();
+    });
+});

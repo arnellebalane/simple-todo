@@ -8,7 +8,13 @@ export let links = [];
     <ul>
         {#each links as link (link.url)}
             <li>
-                <a href={link.url} rel="noopener noreferrer" data-tooltip={link.title} class:custom={link.custom}>
+                <a
+                    href={link.url}
+                    rel="noopener noreferrer"
+                    data-tooltip={link.title}
+                    class:custom={link.custom}
+                    data-cy="quick-link"
+                >
                     <img src={link.icon} alt={link.title} />
                 </a>
             </li>

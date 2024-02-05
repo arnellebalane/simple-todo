@@ -2,6 +2,8 @@ require('dotenv').config();
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
+    projectId: 'dkoa9n',
+
     viewportWidth: 1920,
     viewportHeight: 1080,
 

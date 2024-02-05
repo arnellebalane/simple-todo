@@ -4,6 +4,7 @@ import { generateTodo } from '../../src/features/todos/utils/test-helpers';
 import { STORAGE_KEY_DATA, STORAGE_KEY_TAGS } from '../lib/constants';
 
 describe('search', () => {
+    const settingsLabel = 'Search';
     const tagOne = faker.string.alpha(10);
     const tagTwo = faker.string.alpha(10);
     const tags = {
@@ -64,7 +65,7 @@ describe('search', () => {
             cy.get('[data-cy="search-form-tags-filter"]').should('be.visible');
 
             cy.get('[data-cy="settings-btn"]').click();
-            cy.get('[data-cy="settings-form-sidebar"]').contains('Search').click();
+            cy.get('[data-cy="settings-form-sidebar"]').contains(settingsLabel).click();
             cy.get('[data-cy="enable-text-filter"]').click({ force: true });
             cy.get('[data-cy="enable-tags-filter"]').click({ force: true });
             cy.get('[data-cy="settings-form-submit-btn"]').click();

@@ -5,6 +5,7 @@ import { generateTodo } from '../../src/features/todos/utils/test-helpers';
 import { STORAGE_KEY_DATA, STORAGE_KEY_TAGS } from '../lib/constants';
 
 describe('tags', () => {
+    const settingsLabel = 'Tags';
     const body = faker.string.alpha(10);
     const tagOne = faker.string.alpha(5);
     const tagTwo = faker.string.alpha(5);
@@ -82,7 +83,7 @@ describe('tags', () => {
             [STORAGE_KEY_TAGS]: tags,
         }).then(() => {
             cy.get('[data-cy="settings-btn"]').click();
-            cy.get('[data-cy="settings-form-sidebar"]').contains('Tags').click();
+            cy.get('[data-cy="settings-form-sidebar"]').contains(settingsLabel).click();
 
             cy.get('[data-cy="tags-settings"]')
                 .contains(tagOne)

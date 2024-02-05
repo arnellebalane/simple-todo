@@ -2,6 +2,8 @@ import { faker } from '@faker-js/faker';
 import { STORAGE_KEY_SETTINGS } from '../lib/constants';
 
 describe('quicklinks', () => {
+    const settingsLabel = 'Quick Links';
+
     beforeEach(() => {
         cy.visit(Cypress.env('APP_TESTING_ENDPOINT'));
     });
@@ -11,7 +13,7 @@ describe('quicklinks', () => {
         const linkUrls = ['https://mail.google.com/', 'https://calendar.google.com/', 'https://photos.google.com/'];
 
         cy.get('[data-cy="settings-btn"]').click();
-        cy.get('[data-cy="settings-form-sidebar"]').contains('Quick Links').click();
+        cy.get('[data-cy="settings-form-sidebar"]').contains(settingsLabel).click();
 
         for (const title of linkTitles) {
             [cy.get('[data-cy="default-links"]').contains(title).closest('[data-cy="default-link"]').click()];
@@ -32,7 +34,7 @@ describe('quicklinks', () => {
                 const linkUrls = ['https://arnellebalane.com/', 'https://simple-todo.arnelle.dev/'];
 
                 cy.get('[data-cy="settings-btn"]').click();
-                cy.get('[data-cy="settings-form-sidebar"]').contains('Quick Links').click();
+                cy.get('[data-cy="settings-form-sidebar"]').contains(settingsLabel).click();
 
                 cy.get('[data-cy="custom-url-field-button"]').click();
                 cy.get('[data-cy="custom-url-field-error"]').should('be.visible');

@@ -21,7 +21,7 @@ describe('backgrounds', () => {
         cy.get('[data-cy="settings-form-submit-btn"]').click();
         cy.reload();
 
-        cy.get('body').should('have.attr', 'data-background');
+        cy.get('body').should('have.attr', 'not.data-background');
     });
 
     it('can specify custom unsplash image as background image', () => {

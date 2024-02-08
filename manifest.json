@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Simple Todo",
   "version": "1.13.9",
 
@@ -14,7 +14,10 @@
   "chrome_url_overrides": {
     "newtab": "build/index.html"
   },
-  "permissions": ["topSites", "https://simple-todo.arnelle.dev/"],
+  "permissions": ["topSites"],
+  "host_permissions": ["https://simple-todo.arnelle.dev/"],
 
-  "content_security_policy": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https: http:; script-src 'self'; connect-src 'self' https://simple-todo.arnelle.dev https://images.unsplash.com https://o31372.ingest.sentry.io"
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https: http:; script-src 'self'; connect-src 'self' https://simple-todo.arnelle.dev https://images.unsplash.com https://o31372.ingest.sentry.io"
+  }
 }

@@ -21,13 +21,13 @@ jobs:
       - run: npm run zip
       - uses: actions/upload-artifact@v4
         with:
-          name: simple-todo.zip
+          name: simple-todo
           path: simple-todo.zip
           if-no-files-found: error
           retention-days: 1
       - uses: actions/upload-artifact@v4
         with:
-          name: simple-todo-source.zip
+          name: simple-todo-source
           path: simple-todo-source.zip
           if-no-files-found: error
           retention-days: 1

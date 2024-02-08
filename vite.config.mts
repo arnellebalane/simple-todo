@@ -6,6 +6,7 @@ export default defineConfig({
     plugins: [svelte()],
 
     build: {
+        outDir: path.join(__dirname, 'build'),
         assetsInlineLimit: 0,
     },
 

@@ -1,0 +1,33 @@
+name: Release extension
+on: workflow_dispatch
+
+jobs:
+  build-extension-artifacts:
+    name: Build extension artifacts
+    runs-on: ubuntu-latest
+    environment: extension
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build
+        env:
+          VITE_PUBLIC_FUNCTIONS_URL: ${{ vars.VITE_PUBLIC_FUNCTIONS_URL }}
+          VITE_PUBLIC_IS_WEB_BUILD: ${{ vars.VITE_PUBLIC_IS_WEB_BUILD }}
+          VITE_PUBLIC_SENTRY_DSN: ${{ vars.VITE_PUBLIC_SENTRY_DSN }}
+          VITE_PUBLIC_SENTRY_ENVIRONMENT: ${{ vars.VITE_PUBLIC_SENTRY_ENVIRONMENT }}
+      - run: npm run zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: simple-todo.zip
+          path: simple-todo.zip
+          if-no-files-found: error
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: simple-todo-source.zip
+          path: simple-todo-source.zip
+          if-no-files-found: error
+          retention-days: 1

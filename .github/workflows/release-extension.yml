@@ -12,13 +12,12 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - run: npm run build
+      - run: npm run zip
         env:
           VITE_PUBLIC_FUNCTIONS_URL: ${{ vars.VITE_PUBLIC_FUNCTIONS_URL }}
           VITE_PUBLIC_IS_WEB_BUILD: ${{ vars.VITE_PUBLIC_IS_WEB_BUILD }}
           VITE_PUBLIC_SENTRY_DSN: ${{ vars.VITE_PUBLIC_SENTRY_DSN }}
           VITE_PUBLIC_SENTRY_ENVIRONMENT: ${{ vars.VITE_PUBLIC_SENTRY_ENVIRONMENT }}
-      - run: npm run zip
       - uses: actions/upload-artifact@v4
         with:
           name: simple-todo-artifacts

@@ -1,5 +1,8 @@
 name: Release extension
-on: workflow_dispatch
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   build-extension-artifacts:

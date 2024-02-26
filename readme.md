@@ -33,10 +33,18 @@ cd simple-todo
 npm ci
 
 # Run local server
+# Runs in http://localhost:8888 by default
 npm run dev
 
 # Build for production
 npm run build
+
+# Run unit tests
+npm run test
+
+# Run integration tests
+# Requires the application to be accessible at the URL defined in APP_TESTING_ENDPOINT .env variable
+npm run e2e
 ```
 
 ## License

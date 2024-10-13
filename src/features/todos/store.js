@@ -1,10 +1,10 @@
-import { writable, derived } from 'svelte/store';
-import { tweened } from 'svelte/motion';
-import * as uuid from 'uuid';
 import pick from 'lodash/pick';
+import { tweened } from 'svelte/motion';
+import { derived, writable } from 'svelte/store';
+import * as uuid from 'uuid';
 
-import { trackEvent } from '@lib/umami';
 import { STORAGE_KEY_DATA } from '@lib/constants';
+import { trackEvent } from '@lib/umami';
 
 const REMOVE_TIMER_DURATION = 2000;
 const REMOVE_TIMER_INITIAL = 0;
@@ -12,7 +12,7 @@ const REMOVE_TIMER_FINAL = 1;
 
 function createStore() {
     const cachedTodos = localStorage.getItem(STORAGE_KEY_DATA);
-    const allowedFields = ['id', 'body', 'list', 'order', 'done', 'tags'];
+    const allowedFields = ['id', 'body', 'list', 'order', 'done', 'tags', 'date'];
 
     const { subscribe, set: _set, update: _update } = writable(cachedTodos ? JSON.parse(cachedTodos) : []);
 

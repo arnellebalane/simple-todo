@@ -1,15 +1,16 @@
 <script>
-import { createEventDispatcher, onMount, onDestroy } from 'svelte';
 import orderBy from 'lodash/orderBy';
+import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
-import { enableShortcut, disableShortcut } from '@features/shortcuts';
-import { tags } from '@features/tags/store';
-import { sanitizeText, unsanitizeText } from '../lib/sanitize';
-import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '../constants';
-
-import Selector from '@components/Selector.svelte';
 import Button from '@components/Button.svelte';
+import Input from '@components/Input.svelte';
+import Selector from '@components/Selector.svelte';
 import TagsInput from '@features/tags/components/TagsInput.svelte';
+
+import { disableShortcut, enableShortcut } from '@features/shortcuts';
+import { tags } from '@features/tags/store';
+import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
+import { sanitizeText, unsanitizeText } from '../lib/sanitize';
 
 export let data = {
     list: TODOS_EVENTUALLY,
@@ -73,6 +74,18 @@ onDestroy(() => disableShortcut('saveTodo'));
 
         <div class="OptionalFieldsContent">
             <div class="Field">
+                <label for="date">
+                    Date
+                    <span
+                        data-tooltip="Todos will get moved automatically to the appropriate list as the date approaches"
+                    >
+                        Info
+                    </span>
+                </label>
+                <Input bind:value={data.date} name="date" type="date" />
+            </div>
+
+            <div class="Field">
                 <label for="tags">Tags <span>(press <kbd>Enter</kbd> to add)</span></label>
                 <TagsInput bind:value={data.tags} choices={tagsChoices} name="tags" type="password" />
             </div>
@@ -100,9 +113,15 @@ label {
 }
 
 label span {
+    margin-left: 0.4rem;
     font-size: 1.3rem;
     font-weight: 400;
     color: var(--dimmed-500);
+}
+
+label span[data-tooltip] {
+    text-decoration: underline;
+    text-decoration-style: dotted;
 }
 
 label kbd {
@@ -141,6 +160,10 @@ div[contenteditable] {
 }
 
 .OptionalFieldsContent {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+
     padding-top: 0.8rem;
 }
 

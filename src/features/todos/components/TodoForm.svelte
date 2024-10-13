@@ -66,10 +66,18 @@ onDestroy(() => disableShortcut('saveTodo'));
         <Selector bind:value={data.list} choices={listChoices} name="list" data-cy="todo-form-list" />
     </div>
 
-    <div class="Field">
-        <label for="tags">Tags <span>(optional, press <kbd>Enter</kbd> to add)</span></label>
-        <TagsInput bind:value={data.tags} choices={tagsChoices} name="tags" type="password" />
-    </div>
+    <details class="OptionalFields">
+        <summary class="OptionalFieldsSummary">
+            <span>Optional fields</span>
+        </summary>
+
+        <div class="OptionalFieldsContent">
+            <div class="Field">
+                <label for="tags">Tags <span>(press <kbd>Enter</kbd> to add)</span></label>
+                <TagsInput bind:value={data.tags} choices={tagsChoices} name="tags" type="password" />
+            </div>
+        </div>
+    </details>
 
     <div class="Actions">
         <Button primary disabled={!formValid} data-cy="todo-form-save-btn">Save Todo</Button>
@@ -112,9 +120,9 @@ label kbd {
 div[contenteditable] {
     display: block;
     min-height: 7.2rem;
-    padding: 8px 1.2rem;
+    padding: 0.8rem 1.2rem;
     border: 2px solid var(--dimmed-300);
-    border-radius: 8px;
+    border-radius: 0.8rem;
     line-height: 2rem;
     resize: none;
 }
@@ -123,8 +131,21 @@ div[contenteditable] {
     border-color: var(--danger);
 }
 
+.OptionalFields label {
+    font-size: 1.5rem;
+}
+
+.OptionalFieldsSummary span {
+    margin-left: 0.8rem;
+    cursor: pointer;
+}
+
+.OptionalFieldsContent {
+    padding-top: 0.8rem;
+}
+
 .Error {
-    margin-bottom: 8px;
+    margin-bottom: 0.8rem;
     color: var(--danger);
 }
 

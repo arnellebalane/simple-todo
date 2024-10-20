@@ -3,7 +3,6 @@ import orderBy from 'lodash/orderBy';
 import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 import Button from '@components/Button.svelte';
-import Input from '@components/Input.svelte';
 import Selector from '@components/Selector.svelte';
 import TagsInput from '@features/tags/components/TagsInput.svelte';
 
@@ -12,6 +11,8 @@ import { disableShortcut, enableShortcut } from '@features/shortcuts';
 import { tags } from '@features/tags/store';
 import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
 import { sanitizeText, unsanitizeText } from '../lib/sanitize';
+
+import TodoFormDateField from './TodoFormDateField.svelte';
 
 export let data = {
     list: TODOS_EVENTUALLY,
@@ -26,11 +27,13 @@ const listChoices = [
     { label: 'This week', value: TODOS_THIS_WEEK },
     { label: 'Eventually', value: TODOS_EVENTUALLY },
 ];
+let errors = {};
+let isOptionalFieldsToggled = false;
+
 $: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
 $: formValid = data.body && data.list;
 $: hasOptionalFields = data.date || data.tags?.length;
-$: shouldOpenOptionalFields = hasOptionalFields || $settings.openOptionalFields;
-let errors = {};
+$: shouldOpenOptionalFields = hasOptionalFields || $settings.openOptionalFields || isOptionalFieldsToggled;
 
 const handlePaste = async () => {
     // Svelte's tick() doesn't work here, so setTimeout() to the rescue!
@@ -40,6 +43,7 @@ const handlePaste = async () => {
         data.body = unsanitizeText(sanitizeText(data.body));
     }, 0);
 };
+const handleToggle = () => (isOptionalFieldsToggled = true);
 
 const dispatch = createEventDispatcher();
 const submitForm = () => {
@@ -47,7 +51,6 @@ const submitForm = () => {
         data.body = sanitizeText(data.body);
         dispatch('submit', data);
     }
-
     if (!data.body) {
         errors.body = 'Todo body is required';
     }
@@ -70,7 +73,7 @@ onDestroy(() => disableShortcut('saveTodo'));
         <Selector bind:value={data.list} choices={listChoices} name="list" data-cy="todo-form-list" />
     </div>
 
-    <details class="OptionalFields" open={shouldOpenOptionalFields}>
+    <details class="OptionalFields" open={shouldOpenOptionalFields} on:toggle={handleToggle}>
         <summary class="OptionalFieldsSummary">
             <span>Optional fields</span>
         </summary>
@@ -85,7 +88,7 @@ onDestroy(() => disableShortcut('saveTodo'));
                         Info
                     </span>
                 </label>
-                <Input bind:value={data.date} name="date" type="date" />
+                <TodoFormDateField bind:value={data.date} />
             </div>
 
             <div class="Field">

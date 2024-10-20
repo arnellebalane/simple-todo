@@ -16,6 +16,8 @@
     "^(@components|.*/components/.*)",
     "",
     "^@(?!components)",
+    "^[.]{2}",
+    "",
     "^[.]",
     "",
     ".css$"

@@ -7,6 +7,7 @@ import Input from '@components/Input.svelte';
 import Selector from '@components/Selector.svelte';
 import TagsInput from '@features/tags/components/TagsInput.svelte';
 
+import { settings } from '@features/settings/store';
 import { disableShortcut, enableShortcut } from '@features/shortcuts';
 import { tags } from '@features/tags/store';
 import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
@@ -28,6 +29,7 @@ const listChoices = [
 $: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
 $: formValid = data.body && data.list;
 $: hasOptionalFields = data.date || data.tags?.length;
+$: shouldOpenOptionalFields = hasOptionalFields || $settings.openOptionalFields;
 let errors = {};
 
 const handlePaste = async () => {
@@ -68,7 +70,7 @@ onDestroy(() => disableShortcut('saveTodo'));
         <Selector bind:value={data.list} choices={listChoices} name="list" data-cy="todo-form-list" />
     </div>
 
-    <details class="OptionalFields" open={hasOptionalFields}>
+    <details class="OptionalFields" open={shouldOpenOptionalFields}>
         <summary class="OptionalFieldsSummary">
             <span>Optional fields</span>
         </summary>

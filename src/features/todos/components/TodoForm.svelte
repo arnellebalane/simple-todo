@@ -27,6 +27,7 @@ const listChoices = [
 ];
 $: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
 $: formValid = data.body && data.list;
+$: hasOptionalFields = data.date || data.tags?.length;
 let errors = {};
 
 const handlePaste = async () => {
@@ -67,7 +68,7 @@ onDestroy(() => disableShortcut('saveTodo'));
         <Selector bind:value={data.list} choices={listChoices} name="list" data-cy="todo-form-list" />
     </div>
 
-    <details class="OptionalFields">
+    <details class="OptionalFields" open={hasOptionalFields}>
         <summary class="OptionalFieldsSummary">
             <span>Optional fields</span>
         </summary>

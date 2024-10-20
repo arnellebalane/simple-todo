@@ -1,18 +1,14 @@
 <script>
-import orderBy from 'lodash/orderBy';
 import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
-import TagsInput from '@features/tags/components/TagsInput.svelte';
 
-import { settings } from '@features/settings/store';
 import { disableShortcut, enableShortcut } from '@features/shortcuts';
-import { tags } from '@features/tags/store';
 import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
 import { sanitizeText, unsanitizeText } from '../lib/sanitize';
 
-import TodoFormDateField from './TodoFormDateField.svelte';
+import TodoFormOptionalFields from './TodoFormOptionalFields.svelte';
 
 export let data = {
     list: TODOS_EVENTUALLY,
@@ -28,12 +24,8 @@ const listChoices = [
     { label: 'Eventually', value: TODOS_EVENTUALLY },
 ];
 let errors = {};
-let isOptionalFieldsToggled = false;
 
-$: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
 $: formValid = data.body && data.list;
-$: hasOptionalFields = data.date || data.tags?.length;
-$: shouldOpenOptionalFields = hasOptionalFields || $settings.openOptionalFields || isOptionalFieldsToggled;
 
 const handlePaste = async () => {
     // Svelte's tick() doesn't work here, so setTimeout() to the rescue!
@@ -43,7 +35,6 @@ const handlePaste = async () => {
         data.body = unsanitizeText(sanitizeText(data.body));
     }, 0);
 };
-const handleToggle = () => (isOptionalFieldsToggled = true);
 
 const dispatch = createEventDispatcher();
 const submitForm = () => {
@@ -73,30 +64,7 @@ onDestroy(() => disableShortcut('saveTodo'));
         <Selector bind:value={data.list} choices={listChoices} name="list" data-cy="todo-form-list" />
     </div>
 
-    <details class="OptionalFields" open={shouldOpenOptionalFields} on:toggle={handleToggle}>
-        <summary class="OptionalFieldsSummary">
-            <span>Optional fields</span>
-        </summary>
-
-        <div class="OptionalFieldsContent">
-            <div class="Field">
-                <label for="date">
-                    Date
-                    <span
-                        data-tooltip="Todos will get moved automatically to the appropriate list as the date approaches"
-                    >
-                        Info
-                    </span>
-                </label>
-                <TodoFormDateField bind:value={data.date} />
-            </div>
-
-            <div class="Field">
-                <label for="tags">Tags <span>(press <kbd>Enter</kbd> to add)</span></label>
-                <TagsInput bind:value={data.tags} choices={tagsChoices} name="tags" type="password" />
-            </div>
-        </div>
-    </details>
+    <TodoFormOptionalFields {data} />
 
     <div class="Actions">
         <Button primary disabled={!formValid} data-cy="todo-form-save-btn">Save Todo</Button>
@@ -118,26 +86,6 @@ label {
     font-weight: 600;
 }
 
-label span {
-    margin-left: 0.4rem;
-    font-size: 1.3rem;
-    font-weight: 400;
-    color: var(--dimmed-500);
-}
-
-label span[data-tooltip] {
-    text-decoration: underline;
-    text-decoration-style: dotted;
-}
-
-label kbd {
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    background-color: var(--dimmed-200);
-}
-
 .Field.invalid label {
     color: var(--danger);
 }
@@ -154,23 +102,6 @@ div[contenteditable] {
 
 .Field.invalid div[contenteditable] {
     border-color: var(--danger);
-}
-
-.OptionalFields label {
-    font-size: 1.5rem;
-}
-
-.OptionalFieldsSummary span {
-    margin-left: 0.8rem;
-    cursor: pointer;
-}
-
-.OptionalFieldsContent {
-    display: flex;
-    flex-direction: column;
-    gap: 1.6rem;
-
-    padding-top: 0.8rem;
 }
 
 .Error {

@@ -6,5 +6,6 @@ export const component = TodosSettings;
 
 export const getDefaultSettings = () => ({
     openOptionalFields: false,
+    moveTodosAutomatically: false,
 });
-export const allowedFields = ['openOptionalFields', 'todosListLastUpdated'];
+export const allowedFields = ['openOptionalFields', 'todosListLastUpdated', 'moveTodosAutomatically'];

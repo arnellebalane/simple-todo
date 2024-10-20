@@ -1,5 +1,6 @@
 import { settings } from '@features/settings/store';
 import { TODOS_THIS_WEEK, TODOS_TODAY } from '@features/todos/constants';
+
 import { getDifferenceInDays } from './lib/format';
 import { todos } from './store';
 
@@ -7,8 +8,10 @@ export function initializeTodos() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    let isFirstRun = true;
     settings.subscribe((settingsData) => {
+        if (!settingsData.moveTodosAutomatically) return;
+
+        let isFirstRun = true;
         todos.subscribe((todosData) => {
             if (!isFirstRun) return;
             isFirstRun = false;

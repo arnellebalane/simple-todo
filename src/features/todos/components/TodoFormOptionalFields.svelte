@@ -26,12 +26,7 @@ const handleToggle = () => (isOptionalFieldsToggled = true);
 
     <div class="OptionalFieldsContent">
         <div class="Field">
-            <label for="date">
-                Date
-                <span data-tooltip="Todos will get moved automatically to the appropriate list as the date approaches">
-                    Info
-                </span>
-            </label>
+            <label for="date">Date</label>
             <TodoFormDateField bind:value={data.date} />
         </div>
 
@@ -55,11 +50,6 @@ label span {
     font-size: 1.3rem;
     font-weight: 400;
     color: var(--dimmed-500);
-}
-
-label span[data-tooltip] {
-    text-decoration: underline;
-    text-decoration-style: dotted;
 }
 
 label kbd {

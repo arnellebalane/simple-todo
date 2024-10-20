@@ -19,6 +19,19 @@ export let data = getDefaultSettings();
             data-cy="open-optional-fields-toggle"
         />
     </div>
+
+    <div class="Field--inline">
+        <label for="moveTodosAutomatically">
+            Move todos automatically
+            <small>Todos will get moved automatically to the appropriate list based on their date</small>
+        </label>
+        <Switch
+            name="moveTodosAutomatically"
+            bind:value={data.moveTodosAutomatically}
+            on:change
+            data-cy="move-todos-automatically-toggle"
+        />
+    </div>
 </section>
 
 <style>

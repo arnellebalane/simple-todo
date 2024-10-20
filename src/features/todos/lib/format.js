@@ -1,8 +1,12 @@
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
+export const getDifferenceInDays = (date) => {
+    return Math.ceil((date.getTime() - today.getTime()) / 1000 / 60 / 60 / 24);
+};
+
 export const getRelativeDateParams = (date) => {
-    const days = Math.round((date.getTime() - today.getTime()) / 1000 / 60 / 60 / 24);
+    const days = getDifferenceInDays(date);
     if (days < 31) {
         return [days, 'day'];
     }

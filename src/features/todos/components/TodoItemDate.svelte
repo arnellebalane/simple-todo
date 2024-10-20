@@ -2,7 +2,7 @@
 import Badge from '@components/Badge.svelte';
 
 import { TODOS_DATE_ABSOLUTE } from '@features/todos/constants';
-import { formatAbsoluteDate, formatRelativeDate } from '../lib/format';
+import { formatAbsoluteDate, formatRelativeDate } from '../lib/date';
 
 export let date;
 export let variant = TODOS_DATE_ABSOLUTE;

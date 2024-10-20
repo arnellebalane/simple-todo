@@ -1,12 +1,24 @@
-const today = new Date();
+export const today = new Date();
 today.setHours(0, 0, 0, 0);
 
-export const getDifferenceInDays = (date) => {
-    return Math.ceil((date.getTime() - today.getTime()) / 1000 / 60 / 60 / 24);
+export const getDifferenceInDays = (base, to) => {
+    return Math.ceil((to.getTime() - base.getTime()) / 1000 / 60 / 60 / 24);
+};
+
+export const isDateToday = (date) => {
+    return getDifferenceInDays(today, date) === 0;
+};
+
+export const isDateThisWeek = (date) => {
+    const sun = new Date(today);
+    const sat = new Date(today);
+    sun.setDate(today.getDate() - today.getDay());
+    sat.setDate(today.getDate() + (7 - today.getDay() - 1));
+    return sun <= date && date <= sat;
 };
 
 export const getRelativeDateParams = (date) => {
-    const days = getDifferenceInDays(date);
+    const days = getDifferenceInDays(today, date);
     if (days < 31) {
         return [days, 'day'];
     }
@@ -35,7 +47,7 @@ export const formatAbsoluteDate = (date) => {
 };
 
 export const formatRelativeDate = (date) => {
-    const params = getRelativeDateParams(date);
+    const params = getRelativeDateParams(today, date);
     const formatter = new Intl.RelativeTimeFormat(undefined, {
         style: 'long',
         numeric: 'auto',

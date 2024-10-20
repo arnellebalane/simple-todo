@@ -41,7 +41,7 @@ const handleDragAndDrop = (event) => {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-
+    height: 100%;
     padding: 0 6px 6px 1.4rem;
     margin: 0 -1.4rem;
     list-style: none;

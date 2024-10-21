@@ -8,4 +8,4 @@ export const getDefaultSettings = () => ({
     openOptionalFields: false,
     moveTodosAutomatically: false,
 });
-export const allowedFields = ['openOptionalFields', 'todosListLastUpdated', 'moveTodosAutomatically'];
+export const allowedFields = ['openOptionalFields', 'moveTodosLastUpdated', 'moveTodosAutomatically'];

@@ -13,11 +13,11 @@ export function initializeTodos() {
             if (!isFirstRun) return;
             isFirstRun = false;
 
-            const todosListLastUpdated = new Date(settingsData.todosListLastUpdated);
-            todosListLastUpdated.setHours(0, 0, 0, 0);
+            const moveTodosLastUpdated = new Date(settingsData.moveTodosLastUpdated);
+            moveTodosLastUpdated.setHours(0, 0, 0, 0);
 
-            if (getDifferenceInDays(today, todosListLastUpdated) >= 0) return;
-            settings.saveKey('todosListLastUpdated', new Date().getTime());
+            if (getDifferenceInDays(today, moveTodosLastUpdated) >= 0) return;
+            settings.saveKey('moveTodosLastUpdated', new Date().getTime());
 
             const updatedTodos = todosData.map((todo) => {
                 if (!todo.date) {

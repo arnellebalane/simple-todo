@@ -5,8 +5,23 @@
   "singleQuote": true,
   "printWidth": 120,
   "bracketSameLine": false,
-  "plugins": ["prettier-plugin-svelte"],
-
+  "plugins": [
+    "prettier-plugin-svelte",
+    "@ianvs/prettier-plugin-sort-imports"
+  ],
+  "importOrder": [
+    "<BUILTIN _MODULES>",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^(@components|.*/components/.*)",
+    "",
+    "^@(?!components)",
+    "^[.]{2}",
+    "",
+    "^[.]",
+    "",
+    ".css$"
+  ],
   "overrides": [
     {
       "files": "*.svelte",

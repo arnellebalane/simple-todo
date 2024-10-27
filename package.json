@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
     "@lhci/cli": "^0.12.0",
     "@sveltejs/vite-plugin-svelte": "^2.4.5",
     "cypress": "^13.3.0",

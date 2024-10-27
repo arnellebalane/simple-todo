@@ -1,6 +1,8 @@
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
+
 import { settings } from '@features/settings/store';
 import { generateTodo } from '../utils/test-helpers';
+
 import TodoItem from './TodoItem.svelte';
 
 describe('TodoItem', () => {
@@ -24,7 +26,7 @@ describe('TodoItem', () => {
         cy.get('[data-cy="todo-item-done"]').should('not.be.checked');
         cy.get('[data-cy="todo-item-details"]').should('contain.text', todo.body);
         for (const tag of todo.tags) {
-            cy.get('[data-cy="todo-item-tags"]').should('contain.text', tag);
+            cy.get('[data-cy="todo-item-tag"]').contains(tag).should('be.visible');
         }
     });
 

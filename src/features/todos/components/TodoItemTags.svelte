@@ -1,32 +1,9 @@
 <script>
+import Badge from '@components/Badge.svelte';
+
 export let tags = [];
 </script>
 
-<ul class={$$props.class} data-cy="todo-item-tags">
-    {#each tags as tag (tag)}
-        <li data-cy="todo-item-tag">{tag}</li>
-    {/each}
-</ul>
-
-<style>
-ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    padding: 0;
-    list-style: none;
-}
-
-ul:empty {
-    display: none;
-}
-
-li {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--dimmed-500);
-    background-color: var(--dimmed-200);
-}
-</style>
+{#each tags as tag (tag)}
+    <Badge data-cy="todo-item-tag">{tag}</Badge>
+{/each}

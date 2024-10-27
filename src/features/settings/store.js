@@ -4,6 +4,7 @@ import pick from 'lodash/pick';
 import { writable } from 'svelte/store';
 
 import { STORAGE_KEY_SETTINGS } from '@lib/constants';
+
 import { settingsTabs } from './config';
 
 function createStore() {

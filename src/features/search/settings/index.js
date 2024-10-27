@@ -1,5 +1,6 @@
-import { search } from '../store';
 import SearchSettings from './SearchSettings.svelte';
+
+import { search } from '../store';
 
 export const id = 'SEARCH';
 export const label = 'Search';

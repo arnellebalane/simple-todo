@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
-import { SHORT_DELAY, STORAGE_KEY_DATA } from '../lib/constants';
 import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../../src/features/todos/constants';
 import { generateTodo } from '../../src/features/todos/utils/test-helpers';
+import { SHORT_DELAY, STORAGE_KEY_DATA } from '../lib/constants';
 
 describe('todos', () => {
     const body = faker.string.alpha(10);

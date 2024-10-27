@@ -1,11 +1,11 @@
-import { writable } from 'svelte/store';
 import cloneDeep from 'lodash/cloneDeep';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
+import { writable } from 'svelte/store';
 
-import { STORAGE_KEY_TAGS } from '@lib/constants';
 import { todos } from '@features/todos/store';
+import { STORAGE_KEY_TAGS } from '@lib/constants';
 
 function createStore() {
     const cachedTags = localStorage.getItem(STORAGE_KEY_TAGS);

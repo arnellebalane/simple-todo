@@ -1,6 +1,7 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '../constants';
+
+import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
 
 import TodoList from './TodoList.svelte';
 

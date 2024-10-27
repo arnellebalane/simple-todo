@@ -1,4 +1,5 @@
 import CustomSourceFieldSet from './CustomSourceFieldSet.svelte';
+
 import { BACKGROUND_REFRESH_MANUALLY, BACKGROUND_SOURCE_CUSTOM } from '../constants';
 
 describe('CustomSourceFieldSet', () => {

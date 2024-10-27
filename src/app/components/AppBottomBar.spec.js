@@ -1,5 +1,6 @@
-import { settings } from '@features/settings/store';
 import AppBottomBar from './AppBottomBar.svelte';
+
+import { settings } from '@features/settings/store';
 
 describe('AppBottomBar', () => {
     beforeEach(() => {

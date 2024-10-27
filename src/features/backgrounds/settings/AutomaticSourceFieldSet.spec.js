@@ -1,4 +1,5 @@
 import AutomaticSourceFieldSet from './AutomaticSourceFieldSet.svelte';
+
 import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY, BACKGROUND_SOURCE_AUTOMATIC } from '../constants';
 
 describe('AutomaticSourceFieldSet', () => {

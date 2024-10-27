@@ -1,7 +1,8 @@
-import { settings } from '@features/settings/store';
-import { frequentLinks } from '@features/quick-links/store';
-import { changelogs } from '@features/changelogs/store';
 import AppTopBar from './AppTopBar.svelte';
+
+import { changelogs } from '@features/changelogs/store';
+import { frequentLinks } from '@features/quick-links/store';
+import { settings } from '@features/settings/store';
 
 describe('AppTopBar', () => {
     beforeEach(() => {

@@ -1,7 +1,9 @@
 import omit from 'lodash/omit';
+
+import QuickLinksField from './QuickLinksField.svelte';
+
 import { confirmation } from '@app/stores/confirmation';
 import { BUILTIN_QUICK_LINKS } from '../constants';
-import QuickLinksField from './QuickLinksField.svelte';
 
 const validQuickLink = 'https://arnellebalane.com';
 

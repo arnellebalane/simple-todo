@@ -1,7 +1,8 @@
+import SearchForm from './SearchForm.svelte';
+
 import { search } from '@features/search/store';
 import { settings } from '@features/settings/store';
 import { tags } from '@features/tags/store';
-import SearchForm from './SearchForm.svelte';
 
 describe('SearchForm', () => {
     beforeEach(() => {

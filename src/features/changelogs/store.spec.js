@@ -1,5 +1,6 @@
-import { version, setVersionIfHigher } from './store';
 import pkg from '../../../package.json';
+
+import { setVersionIfHigher, version } from './store';
 
 describe('changelogs store', () => {
     beforeEach(() => {

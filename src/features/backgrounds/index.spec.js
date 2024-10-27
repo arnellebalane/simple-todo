@@ -1,7 +1,8 @@
 import { settings } from '@features/settings/store';
-import { getDefaultSettings } from './settings';
-import { initializeBackgrounds } from './index';
+
 import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY } from './constants';
+import { initializeBackgrounds } from './index';
+import { getDefaultSettings } from './settings';
 
 /**
  * NOTE: The tests that are skipped in this file are all passing locally, however they seem to fail when running in CI.

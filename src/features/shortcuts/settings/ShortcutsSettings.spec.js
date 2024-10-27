@@ -1,5 +1,6 @@
-import { component as ShortcutsSettings } from '.';
 import shortcuts from '../shortcuts.json';
+
+import { component as ShortcutsSettings } from '.';
 
 describe('ShortcutsSettings', () => {
     beforeEach(() => {

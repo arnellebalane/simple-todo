@@ -1,9 +1,9 @@
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 
+import TodoItem from './TodoItem.svelte';
+
 import { settings } from '@features/settings/store';
 import { generateTodo } from '../utils/test-helpers';
-
-import TodoItem from './TodoItem.svelte';
 
 describe('TodoItem', () => {
     beforeEach(() => {

@@ -1,5 +1,6 @@
-import { component as BackgroundSettings } from '.';
 import { BACKGROUND_REFRESH_MANUALLY, BACKGROUND_SOURCE_AUTOMATIC, BACKGROUND_SOURCE_CUSTOM } from '../constants';
+
+import { component as BackgroundSettings } from '.';
 
 describe('BackgroundSettings', () => {
     beforeEach(() => {

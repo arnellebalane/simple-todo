@@ -1,12 +1,12 @@
 import {
+    COLOR_BLUE,
+    COLOR_GREEN,
+    COLOR_PINK,
+    COLOR_PURPLE,
+    COLOR_YELLOW,
     THEME_DARK,
     THEME_LIGHT,
     THEME_SYSTEM,
-    COLOR_GREEN,
-    COLOR_YELLOW,
-    COLOR_BLUE,
-    COLOR_PURPLE,
-    COLOR_PINK,
 } from '../../src/features/themes/constants';
 
 describe('themes', () => {

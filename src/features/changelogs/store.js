@@ -1,6 +1,6 @@
-import { writable } from 'svelte/store';
 import semverGt from 'semver/functions/gt';
 import semverGte from 'semver/functions/gte';
+import { writable } from 'svelte/store';
 
 import axios from '@lib/axios';
 import { APP_VERSION, STORAGE_KEY_VERSION } from '@lib/constants';

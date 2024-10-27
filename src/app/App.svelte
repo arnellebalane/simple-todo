@@ -2,13 +2,13 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { onDestroy, onMount } from 'svelte';
 
+import TodoBoard from '@features/todos/components/TodoBoard.svelte';
+import TodoFormModal from '@features/todos/components/TodoFormModal.svelte';
 import AppBottomBar from './components/AppBottomBar.svelte';
 import AppConfirmation from './components/AppConfirmation.svelte';
 import AppHeader from './components/AppHeader.svelte';
 import AppTooltip from './components/AppTooltip.svelte';
 import AppTopBar from './components/AppTopBar.svelte';
-import TodoBoard from '@features/todos/components/TodoBoard.svelte';
-import TodoFormModal from '@features/todos/components/TodoFormModal.svelte';
 
 import { confirmation } from '@app/stores/confirmation';
 import { search } from '@features/search/store';

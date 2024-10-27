@@ -1,4 +1,5 @@
 import { settings } from '@features/settings/store';
+
 import './styles.css';
 import './themes.css';
 

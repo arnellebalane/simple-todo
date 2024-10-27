@@ -2,9 +2,10 @@
 import { createEventDispatcher } from 'svelte';
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 
-import { icons } from '@lib/icons';
-import { confirmation } from '@app/stores/confirmation';
 import Button from '@components/Button.svelte';
+
+import { confirmation } from '@app/stores/confirmation';
+import { icons } from '@lib/icons';
 
 export let link;
 

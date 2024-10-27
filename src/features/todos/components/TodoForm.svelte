@@ -3,12 +3,11 @@ import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
+import TodoFormOptionalFields from './TodoFormOptionalFields.svelte';
 
 import { disableShortcut, enableShortcut } from '@features/shortcuts';
 import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
 import { sanitizeText, unsanitizeText } from '../lib/sanitize';
-
-import TodoFormOptionalFields from './TodoFormOptionalFields.svelte';
 
 export let data = {
     list: TODOS_EVENTUALLY,

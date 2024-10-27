@@ -1,6 +1,8 @@
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
-import { confirmation } from '@app/stores/confirmation';
+
 import CustomUrlItem from './CustomUrlItem.svelte';
+
+import { confirmation } from '@app/stores/confirmation';
 
 describe('CustomUrlItem', () => {
     beforeEach(() => {

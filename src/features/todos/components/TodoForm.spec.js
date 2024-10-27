@@ -1,5 +1,6 @@
-import { faker } from '@faker-js/faker';
 import TodoForm from './TodoForm.svelte';
+
+import { faker } from '@faker-js/faker';
 import { TODOS_THIS_WEEK } from '../constants';
 
 describe('TodoForm', () => {

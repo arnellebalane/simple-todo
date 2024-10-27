@@ -1,15 +1,15 @@
 <script>
-import { onMount, onDestroy } from 'svelte';
 import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
-
-import { icons } from '@lib/icons';
-import { enableShortcut, disableShortcut } from '@features/shortcuts';
-import { settings } from '@features/settings/store';
-import { tags } from '@features/tags/store';
-import { search } from '../store';
+import { onDestroy, onMount } from 'svelte';
 
 import Button from '@components/Button.svelte';
+
+import { settings } from '@features/settings/store';
+import { disableShortcut, enableShortcut } from '@features/shortcuts';
+import { tags } from '@features/tags/store';
+import { icons } from '@lib/icons';
+import { search } from '../store';
 
 const { query, tag } = search;
 

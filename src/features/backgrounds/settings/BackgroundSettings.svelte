@@ -1,15 +1,16 @@
 <script>
-import { createEventDispatcher } from 'svelte';
 import omit from 'lodash/omit';
-
-import { getDefaultSettings, allowedFields } from '.';
-import { BACKGROUND_SOURCE_AUTOMATIC, BACKGROUND_SOURCE_CUSTOM } from '../constants';
+import { createEventDispatcher } from 'svelte';
 
 import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
-import SourceChoiceField from './SourceChoiceField.svelte';
 import AutomaticSourceFieldSet from './AutomaticSourceFieldSet.svelte';
 import CustomSourceFieldSet from './CustomSourceFieldSet.svelte';
+import SourceChoiceField from './SourceChoiceField.svelte';
+
+import { BACKGROUND_SOURCE_AUTOMATIC, BACKGROUND_SOURCE_CUSTOM } from '../constants';
+
+import { allowedFields, getDefaultSettings } from '.';
 
 export let data = getDefaultSettings();
 

@@ -1,6 +1,8 @@
 import { TRIGGERS } from 'svelte-dnd-action';
-import { generateTodo } from '../utils/test-helpers';
+
 import TodoListItems from './TodoListItems.svelte';
+
+import { generateTodo } from '../utils/test-helpers';
 
 const todo = generateTodo();
 const todos = [todo];

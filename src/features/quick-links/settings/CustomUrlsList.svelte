@@ -1,7 +1,7 @@
 <script>
+import omit from 'lodash/omit';
 import { createEventDispatcher } from 'svelte';
 import { dndzone, TRIGGERS } from 'svelte-dnd-action';
-import omit from 'lodash/omit';
 
 import CustomUrlItem from './CustomUrlItem.svelte';
 

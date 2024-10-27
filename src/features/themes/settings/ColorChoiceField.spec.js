@@ -1,4 +1,5 @@
 import ColorChoiceField from './ColorChoiceField.svelte';
+
 import { COLOR_GREEN } from '../constants';
 
 const choice = {

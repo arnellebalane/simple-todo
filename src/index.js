@@ -1,4 +1,5 @@
 import App from '@app/App.svelte';
+
 import { initializeBackgrounds } from '@features/backgrounds';
 import { initializeKeyBindings } from '@features/shortcuts';
 import { initializeThemes } from '@features/themes';

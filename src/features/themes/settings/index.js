@@ -1,6 +1,7 @@
-import { trackEvent } from '@lib/umami';
-import { THEME_SYSTEM, COLOR_GREEN } from '../constants';
 import ThemeSettings from './ThemeSettings.svelte';
+
+import { trackEvent } from '@lib/umami';
+import { COLOR_GREEN, THEME_SYSTEM } from '../constants';
 
 export const id = 'THEME';
 export const label = 'Theme';

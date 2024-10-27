@@ -5,17 +5,15 @@
   "singleQuote": true,
   "printWidth": 120,
   "bracketSameLine": false,
-  "plugins": [
-    "prettier-plugin-svelte",
-    "@ianvs/prettier-plugin-sort-imports"
-  ],
+  "plugins": ["prettier-plugin-svelte", "@ianvs/prettier-plugin-sort-imports"],
   "importOrder": [
     "<BUILTIN _MODULES>",
     "<THIRD_PARTY_MODULES>",
     "",
-    "^(@components|.*/components/.*)",
+    "^@.+[.]svelte$",
+    "^[.].+[.]svelte$",
     "",
-    "^@(?!components)",
+    "^@.+",
     "^[.]{2}",
     "",
     "^[.]",

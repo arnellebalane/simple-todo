@@ -1,5 +1,6 @@
 import { THEME_SYSTEM } from '@features/themes/constants';
 import { STORAGE_KEY_SETTINGS } from '@lib/constants';
+
 import { settings } from './store';
 
 describe('settings store', () => {

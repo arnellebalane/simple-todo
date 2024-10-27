@@ -1,4 +1,5 @@
 import SettingsFormSidebar from './SettingsFormSidebar.svelte';
+
 import { settingsTabs } from '../config';
 
 describe('SettingsFormSidebar', () => {

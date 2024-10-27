@@ -1,5 +1,5 @@
-import { writable } from 'svelte/store';
 import pick from 'lodash/pick';
+import { writable } from 'svelte/store';
 
 function createStore() {
     const { subscribe, set, update } = writable([]);

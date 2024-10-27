@@ -1,6 +1,7 @@
-import { STORAGE_KEY_TAGS } from '@lib/constants';
-import { todos } from '@features/todos/store';
 import { TODOS_TODAY } from '@features/todos/constants';
+import { todos } from '@features/todos/store';
+import { STORAGE_KEY_TAGS } from '@lib/constants';
+
 import { tags } from './store';
 
 describe('tags store', () => {

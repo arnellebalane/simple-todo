@@ -1,5 +1,6 @@
-import { component as ThemeSettings } from '.';
 import { COLOR_PURPLE, COLOR_YELLOW, THEME_DARK, THEME_SYSTEM } from '../constants';
+
+import { component as ThemeSettings } from '.';
 
 describe('ThemeSettings', () => {
     beforeEach(() => {

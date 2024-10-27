@@ -8,6 +8,7 @@
     "dev": "netlify dev",
     "build": "vite build",
     "preview": "vite preview",
+    "format": "prettier '**/*.{svelte,js,json,html,css}' --write",
     "test": "cypress run --component",
     "test:open": "cypress open --component --browser chrome",
     "e2e": "cypress run --e2e",

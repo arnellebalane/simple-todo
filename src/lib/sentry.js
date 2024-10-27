@@ -1,8 +1,8 @@
+import { config } from '@lib/config';
+import { APP_VERSION } from '@lib/constants';
 import * as Sentry from '@sentry/browser';
 import { CaptureConsole } from '@sentry/integrations';
 import { Integrations } from '@sentry/tracing';
-import { APP_VERSION } from '@lib/constants';
-import { config } from '@lib/config';
 
 const ignoredErrorMessages = ['Error: Network Error'];
 

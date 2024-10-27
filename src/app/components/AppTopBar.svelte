@@ -1,23 +1,22 @@
 <script>
-import { onMount, onDestroy } from 'svelte';
-
-import { APP_VERSION } from '@lib/constants';
-import { config } from '@lib/config';
-import { icons } from '@lib/icons';
-import { enableShortcut, disableShortcut } from '@features/shortcuts';
-import { settings } from '@features/settings/store';
-import { changelogs, version } from '@features/changelogs/store';
-import { tags } from '@features/tags/store';
-import { frequentLinks } from '@features/quick-links/store';
+import { onDestroy, onMount } from 'svelte';
 
 import Button from '@components/Button.svelte';
-import SettingsFormModal from '@features/settings/components/SettingsFormModal.svelte';
-import WhatsNewModal from '@features/changelogs/components/WhatsNewModal.svelte';
 import WhatsNewButton from '@features/changelogs/components/WhatsNewButton.svelte';
-import QuickLinks from '@features/quick-links/components/QuickLinks.svelte';
+import WhatsNewModal from '@features/changelogs/components/WhatsNewModal.svelte';
 import FrequentLinks from '@features/quick-links/components/FrequentLinks.svelte';
+import QuickLinks from '@features/quick-links/components/QuickLinks.svelte';
+import SettingsFormModal from '@features/settings/components/SettingsFormModal.svelte';
 
 import ChromeWebStoreImage from '@assets/images/chrome-webstore.png';
+import { changelogs, version } from '@features/changelogs/store';
+import { frequentLinks } from '@features/quick-links/store';
+import { settings } from '@features/settings/store';
+import { disableShortcut, enableShortcut } from '@features/shortcuts';
+import { tags } from '@features/tags/store';
+import { config } from '@lib/config';
+import { APP_VERSION } from '@lib/constants';
+import { icons } from '@lib/icons';
 
 let settingsUnsubscribe = null;
 let settingsFormData = {};

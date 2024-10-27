@@ -1,6 +1,8 @@
 import { TRIGGERS } from 'svelte-dnd-action';
-import { confirmation } from '@app/stores/confirmation';
+
 import CustomUrlsList from './CustomUrlsList.svelte';
+
+import { confirmation } from '@app/stores/confirmation';
 
 describe('CustomUrlsList', () => {
     beforeEach(() => {

@@ -1,19 +1,20 @@
 <script>
-import { getDefaultSettings } from '.';
+import Selector from '@components/Selector.svelte';
+import ColorChoiceField from './ColorChoiceField.svelte';
+import ThemeChoiceField from './ThemeChoiceField.svelte';
+
 import {
-    THEME_SYSTEM,
-    THEME_LIGHT,
-    THEME_DARK,
-    COLOR_GREEN,
-    COLOR_YELLOW,
     COLOR_BLUE,
-    COLOR_PURPLE,
+    COLOR_GREEN,
     COLOR_PINK,
+    COLOR_PURPLE,
+    COLOR_YELLOW,
+    THEME_DARK,
+    THEME_LIGHT,
+    THEME_SYSTEM,
 } from '../constants';
 
-import Selector from '@components/Selector.svelte';
-import ThemeChoiceField from './ThemeChoiceField.svelte';
-import ColorChoiceField from './ColorChoiceField.svelte';
+import { getDefaultSettings } from '.';
 
 export let data = getDefaultSettings();
 

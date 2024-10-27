@@ -1,16 +1,16 @@
 <script>
-import { onMount, createEventDispatcher } from 'svelte';
+import { createEventDispatcher, onMount } from 'svelte';
+
+import Button from '@components/Button.svelte';
+import Selector from '@components/Selector.svelte';
 
 import { backgrounds } from '@features/backgrounds/store';
 import {
-    BACKGROUND_SOURCE_AUTOMATIC,
     BACKGROUND_REFRESH_DAILY,
-    BACKGROUND_REFRESH_WEEKLY,
     BACKGROUND_REFRESH_MANUALLY,
+    BACKGROUND_REFRESH_WEEKLY,
+    BACKGROUND_SOURCE_AUTOMATIC,
 } from '../constants';
-
-import Selector from '@components/Selector.svelte';
-import Button from '@components/Button.svelte';
 
 export let data = {
     backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,

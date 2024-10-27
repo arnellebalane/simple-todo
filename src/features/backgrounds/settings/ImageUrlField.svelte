@@ -1,8 +1,9 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import { backgrounds } from '@features/backgrounds/store';
 
 import Button from '@components/Button.svelte';
+
+import { backgrounds } from '@features/backgrounds/store';
 
 export let name;
 export let disabled = false;

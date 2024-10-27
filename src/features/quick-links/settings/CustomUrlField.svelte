@@ -1,8 +1,9 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import axios from '@lib/axios';
 
 import Button from '@components/Button.svelte';
+
+import axios from '@lib/axios';
 
 export let name;
 export let error = '';

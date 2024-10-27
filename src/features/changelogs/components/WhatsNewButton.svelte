@@ -1,6 +1,7 @@
 <script>
-import { icons } from '@lib/icons';
 import Button from '@components/Button.svelte';
+
+import { icons } from '@lib/icons';
 
 export let pulse = false;
 </script>

@@ -1,5 +1,6 @@
 <script>
 import Switch from '@components/Switch.svelte';
+
 import { getDefaultSettings } from '.';
 
 export let data = getDefaultSettings();

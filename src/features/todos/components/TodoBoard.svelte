@@ -1,9 +1,9 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 
-import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
-
 import TodoList from './TodoList.svelte';
+
+import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
 
 export let todos = [];
 const byOrderDesc = (a, b) => b.order - a.order;

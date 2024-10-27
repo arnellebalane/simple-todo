@@ -2,9 +2,10 @@
 import isEmpty from 'lodash/isEmpty';
 import orderBy from 'lodash/orderBy';
 
-import { tags } from '../store';
-import { icons } from '@lib/icons';
 import Button from '@components/Button.svelte';
+
+import { icons } from '@lib/icons';
+import { tags } from '../store';
 
 export let data = {};
 

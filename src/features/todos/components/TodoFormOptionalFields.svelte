@@ -2,11 +2,10 @@
 import orderBy from 'lodash/orderBy';
 
 import TagsInput from '@features/tags/components/TagsInput.svelte';
+import TodoFormDateField from './TodoFormDateField.svelte';
 
 import { settings } from '@features/settings/store';
 import { tags } from '@features/tags/store';
-
-import TodoFormDateField from './TodoFormDateField.svelte';
 
 export let data = {};
 

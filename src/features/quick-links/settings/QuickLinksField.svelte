@@ -1,6 +1,6 @@
 <script>
-import { createEventDispatcher } from 'svelte';
 import pick from 'lodash/pick';
+import { createEventDispatcher } from 'svelte';
 
 import CustomUrlField from './CustomUrlField.svelte';
 import CustomUrlsList from './CustomUrlsList.svelte';

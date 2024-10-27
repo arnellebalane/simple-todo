@@ -1,12 +1,12 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import { changelogs, setVersionIfHigher } from '../store';
-import { icons } from '@lib/icons';
 
 import Button from '@components/Button.svelte';
 
-import WhatsNewImageLight from '@assets/images/whats-new-empty-light.jpg';
 import WhatsNewImageDark from '@assets/images/whats-new-empty-dark.jpg';
+import WhatsNewImageLight from '@assets/images/whats-new-empty-light.jpg';
+import { icons } from '@lib/icons';
+import { changelogs, setVersionIfHigher } from '../store';
 
 const dispatch = createEventDispatcher();
 

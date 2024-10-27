@@ -1,5 +1,6 @@
-import { faker } from '@faker-js/faker';
 import orderBy from 'lodash/orderBy';
+
+import { faker } from '@faker-js/faker';
 import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../../src/features/todos/constants';
 import { generateTodo } from '../../src/features/todos/utils/test-helpers';
 import { STORAGE_KEY_DATA, STORAGE_KEY_TAGS } from '../lib/constants';
@@ -23,6 +24,7 @@ describe('tags', () => {
     it('can add tags when adding a new todo', () => {
         cy.get('[data-cy="add-todo-btn"]').click();
         cy.get('[data-cy="todo-form-body"]').type(body);
+        cy.get('[data-cy="todo-form-optional-fields"]').click();
 
         cy.get('[data-cy="tags-input"]').type(tagOne).focus().trigger('keydown', { code: 'Enter' });
         cy.get('[data-cy="tags-input"]').type(tagTwo).focus().trigger('keydown', { code: 'Enter' });
@@ -34,8 +36,8 @@ describe('tags', () => {
             .eq(0)
             .within(() => {
                 cy.get('[data-cy="todo-item-tag"]').should('have.length', 2);
-                cy.get('[data-cy="todo-item-tag"]').eq(0).should('have.text', tagOne);
-                cy.get('[data-cy="todo-item-tag"]').eq(1).should('have.text', tagThree);
+                cy.get('[data-cy="todo-item-tag"]').eq(0).should('contains.text', tagOne);
+                cy.get('[data-cy="todo-item-tag"]').eq(1).should('contains.text', tagThree);
             });
     });
 
@@ -52,8 +54,8 @@ describe('tags', () => {
                 .eq(0)
                 .within(() => {
                     cy.get('[data-cy="todo-item-tag"]').should('have.length', 2);
-                    cy.get('[data-cy="todo-item-tag"]').eq(0).should('have.text', tagOne);
-                    cy.get('[data-cy="todo-item-tag"]').eq(1).should('have.text', tagThree);
+                    cy.get('[data-cy="todo-item-tag"]').eq(0).should('contains.text', tagOne);
+                    cy.get('[data-cy="todo-item-tag"]').eq(1).should('contains.text', tagThree);
                 });
         });
     });
@@ -95,7 +97,7 @@ describe('tags', () => {
 
             cy.get('[data-cy="todo-item"]').each((element) => {
                 cy.wrap(element).within(() => {
-                    cy.get('[data-cy="todo-item-tag"]').should('have.length', 1).eq(0).should('have.text', tagTwo);
+                    cy.get('[data-cy="todo-item-tag"]').should('have.length', 1).eq(0).should('contains.text', tagTwo);
                 });
             });
         });

@@ -8,24 +8,23 @@ $: iconVariables = icon ? `--icon-light: url(${iconLight}); --icon-dark: url(${i
 </script>
 
 {#if variant === 'li'}
-    <li style={iconVariables} class:icon {...$$restProps}>
+    <li class="Badge" class:icon style={iconVariables} {...$$restProps}>
         {#if icon}
-            <div><slot name="icon" /></div>
+            <span><slot name="icon" /></span>
         {/if}
         <slot />
     </li>
 {:else if variant === 'span'}
-    <span style={iconVariables} class:icon {...$$restProps}>
+    <span class="Badge" class:icon style={iconVariables} {...$$restProps}>
         {#if icon}
-            <div><slot name="icon" /></div>
+            <span><slot name="icon" /></span>
         {/if}
         <slot />
     </span>
 {/if}
 
 <style>
-li,
-span {
+.Badge {
     padding: 0.4rem 0.8rem;
     border-radius: 0.4rem;
     font-size: 1.2rem;
@@ -34,12 +33,12 @@ span {
     background-color: var(--dimmed-200);
 }
 
-.icon {
+.Badge.icon {
     display: inline-flex;
     align-items: center;
 }
 
-.icon div {
+.Badge.icon span {
     width: 1.4rem;
     height: 1.4rem;
     margin-left: -0.4rem;

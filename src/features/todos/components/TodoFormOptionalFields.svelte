@@ -20,7 +20,7 @@ const handleToggle = () => (isOptionalFieldsToggled = true);
 </script>
 
 <details open={shouldOpenOptionalFields} on:toggle={handleToggle}>
-    <summary>
+    <summary data-cy="todo-form-optional-fields">
         <span>Optional fields</span>
     </summary>
 

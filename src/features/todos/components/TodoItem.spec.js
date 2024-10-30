@@ -12,10 +12,12 @@ describe('TodoItem', () => {
         settings.set({});
     });
 
-    it('displays todo details and tags', () => {
+    it('displays todo details and optional fields', () => {
+        cy.clock(new Date(2024, 0, 1));
         const todo = generateTodo({
             done: false,
             tags: ['one', 'two'],
+            date: '2024-01-27',
         });
 
         cy.mount(TodoItem, {
@@ -24,6 +26,7 @@ describe('TodoItem', () => {
 
         cy.get('[data-cy="todo-item"]').should('not.have.class', 'done').and('not.have.class', 'private');
         cy.get('[data-cy="todo-item-done"]').should('not.be.checked');
+        cy.get('[data-cy="todo-item-date"]').should('contain.text', 'Jan 27');
         cy.get('[data-cy="todo-item-details"]').should('contain.text', todo.body);
         for (const tag of todo.tags) {
             cy.get('[data-cy="todo-item-tag"]').contains(tag).should('be.visible');

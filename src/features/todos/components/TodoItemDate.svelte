@@ -14,7 +14,7 @@ $: dateDisplay = (() => {
 })();
 </script>
 
-<Badge icon>
+<Badge icon data-cy="todo-item-date">
     <svg slot="icon" width="14" height="14" viewBox="0 0 24 24">
         <path
             fill="currentColor"

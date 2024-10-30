@@ -1,10 +1,12 @@
 import { settings } from '@features/settings/store';
 import { TODOS_THIS_WEEK, TODOS_TODAY } from '@features/todos/constants';
 
-import { getDifferenceInDays, isDateThisWeek, isDateToday, today } from './lib/date';
+import { getDifferenceInDays, getToday, isDateThisWeek, isDateToday } from './lib/date';
 import { todos } from './store';
 
 export function initializeTodos() {
+    const today = getToday();
+
     settings.subscribe((settingsData) => {
         if (!settingsData.moveTodosAutomatically) return;
 

@@ -1,4 +1,4 @@
-import { THEME_SYSTEM } from '@features/themes/constants';
+import { COLOR_GREEN, THEME_SYSTEM } from '@features/themes/constants';
 import { STORAGE_KEY_SETTINGS } from '@lib/constants';
 
 import { settings } from './store';
@@ -51,6 +51,25 @@ describe('settings store', () => {
 
             cy.wrap(settingsSpy).should('have.been.calledWith', {
                 theme: THEME_SYSTEM,
+            });
+        });
+    });
+
+    describe('settings.saveKey', () => {
+        it('sets specified key in settings', () => {
+            const data = {
+                theme: THEME_SYSTEM,
+            };
+            settings.set(data);
+
+            const settingsSpy = cy.spy();
+            settings.subscribe(settingsSpy);
+
+            settings.saveKey('color', COLOR_GREEN);
+
+            cy.wrap(settingsSpy).should('have.been.calledWith', {
+                theme: THEME_SYSTEM,
+                color: COLOR_GREEN,
             });
         });
     });

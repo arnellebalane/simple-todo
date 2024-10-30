@@ -9,17 +9,16 @@ import { tags } from '@features/tags/store';
 
 export let data = {};
 
+let isOptionalFieldsToggled = false;
+const handleToggle = () => (isOptionalFieldsToggled = true);
+
 $: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
 $: hasOptionalFields = data.date || data.tags?.length;
 $: shouldOpenOptionalFields = hasOptionalFields || $settings.openOptionalFields || isOptionalFieldsToggled;
-
-let isOptionalFieldsToggled = false;
-
-const handleToggle = () => (isOptionalFieldsToggled = true);
 </script>
 
-<details open={shouldOpenOptionalFields} on:toggle={handleToggle}>
-    <summary data-cy="todo-form-optional-fields">
+<details open={shouldOpenOptionalFields} on:toggle={handleToggle} data-cy="todo-form-optional-fields">
+    <summary>
         <span>Optional fields</span>
     </summary>
 

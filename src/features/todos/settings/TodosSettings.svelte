@@ -1,9 +1,18 @@
 <script>
+import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
+import DateDisplayChoiceField from './DateDisplayChoiceField.svelte';
+
+import { TODOS_DATE_ABSOLUTE, TODOS_DATE_RELATIVE } from '../constants';
 
 import { getDefaultSettings } from '.';
 
 export let data = getDefaultSettings();
+
+const dateFormatChoices = [
+    { label: 'Absolute', subtext: 'Example: "Dec 21"', value: TODOS_DATE_ABSOLUTE },
+    { label: 'Relative', subtext: 'Example: "In 5 days"', value: TODOS_DATE_RELATIVE },
+];
 </script>
 
 <section>
@@ -30,6 +39,18 @@ export let data = getDefaultSettings();
             bind:value={data.moveTodosAutomatically}
             on:change
             data-cy="move-todos-automatically-toggle"
+        />
+    </div>
+
+    <div>
+        <label for="todoDateDisplay">Date display format</label>
+        <Selector
+            name="todoDateDisplay"
+            bind:value={data.todoDateDisplay}
+            choices={dateFormatChoices}
+            choiceComponent={DateDisplayChoiceField}
+            on:change
+            data-cy="todo-date-display-selector"
         />
     </div>
 </section>

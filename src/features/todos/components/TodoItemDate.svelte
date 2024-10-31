@@ -1,15 +1,18 @@
 <script>
 import Badge from '@components/Badge.svelte';
 
+import { settings } from '@features/settings/store';
 import { TODOS_DATE_ABSOLUTE } from '@features/todos/constants';
 import { formatAbsoluteDate, formatRelativeDate } from '../lib/date';
 
 export let date;
-export let variant = TODOS_DATE_ABSOLUTE;
 
 $: dateObject = new Date(`${date}T00:00:00`);
 $: dateDisplay = (() => {
-    const display = variant === TODOS_DATE_ABSOLUTE ? formatAbsoluteDate(dateObject) : formatRelativeDate(dateObject);
+    const display =
+        $settings.todoDateDisplay === TODOS_DATE_ABSOLUTE
+            ? formatAbsoluteDate(dateObject)
+            : formatRelativeDate(dateObject);
     return display.charAt(0).toUpperCase() + display.substring(1);
 })();
 </script>

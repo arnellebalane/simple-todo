@@ -3,6 +3,7 @@ import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 import TodoItem from './TodoItem.svelte';
 
 import { settings } from '@features/settings/store';
+import { TODOS_DATE_ABSOLUTE } from '../constants';
 import { generateTodo } from '../utils/test-helpers';
 
 describe('TodoItem', () => {
@@ -19,6 +20,7 @@ describe('TodoItem', () => {
             tags: ['one', 'two'],
             date: '2024-01-27',
         });
+        settings.set({ todoDateDisplay: TODOS_DATE_ABSOLUTE });
 
         cy.mount(TodoItem, {
             props: { todo },

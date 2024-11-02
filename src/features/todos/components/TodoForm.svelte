@@ -7,14 +7,14 @@ import TodoFormOptionalFields from './TodoFormOptionalFields.svelte';
 
 import { disableShortcut, enableShortcut } from '@features/shortcuts';
 import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
-import { sanitizeText, unsanitizeText } from '../lib/sanitize';
+import { escapeText, sanitizeText, unsanitizeText } from '../lib/sanitize';
 
 export let data = {
     list: TODOS_EVENTUALLY,
 };
 
 if (data.body) {
-    data.body = unsanitizeText(data.body);
+    data.body = unsanitizeText(escapeText(data.body));
 }
 
 const listChoices = [
@@ -31,7 +31,7 @@ const handlePaste = async () => {
     // We need this to make sure that the DOM has updated with new content before
     // we try to sanitize its content.
     setTimeout(() => {
-        data.body = unsanitizeText(sanitizeText(data.body));
+        data.body = unsanitizeText(sanitizeText(escapeText(data.body)));
     }, 0);
 };
 

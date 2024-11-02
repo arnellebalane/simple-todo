@@ -8,11 +8,13 @@ import TodoItemMenu from './TodoItemMenu.svelte';
 import TodoItemTags from './TodoItemTags.svelte';
 
 import { settings } from '@features/settings/store';
+import { escapeText } from '../lib/sanitize';
 
 export let todo;
 $: hasTags = (todo.tags?.length ?? 0) > 0;
 $: hasDate = Boolean(todo.date);
 $: hasBadges = hasTags || hasDate;
+$: todoBody = escapeText(todo.body);
 
 const dispatch = createEventDispatcher();
 const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.detail });
@@ -27,7 +29,7 @@ const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.
 >
     <Checkbox checked={todo.done} on:change={toggleTodoDone} data-cy="todo-item-done" />
     <div class="TodoDetails" data-cy="todo-item-details">
-        <p><span>{todo.body}</span></p>
+        <p><span>{@html todoBody}</span></p>
 
         {#if hasBadges}
             <ol class="TodoBadges">

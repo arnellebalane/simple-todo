@@ -10,9 +10,6 @@ const escapedCharacters = [
 
 export function sanitizeText(text) {
     div.innerHTML = text
-        // Handle special case when user adds "<>" to the body, saves, edits, then saves again
-        .replace(/<>/g, '&lt;&gt;')
-
         // Make each <div>'s content into a separate line
         .replace(/<div.*?>(.+?)<\/div>/g, '\n$1')
 

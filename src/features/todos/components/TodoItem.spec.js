@@ -1,7 +1,10 @@
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
-import { settings } from '@features/settings/store';
-import { generateTodo } from '../utils/test-helpers';
+
 import TodoItem from './TodoItem.svelte';
+
+import { settings } from '@features/settings/store';
+import { TODOS_DATE_ABSOLUTE } from '../constants';
+import { generateTodo } from '../utils/test-helpers';
 
 describe('TodoItem', () => {
     beforeEach(() => {
@@ -10,11 +13,14 @@ describe('TodoItem', () => {
         settings.set({});
     });
 
-    it('displays todo details and tags', () => {
+    it('displays todo details and optional fields', () => {
+        cy.clock(new Date(2024, 0, 1));
         const todo = generateTodo({
             done: false,
             tags: ['one', 'two'],
+            date: '2024-01-27',
         });
+        settings.set({ todoDateDisplay: TODOS_DATE_ABSOLUTE });
 
         cy.mount(TodoItem, {
             props: { todo },
@@ -22,10 +28,25 @@ describe('TodoItem', () => {
 
         cy.get('[data-cy="todo-item"]').should('not.have.class', 'done').and('not.have.class', 'private');
         cy.get('[data-cy="todo-item-done"]').should('not.be.checked');
+        cy.get('[data-cy="todo-item-date"]').should('contain.text', 'Jan 27');
         cy.get('[data-cy="todo-item-details"]').should('contain.text', todo.body);
         for (const tag of todo.tags) {
-            cy.get('[data-cy="todo-item-tags"]').should('contain.text', tag);
+            cy.get('[data-cy="todo-item-tag"]').contains(tag).should('be.visible');
         }
+    });
+
+    it('turns urls in todo body into links', () => {
+        const todo = generateTodo({
+            body: 'this todo contains a link https://simple-todo.arnelle.dev',
+        });
+        settings.set({ todoDateDisplay: TODOS_DATE_ABSOLUTE });
+
+        cy.mount(TodoItem, {
+            props: { todo },
+        });
+
+        cy.get('a').should('have.attr', 'href', 'https://simple-todo.arnelle.dev');
+        cy.get('a').should('have.text', 'https://simple-todo.arnelle.dev');
     });
 
     it('includes the "done" class and checks the checkbox when todo is marked as done', () => {

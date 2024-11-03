@@ -1,9 +1,10 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import { BACKGROUND_SOURCE_CUSTOM, BACKGROUND_REFRESH_MANUALLY } from '../constants';
 
-import ImageUrlField from './ImageUrlField.svelte';
 import ImageUploadField from './ImageUploadField.svelte';
+import ImageUrlField from './ImageUrlField.svelte';
+
+import { BACKGROUND_REFRESH_MANUALLY, BACKGROUND_SOURCE_CUSTOM } from '../constants';
 
 export let data = {};
 export let disabled = false;

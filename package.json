@@ -1,6 +1,6 @@
 {
   "name": "simple-todo",
-  "version": "1.13.10",
+  "version": "1.14.0",
   "description": "A Chrome extension that replaces the new tab page with a simple todo list",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "dev": "netlify dev",
     "build": "vite build",
     "preview": "vite preview",
+    "format": "prettier '**/*.{svelte,js,json,html,css}' --write",
     "test": "cypress run --component",
     "test:open": "cypress open --component --browser chrome",
     "e2e": "cypress run --e2e",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
     "@lhci/cli": "^0.12.0",
     "@sveltejs/vite-plugin-svelte": "^2.4.5",
     "cypress": "^13.3.0",

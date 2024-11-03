@@ -1,9 +1,10 @@
-import { writable } from 'svelte/store';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import pick from 'lodash/pick';
+import { writable } from 'svelte/store';
 
 import { STORAGE_KEY_SETTINGS } from '@lib/constants';
+
 import { settingsTabs } from './config';
 
 function createStore() {
@@ -41,6 +42,16 @@ function createStore() {
         saveInStorage(data);
     }
 
+    function saveKey(key, value) {
+        update((settings) => {
+            settings[key] = value;
+            if (!settings.preview) {
+                save(settings);
+            }
+            return settings;
+        });
+    }
+
     function saveInStorage(data) {
         const settings = JSON.parse(localStorage.getItem(STORAGE_KEY_SETTINGS) || '{}');
         settingsTabs.forEach((tab) => {
@@ -61,7 +72,7 @@ function createStore() {
         });
     }
 
-    return { subscribe, set, update, preview, restore, save, saveInStorage, togglePrivacyMode };
+    return { subscribe, set, update, preview, restore, save, saveKey, saveInStorage, togglePrivacyMode };
 }
 
 export const settings = createStore();

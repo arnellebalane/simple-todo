@@ -1,5 +1,6 @@
-import { changelogs } from '@features/changelogs/store';
 import WhatsNewModal from './WhatsNewModal.svelte';
+
+import { changelogs } from '@features/changelogs/store';
 
 describe('WhatsNewModal', () => {
     beforeEach(() => {

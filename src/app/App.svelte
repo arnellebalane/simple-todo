@@ -1,21 +1,21 @@
 <script>
-import { onMount, onDestroy } from 'svelte';
 import cloneDeep from 'lodash/cloneDeep';
+import { onDestroy, onMount } from 'svelte';
 
-import { config } from '@lib/config';
-import { enableShortcut, disableShortcut } from '@features/shortcuts';
-import { tags } from '@features/tags/store';
-import { todos } from '@features/todos/store';
-import { search } from '@features/search/store';
-import { confirmation } from '@app/stores/confirmation';
-
-import AppTopBar from './components/AppTopBar.svelte';
+import TodoBoard from '@features/todos/components/TodoBoard.svelte';
+import TodoFormModal from '@features/todos/components/TodoFormModal.svelte';
 import AppBottomBar from './components/AppBottomBar.svelte';
+import AppConfirmation from './components/AppConfirmation.svelte';
 import AppHeader from './components/AppHeader.svelte';
 import AppTooltip from './components/AppTooltip.svelte';
-import AppConfirmation from './components/AppConfirmation.svelte';
-import TodoFormModal from '@features/todos/components/TodoFormModal.svelte';
-import TodoBoard from '@features/todos/components/TodoBoard.svelte';
+import AppTopBar from './components/AppTopBar.svelte';
+
+import { confirmation } from '@app/stores/confirmation';
+import { search } from '@features/search/store';
+import { disableShortcut, enableShortcut } from '@features/shortcuts';
+import { tags } from '@features/tags/store';
+import { todos } from '@features/todos/store';
+import { config } from '@lib/config';
 
 $: filteredTodos = search.filterTodos($todos);
 

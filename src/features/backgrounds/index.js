@@ -1,10 +1,12 @@
-import dayjs from 'dayjs';
 import { decode } from 'blurhash';
+import dayjs from 'dayjs';
 
-import axios from '@lib/axios';
 import { settings } from '@features/settings/store';
-import { backgrounds } from './store';
+import axios from '@lib/axios';
+
 import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY } from './constants';
+import { backgrounds } from './store';
+
 import './styles.css';
 
 function isValidBlurHash(blurhash) {

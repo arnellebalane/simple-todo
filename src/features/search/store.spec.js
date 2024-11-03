@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
+import { TODOS_EVENTUALLY, TODOS_TODAY } from '@features/todos/constants';
 import { generateTodo } from '@features/todos/utils/test-helpers';
-import { TODOS_TODAY, TODOS_EVENTUALLY } from '@features/todos/constants';
+
 import { search } from './store';
 
 const todos = [

@@ -1,5 +1,6 @@
 import { settings } from '@features/settings/store';
-import { THEME_DARK, COLOR_PURPLE } from '@features/themes/constants';
+import { COLOR_PURPLE, THEME_DARK } from '@features/themes/constants';
+
 import { initializeThemes } from '.';
 
 describe('initializeThemes', () => {

@@ -1,12 +1,13 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 
-import { getDefaultSettings } from '.';
+import Switch from '@components/Switch.svelte';
+import QuickLinksField from './QuickLinksField.svelte';
+
 import { BUILTIN_QUICK_LINKS } from '../constants';
 import { frequentLinksSupported } from '../store';
 
-import Switch from '@components/Switch.svelte';
-import QuickLinksField from './QuickLinksField.svelte';
+import { getDefaultSettings } from '.';
 
 export let data = getDefaultSettings();
 

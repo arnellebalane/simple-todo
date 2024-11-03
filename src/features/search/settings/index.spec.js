@@ -1,4 +1,5 @@
 import { search } from '../store';
+
 import { onSave } from '.';
 
 describe('search settings', () => {

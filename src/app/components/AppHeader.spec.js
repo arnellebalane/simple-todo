@@ -1,6 +1,7 @@
-import { settings } from '@features/settings/store';
-import { todos, removeDoneTimer } from '@features/todos/store';
 import AppHeader from './AppHeader.svelte';
+
+import { settings } from '@features/settings/store';
+import { removeDoneTimer, todos } from '@features/todos/store';
 
 const mockTodos = ({ done = false } = {}) => {
     return cy.fixture('todos.json').then((todosFixture) => {

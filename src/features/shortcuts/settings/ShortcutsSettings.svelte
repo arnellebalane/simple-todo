@@ -1,5 +1,6 @@
 <script>
 import get from 'lodash/get';
+
 import shortcuts from '../shortcuts.json';
 
 export let data = {};

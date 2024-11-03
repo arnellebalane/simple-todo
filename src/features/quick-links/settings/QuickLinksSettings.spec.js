@@ -1,4 +1,4 @@
-import { component as QuickLinksSettings, getDefaultSettings } from '.';
+import { getDefaultSettings, component as QuickLinksSettings } from '.';
 
 describe('QuickLinksSettings', () => {
     beforeEach(() => {

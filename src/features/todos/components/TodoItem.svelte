@@ -2,14 +2,20 @@
 import { createEventDispatcher } from 'svelte';
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 
-import { settings } from '@features/settings/store';
-
 import Checkbox from '@components/Checkbox.svelte';
+import TodoItemDate from './TodoItemDate.svelte';
 import TodoItemMenu from './TodoItemMenu.svelte';
 import TodoItemTags from './TodoItemTags.svelte';
 
+import { settings } from '@features/settings/store';
+import { linkify } from '../lib/linkify';
+import { escapeText } from '../lib/sanitize';
+
 export let todo;
 $: hasTags = (todo.tags?.length ?? 0) > 0;
+$: hasDate = Boolean(todo.date);
+$: hasBadges = hasTags || hasDate;
+$: todoBody = linkify(escapeText(todo.body));
 
 const dispatch = createEventDispatcher();
 const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.detail });
@@ -24,9 +30,17 @@ const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.
 >
     <Checkbox checked={todo.done} on:change={toggleTodoDone} data-cy="todo-item-done" />
     <div class="TodoDetails" data-cy="todo-item-details">
-        <p><span>{todo.body}</span></p>
-        {#if hasTags}
-            <TodoItemTags class="TodoItemTags" tags={todo.tags} />
+        <p><span>{@html todoBody}</span></p>
+
+        {#if hasBadges}
+            <ol class="TodoBadges">
+                {#if hasDate}
+                    <TodoItemDate date={todo.date} />
+                {/if}
+                {#if hasTags}
+                    <TodoItemTags tags={todo.tags} />
+                {/if}
+            </ol>
         {/if}
     </div>
     <TodoItemMenu class="TodoItemMenu" on:edit on:delete />
@@ -87,6 +101,15 @@ li.done p {
     color: var(--dimmed-400);
 }
 
+.TodoBadges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 0;
+    margin-top: 1.6rem;
+    list-style: none;
+}
+
 .TodoItemShadow {
     position: absolute;
     top: 0;
@@ -108,9 +131,5 @@ li :global(.TodoItemMenu) {
 
 li:not(:hover) :global(.TodoItemMenu) {
     display: none;
-}
-
-li :global(.TodoItemTags) {
-    margin-top: 1.6rem;
 }
 </style>

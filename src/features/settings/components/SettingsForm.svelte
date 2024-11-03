@@ -1,9 +1,10 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import { settingsTabs } from '../config';
 
 import Button from '@components/Button.svelte';
 import SettingsFormSidebar from './SettingsFormSidebar.svelte';
+
+import { settingsTabs } from '../config';
 
 export let data;
 

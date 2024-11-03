@@ -1,22 +1,20 @@
 <script>
-import { createEventDispatcher, onMount, onDestroy } from 'svelte';
-import orderBy from 'lodash/orderBy';
+import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
-import { enableShortcut, disableShortcut } from '@features/shortcuts';
-import { tags } from '@features/tags/store';
-import { sanitizeText, unsanitizeText } from '../lib/sanitize';
-import { TODOS_TODAY, TODOS_THIS_WEEK, TODOS_EVENTUALLY } from '../constants';
-
-import Selector from '@components/Selector.svelte';
 import Button from '@components/Button.svelte';
-import TagsInput from '@features/tags/components/TagsInput.svelte';
+import Selector from '@components/Selector.svelte';
+import TodoFormOptionalFields from './TodoFormOptionalFields.svelte';
+
+import { disableShortcut, enableShortcut } from '@features/shortcuts';
+import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
+import { escapeText, sanitizeText, unsanitizeText } from '../lib/sanitize';
 
 export let data = {
     list: TODOS_EVENTUALLY,
 };
 
 if (data.body) {
-    data.body = unsanitizeText(data.body);
+    data.body = unsanitizeText(escapeText(data.body));
 }
 
 const listChoices = [
@@ -24,16 +22,16 @@ const listChoices = [
     { label: 'This week', value: TODOS_THIS_WEEK },
     { label: 'Eventually', value: TODOS_EVENTUALLY },
 ];
-$: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
-$: formValid = data.body && data.list;
 let errors = {};
+
+$: formValid = data.body && data.list;
 
 const handlePaste = async () => {
     // Svelte's tick() doesn't work here, so setTimeout() to the rescue!
     // We need this to make sure that the DOM has updated with new content before
     // we try to sanitize its content.
     setTimeout(() => {
-        data.body = unsanitizeText(sanitizeText(data.body));
+        data.body = unsanitizeText(sanitizeText(escapeText(data.body)));
     }, 0);
 };
 
@@ -43,7 +41,6 @@ const submitForm = () => {
         data.body = sanitizeText(data.body);
         dispatch('submit', data);
     }
-
     if (!data.body) {
         errors.body = 'Todo body is required';
     }
@@ -66,10 +63,7 @@ onDestroy(() => disableShortcut('saveTodo'));
         <Selector bind:value={data.list} choices={listChoices} name="list" data-cy="todo-form-list" />
     </div>
 
-    <div class="Field">
-        <label for="tags">Tags <span>(optional, press <kbd>Enter</kbd> to add)</span></label>
-        <TagsInput bind:value={data.tags} choices={tagsChoices} name="tags" type="password" />
-    </div>
+    <TodoFormOptionalFields {data} />
 
     <div class="Actions">
         <Button primary disabled={!formValid} data-cy="todo-form-save-btn">Save Todo</Button>
@@ -91,20 +85,6 @@ label {
     font-weight: 600;
 }
 
-label span {
-    font-size: 1.3rem;
-    font-weight: 400;
-    color: var(--dimmed-500);
-}
-
-label kbd {
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    background-color: var(--dimmed-200);
-}
-
 .Field.invalid label {
     color: var(--danger);
 }
@@ -112,9 +92,9 @@ label kbd {
 div[contenteditable] {
     display: block;
     min-height: 7.2rem;
-    padding: 8px 1.2rem;
+    padding: 0.8rem 1.2rem;
     border: 2px solid var(--dimmed-300);
-    border-radius: 8px;
+    border-radius: 0.8rem;
     line-height: 2rem;
     resize: none;
 }
@@ -124,7 +104,7 @@ div[contenteditable] {
 }
 
 .Error {
-    margin-bottom: 8px;
+    margin-bottom: 0.8rem;
     color: var(--danger);
 }
 

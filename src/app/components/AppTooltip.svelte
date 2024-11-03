@@ -1,7 +1,8 @@
 <script>
-import { onMount, onDestroy } from 'svelte';
+import { onDestroy, onMount } from 'svelte';
 import { portal } from 'svelte-portal';
-import { computePosition, offset, shift, arrow } from '@floating-ui/dom';
+
+import { arrow, computePosition, offset, shift } from '@floating-ui/dom';
 
 let target;
 let tooltip;

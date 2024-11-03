@@ -1,5 +1,6 @@
-import { component as TagsSettings } from '.';
 import { tags } from '../store';
+
+import { component as TagsSettings } from '.';
 
 describe('TagsSettings', () => {
     beforeEach(() => {

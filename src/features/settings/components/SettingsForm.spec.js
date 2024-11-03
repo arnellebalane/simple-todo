@@ -1,5 +1,6 @@
-import { COLOR_GREEN, COLOR_YELLOW, THEME_LIGHT, THEME_SYSTEM } from '@features/themes/constants';
 import SettingsForm from './SettingsForm.svelte';
+
+import { COLOR_GREEN, COLOR_YELLOW, THEME_LIGHT, THEME_SYSTEM } from '@features/themes/constants';
 
 describe('SettingsForm', () => {
     beforeEach(() => {

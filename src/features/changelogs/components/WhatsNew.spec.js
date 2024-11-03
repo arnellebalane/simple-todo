@@ -1,5 +1,6 @@
-import { changelogs, version } from '@features/changelogs/store';
 import WhatsNew from './WhatsNew.svelte';
+
+import { changelogs, version } from '@features/changelogs/store';
 
 describe('WhatsNew', () => {
     beforeEach(() => {

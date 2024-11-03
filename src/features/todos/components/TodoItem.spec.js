@@ -35,6 +35,20 @@ describe('TodoItem', () => {
         }
     });
 
+    it('turns urls in todo body into links', () => {
+        const todo = generateTodo({
+            body: 'this todo contains a link https://simple-todo.arnelle.dev',
+        });
+        settings.set({ todoDateDisplay: TODOS_DATE_ABSOLUTE });
+
+        cy.mount(TodoItem, {
+            props: { todo },
+        });
+
+        cy.get('a').should('have.attr', 'href', 'https://simple-todo.arnelle.dev');
+        cy.get('a').should('have.text', 'https://simple-todo.arnelle.dev');
+    });
+
     it('includes the "done" class and checks the checkbox when todo is marked as done', () => {
         const todo = generateTodo({ done: true });
 

@@ -22,9 +22,9 @@ describe('TodoForm', () => {
         cy.get(`[data-cy="todo-form-list"] input[value="${data.list}"]`).should('be.checked');
     });
 
-    it('unsanitizes todo body from data prop when displaying it in the form', () => {
+    it('escapes and unsanitizes todo body from data prop when displaying it in the form', () => {
         const data = {
-            body: '&lt;test todo&gt;',
+            body: '<strong>test todo</strong>',
             list: TODOS_THIS_WEEK,
         };
 
@@ -32,7 +32,7 @@ describe('TodoForm', () => {
             props: { data },
         });
 
-        cy.get('[data-cy="todo-form-body"]').should('have.text', '<test todo>');
+        cy.get('[data-cy="todo-form-body"]').should('have.text', '<strong>test todo</strong>');
     });
 
     it('disables submit button when todo body is not specified', () => {

@@ -76,5 +76,11 @@
     "title": "Sortable Quick Links",
     "imageLight": "/whats-new/sortable-quick-links-light.jpg",
     "imageDark": "/whats-new/sortable-quick-links-dark.jpg"
+  },
+  {
+    "version": "1.14.0",
+    "title": "Todo Date and Links",
+    "imageLight": "/whats-new/todo-dates-and-links-light.jpg",
+    "imageDark": "/whats-new/todo-dates-and-links-dark.jpg"
   }
 ]

@@ -1,7 +1,7 @@
 import pick from 'lodash/pick';
 import { tweened } from 'svelte/motion';
 import { derived, writable } from 'svelte/store';
-import * as uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import { STORAGE_KEY_DATA } from '@lib/constants';
 import { trackEvent } from '@lib/umami';
@@ -65,7 +65,7 @@ function createStore() {
                     ...todos,
                     {
                         ...pick(data, allowedFields),
-                        id: uuid.v4(),
+                        id: uuidv4(),
                         order,
                         done: false,
                         createdAt: Date.now(),

@@ -33,7 +33,7 @@
     "svelte": "^3.56.0",
     "svelte-dnd-action": "^0.9.52",
     "svelte-portal": "^2.2.1",
-    "uuid": "^9.0.0"
+    "uuid": "^11.0.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.0",

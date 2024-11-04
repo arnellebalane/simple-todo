@@ -36,7 +36,7 @@
     "uuid": "^11.0.2"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.4.0",
+    "@faker-js/faker": "^9.2.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
     "@lhci/cli": "^0.14.0",
     "@sveltejs/vite-plugin-svelte": "^2.4.5",

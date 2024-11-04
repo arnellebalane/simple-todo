@@ -22,10 +22,8 @@
   "license": "MIT",
   "dependencies": {
     "@floating-ui/dom": "^1.6.12",
-    "@sentry/browser": "^7.67.0",
-    "@sentry/integrations": "^7.114.0",
-    "@sentry/node": "^7.67.0",
-    "@sentry/tracing": "^7.114.0",
+    "@sentry/browser": "^8.36.0",
+    "@sentry/node": "^8.36.0",
     "axios": "^1.7.7",
     "blurhash": "^2.0.5",
     "cheerio": "^1.0.0-rc.10",

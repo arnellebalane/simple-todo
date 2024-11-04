@@ -29,7 +29,7 @@ export default defineConfig({
 
     // https://github.com/cypress-io/cypress/issues/22557#issuecomment-1229654837
     optimizeDeps: {
-        include: ['@sentry/browser', '@sentry/integrations', '@sentry/tracing'],
+        include: ['@sentry/browser'],
     },
 
     server: {

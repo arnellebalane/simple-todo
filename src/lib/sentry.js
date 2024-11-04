@@ -1,8 +1,6 @@
 import { config } from '@lib/config';
 import { APP_VERSION } from '@lib/constants';
 import * as Sentry from '@sentry/browser';
-import { CaptureConsole } from '@sentry/integrations';
-import { Integrations } from '@sentry/tracing';
 
 const ignoredErrorMessages = ['Error: Network Error'];
 
@@ -13,10 +11,10 @@ export function initializeSentry() {
             release: APP_VERSION,
             environment: config.VITE_PUBLIC_SENTRY_ENVIRONMENT || 'web:development',
             integrations: [
-                new CaptureConsole({
+                Sentry.captureConsoleIntegration({
                     levels: ['error', 'warn'],
                 }),
-                new Integrations.BrowserTracing(),
+                Sentry.browserTracingIntegration(),
             ],
             tracesSampleRate: 0.001,
             beforeSend(event) {

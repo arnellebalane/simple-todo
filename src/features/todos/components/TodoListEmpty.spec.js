@@ -49,6 +49,7 @@ describe('TodoListEmpty', () => {
                     trigger: TRIGGERS.DROPPED_INTO_ZONE,
                 },
             },
+            force: true,
         });
 
         cy.wrap(updateSpy).should(

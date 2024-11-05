@@ -30,7 +30,7 @@
     "dayjs": "^1.11.13",
     "lodash": "^4.17.21",
     "semver": "^7.6.3",
-    "svelte": "^3.56.0",
+    "svelte": "^4.2.19",
     "svelte-dnd-action": "^0.9.52",
     "svelte-portal": "^2.2.1",
     "uuid": "^11.0.2"
@@ -39,12 +39,12 @@
     "@faker-js/faker": "^9.2.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
     "@lhci/cli": "^0.14.0",
-    "@sveltejs/vite-plugin-svelte": "^2.4.5",
+    "@sveltejs/vite-plugin-svelte": "^3.1.2",
     "cypress": "^13.15.1",
     "dotenv": "^16.4.5",
     "netlify-cli": "^17.37.2",
     "prettier": "^3.3.3",
     "prettier-plugin-svelte": "^3.2.7",
-    "vite": "^4.4.9"
+    "vite": "^5.4.10"
   }
 }

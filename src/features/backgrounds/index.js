@@ -10,7 +10,7 @@ import { backgrounds } from './store';
 import './styles.css';
 
 function isValidBlurHash(blurhash) {
-    return blurhash ? blurhash.length ?? 0 >= 6 : false;
+    return blurhash ? (blurhash.length ?? 0 >= 6) : false;
 }
 
 function blurHashToDataUrl(blurhash) {

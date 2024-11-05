@@ -34,7 +34,7 @@ describe('SearchForm', () => {
         cy.mount(SearchForm);
 
         cy.get('[data-cy="search-form"]').should('be.visible');
-        cy.get('[data-cy="search-form-tags-filter"]').select(0).invoke('val').should('equal', 'null');
+        cy.get('[data-cy="search-form-tags-filter"]').select(0).invoke('val').should('equal', '');
         cy.get('[data-cy="search-form-tags-filter"]').select(1).invoke('val').should('equal', 'TagOne');
         cy.get('[data-cy="search-form-tags-filter"]').select(2).invoke('val').should('equal', 'TagTwo');
     });

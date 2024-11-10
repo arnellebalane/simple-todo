@@ -45,6 +45,7 @@
     "netlify-cli": "^17.37.2",
     "prettier": "^3.3.3",
     "prettier-plugin-svelte": "^3.2.7",
-    "vite": "^5.4.10"
+    "vite": "^5.4.10",
+    "vite-jsconfig-paths": "^2.0.1"
   }
 }

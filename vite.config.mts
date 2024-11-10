@@ -1,26 +1,17 @@
 import path from 'path';
 import { defineConfig } from 'vite';
+import jsConfigPaths from 'vite-jsconfig-paths';
 
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 
 export default defineConfig({
-    plugins: [svelte()],
+    plugins: [svelte(), jsConfigPaths()],
 
     base: './',
 
     build: {
         outDir: path.join(__dirname, 'build'),
         assetsInlineLimit: 0,
-    },
-
-    resolve: {
-        alias: {
-            '@app': path.resolve(__dirname, 'src/app'),
-            '@assets': path.resolve(__dirname, 'src/assets'),
-            '@components': path.resolve(__dirname, 'src/components'),
-            '@features': path.resolve(__dirname, 'src/features'),
-            '@lib': path.resolve(__dirname, 'src/lib'),
-        },
     },
 
     define: {

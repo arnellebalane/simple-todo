@@ -67,7 +67,7 @@ onDestroy(() => disableShortcut('saveTodo'));
 
     <div class="Actions">
         <Button primary disabled={!formValid} data-cy="todo-form-save-btn">Save Todo</Button>
-        <Button type="button" text on:click={cancelForm} data-cy="todo-form-cancel-btn">Cancel</Button>
+        <Button type="button" text onClick={cancelForm} data-cy="todo-form-cancel-btn">Cancel</Button>
     </div>
 </form>
 

@@ -65,7 +65,7 @@ const refreshBackgroundImage = async () => {
             on:change={handleRefreshFrequencyChange}
             data-cy="refresh-frequency-selector"
         />
-        <Button type="button" {disabled} on:click={refreshBackgroundImage} data-cy="refresh-background-btn">
+        <Button type="button" {disabled} onClick={refreshBackgroundImage} data-cy="refresh-background-btn">
             Refresh
         </Button>
     </div>

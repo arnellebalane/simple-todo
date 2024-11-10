@@ -36,11 +36,11 @@ const handleRemove = (tag) => {
 <div>
     {#each value as tag (tag)}
         <Button
+            small
             class="Button"
             type="button"
             data-tooltip="Click to remove"
-            small
-            on:click={handleRemove(tag)}
+            onClick={handleRemove(tag)}
             data-cy="tags-value"
         >
             {tag}

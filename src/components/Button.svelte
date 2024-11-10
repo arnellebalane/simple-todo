@@ -1,27 +1,33 @@
 <script>
-export let primary = false;
-export let text = false;
-export let medium = false;
-export let small = false;
-export let icon = false;
-export let iconLight = null;
-export let iconDark = null;
+let {
+    children,
+    primary = false,
+    text = false,
+    medium = false,
+    small = false,
+    class: componentClass,
+    iconLight,
+    iconDark,
+    onClick,
+    ...restProps
+} = $props();
 
-$: iconVariables = icon ? `--icon-light: url(${iconLight}); --icon-dark: url(${iconDark})` : '';
+const icon = $derived(iconLight && iconDark);
+const iconVariables = $derived(icon ? `--icon-light: url(${iconLight}); --icon-dark: url(${iconDark})` : '');
 </script>
 
 <button
     style={iconVariables}
-    class={$$props.class}
+    class={componentClass}
     class:primary
     class:text
     class:medium
     class:small
     class:icon
-    on:click
-    {...$$restProps}
+    onclick={onClick}
+    {...restProps}
 >
-    <slot />
+    {@render children?.()}
 </button>
 
 <style>

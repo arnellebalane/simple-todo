@@ -45,12 +45,11 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
 <footer>
     {#if canPrevious}
         <Button
-            icon
             small
+            class="PreviousButton"
             iconLight={icons.chevronLeftLight}
             iconDark={icons.chevronLeftDark}
-            class="PreviousButton"
-            on:click={handlePrevious}
+            onClick={handlePrevious}
             data-cy="changelogs-previous-btn"
         >
             Previous
@@ -65,18 +64,17 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
 
     {#if canNext}
         <Button
-            icon
             small
+            class="NextButton"
             iconLight={icons.chevronRightLight}
             iconDark={icons.chevronRightDark}
-            class="NextButton"
-            on:click={handleNext}
+            onClick={handleNext}
             data-cy="changelogs-next-btn"
         >
             Next
         </Button>
     {:else}
-        <Button primary small on:click={() => dispatch('close')} data-cy="changelogs-close-btn">Close</Button>
+        <Button primary small onClick={() => dispatch('close')} data-cy="changelogs-close-btn">Close</Button>
     {/if}
 </footer>
 

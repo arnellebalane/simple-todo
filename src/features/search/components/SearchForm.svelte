@@ -66,14 +66,13 @@ onDestroy(() => disableShortcut('focusSearch'));
         {/if}
 
         <Button
-            icon
+            type="button"
+            class="SearchClear"
             disabled={!hasSearchFilters}
             data-tooltip="Clear search filters"
             iconLight={icons.closeLight}
             iconDark={icons.closeDark}
-            type="button"
-            class="SearchClear"
-            on:click={search.clear}
+            onClick={search.clear}
         >
             Clear search
         </Button>

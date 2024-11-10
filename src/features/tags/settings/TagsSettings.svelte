@@ -26,12 +26,11 @@ const restoreTag = (tag) => {
             <li class:removed={tag.removed} data-cy="tag-item">
                 <Button
                     medium
-                    icon
-                    iconLight={tag.removed ? icons.restore : icons.remove}
-                    iconDark={tag.removed ? icons.restore : icons.remove}
                     type="button"
                     class="Button"
-                    on:click={() => (tag.removed ? restoreTag(tag) : removeTag(tag))}
+                    iconLight={tag.removed ? icons.restore : icons.remove}
+                    iconDark={tag.removed ? icons.restore : icons.remove}
+                    onClick={() => (tag.removed ? restoreTag(tag) : removeTag(tag))}
                     data-cy="tag-action-btn"
                 >
                     {tag.removed ? 'Restore' : 'Remove'}

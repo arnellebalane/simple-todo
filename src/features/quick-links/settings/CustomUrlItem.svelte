@@ -31,24 +31,22 @@ const handleRemove = async () => {
     <div class="CustomUrl_Actions">
         <Button
             small
-            icon
+            type="button"
+            tabindex="-1"
             iconLight={icons.drag}
             iconDark={icons.drag}
             class="CustomUrl_Action CustomUrl_Action-drag"
-            type="button"
-            tabindex="-1"
             data-cy="custom-url-item-drag-button"
         >
             Drag
         </Button>
         <Button
             small
-            icon
+            type="button"
+            class="CustomUrl_Action"
             iconLight={icons.remove}
             iconDark={icons.remove}
-            class="CustomUrl_Action"
-            type="button"
-            on:click={handleRemove}
+            onClick={handleRemove}
             data-cy="custom-url-item-remove-button"
         >
             Remove

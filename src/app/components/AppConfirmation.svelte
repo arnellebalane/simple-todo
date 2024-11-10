@@ -25,8 +25,8 @@ const cancel = () => dispatch('cancel');
     <p data-cy="confirm-message">{message}</p>
 
     <div>
-        <Button primary medium on:click={confirm} data-cy="confirm-btn">{confirmLabel}</Button>
-        <Button text medium on:click={cancel} data-cy="cancel-btn">{cancelLabel}</Button>
+        <Button primary medium onClick={confirm} data-cy="confirm-btn">{confirmLabel}</Button>
+        <Button text medium onClick={cancel} data-cy="cancel-btn">{cancelLabel}</Button>
     </div>
 </Modal>
 

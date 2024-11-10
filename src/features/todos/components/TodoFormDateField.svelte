@@ -9,7 +9,7 @@ const handleRemove = () => (value = '');
 
 <div>
     <Input bind:value name="date" type="date" />
-    <Button type="button" on:click={handleRemove} disabled={!value} data-cy="clear-date-btn">Clear Date</Button>
+    <Button type="button" onClick={handleRemove} disabled={!value} data-cy="clear-date-btn">Clear Date</Button>
 </div>
 
 <style>

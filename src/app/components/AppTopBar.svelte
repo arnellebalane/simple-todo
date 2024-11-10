@@ -75,11 +75,10 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
             <WhatsNewButton pulse={!hasSeenChangeLogs} on:click={() => toggleWhatsNewModal(true)} />
         {/if}
         <Button
-            icon
             medium
             iconLight={icons.settingsLight}
             iconDark={icons.settingsDark}
-            on:click={() => toggleSettingsForm(true)}
+            onClick={() => toggleSettingsForm(true)}
             data-cy="settings-btn"
         >
             Settings

@@ -22,17 +22,17 @@ const today = dayjs().format('dddd, MMMM D');
         <SearchForm />
 
         <div class="HeaderButtons">
-            <Button primary on:click={() => dispatch('addtodo')} data-cy="add-todo-btn">Add Todo</Button>
+            <Button primary onClick={() => dispatch('addtodo')} data-cy="add-todo-btn">Add Todo</Button>
             {#if canUndoRemove}
-                <Button class="UndoRemoveButton" on:click={() => dispatch('undoremovedone')} data-cy="undo-remove-btn">
+                <Button class="UndoRemoveButton" onClick={() => dispatch('undoremovedone')} data-cy="undo-remove-btn">
                     <div class="Progress" style="--progress: {$removeDoneTimer * 100}%" />
                     <span>Undo Remove</span>
                 </Button>
             {:else}
                 <Button
-                    class="RemoveDoneButton"
                     text
-                    on:click={() => dispatch('removedone')}
+                    class="RemoveDoneButton"
+                    onClick={() => dispatch('removedone')}
                     disabled={!hasDoneTodos}
                     data-cy="remove-done-btn"
                 >

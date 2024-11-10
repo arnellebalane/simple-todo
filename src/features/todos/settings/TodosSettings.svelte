@@ -1,6 +1,4 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
 import DateDisplayChoiceField from './DateDisplayChoiceField.svelte';
@@ -9,19 +7,15 @@ import { TODOS_DATE_ABSOLUTE, TODOS_DATE_RELATIVE } from '../constants';
 
 import { getDefaultSettings } from '.';
 
-export let data = getDefaultSettings();
+let { data = getDefaultSettings(), onChange } = $props();
 
 const dateFormatChoices = [
     { label: 'Absolute', subtext: 'Example: "Dec 21"', value: TODOS_DATE_ABSOLUTE },
     { label: 'Relative', subtext: 'Example: "In 5 days"', value: TODOS_DATE_RELATIVE },
 ];
 
-const dispatch = createEventDispatcher();
 const handleChange = (key) => {
-    return (value) => {
-        data = { ...data, [key]: value };
-        dispatch('change', data);
-    };
+    return (value) => onChange?.({ ...data, [key]: value });
 };
 </script>
 

@@ -7,10 +7,8 @@ import Button from '@components/Button.svelte';
 import { icons } from '@lib/icons';
 import { tags } from '../store';
 
-export let data = {};
-
-$: hasTags = !isEmpty($tags);
-$: sortedTags = orderBy($tags, (tag) => tag.label.toUpperCase());
+const hasTags = $derived(!isEmpty($tags));
+const sortedTags = $derived(orderBy($tags, (tag) => tag.label.toUpperCase()));
 
 const removeTag = (tag) => {
     tags.updateTag(tag.label, { removed: true });

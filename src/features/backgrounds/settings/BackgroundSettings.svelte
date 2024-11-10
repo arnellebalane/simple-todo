@@ -1,6 +1,5 @@
 <script>
 import omit from 'lodash/omit';
-import { createEventDispatcher } from 'svelte';
 
 import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
@@ -12,20 +11,18 @@ import { BACKGROUND_SOURCE_AUTOMATIC, BACKGROUND_SOURCE_CUSTOM } from '../consta
 
 import { allowedFields, getDefaultSettings } from '.';
 
-export let data = getDefaultSettings();
+let { data = getDefaultSettings(), onChange } = $props();
 
-let backgroundSource = data.backgroundSource;
+let backgroundSource = $state(data.backgroundSource);
 const backgroundSourceChoices = [
     { label: 'Automatic', subtext: 'Random from Unsplash', value: BACKGROUND_SOURCE_AUTOMATIC },
     { label: 'Custom', subtext: 'Specify your own image', value: BACKGROUND_SOURCE_CUSTOM },
 ];
 
-const dispatch = createEventDispatcher();
+let currentRequest = $state();
+const hasCurrentRequest = $derived(Boolean(currentRequest));
 
-let currentRequest;
-$: hasCurrentRequest = Boolean(currentRequest);
-
-const handleChange = () => dispatch('change', data);
+const handleChange = () => onChange?.(data);
 const handleRequest = (event) => {
     if (event.detail) {
         currentRequest?.cancel();
@@ -34,13 +31,13 @@ const handleRequest = (event) => {
 };
 
 const handleBackgroundChange = async (value) => {
-    data.background = value;
+    let settings = { ...data, background: value };
     if (!value) {
-        data = omit(data, allowedFields);
-        data = Object.assign(data, getDefaultSettings());
-        backgroundSource = data.backgroundSource;
+        settings = omit(settings, allowedFields);
+        settings = Object.assign(settings, getDefaultSettings());
+        backgroundSource = settings.backgroundSource;
     }
-    handleChange();
+    onChange?.(settings);
 };
 </script>
 
@@ -58,14 +55,11 @@ const handleBackgroundChange = async (value) => {
     {#if data.background}
         <Selector
             name="backgroundSource"
-            value={backgroundSource}
+            bind:value={backgroundSource}
             disabled={hasCurrentRequest}
             choices={backgroundSourceChoices}
             choiceComponent={SourceChoiceField}
-            onChange={(value) => {
-                backgroundSource = value;
-                handleChange();
-            }}
+            onChange={handleChange}
             data-cy="background-source-selector"
         />
 

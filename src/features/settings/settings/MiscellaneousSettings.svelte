@@ -1,18 +1,12 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Switch from '@components/Switch.svelte';
 
 import { getDefaultSettings } from '.';
 
-export let data = getDefaultSettings();
+let { data = getDefaultSettings(), onChange } = $props();
 
-const dispatch = createEventDispatcher();
 const handleChange = (key) => {
-    return (value) => {
-        data = { ...data, [key]: value };
-        dispatch('change', data);
-    };
+    return (value) => onChange?.({ ...data, [key]: value });
 };
 </script>
 

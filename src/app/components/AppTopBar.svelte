@@ -44,9 +44,9 @@ $: showFrequentLinks = $frequentLinks.length > 0 && $settings.showFrequentLinks;
 
 const showChromeWebstoreButton = config.VITE_PUBLIC_IS_WEB_BUILD === 'true';
 
-const handleSettingsChange = (event) => settings.preview(event.detail);
-const handleSettingsSubmit = (event) => {
-    settings.save(event.detail);
+const handleSettingsChange = (data) => settings.preview(data);
+const handleSettingsSubmit = (data) => {
+    settings.save(data);
     tags.save();
     toggleSettingsForm(false);
 };
@@ -100,9 +100,9 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
 <SettingsFormModal
     show={showSettingsForm}
     data={settingsFormData}
-    on:change={handleSettingsChange}
-    on:submit={handleSettingsSubmit}
-    on:close={handleSettingsClose}
+    onChange={handleSettingsChange}
+    onSubmit={handleSettingsSubmit}
+    onClose={handleSettingsClose}
 />
 
 <WhatsNewModal show={showWhatsNewModal} on:close={() => toggleWhatsNewModal(false)} />

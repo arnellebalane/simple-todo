@@ -1,7 +1,7 @@
 <script>
 let {
     name,
-    value,
+    value = $bindable(),
     choices,
     disabled = false,
     choiceComponent: ChoiceComponent,

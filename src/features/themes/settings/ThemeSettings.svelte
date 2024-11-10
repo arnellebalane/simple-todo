@@ -1,6 +1,4 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Selector from '@components/Selector.svelte';
 import ColorChoiceField from './ColorChoiceField.svelte';
 import ThemeChoiceField from './ThemeChoiceField.svelte';
@@ -18,7 +16,7 @@ import {
 
 import { getDefaultSettings } from '.';
 
-export let data = getDefaultSettings();
+let { data = getDefaultSettings(), onChange } = $props();
 
 const themeChoices = [
     { label: 'System', value: THEME_SYSTEM },
@@ -33,13 +31,8 @@ const colorChoices = [
     { label: 'Pink', value: COLOR_PINK },
 ];
 
-const dispatch = createEventDispatcher();
-
 const handleChange = (key) => {
-    return (value) => {
-        data = { ...data, [key]: value };
-        dispatch('change', { ...data, [key]: value });
-    };
+    return (value) => onChange?.({ ...data, [key]: value });
 };
 </script>
 

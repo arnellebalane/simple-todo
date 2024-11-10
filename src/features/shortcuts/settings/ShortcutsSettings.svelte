@@ -3,8 +3,6 @@ import get from 'lodash/get';
 
 import shortcuts from '../shortcuts.json';
 
-export let data = {};
-
 const items = Object.values(shortcuts);
 
 const getItemKeys = (item) => {

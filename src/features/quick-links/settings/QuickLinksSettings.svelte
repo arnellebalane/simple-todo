@@ -1,6 +1,4 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Switch from '@components/Switch.svelte';
 import QuickLinksField from './QuickLinksField.svelte';
 
@@ -9,20 +7,14 @@ import { frequentLinksSupported } from '../store';
 
 import { getDefaultSettings } from '.';
 
-export let data = getDefaultSettings();
-
-const dispatch = createEventDispatcher();
+let { data = getDefaultSettings(), onChange } = $props();
 
 const handleQuickLinksChange = (event) => {
-    data.quickLinks = event.detail;
-    handleChange();
+    onChange?.({ ...data, quickLinks: event.detail });
 };
 
 const handleChange = (key) => {
-    return (value) => {
-        data = { ...data, [key]: value };
-        dispatch('change', data);
-    };
+    return (value) => onChange?.({ ...data, [key]: value });
 };
 </script>
 

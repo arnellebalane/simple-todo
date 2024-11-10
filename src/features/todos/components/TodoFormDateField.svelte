@@ -2,14 +2,12 @@
 import Button from '@components/Button.svelte';
 import Input from '@components/Input.svelte';
 
-export let value;
-
-const handleRemove = () => (value = '');
+let { value, onChange } = $props();
 </script>
 
 <div>
-    <Input name="date" {value} onChange={(date) => (value = date)} type="date" />
-    <Button type="button" onClick={handleRemove} disabled={!value} data-cy="clear-date-btn">Clear Date</Button>
+    <Input name="date" {value} {onChange} type="date" />
+    <Button type="button" onClick={() => onChange?.('')} disabled={!value} data-cy="clear-date-btn">Clear Date</Button>
 </div>
 
 <style>

@@ -7,17 +7,21 @@ import TodoFormDateField from './TodoFormDateField.svelte';
 import { settings } from '@features/settings/store';
 import { tags } from '@features/tags/store';
 
-export let data = {};
+let { data, onChange } = $props();
 
-let isOptionalFieldsToggled = false;
+let isOptionalFieldsToggled = $state(false);
 const handleToggle = () => (isOptionalFieldsToggled = true);
 
-$: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
-$: hasOptionalFields = data.date || data.tags?.length;
-$: shouldOpenOptionalFields = hasOptionalFields || $settings.openOptionalFields || isOptionalFieldsToggled;
+const tagsChoices = $derived(orderBy($tags, (tag) => tag.label.toUpperCase()));
+const hasOptionalFields = $derived(data.date || data.tags?.length);
+const shouldOpenOptionalFields = $derived(hasOptionalFields || $settings.openOptionalFields || isOptionalFieldsToggled);
+
+const handleChange = (key) => {
+    return (value) => onChange?.({ ...data, [key]: value });
+};
 </script>
 
-<details open={shouldOpenOptionalFields} on:toggle={handleToggle} data-cy="todo-form-optional-fields">
+<details open={shouldOpenOptionalFields} ontoggle={handleToggle} data-cy="todo-form-optional-fields">
     <summary>
         <span>Optional fields</span>
     </summary>
@@ -25,12 +29,12 @@ $: shouldOpenOptionalFields = hasOptionalFields || $settings.openOptionalFields 
     <div class="OptionalFieldsContent">
         <div class="Field">
             <label for="date">Date</label>
-            <TodoFormDateField bind:value={data.date} />
+            <TodoFormDateField value={data.date} onChange={handleChange('date')} />
         </div>
 
         <div class="Field">
             <label for="tags">Tags <span>(press <kbd>Enter</kbd> to add)</span></label>
-            <TagsInput bind:value={data.tags} choices={tagsChoices} name="tags" type="password" />
+            <TagsInput name="tags" value={data.tags} choices={tagsChoices} onChange={handleChange('tags')} />
         </div>
     </div>
 </details>

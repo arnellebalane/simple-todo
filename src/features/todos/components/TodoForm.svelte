@@ -1,5 +1,5 @@
 <script>
-import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+import { onDestroy, onMount } from 'svelte';
 
 import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
@@ -9,9 +9,15 @@ import { disableShortcut, enableShortcut } from '@features/shortcuts';
 import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
 import { escapeText, sanitizeText, unsanitizeText } from '../lib/sanitize';
 
-export let data = {
-    list: TODOS_EVENTUALLY,
-};
+let {
+    data = $bindable({
+        list: TODOS_EVENTUALLY,
+    }),
+    class: componentClass,
+    onChange,
+    onSubmit,
+    onCancel,
+} = $props();
 
 if (data.body) {
     data.body = unsanitizeText(escapeText(data.body));
@@ -22,46 +28,43 @@ const listChoices = [
     { label: 'This week', value: TODOS_THIS_WEEK },
     { label: 'Eventually', value: TODOS_EVENTUALLY },
 ];
-let errors = {};
 
-$: formValid = data.body && data.list;
+let errors = $state({});
+const formValid = $derived(data.body && data.list);
 
-const dispatch = createEventDispatcher();
-
-const handlePaste = async () => {
+const handlePaste = () => {
     // Svelte's tick() doesn't work here, so setTimeout() to the rescue!
     // We need this to make sure that the DOM has updated with new content before
     // we try to sanitize its content.
     setTimeout(() => {
         data.body = unsanitizeText(sanitizeText(escapeText(data.body)));
+        onChange?.(data);
     }, 0);
 };
-const handleChange = (key) => {
-    return (value) => {
-        data = { ...data, [key]: value };
-    };
-};
+const handleChange = (key) => (value) => handlePartialChange({ [key]: value });
+const handlePartialChange = (partial) => onChange?.({ ...data, ...partial });
 
-const submitForm = () => {
+const submitForm = (event) => {
+    event?.preventDefault();
+
     if (formValid) {
         data.body = sanitizeText(data.body);
-        dispatch('submit', data);
+        onSubmit?.(data);
     }
     if (!data.body) {
         errors.body = 'Todo body is required';
     }
 };
-const cancelForm = () => dispatch('cancel');
 
 onMount(() => enableShortcut('saveTodo', submitForm));
 onDestroy(() => disableShortcut('saveTodo'));
 </script>
 
-<form class={$$props.class} on:submit|preventDefault={submitForm}>
+<form class={componentClass} onsubmit={submitForm}>
     <div class="Field" class:invalid={errors.body}>
         <label for="body">What do you want to do?</label>
         {#if errors.body}<p class="Error">{errors.body}</p>{/if}
-        <div contenteditable bind:innerHTML={data.body} on:paste={handlePaste} data-cy="todo-form-body" />
+        <div contenteditable bind:innerHTML={data.body} onpaste={handlePaste} data-cy="todo-form-body"></div>
     </div>
 
     <div class="Field">
@@ -75,11 +78,11 @@ onDestroy(() => disableShortcut('saveTodo'));
         />
     </div>
 
-    <TodoFormOptionalFields {data} />
+    <TodoFormOptionalFields {data} onChange={handlePartialChange} />
 
     <div class="Actions">
         <Button primary disabled={!formValid} data-cy="todo-form-save-btn">Save Todo</Button>
-        <Button type="button" text onClick={cancelForm} data-cy="todo-form-cancel-btn">Cancel</Button>
+        <Button type="button" text onClick={onCancel} data-cy="todo-form-cancel-btn">Cancel</Button>
     </div>
 </form>
 

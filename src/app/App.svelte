@@ -17,16 +17,17 @@ import { tags } from '@features/tags/store';
 import { todos } from '@features/todos/store';
 import { config } from '@lib/config';
 
-$: filteredTodos = search.filterTodos($todos);
+const filteredTodos = $derived(search.filterTodos($todos));
 
-let todoFormData = {};
-let showTodoForm = false;
+let todoFormData = $state({});
+let showTodoForm = $state(false);
 const setShowTodoForm = (show, data) => {
     showTodoForm = show;
     todoFormData = cloneDeep(data);
 };
-
+const updateTodoFormData = (data) => (todoFormData = data);
 const showTodoFormWithData = (event) => setShowTodoForm(true, event.detail);
+
 const updateTodoItem = (event) => todos.update(event.detail);
 const removeTodoItem = async (event) => {
     const confirmed = await confirmation.show({
@@ -38,8 +39,8 @@ const removeTodoItem = async (event) => {
     }
 };
 const saveTodoItem = (event) => {
-    todos.save(event.detail);
-    tags.add(event.detail.tags);
+    todos.save(event);
+    tags.add(event.tags);
     setShowTodoForm(false);
 };
 const updateTodos = (event) => todos.updateList(event.detail);
@@ -90,9 +91,10 @@ onDestroy(() => disableShortcut('addTodo'));
 
 <TodoFormModal
     show={showTodoForm}
-    data={todoFormData}
-    on:submit={saveTodoItem}
-    on:cancel={() => setShowTodoForm(false)}
+    bind:data={todoFormData}
+    onChange={updateTodoFormData}
+    onSubmit={saveTodoItem}
+    onCancel={() => setShowTodoForm(false)}
 />
 
 <AppConfirmation

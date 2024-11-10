@@ -1,4 +1,6 @@
 <script>
+import { createEventDispatcher } from 'svelte';
+
 import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
 import DateDisplayChoiceField from './DateDisplayChoiceField.svelte';
@@ -13,6 +15,12 @@ const dateFormatChoices = [
     { label: 'Absolute', subtext: 'Example: "Dec 21"', value: TODOS_DATE_ABSOLUTE },
     { label: 'Relative', subtext: 'Example: "In 5 days"', value: TODOS_DATE_RELATIVE },
 ];
+
+const dispatch = createEventDispatcher();
+const handleChange = (value) => {
+    data = { ...data, todoDateDisplay: value };
+    dispatch('change', data);
+};
 </script>
 
 <section>
@@ -46,10 +54,10 @@ const dateFormatChoices = [
         <label for="todoDateDisplay">Date display format</label>
         <Selector
             name="todoDateDisplay"
-            bind:value={data.todoDateDisplay}
+            value={data.todoDateDisplay}
             choices={dateFormatChoices}
             choiceComponent={DateDisplayChoiceField}
-            on:change
+            onChange={handleChange}
             data-cy="todo-date-display-selector"
         />
     </div>

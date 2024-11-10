@@ -26,6 +26,8 @@ let errors = {};
 
 $: formValid = data.body && data.list;
 
+const dispatch = createEventDispatcher();
+
 const handlePaste = async () => {
     // Svelte's tick() doesn't work here, so setTimeout() to the rescue!
     // We need this to make sure that the DOM has updated with new content before
@@ -34,8 +36,12 @@ const handlePaste = async () => {
         data.body = unsanitizeText(sanitizeText(escapeText(data.body)));
     }, 0);
 };
+const handleChange = (key) => {
+    return (value) => {
+        data = { ...data, [key]: value };
+    };
+};
 
-const dispatch = createEventDispatcher();
 const submitForm = () => {
     if (formValid) {
         data.body = sanitizeText(data.body);
@@ -60,7 +66,13 @@ onDestroy(() => disableShortcut('saveTodo'));
 
     <div class="Field">
         <label for="list">When do you want to do this?</label>
-        <Selector bind:value={data.list} choices={listChoices} name="list" data-cy="todo-form-list" />
+        <Selector
+            name="list"
+            value={data.list}
+            choices={listChoices}
+            onChange={handleChange('list')}
+            data-cy="todo-form-list"
+        />
     </div>
 
     <TodoFormOptionalFields {data} />

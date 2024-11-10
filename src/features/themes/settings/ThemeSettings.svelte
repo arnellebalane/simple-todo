@@ -1,4 +1,6 @@
 <script>
+import { createEventDispatcher } from 'svelte';
+
 import Selector from '@components/Selector.svelte';
 import ColorChoiceField from './ColorChoiceField.svelte';
 import ThemeChoiceField from './ThemeChoiceField.svelte';
@@ -30,6 +32,15 @@ const colorChoices = [
     { label: 'Purple', value: COLOR_PURPLE },
     { label: 'Pink', value: COLOR_PINK },
 ];
+
+const dispatch = createEventDispatcher();
+
+const handleChange = (key) => {
+    return (value) => {
+        data = { ...data, [key]: value };
+        dispatch('change', { ...data, [key]: value });
+    };
+};
 </script>
 
 <section>
@@ -37,10 +48,10 @@ const colorChoices = [
         <label for="theme">Choose your theme</label>
         <Selector
             name="theme"
-            bind:value={data.theme}
+            value={data.theme}
             choices={themeChoices}
             choiceComponent={ThemeChoiceField}
-            on:change
+            onChange={handleChange('theme')}
             data-cy="theme-settings-selector"
         />
     </div>
@@ -49,10 +60,10 @@ const colorChoices = [
         <label for="color">Choose your color</label>
         <Selector
             name="color"
-            bind:value={data.color}
+            value={data.color}
             choices={colorChoices}
             choiceComponent={ColorChoiceField}
-            on:change
+            onChange={handleChange('color')}
             data-cy="color-settings-selector"
         />
     </div>

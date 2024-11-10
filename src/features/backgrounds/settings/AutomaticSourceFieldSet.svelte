@@ -33,7 +33,8 @@ const dispatch = createEventDispatcher();
 const handleChange = () => dispatch('change', data);
 const handleRequest = (source = null) => dispatch('request', source);
 
-const handleRefreshFrequencyChange = () => {
+const handleRefreshFrequencyChange = (value) => {
+    data.backgroundRefreshFrequency = value;
     data.backgroundSource = BACKGROUND_SOURCE_AUTOMATIC;
     handleChange();
 };
@@ -60,9 +61,9 @@ const refreshBackgroundImage = async () => {
         <Selector
             class="RefreshBackgroundFrequency"
             name="backgroundRefreshFrequency"
-            bind:value={data.backgroundRefreshFrequency}
+            value={data.backgroundRefreshFrequency}
             choices={backgroundRefreshFrequencyChoices}
-            on:change={handleRefreshFrequencyChange}
+            onChange={handleRefreshFrequencyChange}
             data-cy="refresh-frequency-selector"
         />
         <Button type="button" {disabled} onClick={refreshBackgroundImage} data-cy="refresh-background-btn">

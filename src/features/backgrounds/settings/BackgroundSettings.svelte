@@ -57,10 +57,14 @@ const handleBackgroundChange = async () => {
     {#if data.background}
         <Selector
             name="backgroundSource"
-            bind:value={backgroundSource}
+            value={backgroundSource}
             disabled={hasCurrentRequest}
             choices={backgroundSourceChoices}
             choiceComponent={SourceChoiceField}
+            onChange={(value) => {
+                backgroundSource = value;
+                handleChange();
+            }}
             data-cy="background-source-selector"
         />
 

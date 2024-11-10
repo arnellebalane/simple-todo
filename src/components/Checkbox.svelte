@@ -1,14 +1,11 @@
 <script>
-import { createEventDispatcher } from 'svelte';
+let { checked = false, class: componentClass, onChange, ...restProps } = $props();
 
-export let checked = false;
-
-const dispatch = createEventDispatcher();
-const handleChange = (event) => dispatch('change', event.target.checked);
+const handleChange = (event) => onChange(event.target.checked);
 </script>
 
-<label class={$$props.class}>
-    <input type="checkbox" bind:checked on:change={handleChange} {...$$restProps} />
+<label class={componentClass}>
+    <input type="checkbox" {checked} onchange={handleChange} {...restProps} />
     <span>
         {#if checked}
             <svg viewBox="0 0 24 24">

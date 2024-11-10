@@ -18,7 +18,7 @@ $: hasBadges = hasTags || hasDate;
 $: todoBody = linkify(escapeText(todo.body));
 
 const dispatch = createEventDispatcher();
-const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.detail });
+const toggleTodoDone = (done) => dispatch('update', { id: todo.id, done });
 </script>
 
 <li
@@ -28,7 +28,7 @@ const toggleTodoDone = (event) => dispatch('update', { id: todo.id, done: event.
     on:dblclick={() => dispatch('edit')}
     data-cy="todo-item"
 >
-    <Checkbox checked={todo.done} on:change={toggleTodoDone} data-cy="todo-item-done" />
+    <Checkbox checked={todo.done} onChange={toggleTodoDone} data-cy="todo-item-done" />
     <div class="TodoDetails" data-cy="todo-item-details">
         <p><span>{@html todoBody}</span></p>
 

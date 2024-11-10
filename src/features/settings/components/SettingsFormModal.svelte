@@ -4,8 +4,7 @@ import { createEventDispatcher } from 'svelte';
 import Modal from '@components/Modal.svelte';
 import SettingsForm from './SettingsForm.svelte';
 
-export let show;
-export let data;
+let { show, data } = $props();
 
 const dispatch = createEventDispatcher();
 </script>
@@ -15,7 +14,7 @@ const dispatch = createEventDispatcher();
     contentClass="SettingsFormModalContent"
     closeOnEscape
     closeOnClickOutside
-    on:close
+    onClose={() => dispatch('close')}
     data-cy="settings-form-modal"
 >
     <SettingsForm {data} on:change on:submit on:cancel={() => dispatch('close')} />

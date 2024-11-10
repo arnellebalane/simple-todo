@@ -19,7 +19,7 @@ const cancel = () => dispatch('cancel');
     contentClass="AppConfirmationContent"
     closeOnEscape
     closeOnClickOutside
-    on:close={cancel}
+    onClose={cancel}
     data-cy="app-confirmation"
 >
     <p data-cy="confirm-message">{message}</p>

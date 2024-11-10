@@ -17,9 +17,11 @@ const dateFormatChoices = [
 ];
 
 const dispatch = createEventDispatcher();
-const handleChange = (value) => {
-    data = { ...data, todoDateDisplay: value };
-    dispatch('change', data);
+const handleChange = (key) => {
+    return (value) => {
+        data = { ...data, [key]: value };
+        dispatch('change', data);
+    };
 };
 </script>
 
@@ -31,8 +33,8 @@ const handleChange = (value) => {
         </label>
         <Switch
             name="openOptionalFields"
-            bind:value={data.openOptionalFields}
-            on:change
+            checked={data.openOptionalFields}
+            onChange={handleChange('openOptionalFields')}
             data-cy="open-optional-fields-toggle"
         />
     </div>
@@ -44,8 +46,8 @@ const handleChange = (value) => {
         </label>
         <Switch
             name="moveTodosAutomatically"
-            bind:value={data.moveTodosAutomatically}
-            on:change
+            checked={data.moveTodosAutomatically}
+            onChange={handleChange('moveTodosAutomatically')}
             data-cy="move-todos-automatically-toggle"
         />
     </div>
@@ -57,7 +59,7 @@ const handleChange = (value) => {
             value={data.todoDateDisplay}
             choices={dateFormatChoices}
             choiceComponent={DateDisplayChoiceField}
-            onChange={handleChange}
+            onChange={handleChange('todoDateDisplay')}
             data-cy="todo-date-display-selector"
         />
     </div>

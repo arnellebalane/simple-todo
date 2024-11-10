@@ -1,9 +1,19 @@
 <script>
+import { createEventDispatcher } from 'svelte';
+
 import Switch from '@components/Switch.svelte';
 
 import { getDefaultSettings } from '.';
 
 export let data = getDefaultSettings();
+
+const dispatch = createEventDispatcher();
+const handleChange = (key) => {
+    return (value) => {
+        data = { ...data, [key]: value };
+        dispatch('change', data);
+    };
+};
 </script>
 
 <section>
@@ -14,8 +24,8 @@ export let data = getDefaultSettings();
         </label>
         <Switch
             name="enablePrivacyMode"
-            bind:value={data.enablePrivacyMode}
-            on:change
+            checked={data.enablePrivacyMode}
+            onChange={handleChange('enablePrivacyMode')}
             data-cy="enable-privacy-mode-toggle"
         />
     </div>

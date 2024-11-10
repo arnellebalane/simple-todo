@@ -12,11 +12,17 @@ import { getDefaultSettings } from '.';
 export let data = getDefaultSettings();
 
 const dispatch = createEventDispatcher();
-const handleChange = () => dispatch('change', data);
 
 const handleQuickLinksChange = (event) => {
     data.quickLinks = event.detail;
     handleChange();
+};
+
+const handleChange = (key) => {
+    return (value) => {
+        data = { ...data, [key]: value };
+        dispatch('change', data);
+    };
 };
 </script>
 
@@ -33,7 +39,11 @@ const handleQuickLinksChange = (event) => {
     {#if frequentLinksSupported}
         <div class="Field--inline">
             <label for="frequentLinks">Show frequently visited links</label>
-            <Switch name="frequentLinks" bind:value={data.showFrequentLinks} on:change={handleChange} />
+            <Switch
+                name="frequentLinks"
+                checked={data.showFrequentLinks}
+                onChange={handleChange('showFrequentLinks')}
+            />
         </div>
     {/if}
 </section>

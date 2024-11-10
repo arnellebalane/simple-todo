@@ -33,13 +33,14 @@ const handleRequest = (event) => {
     currentRequest = event.detail;
 };
 
-const handleBackgroundChange = async () => {
-    if (!data.background) {
+const handleBackgroundChange = async (value) => {
+    data.background = value;
+    if (!value) {
         data = omit(data, allowedFields);
         data = Object.assign(data, getDefaultSettings());
         backgroundSource = data.backgroundSource;
-        handleChange();
     }
+    handleChange();
 };
 </script>
 
@@ -48,8 +49,8 @@ const handleBackgroundChange = async () => {
         <label for="background">Show background image</label>
         <Switch
             name="background"
-            bind:value={data.background}
-            on:change={handleBackgroundChange}
+            checked={data.background}
+            onChange={handleBackgroundChange}
             data-cy="toggle-background"
         />
     </div>

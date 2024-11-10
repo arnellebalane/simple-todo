@@ -1,5 +1,4 @@
 <script>
-import { createEventDispatcher } from 'svelte';
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 
 import Checkbox from '@components/Checkbox.svelte';
@@ -11,21 +10,21 @@ import { settings } from '@features/settings/store';
 import { linkify } from '../lib/linkify';
 import { escapeText } from '../lib/sanitize';
 
-export let todo;
-$: hasTags = (todo.tags?.length ?? 0) > 0;
-$: hasDate = Boolean(todo.date);
-$: hasBadges = hasTags || hasDate;
-$: todoBody = linkify(escapeText(todo.body));
+let { todo, class: componentClass, onChange, onEdit, onDelete } = $props();
 
-const dispatch = createEventDispatcher();
-const toggleTodoDone = (done) => dispatch('update', { id: todo.id, done });
+const hasTags = $derived((todo.tags?.length ?? 0) > 0);
+const hasDate = $derived(Boolean(todo.date));
+const hasBadges = $derived(hasTags || hasDate);
+const todoBody = $derived(linkify(escapeText(todo.body)));
+
+const toggleTodoDone = (done) => onChange?.({ id: todo.id, done });
 </script>
 
 <li
-    class={$$props.class}
+    class={componentClass}
     class:done={todo.done}
     class:private={$settings.enablePrivacyMode}
-    on:dblclick={() => dispatch('edit')}
+    ondblclick={onEdit}
     data-cy="todo-item"
 >
     <Checkbox checked={todo.done} onChange={toggleTodoDone} data-cy="todo-item-done" />
@@ -43,10 +42,10 @@ const toggleTodoDone = (done) => dispatch('update', { id: todo.id, done });
             </ol>
         {/if}
     </div>
-    <TodoItemMenu class="TodoItemMenu" on:edit on:delete />
+    <TodoItemMenu class="TodoItemMenu" {onEdit} {onDelete} />
 
     {#if todo[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
-        <div class="TodoItemShadow" data-cy="todo-item-shadow" />
+        <div class="TodoItemShadow" data-cy="todo-item-shadow"></div>
     {/if}
 </li>
 

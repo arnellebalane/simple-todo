@@ -5,16 +5,16 @@ import { settings } from '@features/settings/store';
 import { TODOS_DATE_ABSOLUTE } from '@features/todos/constants';
 import { formatAbsoluteDate, formatRelativeDate } from '../lib/date';
 
-export let date;
+let { date } = $props();
 
-$: dateObject = new Date(`${date}T00:00:00`);
-$: dateDisplay = (() => {
+const dateObject = $derived(new Date(`${date}T00:00:00`));
+const dateDisplay = $derived.by(() => {
     const display =
         $settings.todoDateDisplay === TODOS_DATE_ABSOLUTE
             ? formatAbsoluteDate(dateObject)
             : formatRelativeDate(dateObject);
     return display.charAt(0).toUpperCase() + display.substring(1);
-})();
+});
 </script>
 
 <Badge {icon} data-cy="todo-item-date">

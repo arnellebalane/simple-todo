@@ -15,7 +15,7 @@ function createStore() {
 
     let tagsCache = null;
 
-    function add(newTags) {
+    function add(newTags = []) {
         update((tags) => {
             for (const tag of newTags) {
                 if (!tags.hasOwnProperty(tag)) {

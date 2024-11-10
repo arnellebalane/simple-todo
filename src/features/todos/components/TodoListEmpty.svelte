@@ -1,32 +1,29 @@
 <script>
-import { createEventDispatcher } from 'svelte';
 import { dndzone, TRIGGERS } from 'svelte-dnd-action';
 
 import Button from '@components/Button.svelte';
 import TodoItem from './TodoItem.svelte';
 
-export let text;
+let { text, class: componentClass, onUpdate, onAddTodo } = $props();
 
-let todos = [];
-$: isEmpty = todos.length === 0;
-
-const dispatch = createEventDispatcher();
+let todos = $state([]);
+const isEmpty = $derived(todos.length === 0);
 
 const handleDragAndDrop = (event) => {
     todos = event.detail.items;
     if (event.detail.info.trigger == TRIGGERS.DROPPED_INTO_ZONE) {
-        dispatch('update', todos);
+        onUpdate?.(todos);
     }
 };
 </script>
 
-<div class="TodoListEmpty {$$props.class ?? ''}" data-cy="todo-list-empty">
+<div class="TodoListEmpty {componentClass}" data-cy="todo-list-empty">
     <div
         class="DropZone"
         class:absolute={isEmpty}
         use:dndzone={{ items: todos, dropTargetStyle: {} }}
-        on:consider={handleDragAndDrop}
-        on:finalize={handleDragAndDrop}
+        onconsider={handleDragAndDrop}
+        onfinalize={handleDragAndDrop}
         data-cy="todo-list-dropzone"
     >
         {#each todos as todo (todos.id)}
@@ -36,9 +33,7 @@ const handleDragAndDrop = (event) => {
 
     {#if isEmpty}
         <p>{text}</p>
-        <Button small class="Button" onClick={() => dispatch('addtodo')} data-cy="todo-list-empty-add-btn">
-            Add Todo
-        </Button>
+        <Button small class="Button" onClick={onAddTodo} data-cy="todo-list-empty-add-btn">Add Todo</Button>
     {/if}
 </div>
 

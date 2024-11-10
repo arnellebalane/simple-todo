@@ -26,24 +26,22 @@ const setShowTodoForm = (show, data) => {
     todoFormData = cloneDeep(data);
 };
 const updateTodoFormData = (data) => (todoFormData = data);
-const showTodoFormWithData = (event) => setShowTodoForm(true, event.detail);
+const showTodoFormWithData = (data) => setShowTodoForm(true, data);
 
-const updateTodoItem = (event) => todos.update(event.detail);
-const removeTodoItem = async (event) => {
+const removeTodoItem = async (todo) => {
     const confirmed = await confirmation.show({
         message: 'Are you sure you want to remove this todo?',
         confirmLabel: 'Remove',
     });
     if (confirmed) {
-        todos.remove(event.detail);
+        todos.remove(todo);
     }
 };
-const saveTodoItem = (event) => {
-    todos.save(event);
-    tags.add(event.tags);
+const saveTodoItem = (todo) => {
+    todos.save(todo);
+    tags.add(todo.tags);
     setShowTodoForm(false);
 };
-const updateTodos = (event) => todos.updateList(event.detail);
 const removeDoneTodos = () => todos.removeDone();
 const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 
@@ -78,11 +76,11 @@ onDestroy(() => disableShortcut('addTodo'));
         <TodoBoard
             class="TodoBoard"
             todos={$filteredTodos}
-            on:addtodo={showTodoFormWithData}
-            on:updatetodo={updateTodoItem}
-            on:edittodo={showTodoFormWithData}
-            on:deletetodo={removeTodoItem}
-            on:update={updateTodos}
+            onAddTodo={showTodoFormWithData}
+            onUpdateTodo={todos.update}
+            onEditTodo={showTodoFormWithData}
+            onDeleteTodo={removeTodoItem}
+            onUpdate={todos.updateList}
         />
     </div>
 

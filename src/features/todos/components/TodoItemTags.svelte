@@ -1,7 +1,7 @@
 <script>
 import Badge from '@components/Badge.svelte';
 
-export let tags = [];
+let { tags = [] } = $props();
 </script>
 
 {#each tags as tag (tag)}

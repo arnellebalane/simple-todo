@@ -72,7 +72,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
 
     <div class="RightColumn">
         {#if hasChangeLogs}
-            <WhatsNewButton pulse={!hasSeenChangeLogs} on:click={() => toggleWhatsNewModal(true)} />
+            <WhatsNewButton pulse={!hasSeenChangeLogs} onClick={() => toggleWhatsNewModal(true)} />
         {/if}
         <Button
             medium
@@ -105,7 +105,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
     onClose={handleSettingsClose}
 />
 
-<WhatsNewModal show={showWhatsNewModal} on:close={() => toggleWhatsNewModal(false)} />
+<WhatsNewModal show={showWhatsNewModal} onClose={() => toggleWhatsNewModal(false)} />
 
 <style>
 header {

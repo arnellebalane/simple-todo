@@ -1,6 +1,4 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Button from '@components/Button.svelte';
 
 import WhatsNewImageDark from '@assets/images/whats-new-empty-dark.jpg';
@@ -8,23 +6,25 @@ import WhatsNewImageLight from '@assets/images/whats-new-empty-light.jpg';
 import { icons } from '@lib/icons';
 import { changelogs, setVersionIfHigher } from '../store';
 
-const dispatch = createEventDispatcher();
+let { onClose } = $props();
 
-$: screens = [
+const screens = $derived([
     ...$changelogs,
     {
         title: `You're now up to date!`,
         imageLight: WhatsNewImageLight,
         imageDark: WhatsNewImageDark,
     },
-];
+]);
 
-let index = 0;
-$: canPrevious = index > 0;
-$: canNext = index < screens.length - 1;
-$: if (screens[index].version) {
-    setVersionIfHigher(screens[index].version);
-}
+let index = $state(0);
+const canPrevious = $derived(index > 0);
+const canNext = $derived(index < screens.length - 1);
+$effect(() => {
+    if (screens[index].version) {
+        setVersionIfHigher(screens[index].version);
+    }
+});
 
 const handlePrevious = () => (index = Math.max(index - 1, 0));
 const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
@@ -47,10 +47,10 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
         <Button
             small
             class="PreviousButton"
+            data-cy="changelogs-previous-btn"
             iconLight={icons.chevronLeftLight}
             iconDark={icons.chevronLeftDark}
             onClick={handlePrevious}
-            data-cy="changelogs-previous-btn"
         >
             Previous
         </Button>
@@ -58,7 +58,7 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
 
     <ul>
         {#each screens as screen, i}
-            <li class:active={i === index} data-cy="changelogs-page" />
+            <li class:active={i === index} data-cy="changelogs-page"></li>
         {/each}
     </ul>
 
@@ -66,15 +66,15 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
         <Button
             small
             class="NextButton"
+            data-cy="changelogs-next-btn"
             iconLight={icons.chevronRightLight}
             iconDark={icons.chevronRightDark}
             onClick={handleNext}
-            data-cy="changelogs-next-btn"
         >
             Next
         </Button>
     {:else}
-        <Button primary small onClick={() => dispatch('close')} data-cy="changelogs-close-btn">Close</Button>
+        <Button primary small onClick={onClose} data-cy="changelogs-close-btn">Close</Button>
     {/if}
 </footer>
 

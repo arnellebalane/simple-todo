@@ -1,23 +1,19 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Button from '@components/Button.svelte';
 
 import { icons } from '@lib/icons';
 
-let { pulse = false } = $props();
-
-const dispatch = createEventDispatcher();
+let { pulse = false, onClick } = $props();
 </script>
 
 <div>
     <Button
         medium
         class="WhatsNewButton {pulse ? 'pulse' : ''}"
+        data-cy="whats-new-btn"
         iconLight={icons.launchLight}
         iconDark={icons.launchDark}
-        onClick={() => dispatch('click')}
-        data-cy="whats-new-btn"
+        {onClick}
     >
         What's New
     </Button>

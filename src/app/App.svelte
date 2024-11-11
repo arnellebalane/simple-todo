@@ -14,14 +14,15 @@ import { confirmation } from '@app/stores/confirmation';
 import { search } from '@features/search/store';
 import { disableShortcut, enableShortcut } from '@features/shortcuts';
 import { tags } from '@features/tags/store';
+import { initialTodoFormData } from '@features/todos';
 import { todos } from '@features/todos/store';
 import { config } from '@lib/config';
 
 const filteredTodos = $derived(search.filterTodos($todos));
 
-let todoFormData = $state({});
+let todoFormData = $state(initialTodoFormData);
 let showTodoForm = $state(false);
-const setShowTodoForm = (show, data) => {
+const setShowTodoForm = (show, data = initialTodoFormData) => {
     showTodoForm = show;
     todoFormData = cloneDeep(data);
 };

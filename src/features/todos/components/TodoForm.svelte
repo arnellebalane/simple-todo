@@ -9,15 +9,7 @@ import { disableShortcut, enableShortcut } from '@features/shortcuts';
 import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
 import { escapeText, sanitizeText, unsanitizeText } from '../lib/sanitize';
 
-let {
-    data = $bindable({
-        list: TODOS_EVENTUALLY,
-    }),
-    class: componentClass,
-    onChange,
-    onSubmit,
-    onCancel,
-} = $props();
+let { data = $bindable(), class: componentClass, onChange, onSubmit, onCancel } = $props();
 
 if (data.body) {
     data.body = unsanitizeText(escapeText(data.body));

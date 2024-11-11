@@ -18,11 +18,21 @@ import { config } from '@lib/config';
 import { APP_VERSION } from '@lib/constants';
 import { icons } from '@lib/icons';
 
-let settingsUnsubscribe = null;
-let settingsFormData = {};
-let showSettingsForm = false;
-const toggleSettingsForm = (show) => {
-    showSettingsForm = show;
+const hasChangeLogs = $derived($changelogs.length > 0);
+const hasSeenChangeLogs = $derived($version === APP_VERSION);
+const hasQuickLinks = $derived($settings.quickLinks?.length ?? 0 > 0);
+const showFrequentLinks = $derived($frequentLinks.length > 0 && $settings.showFrequentLinks);
+
+const showChromeWebstoreButton = config.VITE_PUBLIC_IS_WEB_BUILD === 'true';
+
+let showWhatsNewModal = $state(false);
+const toggleWhatsNewModal = (show) => (showWhatsNewModal = show);
+
+let settingsUnsubscribe = $state(null);
+let settingsFormData = $state({});
+let showSettingsFormModal = $state(false);
+const toggleSettingsFormModal = (show) => {
+    showSettingsFormModal = show;
     if (show) {
         settingsUnsubscribe = settings.subscribe((value) => {
             settingsFormData = value;
@@ -34,26 +44,15 @@ const toggleSettingsForm = (show) => {
     }
 };
 
-let showWhatsNewModal = false;
-const toggleWhatsNewModal = (show) => (showWhatsNewModal = show);
-$: hasChangeLogs = $changelogs.length > 0;
-$: hasSeenChangeLogs = $version === APP_VERSION;
-
-$: hasQuickLinks = $settings.quickLinks?.length ?? 0 > 0;
-$: showFrequentLinks = $frequentLinks.length > 0 && $settings.showFrequentLinks;
-
-const showChromeWebstoreButton = config.VITE_PUBLIC_IS_WEB_BUILD === 'true';
-
-const handleSettingsChange = (data) => settings.preview(data);
 const handleSettingsSubmit = (data) => {
     settings.save(data);
     tags.save();
-    toggleSettingsForm(false);
+    toggleSettingsFormModal(false);
 };
 const handleSettingsClose = () => {
     settings.restore();
     tags.restore();
-    toggleSettingsForm(false);
+    toggleSettingsFormModal(false);
 };
 
 onMount(() => enableShortcut('togglePrivacyMode', settings.togglePrivacyMode));
@@ -78,7 +77,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
             medium
             iconLight={icons.settingsLight}
             iconDark={icons.settingsDark}
-            onClick={() => toggleSettingsForm(true)}
+            onClick={() => toggleSettingsFormModal(true)}
             data-cy="settings-btn"
         >
             Settings
@@ -98,9 +97,9 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
 </header>
 
 <SettingsFormModal
-    show={showSettingsForm}
+    show={showSettingsFormModal}
     data={settingsFormData}
-    onChange={handleSettingsChange}
+    onChange={settings.preview}
     onSubmit={handleSettingsSubmit}
     onClose={handleSettingsClose}
 />

@@ -6,12 +6,13 @@ import CustomUrlItem from './CustomUrlItem.svelte';
 
 let { links = [], onChange, onRemove } = $props();
 
-let sortableLinks = $state(
-    links
+let sortableLinks = $state([]);
+$effect(() => {
+    sortableLinks = links
         .slice()
         .reverse()
-        .map((link) => ({ ...link, id: link.url })),
-);
+        .map((link) => ({ ...link, id: link.url }));
+});
 
 const transformDraggedElement = (element) => {
     element.classList.add('CustomUrl-dragged');

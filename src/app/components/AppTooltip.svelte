@@ -1,5 +1,5 @@
 <script>
-import { onDestroy, onMount } from 'svelte';
+import { onDestroy, onMount, tick } from 'svelte';
 import { portal } from 'svelte-portal';
 
 import { arrow, computePosition, offset, shift } from '@floating-ui/dom';
@@ -7,8 +7,8 @@ import { arrow, computePosition, offset, shift } from '@floating-ui/dom';
 let target;
 let tooltip;
 let tooltipArrow;
-let message = '';
-let styles = '';
+let message = $state('');
+let styles = $state('');
 
 const handleEnter = async (event) => {
     if (!event.target.dataset?.tooltip) {
@@ -25,7 +25,13 @@ const handleEnter = async (event) => {
     await positionTooltip();
 };
 
-const handleLeave = (event) => {
+const handleLeave = async (event) => {
+    // When the target of the tooltip is a button and the properties of that button
+    // changes, it causes component to trigger an update, causing Svelte to throw
+    // a `state_unsafe_mutation` runtime error. This ensures that all DOM updates
+    // have been made before updating the local states.
+    await tick();
+
     if (event.target !== target) {
         return;
     }
@@ -55,7 +61,7 @@ onDestroy(() => {
 </script>
 
 <p class="AppTooltip" bind:this={tooltip} use:portal={'body'} style={styles} data-cy="app-tooltip">
-    <span class="AppTooltip_Arrow" bind:this={tooltipArrow} />
+    <span class="AppTooltip_Arrow" bind:this={tooltipArrow}></span>
     {message}
 </p>
 

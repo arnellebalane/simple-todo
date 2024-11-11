@@ -13,12 +13,12 @@ import { search } from '../store';
 
 const { query, tag } = search;
 
-$: enableTextFilter = $settings.enableTextFilter;
-$: enableTagsFilter = $settings.enableTagsFilter && !isEmpty($tags);
-$: enableSearchForm = enableTextFilter || enableTagsFilter;
+const enableTextFilter = $derived($settings.enableTextFilter);
+const enableTagsFilter = $derived($settings.enableTagsFilter && !isEmpty($tags));
+const enableSearchForm = $derived(enableTextFilter || enableTagsFilter);
 
-$: hasSearchFilters = Boolean($query) || Boolean($tag);
-$: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
+const hasSearchFilters = $derived(Boolean($query) || Boolean($tag));
+const tagsChoices = $derived(orderBy($tags, (tag) => tag.label.toUpperCase()));
 
 const handleKeyDown = (event) => {
     if (event.key === 'Escape') {
@@ -26,7 +26,7 @@ const handleKeyDown = (event) => {
     }
 };
 
-let searchForm;
+let searchForm = $state();
 const focusSearchForm = () => {
     if (searchForm) {
         searchForm.firstElementChild.focus();
@@ -41,8 +41,8 @@ onDestroy(() => disableShortcut('focusSearch'));
     <form
         class="SearchForm"
         bind:this={searchForm}
-        on:submit|preventDefault
-        on:keydown={handleKeyDown}
+        onsubmit={(event) => event.preventDefault()}
+        onkeydowncapture={handleKeyDown}
         data-cy="search-form"
     >
         {#if enableTextFilter}

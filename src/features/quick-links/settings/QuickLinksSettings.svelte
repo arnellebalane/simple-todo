@@ -9,10 +9,6 @@ import { getDefaultSettings } from '.';
 
 let { data = getDefaultSettings(), onChange } = $props();
 
-const handleQuickLinksChange = (event) => {
-    onChange?.({ ...data, quickLinks: event.detail });
-};
-
 const handleChange = (key) => {
     return (value) => onChange?.({ ...data, [key]: value });
 };
@@ -21,11 +17,7 @@ const handleChange = (key) => {
 <section>
     <div class="Field">
         <label for="quicklinks">Select the apps to add a quick link</label>
-        <QuickLinksField
-            choices={BUILTIN_QUICK_LINKS}
-            bind:value={data.quickLinks}
-            on:change={handleQuickLinksChange}
-        />
+        <QuickLinksField choices={BUILTIN_QUICK_LINKS} value={data.quickLinks} onChange={handleChange('quickLinks')} />
     </div>
 
     {#if frequentLinksSupported}

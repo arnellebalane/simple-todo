@@ -1,5 +1,5 @@
 <script>
-export let links = [];
+let { links = [] } = $props();
 </script>
 
 <div data-cy="quick-links">

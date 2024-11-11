@@ -1,5 +1,4 @@
 <script>
-import { createEventDispatcher } from 'svelte';
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 
 import Button from '@components/Button.svelte';
@@ -7,16 +6,14 @@ import Button from '@components/Button.svelte';
 import { confirmation } from '@app/stores/confirmation';
 import { icons } from '@lib/icons';
 
-export let link;
-
-const dispatch = createEventDispatcher();
+let { link, onRemove } = $props();
 
 const handleRemove = async () => {
     const confirmed = await confirmation.show({
         message: 'Are you sure you want to delete this custom quick link?',
     });
     if (confirmed) {
-        dispatch('remove');
+        onRemove?.();
     }
 };
 </script>
@@ -54,7 +51,7 @@ const handleRemove = async () => {
     </div>
 
     {#if link[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
-        <div class="CustomUrl_Shadow" data-cy="custom-url-item-shadow" />
+        <div class="CustomUrl_Shadow" data-cy="custom-url-item-shadow"></div>
     {/if}
 </li>
 

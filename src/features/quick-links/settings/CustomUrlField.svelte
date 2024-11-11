@@ -1,25 +1,22 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Button from '@components/Button.svelte';
 
 import axios from '@lib/axios';
 
-export let name;
-export let error = '';
+let { name, error = '', class: componentClass, onError, onData } = $props();
 
-const form = `quick-links-custom-url-field-${name}`;
-let value = '';
-let isLoading = false;
+const form = $derived(`quick-links-custom-url-field-${name}`);
+let value = $state('');
+let isLoading = $state(false);
 
-const dispatch = createEventDispatcher();
+const handleSubmit = async (event) => {
+    event.preventDefault();
 
-const handleSubmit = async () => {
-    error = '';
+    onError?.('');
     try {
         new URL(value);
     } catch {
-        error = 'Please input a valid URL.';
+        onError?.('Please input a valid URL.');
         return;
     }
 
@@ -28,33 +25,29 @@ const handleSubmit = async () => {
         const params = { url: value };
         const response = await axios.get('/get-quick-link-details', { params });
         value = '';
-        dispatch('data', response.data);
+        onData?.(response.data);
     } catch (err) {
         console.error(err);
-        error = 'Failed to fetch quick link data, please try again.';
+        onError?.('Failed to fetch quick link data, please try again.');
     }
     isLoading = false;
 };
-
-const handleInput = () => {
-    error = '';
-};
 </script>
 
-<form class={$$props.class} id={form} on:submit|preventDefault={handleSubmit}>
+<form class={componentClass} id={form} onsubmit={handleSubmit}>
     <input
+        {form}
+        {name}
+        id={name}
         type="text"
         placeholder="Example: https://arnellebalane.com"
         bind:value
         class:error
-        id={name}
         disabled={isLoading}
-        {name}
-        {form}
-        on:input={handleInput}
+        oninput={() => onError('')}
         data-cy="custom-url-field-input"
     />
-    <Button class="Button" disabled={isLoading} {form} data-cy="custom-url-field-button">Add Link</Button>
+    <Button disabled={isLoading} {form} data-cy="custom-url-field-button">Add Link</Button>
 
     {#if error}
         <p class="Error" data-cy="custom-url-field-error">{error}</p>

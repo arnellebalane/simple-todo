@@ -1,38 +1,37 @@
 <script>
 import dayjs from 'dayjs';
-import { createEventDispatcher } from 'svelte';
 
 import Button from '@components/Button.svelte';
 import SearchForm from '@features/search/components/SearchForm.svelte';
 
 import { removeDoneTimer, todos } from '@features/todos/store';
 
-$: canUndoRemove = $removeDoneTimer > 0;
-$: hasDoneTodos = $todos.some((todo) => todo.done);
+let { class: componentClass, onAddTodo, onRemoveDone, onUndoRemoveDone } = $props();
 
-const dispatch = createEventDispatcher();
+const canUndoRemove = $derived($removeDoneTimer > 0);
+const hasDoneTodos = $derived($todos.some((todo) => todo.done));
 
 const today = dayjs().format('dddd, MMMM D');
 </script>
 
-<header class={$$props.class} data-cy="app-header">
+<header class={componentClass} data-cy="app-header">
     <h1 data-cy="today">{today}</h1>
 
     <div class="HeaderActions">
         <SearchForm />
 
         <div class="HeaderButtons">
-            <Button primary onClick={() => dispatch('addtodo')} data-cy="add-todo-btn">Add Todo</Button>
+            <Button primary onClick={onAddTodo} data-cy="add-todo-btn">Add Todo</Button>
             {#if canUndoRemove}
-                <Button class="UndoRemoveButton" onClick={() => dispatch('undoremovedone')} data-cy="undo-remove-btn">
-                    <div class="Progress" style="--progress: {$removeDoneTimer * 100}%" />
+                <Button class="UndoRemoveButton" onClick={onUndoRemoveDone} data-cy="undo-remove-btn">
+                    <div class="Progress" style="--progress: {$removeDoneTimer * 100}%"></div>
                     <span>Undo Remove</span>
                 </Button>
             {:else}
                 <Button
                     text
                     class="RemoveDoneButton"
-                    onClick={() => dispatch('removedone')}
+                    onClick={onRemoveDone}
                     disabled={!hasDoneTodos}
                     data-cy="remove-done-btn"
                 >

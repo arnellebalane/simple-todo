@@ -1,17 +1,15 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Button from '@components/Button.svelte';
 import Modal from '@components/Modal.svelte';
 
-export let show = false;
-export let message = 'Are you sure?';
-export let confirmLabel = 'Confirm';
-export let cancelLabel = 'Cancel';
-
-const dispatch = createEventDispatcher();
-const confirm = () => dispatch('confirm');
-const cancel = () => dispatch('cancel');
+let {
+    show = false,
+    message = 'Are you sure?',
+    confirmLabel = 'Confirm',
+    cancelLabel = 'Cancel',
+    onConfirm,
+    onCancel,
+} = $props();
 </script>
 
 <Modal
@@ -19,14 +17,14 @@ const cancel = () => dispatch('cancel');
     contentClass="AppConfirmationContent"
     closeOnEscape
     closeOnClickOutside
-    onClose={cancel}
+    onClose={onCancel}
     data-cy="app-confirmation"
 >
     <p data-cy="confirm-message">{message}</p>
 
     <div>
-        <Button primary medium onClick={confirm} data-cy="confirm-btn">{confirmLabel}</Button>
-        <Button text medium onClick={cancel} data-cy="cancel-btn">{cancelLabel}</Button>
+        <Button primary medium onClick={onConfirm} data-cy="confirm-btn">{confirmLabel}</Button>
+        <Button text medium onClick={onCancel} data-cy="cancel-btn">{cancelLabel}</Button>
     </div>
 </Modal>
 

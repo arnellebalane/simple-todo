@@ -1,8 +1,8 @@
 <script>
 import { settings } from '@features/settings/store';
 
-$: image = $settings.backgroundImage;
-$: isUnsplashImage = $settings.backgroundImage?.user_link;
+const image = $derived($settings.backgroundImage);
+const isUnsplashImage = $derived($settings.backgroundImage?.user_link);
 </script>
 
 <footer>

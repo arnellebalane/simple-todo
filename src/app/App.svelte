@@ -69,9 +69,9 @@ onDestroy(() => disableShortcut('addTodo'));
     <div class="AppContent">
         <AppHeader
             class="AppHeader"
-            on:addtodo={() => setShowTodoForm(true)}
-            on:removedone={removeDoneTodos}
-            on:undoremovedone={undoRemoveDoneTodos}
+            onAddTodo={() => setShowTodoForm(true)}
+            onRemoveDone={removeDoneTodos}
+            onUndoRemoveDone={undoRemoveDoneTodos}
         />
         <TodoBoard
             class="TodoBoard"
@@ -100,8 +100,8 @@ onDestroy(() => disableShortcut('addTodo'));
     message={$confirmation?.message}
     confirmLabel={$confirmation?.confirmLabel}
     cancelLabel={$confirmation?.cancelLabel}
-    on:confirm={confirmation.confirm}
-    on:cancel={confirmation.cancel}
+    onConfirm={confirmation.confirm}
+    onCancel={confirmation.cancel}
 />
 <AppTooltip />
 

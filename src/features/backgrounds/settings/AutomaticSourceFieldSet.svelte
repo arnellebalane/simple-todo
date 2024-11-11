@@ -1,5 +1,5 @@
 <script>
-import { createEventDispatcher, onMount } from 'svelte';
+import { onMount } from 'svelte';
 
 import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
@@ -12,10 +12,14 @@ import {
     BACKGROUND_SOURCE_AUTOMATIC,
 } from '../constants';
 
-export let data = {
-    backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
-};
-export let disabled = false;
+let {
+    data = {
+        backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
+    },
+    disabled = false,
+    onChange,
+    onRequest,
+} = $props();
 
 onMount(() => {
     if (!data.backgroundImage) {
@@ -29,29 +33,30 @@ const backgroundRefreshFrequencyChoices = [
     { label: 'Manually', value: BACKGROUND_REFRESH_MANUALLY },
 ];
 
-const dispatch = createEventDispatcher();
-const handleChange = () => dispatch('change', data);
-const handleRequest = (source = null) => dispatch('request', source);
-
 const handleRefreshFrequencyChange = (value) => {
-    data.backgroundRefreshFrequency = value;
-    data.backgroundSource = BACKGROUND_SOURCE_AUTOMATIC;
-    handleChange();
+    onChange?.({
+        ...data,
+        backgroundRefreshFrequency: value,
+        backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
+    });
 };
 
 const refreshBackgroundImage = async () => {
     const { source, request } = backgrounds.getBackgroundImage();
-    handleRequest(source);
+    onRequest?.(source);
     try {
-        data.backgroundImage = await request;
-        data.backgroundImageLastUpdate = Date.now();
-        data.backgroundSource = BACKGROUND_SOURCE_AUTOMATIC;
-        delete data.backgroundPreloaded;
-        handleChange();
+        const updated = {
+            ...data,
+            backgroundImage: await request,
+            backgroundImageLastUpdate: Date.now(),
+            backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
+        };
+        delete updated.backgroundPreloaded;
+        onChange?.(updated);
     } catch (error) {
         console.error(error);
     }
-    handleRequest();
+    onRequest?.();
 };
 </script>
 

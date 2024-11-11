@@ -22,12 +22,11 @@ const backgroundSourceChoices = [
 let currentRequest = $state();
 const hasCurrentRequest = $derived(Boolean(currentRequest));
 
-const handleChange = () => onChange?.(data);
-const handleRequest = (event) => {
-    if (event.detail) {
+const handleRequest = (request) => {
+    if (request) {
         currentRequest?.cancel();
     }
-    currentRequest = event.detail;
+    currentRequest = request;
 };
 
 const handleBackgroundChange = async (value) => {
@@ -59,24 +58,13 @@ const handleBackgroundChange = async (value) => {
             disabled={hasCurrentRequest}
             choices={backgroundSourceChoices}
             choiceComponent={SourceChoiceField}
-            onChange={handleChange}
             data-cy="background-source-selector"
         />
 
         {#if backgroundSource === BACKGROUND_SOURCE_AUTOMATIC}
-            <AutomaticSourceFieldSet
-                {data}
-                disabled={hasCurrentRequest}
-                on:request={handleRequest}
-                on:change={handleChange}
-            />
+            <AutomaticSourceFieldSet {data} disabled={hasCurrentRequest} onRequest={handleRequest} {onChange} />
         {:else}
-            <CustomSourceFieldSet
-                {data}
-                disabled={hasCurrentRequest}
-                on:request={handleRequest}
-                on:change={handleChange}
-            />
+            <CustomSourceFieldSet {data} disabled={hasCurrentRequest} onRequest={handleRequest} {onChange} />
         {/if}
     {/if}
 </section>

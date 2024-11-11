@@ -1,23 +1,18 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Button from '@components/Button.svelte';
 
 import { backgrounds } from '@features/backgrounds/store';
 
-export let name;
-export let disabled = false;
+let { name, disabled = false, onRequest, onChange } = $props();
 
-const form = `image-url-field-${name}`;
-let value = '';
-let error = '';
-const clearError = () => (error = '');
+const form = $derived(`image-url-field-${name}`);
+let value = $state('');
+let error = $state('');
 
-const dispatch = createEventDispatcher();
-const handleRequest = (source = null) => dispatch('request', source);
+const handleSubmit = async (event) => {
+    event.preventDefault();
 
-const handleSubmit = async () => {
-    clearError();
+    error = '';
     try {
         new URL(value);
     } catch {
@@ -26,28 +21,28 @@ const handleSubmit = async () => {
     }
 
     const { source, request } = backgrounds.getBackgroundImage(value);
-    handleRequest(source);
+    onRequest?.(source);
     try {
-        dispatch('change', await request);
+        onChange?.(await request);
     } catch (err) {
         console.error(err);
         error = err.response?.data?.message ?? 'Something went wrong, please try again.';
     }
-    handleRequest();
+    onRequest?.();
 };
 </script>
 
-<form id={form} on:submit|preventDefault={handleSubmit}>
+<form id={form} onsubmit={handleSubmit}>
     <input
+        {name}
+        {form}
+        {disabled}
+        id={name}
         type="text"
         placeholder="Example: https://unsplash.com/photos/ppEfmAINyns"
         bind:value
         class:error
-        id={name}
-        {name}
-        {form}
-        {disabled}
-        on:input={clearError}
+        oninput={() => (error = '')}
         data-cy="image-url-field-input"
     />
 

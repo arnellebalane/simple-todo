@@ -1,35 +1,31 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Button from '@components/Button.svelte';
 
-export let name;
-export let disabled = false;
+let { name, disabled = false, onRequest, onChange } = $props();
 
-$: label = value ? value.name : 'Choose an image';
-const form = `image-upload-field-${name}`;
-let value = null;
-let error = '';
+const label = $derived(value ? value.name : 'Choose an image');
+const form = $derived(`image-upload-field-${name}`);
+let value = $state(null);
+let error = $state('');
 
-const dispatch = createEventDispatcher();
-const handleRequest = (source = null) => dispatch('request', source);
+const handleSubmit = async (event) => {
+    event.preventDefault();
 
-const handleSubmit = async () => {
     error = '';
     if (!value.type.startsWith('image/')) {
         error = 'Selected file is not an image.';
         return;
     }
 
-    handleRequest({ cancel: () => {} });
-    dispatch('change', {
+    onRequest?.({ cancel: () => {} });
+    onChange?.({
         photo_url: await new Promise((resolve) => {
             const reader = new FileReader();
             reader.onload = (event) => resolve(event.target.result);
             reader.readAsDataURL(value);
         }),
     });
-    handleRequest();
+    onRequest?.();
 };
 
 const selectImageFile = (event) => {
@@ -38,18 +34,17 @@ const selectImageFile = (event) => {
 };
 </script>
 
-<form id={form} on:submit|preventDefault={handleSubmit}>
+<form id={form} onsubmit={handleSubmit}>
     <label>
         <span class:error>{label}</span>
         <input
             type="file"
             accept="image/*"
             id={name}
-            bind:files={value}
             {name}
             {form}
             {disabled}
-            on:change={selectImageFile}
+            onchange={selectImageFile}
             data-cy="image-upload-field-input"
         />
     </label>

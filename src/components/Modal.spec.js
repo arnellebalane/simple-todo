@@ -1,107 +1,106 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import Modal from './Modal.svelte';
 
 describe('Modal', () => {
     it('hides modal when show prop is false', () => {
-        cy.mount(Modal, {
+        render(Modal, {
             props: {
                 'data-testid': 'modal',
             },
         });
 
-        cy.get('[data-testid="modal"]').should('not.exist');
+        expect(screen.queryByTestId('modal')).not.toBeInTheDocument();
     });
 
     it('displays modal when show prop is true', () => {
-        cy.mount(Modal, {
+        render(Modal, {
             props: {
                 show: true,
                 'data-testid': 'modal',
             },
         });
 
-        cy.get('[data-testid="modal"]').should('be.visible');
+        expect(screen.getByTestId('modal')).toBeInTheDocument();
     });
 
-    it('does not dispatch "close" event when pressing escape key and closeOnEscape is false', () => {
-        const onClose = cy.spy();
+    it('does not call "onClose" when pressing escape key and closeOnEscape is false', async () => {
+        const onClose = vi.fn();
 
-        cy.mount(Modal, {
+        render(Modal, {
             props: {
                 show: true,
                 closeOnEscape: false,
+                onClose,
             },
-        }).then(({ component }) => {
-            component.$on('close', onClose);
         });
+        await userEvent.keyboard('{Escape}');
 
-        cy.get('body').type('{esc}');
-        cy.wrap(onClose).should('not.have.been.called');
+        expect(onClose).not.toHaveBeenCalled();
     });
 
-    it('dispatches "close" event when pressing escape key and closeOnEscape is true', () => {
-        const onClose = cy.spy();
+    it('calls "onClose" when pressing escape key and closeOnEscape is true', async () => {
+        const onClose = vi.fn();
 
-        cy.mount(Modal, {
+        render(Modal, {
             props: {
                 show: true,
                 closeOnEscape: true,
+                onClose,
             },
-        }).then(({ component }) => {
-            component.$on('close', onClose);
         });
+        await userEvent.keyboard('{Escape}');
 
-        cy.get('body').type('{esc}');
-        cy.wrap(onClose).should('have.been.called');
+        expect(onClose).toHaveBeenCalled();
     });
 
-    it('does not dispatch "close" event when clicking outside the modal content and closeOnClickOutside is false', () => {
-        const onClose = cy.spy();
+    it('does not call "onClose" when clicking outside the modal content and closeOnClickOutside is false', async () => {
+        const onClose = vi.fn();
 
-        cy.mount(Modal, {
+        render(Modal, {
             props: {
                 show: true,
                 closeOnClickOutside: false,
                 'data-testid': 'modal',
+                onClose,
             },
-        }).then(({ component }) => {
-            component.$on('close', onClose);
         });
+        await userEvent.click(screen.getByTestId('modal'));
 
-        cy.get('[data-testid="modal"]').click();
-        cy.wrap(onClose).should('not.have.been.called');
+        expect(onClose).not.toHaveBeenCalled();
     });
 
-    it('does not dispatch "close" event when clicking inside the modal content', () => {
-        const onClose = cy.spy();
+    it('does not call "onClose" when clicking inside the modal content', async () => {
+        const onClose = vi.fn();
 
-        cy.mount(Modal, {
+        render(Modal, {
             props: {
                 show: true,
                 closeOnClickOutside: true,
                 'data-testid': 'modal',
+                onClose,
             },
-        }).then(({ component }) => {
-            component.$on('close', onClose);
         });
+        await userEvent.click(screen.getByTestId('modal-content'));
 
-        cy.get('[data-testid="modal-content"]').click();
-        cy.wrap(onClose).should('not.have.been.called');
+        expect(onClose).not.toHaveBeenCalled();
     });
 
-    it('dispatches "close" event when clicking outside the modal content and closeOnClickOutside is true', () => {
-        const onClose = cy.spy();
+    it('calls "onClose" when clicking outside the modal content and closeOnClickOutside is true', async () => {
+        const onClose = vi.fn();
 
-        cy.mount(Modal, {
+        render(Modal, {
             props: {
                 show: true,
                 closeOnClickOutside: true,
                 'data-testid': 'modal',
+                onClose,
             },
-        }).then(({ component }) => {
-            component.$on('close', onClose);
         });
+        await userEvent.click(screen.getByTestId('modal'));
 
-        cy.get('[data-testid="modal"]').click();
-        cy.wrap(onClose).should('have.been.called');
+        expect(onClose).toHaveBeenCalled();
     });
 });

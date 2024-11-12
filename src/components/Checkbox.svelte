@@ -1,7 +1,7 @@
 <script>
 let { checked = false, class: componentClass, onChange, ...restProps } = $props();
 
-const handleChange = (event) => onChange(event.target.checked);
+const handleChange = (event) => onChange?.(event.target.checked);
 </script>
 
 <label class={componentClass}>

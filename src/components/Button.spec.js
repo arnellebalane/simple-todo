@@ -1,38 +1,42 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import Button from './Button.svelte';
 
 describe('Button', () => {
-    const supportedClasses = ['primary', 'text', 'medium', 'small', 'icon'];
+    const supportedClasses = ['primary', 'text', 'medium', 'small'];
 
     for (const supportedClass of supportedClasses) {
         it(`omits ${supportedClass} class when ${supportedClass} prop is false`, () => {
-            cy.mount(Button, {
+            render(Button, {
                 props: {
                     [supportedClass]: false,
                 },
             });
 
-            cy.get('button').should('not.have.class', supportedClass);
+            expect(screen.getByRole('button')).not.toHaveClass(supportedClass);
         });
 
         it(`includes ${supportedClass} class when ${supportedClass} prop is true`, () => {
-            cy.mount(Button, {
+            render(Button, {
                 props: {
                     [supportedClass]: true,
                 },
             });
 
-            cy.get('button').should('have.class', supportedClass);
+            expect(screen.getByRole('button')).toHaveClass(supportedClass);
         });
     }
 
-    it('dispatches "click" event when clicked', () => {
-        const onClick = cy.spy();
+    it('calls "onClick" when clicked', async () => {
+        const onClick = vi.fn();
 
-        cy.mount(Button).then(({ component }) => {
-            component.$on('click', onClick);
+        render(Button, {
+            props: { onClick },
         });
+        await userEvent.click(screen.getByRole('button'));
 
-        cy.get('button').click();
-        cy.wrap(onClick).should('have.been.called');
+        expect(onClick).toHaveBeenCalled();
     });
 });

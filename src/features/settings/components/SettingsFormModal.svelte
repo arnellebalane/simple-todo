@@ -8,7 +8,7 @@ let { show, data, onChange, onSubmit, onClose } = $props();
 <Modal
     {show}
     contentClass="SettingsFormModalContent"
-    data-cy="settings-form-modal"
+    data-testid="settings-form-modal"
     closeOnEscape
     closeOnClickOutside
     {onClose}

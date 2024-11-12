@@ -13,7 +13,7 @@ describe('WhatsNewModal', () => {
     it('hides the modal when show prop is false', () => {
         cy.mount(WhatsNewModal);
 
-        cy.get('[data-cy="whats-new-modal"]').should('not.exist');
+        cy.get('[data-testid="whats-new-modal"]').should('not.exist');
     });
 
     it('displays the modal when show prop is true', () => {
@@ -23,6 +23,6 @@ describe('WhatsNewModal', () => {
             },
         });
 
-        cy.get('[data-cy="whats-new-modal"]').should('be.visible');
+        cy.get('[data-testid="whats-new-modal"]').should('be.visible');
     });
 });

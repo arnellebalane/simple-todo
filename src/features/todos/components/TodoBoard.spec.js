@@ -15,9 +15,9 @@ describe('TodoBoard', () => {
             },
         });
 
-        cy.get('[data-cy="todo-list-today"]').should('contain.text', todo.body);
-        cy.get('[data-cy="todo-list-this-week"]').should('not.contain.text', todo.body);
-        cy.get('[data-cy="todo-list-eventually"]').should('not.contain.text', todo.body);
+        cy.get('[data-testid="todo-list-today"]').should('contain.text', todo.body);
+        cy.get('[data-testid="todo-list-this-week"]').should('not.contain.text', todo.body);
+        cy.get('[data-testid="todo-list-eventually"]').should('not.contain.text', todo.body);
     });
 
     it('displays todos this week in the correct list', () => {
@@ -29,9 +29,9 @@ describe('TodoBoard', () => {
             },
         });
 
-        cy.get('[data-cy="todo-list-today"]').should('not.contain.text', todo.body);
-        cy.get('[data-cy="todo-list-this-week"]').should('contain.text', todo.body);
-        cy.get('[data-cy="todo-list-eventually"]').should('not.contain.text', todo.body);
+        cy.get('[data-testid="todo-list-today"]').should('not.contain.text', todo.body);
+        cy.get('[data-testid="todo-list-this-week"]').should('contain.text', todo.body);
+        cy.get('[data-testid="todo-list-eventually"]').should('not.contain.text', todo.body);
     });
 
     it('displays todos eventually in the correct list', () => {
@@ -43,9 +43,9 @@ describe('TodoBoard', () => {
             },
         });
 
-        cy.get('[data-cy="todo-list-today"]').should('not.contain.text', todo.body);
-        cy.get('[data-cy="todo-list-this-week"]').should('not.contain.text', todo.body);
-        cy.get('[data-cy="todo-list-eventually"]').should('contain.text', todo.body);
+        cy.get('[data-testid="todo-list-today"]').should('not.contain.text', todo.body);
+        cy.get('[data-testid="todo-list-this-week"]').should('not.contain.text', todo.body);
+        cy.get('[data-testid="todo-list-eventually"]').should('contain.text', todo.body);
     });
 
     it('dispatches "addtodo" event when add todo button in today list is clicked', () => {
@@ -55,7 +55,7 @@ describe('TodoBoard', () => {
             component.$on('addtodo', addTodoSpy);
         });
 
-        cy.get('[data-cy="todo-list-today"] [data-cy="todo-list-empty-add-btn"]').click();
+        cy.get('[data-testid="todo-list-today"] [data-testid="todo-list-empty-add-btn"]').click();
         cy.wrap(addTodoSpy).should(
             'have.been.calledWith',
             Cypress.sinon.match({
@@ -73,7 +73,7 @@ describe('TodoBoard', () => {
             component.$on('addtodo', addTodoSpy);
         });
 
-        cy.get('[data-cy="todo-list-this-week"] [data-cy="todo-list-empty-add-btn"]').click();
+        cy.get('[data-testid="todo-list-this-week"] [data-testid="todo-list-empty-add-btn"]').click();
         cy.wrap(addTodoSpy).should(
             'have.been.calledWith',
             Cypress.sinon.match({
@@ -91,7 +91,7 @@ describe('TodoBoard', () => {
             component.$on('addtodo', addTodoSpy);
         });
 
-        cy.get('[data-cy="todo-list-eventually"] [data-cy="todo-list-empty-add-btn"]').click();
+        cy.get('[data-testid="todo-list-eventually"] [data-testid="todo-list-empty-add-btn"]').click();
         cy.wrap(addTodoSpy).should(
             'have.been.calledWith',
             Cypress.sinon.match({
@@ -114,7 +114,7 @@ describe('TodoBoard', () => {
             component.$on('update', updateSpy);
         });
 
-        cy.get('[data-cy="todo-list-this-week"] [data-cy="todo-list-dropzone"]').trigger('finalize', {
+        cy.get('[data-testid="todo-list-this-week"] [data-testid="todo-list-dropzone"]').trigger('finalize', {
             detail: {
                 items: [todo],
                 info: {

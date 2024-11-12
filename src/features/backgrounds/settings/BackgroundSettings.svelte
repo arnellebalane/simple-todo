@@ -47,7 +47,7 @@ const handleBackgroundChange = async (value) => {
             name="background"
             checked={data.background}
             onChange={handleBackgroundChange}
-            data-cy="toggle-background"
+            data-testid="toggle-background"
         />
     </div>
 
@@ -58,7 +58,7 @@ const handleBackgroundChange = async (value) => {
             disabled={hasCurrentRequest}
             choices={backgroundSourceChoices}
             choiceComponent={SourceChoiceField}
-            data-cy="background-source-selector"
+            data-testid="background-source-selector"
         />
 
         {#if backgroundSource === BACKGROUND_SOURCE_AUTOMATIC}

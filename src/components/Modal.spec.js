@@ -4,22 +4,22 @@ describe('Modal', () => {
     it('hides modal when show prop is false', () => {
         cy.mount(Modal, {
             props: {
-                'data-cy': 'modal',
+                'data-testid': 'modal',
             },
         });
 
-        cy.get('[data-cy="modal"]').should('not.exist');
+        cy.get('[data-testid="modal"]').should('not.exist');
     });
 
     it('displays modal when show prop is true', () => {
         cy.mount(Modal, {
             props: {
                 show: true,
-                'data-cy': 'modal',
+                'data-testid': 'modal',
             },
         });
 
-        cy.get('[data-cy="modal"]').should('be.visible');
+        cy.get('[data-testid="modal"]').should('be.visible');
     });
 
     it('does not dispatch "close" event when pressing escape key and closeOnEscape is false', () => {
@@ -61,13 +61,13 @@ describe('Modal', () => {
             props: {
                 show: true,
                 closeOnClickOutside: false,
-                'data-cy': 'modal',
+                'data-testid': 'modal',
             },
         }).then(({ component }) => {
             component.$on('close', onClose);
         });
 
-        cy.get('[data-cy="modal"]').click();
+        cy.get('[data-testid="modal"]').click();
         cy.wrap(onClose).should('not.have.been.called');
     });
 
@@ -78,13 +78,13 @@ describe('Modal', () => {
             props: {
                 show: true,
                 closeOnClickOutside: true,
-                'data-cy': 'modal',
+                'data-testid': 'modal',
             },
         }).then(({ component }) => {
             component.$on('close', onClose);
         });
 
-        cy.get('[data-cy="modal-content"]').click();
+        cy.get('[data-testid="modal-content"]').click();
         cy.wrap(onClose).should('not.have.been.called');
     });
 
@@ -95,13 +95,13 @@ describe('Modal', () => {
             props: {
                 show: true,
                 closeOnClickOutside: true,
-                'data-cy': 'modal',
+                'data-testid': 'modal',
             },
         }).then(({ component }) => {
             component.$on('close', onClose);
         });
 
-        cy.get('[data-cy="modal"]').click();
+        cy.get('[data-testid="modal"]').click();
         cy.wrap(onClose).should('have.been.called');
     });
 });

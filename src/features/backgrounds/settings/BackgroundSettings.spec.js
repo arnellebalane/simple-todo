@@ -19,8 +19,8 @@ describe('BackgroundSettings', () => {
             },
         });
 
-        cy.get('[data-cy="toggle-background"]').should('not.be.checked');
-        cy.get('[data-cy="background-source-selector"]').should('not.exist');
+        cy.get('[data-testid="toggle-background"]').should('not.be.checked');
+        cy.get('[data-testid="background-source-selector"]').should('not.exist');
     });
 
     it('selects background switch and displays background source selector when data.background prop is true', () => {
@@ -32,8 +32,8 @@ describe('BackgroundSettings', () => {
             },
         });
 
-        cy.get('[data-cy="toggle-background"]').should('be.checked');
-        cy.get('[data-cy="background-source-selector"]').should('be.visible');
+        cy.get('[data-testid="toggle-background"]').should('be.checked');
+        cy.get('[data-testid="background-source-selector"]').should('be.visible');
     });
 
     it('displays automatic source fieldset when background source is automatic', () => {
@@ -46,9 +46,9 @@ describe('BackgroundSettings', () => {
             },
         });
 
-        cy.get('[data-cy="automatic-source-fieldset"]').should('be.visible');
-        cy.get('[data-cy="custom-source-image-url-field"]').should('not.exist');
-        cy.get('[data-cy="custom-source-image-upload-field"]').should('not.exist');
+        cy.get('[data-testid="automatic-source-fieldset"]').should('be.visible');
+        cy.get('[data-testid="custom-source-image-url-field"]').should('not.exist');
+        cy.get('[data-testid="custom-source-image-upload-field"]').should('not.exist');
     });
 
     it('displays custom source fieldset when background source is manual', () => {
@@ -61,9 +61,9 @@ describe('BackgroundSettings', () => {
             },
         });
 
-        cy.get('[data-cy="automatic-source-fieldset"]').should('not.exist');
-        cy.get('[data-cy="custom-source-image-url-field"]').should('be.visible');
-        cy.get('[data-cy="custom-source-image-upload-field"]').should('be.visible');
+        cy.get('[data-testid="automatic-source-fieldset"]').should('not.exist');
+        cy.get('[data-testid="custom-source-image-url-field"]').should('be.visible');
+        cy.get('[data-testid="custom-source-image-upload-field"]').should('be.visible');
     });
 
     it('dispatches "change" event and resets data when background is disabled', () => {
@@ -78,7 +78,7 @@ describe('BackgroundSettings', () => {
             component.$on('change', onChange);
         });
 
-        cy.get('[data-cy="toggle-background"]').parent().click();
+        cy.get('[data-testid="toggle-background"]').parent().click();
 
         cy.wrap(onChange).should('have.been.called');
         cy.wrap(data).should('deep.equal', {
@@ -128,8 +128,8 @@ describe('BackgroundSettings', () => {
         });
 
         cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            cy.get('[data-cy="image-url-field-input"]').type(backgroundImage.photo_url);
-            cy.get('[data-cy="image-url-field-button"]').click();
+            cy.get('[data-testid="image-url-field-input"]').type(backgroundImage.photo_url);
+            cy.get('[data-testid="image-url-field-button"]').click();
 
             cy.wrap(onChange).should('have.been.called');
             cy.wrap(data).should('deep.equal', {

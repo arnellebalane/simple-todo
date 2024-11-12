@@ -19,12 +19,12 @@ const handleCustomBackgroundImage = (background) => {
 };
 </script>
 
-<div class="Field" data-cy="custom-source-image-url-field">
+<div class="Field" data-testid="custom-source-image-url-field">
     <label for="backgroundCustomUnsplash">Unsplash image URL</label>
     <ImageUrlField name="backgroundCustomUnsplash" onChange={handleCustomBackgroundImage} {onRequest} {disabled} />
 </div>
 
-<div class="Field" data-cy="custom-source-image-upload-field">
+<div class="Field" data-testid="custom-source-image-upload-field">
     <label for="backgroundCustomFile">Upload an image</label>
     <ImageUploadField name="backgroundCustomFile" onChange={handleCustomBackgroundImage} {onRequest} {disabled} />
 </div>

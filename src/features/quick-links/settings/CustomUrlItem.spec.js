@@ -19,7 +19,7 @@ describe('CustomUrlItem', () => {
                 },
             });
 
-            cy.get('[data-cy="custom-url-item"]')
+            cy.get('[data-testid="custom-url-item"]')
                 .should('contain.text', quickLink.title)
                 .should('contain.text', quickLink.url);
         });
@@ -36,7 +36,7 @@ describe('CustomUrlItem', () => {
                 },
             });
 
-            cy.get('[data-cy="custom-url-item-remove-button"]').click();
+            cy.get('[data-testid="custom-url-item-remove-button"]').click();
             cy.wrap(onSubscribe).should(
                 'have.been.calledWith',
                 Cypress.sinon.match({
@@ -58,7 +58,7 @@ describe('CustomUrlItem', () => {
                 component.$on('remove', onRemove);
             });
 
-            cy.get('[data-cy="custom-url-item-remove-button"]')
+            cy.get('[data-testid="custom-url-item-remove-button"]')
                 .click()
                 .then(() => {
                     confirmation.confirm();
@@ -80,7 +80,7 @@ describe('CustomUrlItem', () => {
                 component.$on('remove', onRemove);
             });
 
-            cy.get('[data-cy="custom-url-item-remove-button"]')
+            cy.get('[data-testid="custom-url-item-remove-button"]')
                 .click()
                 .then(() => {
                     confirmation.cancel();
@@ -100,7 +100,7 @@ describe('CustomUrlItem', () => {
                 },
             });
 
-            cy.get('[data-cy="custom-url-item-shadow"]').should('be.visible');
+            cy.get('[data-testid="custom-url-item-shadow"]').should('be.visible');
         });
     });
 });

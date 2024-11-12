@@ -16,7 +16,7 @@ describe('TodoListEmpty', () => {
             props: { text },
         });
 
-        cy.get('[data-cy="todo-list-empty"]').should('contain.text', text);
+        cy.get('[data-testid="todo-list-empty"]').should('contain.text', text);
     });
 
     it('dispatches "addtodo" event when add todo button is clicked', () => {
@@ -28,7 +28,7 @@ describe('TodoListEmpty', () => {
             component.$on('addtodo', addTodoSpy);
         });
 
-        cy.get('[data-cy="todo-list-empty-add-btn"]').click();
+        cy.get('[data-testid="todo-list-empty-add-btn"]').click();
         cy.wrap(addTodoSpy).should('have.been.called');
     });
 
@@ -42,7 +42,7 @@ describe('TodoListEmpty', () => {
             component.$on('update', updateSpy);
         });
 
-        cy.get('[data-cy="todo-list-dropzone"]').trigger('finalize', {
+        cy.get('[data-testid="todo-list-dropzone"]').trigger('finalize', {
             detail: {
                 items: [todo],
                 info: {

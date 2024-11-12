@@ -43,14 +43,14 @@ const handleSubmit = async (event) => {
         bind:value
         class:error
         oninput={() => (error = '')}
-        data-cy="image-url-field-input"
+        data-testid="image-url-field-input"
     />
 
-    <Button class="Button" disabled={disabled || !value} {form} data-cy="image-url-field-button">Set image</Button>
+    <Button class="Button" disabled={disabled || !value} {form} data-testid="image-url-field-button">Set image</Button>
 </form>
 
 {#if error}
-    <p class="Error" data-cy="image-url-field-error">{error}</p>
+    <p class="Error" data-testid="image-url-field-error">{error}</p>
 {/if}
 
 <style>

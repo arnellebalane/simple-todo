@@ -18,8 +18,8 @@ describe('QuickLinksSettings', () => {
         cy.fixture('quicklinks.json').then((quickLinks) => {
             cy.intercept('GET', '**/.netlify/functions/get-quick-link-details**', quickLinks[0]);
 
-            cy.get('[data-cy="custom-url-field-input"]').type(quickLinks[0].url);
-            cy.get('[data-cy="custom-url-field-button"]').click();
+            cy.get('[data-testid="custom-url-field-input"]').type(quickLinks[0].url);
+            cy.get('[data-testid="custom-url-field-button"]').click();
 
             cy.wrap(onChange).should('have.been.called');
             cy.wrap(data).should('deep.equal', {

@@ -19,9 +19,9 @@ describe('QuickLinksField', () => {
             },
         });
 
-        cy.get('[data-cy="default-link"]').should('have.length', BUILTIN_QUICK_LINKS.length);
+        cy.get('[data-testid="default-link"]').should('have.length', BUILTIN_QUICK_LINKS.length);
         BUILTIN_QUICK_LINKS.forEach((link, i) => {
-            cy.get(`[data-cy="default-link"]:nth-child(${i + 1})`).should('contain.text', link.title);
+            cy.get(`[data-testid="default-link"]:nth-child(${i + 1})`).should('contain.text', link.title);
         });
     });
 
@@ -33,9 +33,9 @@ describe('QuickLinksField', () => {
             },
         });
 
-        cy.get('[data-cy="default-link"]').first().should('have.class', 'selected');
+        cy.get('[data-testid="default-link"]').first().should('have.class', 'selected');
         BUILTIN_QUICK_LINKS.slice(1).forEach((link, i) => {
-            cy.get(`[data-cy="default-link"]:nth-child(${i + 2})`).should('not.have.class', 'selected');
+            cy.get(`[data-testid="default-link"]:nth-child(${i + 2})`).should('not.have.class', 'selected');
         });
     });
 
@@ -48,7 +48,7 @@ describe('QuickLinksField', () => {
                 },
             });
 
-            cy.get('[data-cy="custom-urls-list"]').should('be.visible');
+            cy.get('[data-testid="custom-urls-list"]').should('be.visible');
         });
     });
 
@@ -63,7 +63,7 @@ describe('QuickLinksField', () => {
             component.$on('change', onChange);
         });
 
-        cy.get(`[data-cy="default-link"]:first-child`).click();
+        cy.get(`[data-testid="default-link"]:first-child`).click();
         cy.wrap(onChange).should(
             'have.been.calledWith',
             Cypress.sinon.match({
@@ -84,7 +84,7 @@ describe('QuickLinksField', () => {
             component.$on('change', onChange);
         });
 
-        cy.get(`[data-cy="default-link"]:first-child`).click();
+        cy.get(`[data-testid="default-link"]:first-child`).click();
         cy.wrap(onChange).should('have.been.calledWith', Cypress.sinon.match({ detail: [] }));
     });
 
@@ -102,8 +102,8 @@ describe('QuickLinksField', () => {
         cy.fixture('quicklinks.json').then((quickLinks) => {
             cy.intercept('GET', '**/.netlify/functions/get-quick-link-details**', quickLinks[0]);
 
-            cy.get('[data-cy="custom-url-field-input"]').type(quickLinks[0].url);
-            cy.get('[data-cy="custom-url-field-button"]').click();
+            cy.get('[data-testid="custom-url-field-input"]').type(quickLinks[0].url);
+            cy.get('[data-testid="custom-url-field-button"]').click();
 
             cy.wrap(onChange).should(
                 'have.been.calledWith',
@@ -127,7 +127,7 @@ describe('QuickLinksField', () => {
                 component.$on('change', onChange);
             });
 
-            cy.get('[data-cy="custom-url-item-remove-button"]')
+            cy.get('[data-testid="custom-url-item-remove-button"]')
                 .click()
                 .then(() => {
                     confirmation.confirm();
@@ -153,10 +153,10 @@ describe('QuickLinksField', () => {
                 },
             });
 
-            cy.get('[data-cy="custom-url-field-input"]').type(quickLinks[0].url);
-            cy.get('[data-cy="custom-url-field-button"]').click();
+            cy.get('[data-testid="custom-url-field-input"]').type(quickLinks[0].url);
+            cy.get('[data-testid="custom-url-field-button"]').click();
 
-            cy.get('[data-cy="custom-url-field-error"]').should(
+            cy.get('[data-testid="custom-url-field-error"]').should(
                 'have.text',
                 'Custom link is a duplicate of an existing link.',
             );

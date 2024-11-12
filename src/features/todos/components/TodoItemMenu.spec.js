@@ -8,9 +8,9 @@ describe('TodoItemMenu', () => {
     it('displays toggle button by default', () => {
         cy.mount(TodoItemMenu);
 
-        cy.get('[data-cy="todo-item-toggle"]').should('be.visible');
-        cy.get('[data-cy="todo-item-edit"]').should('not.be.visible');
-        cy.get('[data-cy="todo-item-delete"]').should('not.be.visible');
+        cy.get('[data-testid="todo-item-toggle"]').should('be.visible');
+        cy.get('[data-testid="todo-item-edit"]').should('not.be.visible');
+        cy.get('[data-testid="todo-item-delete"]').should('not.be.visible');
     });
 
     it('dispatches "edit" event when edit menu action is clicked', () => {
@@ -20,7 +20,7 @@ describe('TodoItemMenu', () => {
             component.$on('edit', editSpy);
         });
 
-        cy.get('[data-cy="todo-item-edit"]').click({ force: true });
+        cy.get('[data-testid="todo-item-edit"]').click({ force: true });
         cy.wrap(editSpy).should('have.been.called');
     });
 
@@ -31,7 +31,7 @@ describe('TodoItemMenu', () => {
             component.$on('delete', deleteSpy);
         });
 
-        cy.get('[data-cy="todo-item-delete"]').click({ force: true });
+        cy.get('[data-testid="todo-item-delete"]').click({ force: true });
         cy.wrap(deleteSpy).should('have.been.called');
     });
 });

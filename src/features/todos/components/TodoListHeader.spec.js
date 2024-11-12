@@ -16,8 +16,8 @@ describe('TodoListHeader', () => {
             },
         });
 
-        cy.get('[data-cy="todo-list-header"]').should('contain.text', title);
-        cy.get('[data-cy="todo-list-header-add-btn"]').should('be.visible');
+        cy.get('[data-testid="todo-list-header"]').should('contain.text', title);
+        cy.get('[data-testid="todo-list-header-add-btn"]').should('be.visible');
     });
 
     it('hides add todo button when there are no todos', () => {
@@ -28,7 +28,7 @@ describe('TodoListHeader', () => {
             },
         });
 
-        cy.get('[data-cy="todo-list-header-add-btn"]').should('not.exist');
+        cy.get('[data-testid="todo-list-header-add-btn"]').should('not.exist');
     });
 
     it('dispatches "addtodo" event when add todo button is clicked', () => {
@@ -43,7 +43,7 @@ describe('TodoListHeader', () => {
             component.$on('addtodo', addTodoSpy);
         });
 
-        cy.get('[data-cy="todo-list-header-add-btn"]').click();
+        cy.get('[data-testid="todo-list-header-add-btn"]').click();
         cy.wrap(addTodoSpy).should('have.been.called');
     });
 });

@@ -22,7 +22,7 @@ describe('SettingsForm', () => {
             component.$on('submit', submitSpy);
         });
 
-        cy.get('[data-cy="settings-form-submit-btn"]').click();
+        cy.get('[data-testid="settings-form-submit-btn"]').click();
         cy.wrap(submitSpy).should('have.been.calledWith', Cypress.sinon.match({ detail: data }));
     });
 
@@ -33,7 +33,7 @@ describe('SettingsForm', () => {
             component.$on('cancel', cancelSpy);
         });
 
-        cy.get('[data-cy="settings-form-cancel-btn"]').click();
+        cy.get('[data-testid="settings-form-cancel-btn"]').click();
         cy.wrap(cancelSpy).should('have.been.called');
     });
 
@@ -52,8 +52,8 @@ describe('SettingsForm', () => {
             component.$on('change', changeSpy);
         });
 
-        cy.get(`[data-cy="theme-settings-selector"] input[value="${THEME_LIGHT}"]`).click({ force: true });
-        cy.get(`[data-cy="color-settings-selector"] input[value="${COLOR_YELLOW}"]`).click({ force: true });
+        cy.get(`[data-testid="theme-settings-selector"] input[value="${THEME_LIGHT}"]`).click({ force: true });
+        cy.get(`[data-testid="color-settings-selector"] input[value="${COLOR_YELLOW}"]`).click({ force: true });
 
         cy.wrap(changeSpy).should(
             'have.been.calledWith',
@@ -70,9 +70,9 @@ describe('SettingsForm', () => {
         cy.mount(SettingsForm);
 
         cy.contains('Theme').click();
-        cy.get('[data-cy="theme-settings-selector"]').should('exist');
+        cy.get('[data-testid="theme-settings-selector"]').should('exist');
 
         cy.contains('Background').click();
-        cy.get('[data-cy="toggle-background"]').should('exist');
+        cy.get('[data-testid="toggle-background"]').should('exist');
     });
 });

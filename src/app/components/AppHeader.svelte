@@ -14,16 +14,16 @@ const hasDoneTodos = $derived($todos.some((todo) => todo.done));
 const today = dayjs().format('dddd, MMMM D');
 </script>
 
-<header class={componentClass} data-cy="app-header">
-    <h1 data-cy="today">{today}</h1>
+<header class={componentClass} data-testid="app-header">
+    <h1 data-testid="today">{today}</h1>
 
     <div class="HeaderActions">
         <SearchForm />
 
         <div class="HeaderButtons">
-            <Button primary onClick={onAddTodo} data-cy="add-todo-btn">Add Todo</Button>
+            <Button primary onClick={onAddTodo} data-testid="add-todo-btn">Add Todo</Button>
             {#if canUndoRemove}
-                <Button class="UndoRemoveButton" onClick={onUndoRemoveDone} data-cy="undo-remove-btn">
+                <Button class="UndoRemoveButton" onClick={onUndoRemoveDone} data-testid="undo-remove-btn">
                     <div class="Progress" style="--progress: {$removeDoneTimer * 100}%"></div>
                     <span>Undo Remove</span>
                 </Button>
@@ -33,7 +33,7 @@ const today = dayjs().format('dddd, MMMM D');
                     class="RemoveDoneButton"
                     onClick={onRemoveDone}
                     disabled={!hasDoneTodos}
-                    data-cy="remove-done-btn"
+                    data-testid="remove-done-btn"
                 >
                     Remove Done
                 </Button>

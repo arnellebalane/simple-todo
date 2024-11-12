@@ -21,8 +21,8 @@ describe('ImageUploadField', () => {
             },
         });
 
-        cy.get('[data-cy="image-upload-field-input"]').should('be.disabled');
-        cy.get('[data-cy="image-upload-field-button"]').should('be.disabled');
+        cy.get('[data-testid="image-upload-field-input"]').should('be.disabled');
+        cy.get('[data-testid="image-upload-field-button"]').should('be.disabled');
     });
 
     it('enables image upload input when disabled prop is false', () => {
@@ -30,8 +30,8 @@ describe('ImageUploadField', () => {
             props: { name },
         });
 
-        cy.get('[data-cy="image-upload-field-input"]').should('be.enabled');
-        cy.get('[data-cy="image-upload-field-button"]').should('be.disabled');
+        cy.get('[data-testid="image-upload-field-input"]').should('be.enabled');
+        cy.get('[data-testid="image-upload-field-button"]').should('be.disabled');
     });
 
     it('enables set image button when disabled prop is false and an image is selected', () => {
@@ -39,8 +39,8 @@ describe('ImageUploadField', () => {
             props: { name },
         });
 
-        cy.get('[data-cy="image-upload-field-input"]').selectFile(customImagePath, { force: true });
-        cy.get('[data-cy="image-upload-field-button"]').should('be.enabled');
+        cy.get('[data-testid="image-upload-field-input"]').selectFile(customImagePath, { force: true });
+        cy.get('[data-testid="image-upload-field-button"]').should('be.enabled');
     });
 
     it('displays error when selected file is not an image', () => {
@@ -52,10 +52,10 @@ describe('ImageUploadField', () => {
             component.$on('change', onChange);
         });
 
-        cy.get('[data-cy="image-upload-field-input"]').selectFile(invalidFilePath, { force: true });
-        cy.get('[data-cy="image-upload-field-button"]').click();
+        cy.get('[data-testid="image-upload-field-input"]').selectFile(invalidFilePath, { force: true });
+        cy.get('[data-testid="image-upload-field-button"]').click();
 
-        cy.get('[data-cy="image-upload-field-error"]').should('have.text', 'Selected file is not an image.');
+        cy.get('[data-testid="image-upload-field-error"]').should('have.text', 'Selected file is not an image.');
         cy.wrap(onChange).should('not.have.been.called');
     });
 
@@ -70,8 +70,8 @@ describe('ImageUploadField', () => {
             component.$on('request', onRequest);
         });
 
-        cy.get('[data-cy="image-upload-field-input"]').selectFile(customImagePath, { force: true });
-        cy.get('[data-cy="image-upload-field-button"]').click();
+        cy.get('[data-testid="image-upload-field-input"]').selectFile(customImagePath, { force: true });
+        cy.get('[data-testid="image-upload-field-button"]').click();
 
         cy.wrap(onChange).should('have.been.called');
         cy.wrap(onRequest).should('have.been.called');

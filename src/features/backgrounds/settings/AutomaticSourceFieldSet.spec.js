@@ -17,7 +17,7 @@ describe('AutomaticSourceFieldSet', () => {
             },
         });
 
-        cy.get('[data-cy="refresh-background-btn"]').should('be.disabled');
+        cy.get('[data-testid="refresh-background-btn"]').should('be.disabled');
     });
 
     it('enables refresh button when disabled prop is false', () => {
@@ -27,7 +27,7 @@ describe('AutomaticSourceFieldSet', () => {
             },
         });
 
-        cy.get('[data-cy="refresh-background-btn"]').should('be.enabled');
+        cy.get('[data-testid="refresh-background-btn"]').should('be.enabled');
     });
 
     it('selects refresh frequency selector value based on data prop', () => {
@@ -39,7 +39,7 @@ describe('AutomaticSourceFieldSet', () => {
             },
         });
 
-        const refreshWeekly = `[data-cy="refresh-frequency-selector"] input[value="${BACKGROUND_REFRESH_WEEKLY}"]`;
+        const refreshWeekly = `[data-testid="refresh-frequency-selector"] input[value="${BACKGROUND_REFRESH_WEEKLY}"]`;
         cy.get(refreshWeekly).should('be.checked');
     });
 
@@ -69,7 +69,7 @@ describe('AutomaticSourceFieldSet', () => {
                 component.$on('change', onChange);
             });
 
-            const refreshDaily = `[data-cy="refresh-frequency-selector"] input[value="${BACKGROUND_REFRESH_DAILY}"]`;
+            const refreshDaily = `[data-testid="refresh-frequency-selector"] input[value="${BACKGROUND_REFRESH_DAILY}"]`;
             cy.get(refreshDaily).parent().click();
 
             cy.wrap(onChange).should('have.been.called');
@@ -97,7 +97,7 @@ describe('AutomaticSourceFieldSet', () => {
                 component.$on('change', onChange);
             });
 
-            cy.get('[data-cy="refresh-background-btn"]').click();
+            cy.get('[data-testid="refresh-background-btn"]').click();
 
             cy.wrap(onChange).should('have.been.called');
             cy.wrap(data).should('deep.equal', {
@@ -124,7 +124,7 @@ describe('AutomaticSourceFieldSet', () => {
                 component.$on('request', onRequest);
             });
 
-            cy.get('[data-cy="refresh-background-btn"]').click();
+            cy.get('[data-testid="refresh-background-btn"]').click();
             cy.wrap(onRequest).should('have.been.called');
         });
     });

@@ -18,7 +18,7 @@ describe('TodoFormOptionalFields', () => {
             props: { data },
         });
 
-        cy.get('[data-cy="todo-form-optional-fields"]').should('not.have.attr', 'open');
+        cy.get('[data-testid="todo-form-optional-fields"]').should('not.have.attr', 'open');
     });
 
     it('displays fields when settings.openOptionalFields=true', () => {
@@ -29,7 +29,7 @@ describe('TodoFormOptionalFields', () => {
             props: { data },
         });
 
-        cy.get('[data-cy="todo-form-optional-fields"]').should('have.attr', 'open');
+        cy.get('[data-testid="todo-form-optional-fields"]').should('have.attr', 'open');
     });
 
     it('displays fields when any optional field is set in the todo item', () => {
@@ -40,6 +40,6 @@ describe('TodoFormOptionalFields', () => {
             props: { data },
         });
 
-        cy.get('[data-cy="todo-form-optional-fields"]').should('have.attr', 'open');
+        cy.get('[data-testid="todo-form-optional-fields"]').should('have.attr', 'open');
     });
 });

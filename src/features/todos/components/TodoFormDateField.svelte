@@ -7,7 +7,7 @@ let { value, onChange } = $props();
 
 <div>
     <Input name="date" {value} {onChange} type="date" />
-    <Button type="button" onClick={() => onChange?.('')} disabled={!value} data-cy="clear-date-btn">Clear Date</Button>
+    <Button type="button" onClick={() => onChange?.('')} disabled={!value} data-testid="clear-date-btn">Clear Date</Button>
 </div>
 
 <style>

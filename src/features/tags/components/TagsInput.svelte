@@ -29,7 +29,7 @@ const handleRemove = (tag) => onChange?.(value.filter((t) => t !== tag));
     list="tags-choices"
     bind:value={currentValue}
     onchange={handleChange}
-    data-cy="tags-input"
+    data-testid="tags-input"
     form
 />
 
@@ -41,14 +41,14 @@ const handleRemove = (tag) => onChange?.(value.filter((t) => t !== tag));
             type="button"
             data-tooltip="Click to remove"
             onClick={() => handleRemove(tag)}
-            data-cy="tags-value"
+            data-testid="tags-value"
         >
             {tag}
         </Button>
     {/each}
 </div>
 
-<datalist id="tags-choices" data-cy="tags-input-datalist">
+<datalist id="tags-choices" data-testid="tags-input-datalist">
     {#each filteredChoices as choice (choice.label)}
         <option value={choice.label}></option>
     {/each}

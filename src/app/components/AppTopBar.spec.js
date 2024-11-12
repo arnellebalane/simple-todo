@@ -18,7 +18,7 @@ describe('AppTopBar', () => {
 
         cy.mount(AppTopBar);
 
-        cy.get('[data-cy="quick-links"]').should('not.exist');
+        cy.get('[data-testid="quick-links"]').should('not.exist');
     });
 
     it('displays quick links when there are saved quick links', () => {
@@ -27,14 +27,14 @@ describe('AppTopBar', () => {
 
             cy.mount(AppTopBar);
 
-            cy.get('[data-cy="quick-links"]').should('be.visible');
+            cy.get('[data-testid="quick-links"]').should('be.visible');
         });
     });
 
     it('hides frequent links when there are no frequent links', () => {
         cy.mount(AppTopBar);
 
-        cy.get('[data-cy="frequent-links"]').should('not.exist');
+        cy.get('[data-testid="frequent-links"]').should('not.exist');
     });
 
     it('hides frequent links when disabled in settings', () => {
@@ -44,7 +44,7 @@ describe('AppTopBar', () => {
 
             cy.mount(AppTopBar);
 
-            cy.get('[data-cy="frequent-links"]').should('not.exist');
+            cy.get('[data-testid="frequent-links"]').should('not.exist');
         });
     });
 
@@ -55,14 +55,14 @@ describe('AppTopBar', () => {
 
             cy.mount(AppTopBar);
 
-            cy.get('[data-cy="frequent-links"]').should('be.visible');
+            cy.get('[data-testid="frequent-links"]').should('be.visible');
         });
     });
 
     it('hides whats new button when there are no changelogs', () => {
         cy.mount(AppTopBar);
 
-        cy.get('[data-cy="whats-new-btn"]').should('not.exist');
+        cy.get('[data-testid="whats-new-btn"]').should('not.exist');
     });
 
     it('displays whats new button when there are changelogs', () => {
@@ -71,7 +71,7 @@ describe('AppTopBar', () => {
 
             cy.mount(AppTopBar);
 
-            cy.get('[data-cy="whats-new-btn"]').should('be.visible');
+            cy.get('[data-testid="whats-new-btn"]').should('be.visible');
         });
     });
 
@@ -81,15 +81,15 @@ describe('AppTopBar', () => {
 
             cy.mount(AppTopBar);
 
-            cy.get('[data-cy="whats-new-btn"]').click();
-            cy.get('[data-cy="whats-new-modal"]').should('be.visible');
+            cy.get('[data-testid="whats-new-btn"]').click();
+            cy.get('[data-testid="whats-new-modal"]').should('be.visible');
         });
     });
 
     it('opens settings modal when settings button is clicked', () => {
         cy.mount(AppTopBar);
 
-        cy.get('[data-cy="settings-btn"]').click();
-        cy.get('[data-cy="settings-form-modal"]').should('be.visible');
+        cy.get('[data-testid="settings-btn"]').click();
+        cy.get('[data-testid="settings-form-modal"]').should('be.visible');
     });
 });

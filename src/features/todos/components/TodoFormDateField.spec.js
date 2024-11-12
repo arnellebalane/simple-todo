@@ -8,7 +8,7 @@ describe('TodoFormDateField', () => {
     it('disables clear button when value prop is not set', () => {
         cy.mount(TodoFormDateField);
 
-        cy.get('[data-cy="clear-date-btn"]').should('be.disabled');
+        cy.get('[data-testid="clear-date-btn"]').should('be.disabled');
     });
 
     it('enables clear button when value prop is set', () => {
@@ -18,6 +18,6 @@ describe('TodoFormDateField', () => {
             },
         });
 
-        cy.get('[data-cy="clear-date-btn"]').should('be.enabled');
+        cy.get('[data-testid="clear-date-btn"]').should('be.enabled');
     });
 });

@@ -18,38 +18,38 @@ describe('WhatsNew', () => {
 
             cy.mount(WhatsNew);
 
-            cy.get('[data-cy="changelog-screen"]').should('have.length', changeLogs.length + 1);
+            cy.get('[data-testid="changelog-screen"]').should('have.length', changeLogs.length + 1);
         });
     });
 
     it('hides the previous button when in the first screen', () => {
         cy.mount(WhatsNew);
 
-        cy.get('[data-cy="changelogs-previous-btn"]').should('not.exist');
+        cy.get('[data-testid="changelogs-previous-btn"]').should('not.exist');
     });
 
     it('displays the previous button when not in the first screen', () => {
         cy.mount(WhatsNew);
 
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-previous-btn"]').should('be.visible');
+        cy.get('[data-testid="changelogs-next-btn"]').click();
+        cy.get('[data-testid="changelogs-previous-btn"]').should('be.visible');
     });
 
     it('hides the next button and displays the close button when in the last screen', () => {
         cy.mount(WhatsNew);
 
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-next-btn"]').should('not.exist');
-        cy.get('[data-cy="changelogs-close-btn"]').should('be.visible');
+        cy.get('[data-testid="changelogs-next-btn"]').click();
+        cy.get('[data-testid="changelogs-next-btn"]').click();
+        cy.get('[data-testid="changelogs-next-btn"]').click();
+        cy.get('[data-testid="changelogs-next-btn"]').should('not.exist');
+        cy.get('[data-testid="changelogs-close-btn"]').should('be.visible');
     });
 
     it('displays the next button and hides the close button when not in the last screen', () => {
         cy.mount(WhatsNew);
 
-        cy.get('[data-cy="changelogs-next-btn"]').should('be.visible');
-        cy.get('[data-cy="changelogs-close-btn"]').should('not.exist');
+        cy.get('[data-testid="changelogs-next-btn"]').should('be.visible');
+        cy.get('[data-testid="changelogs-close-btn"]').should('not.exist');
     });
 
     it('dispatches "close" event when close button is clicked', () => {
@@ -59,10 +59,10 @@ describe('WhatsNew', () => {
             component.$on('close', onClose);
         });
 
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-close-btn"]').click();
+        cy.get('[data-testid="changelogs-next-btn"]').click();
+        cy.get('[data-testid="changelogs-next-btn"]').click();
+        cy.get('[data-testid="changelogs-next-btn"]').click();
+        cy.get('[data-testid="changelogs-close-btn"]').click();
 
         cy.wrap(onClose).should('have.been.called');
     });
@@ -73,7 +73,7 @@ describe('WhatsNew', () => {
 
         cy.mount(WhatsNew);
 
-        cy.get('[data-cy="changelogs-next-btn"]').click();
+        cy.get('[data-testid="changelogs-next-btn"]').click();
         cy.wrap(onSubscribe).should('have.been.calledWith', '1.8.1').should('have.been.calledWith', '1.9.0');
     });
 
@@ -84,7 +84,7 @@ describe('WhatsNew', () => {
 
         cy.mount(WhatsNew);
 
-        cy.get('[data-cy="changelogs-next-btn"]').click();
+        cy.get('[data-testid="changelogs-next-btn"]').click();
         cy.wrap(onSubscribe).should('not.have.been.calledWith', '1.8.1').should('not.have.been.calledWith', '1.9.0');
     });
 });

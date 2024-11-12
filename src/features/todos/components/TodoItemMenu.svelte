@@ -2,11 +2,11 @@
 let { class: componentClass, onDelete, onEdit } = $props();
 </script>
 
-<menu class={componentClass} data-cy="todo-item-menu">
-    <button class="ToggleButton" data-cy="todo-item-toggle">Toggle</button>
+<menu class={componentClass} data-testid="todo-item-menu">
+    <button class="ToggleButton" data-testid="todo-item-toggle">Toggle</button>
 
-    <button class="DeleteButton" onclick={onDelete} data-cy="todo-item-delete">Delete</button>
-    <button class="EditButton" onclick={onEdit} data-cy="todo-item-edit">Edit</button>
+    <button class="DeleteButton" onclick={onDelete} data-testid="todo-item-delete">Delete</button>
+    <button class="EditButton" onclick={onEdit} data-testid="todo-item-edit">Edit</button>
 </menu>
 
 <style>

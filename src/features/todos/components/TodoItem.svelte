@@ -25,10 +25,10 @@ const toggleTodoDone = (done) => onChange?.({ id: todo.id, done });
     class:done={todo.done}
     class:private={$settings.enablePrivacyMode}
     ondblclick={onEdit}
-    data-cy="todo-item"
+    data-testid="todo-item"
 >
-    <Checkbox checked={todo.done} onChange={toggleTodoDone} data-cy="todo-item-done" />
-    <div class="TodoDetails" data-cy="todo-item-details">
+    <Checkbox checked={todo.done} onChange={toggleTodoDone} data-testid="todo-item-done" />
+    <div class="TodoDetails" data-testid="todo-item-details">
         <p><span>{@html todoBody}</span></p>
 
         {#if hasBadges}
@@ -45,7 +45,7 @@ const toggleTodoDone = (done) => onChange?.({ id: todo.id, done });
     <TodoItemMenu class="TodoItemMenu" {onEdit} {onDelete} />
 
     {#if todo[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
-        <div class="TodoItemShadow" data-cy="todo-item-shadow"></div>
+        <div class="TodoItemShadow" data-testid="todo-item-shadow"></div>
     {/if}
 </li>
 

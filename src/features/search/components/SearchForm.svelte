@@ -43,7 +43,7 @@ onDestroy(() => disableShortcut('focusSearch'));
         bind:this={searchForm}
         onsubmit={(event) => event.preventDefault()}
         onkeydowncapture={handleKeyDown}
-        data-cy="search-form"
+        data-testid="search-form"
     >
         {#if enableTextFilter}
             <input
@@ -52,12 +52,12 @@ onDestroy(() => disableShortcut('focusSearch'));
                 name="query"
                 placeholder="Search todos"
                 bind:value={$query}
-                data-cy="search-form-text-filter"
+                data-testid="search-form-text-filter"
             />
         {/if}
 
         {#if enableTagsFilter}
-            <select class="SearchTags" name="tag" bind:value={$tag} data-cy="search-form-tags-filter">
+            <select class="SearchTags" name="tag" bind:value={$tag} data-testid="search-form-tags-filter">
                 <option value={null}>All todos</option>
                 {#each tagsChoices as tag}
                     <option value={tag.label}>{tag.label}</option>

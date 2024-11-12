@@ -25,8 +25,8 @@ const handleSubmit = (event) => {
     </div>
 
     <div class="Actions">
-        <Button primary data-cy="settings-form-submit-btn">Save Settings</Button>
-        <Button type="button" text onClick={onCancel} data-cy="settings-form-cancel-btn">Cancel</Button>
+        <Button primary data-testid="settings-form-submit-btn">Save Settings</Button>
+        <Button type="button" text onClick={onCancel} data-testid="settings-form-cancel-btn">Cancel</Button>
     </div>
 </form>
 

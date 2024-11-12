@@ -61,7 +61,7 @@ describe('TodoList', () => {
             component.$on('addtodo', addTodoSpy);
         });
 
-        cy.get('[data-cy="todo-list-header-add-btn"]').click();
+        cy.get('[data-testid="todo-list-header-add-btn"]').click();
         cy.wrap(addTodoSpy).should('have.been.called');
     });
 
@@ -78,7 +78,7 @@ describe('TodoList', () => {
             component.$on('addtodo', addTodoSpy);
         });
 
-        cy.get('[data-cy="todo-list-empty-add-btn"]').click();
+        cy.get('[data-testid="todo-list-empty-add-btn"]').click();
         cy.wrap(addTodoSpy).should('have.been.called');
     });
 });

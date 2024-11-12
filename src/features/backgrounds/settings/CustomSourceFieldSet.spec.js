@@ -17,8 +17,8 @@ describe('CustomSourceFieldSet', () => {
             },
         });
 
-        cy.get('[data-cy="image-url-field-input"]').should('be.disabled');
-        cy.get('[data-cy="image-upload-field-input"]').should('be.disabled');
+        cy.get('[data-testid="image-url-field-input"]').should('be.disabled');
+        cy.get('[data-testid="image-upload-field-input"]').should('be.disabled');
     });
 
     it('enables image url and upload fields when disabled prop is false', () => {
@@ -28,8 +28,8 @@ describe('CustomSourceFieldSet', () => {
             },
         });
 
-        cy.get('[data-cy="image-url-field-input"]').should('be.enabled');
-        cy.get('[data-cy="image-upload-field-input"]').should('be.enabled');
+        cy.get('[data-testid="image-url-field-input"]').should('be.enabled');
+        cy.get('[data-testid="image-upload-field-input"]').should('be.enabled');
     });
 
     it('dispatches "change" event when custom image url is specified', () => {
@@ -45,8 +45,8 @@ describe('CustomSourceFieldSet', () => {
         });
 
         cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            cy.get('[data-cy="image-url-field-input"]').type(backgroundImage.photo_link);
-            cy.get('[data-cy="image-url-field-button"]').click();
+            cy.get('[data-testid="image-url-field-input"]').type(backgroundImage.photo_link);
+            cy.get('[data-testid="image-url-field-button"]').click();
 
             cy.wrap(onChange).should(
                 'have.been.calledWith',
@@ -75,8 +75,8 @@ describe('CustomSourceFieldSet', () => {
         });
 
         cy.fixture('unsplash-image.jpeg').as('customImage');
-        cy.get('[data-cy="image-upload-field-input"]').selectFile('@customImage', { force: true });
-        cy.get('[data-cy="image-upload-field-button"]').click();
+        cy.get('[data-testid="image-upload-field-input"]').selectFile('@customImage', { force: true });
+        cy.get('[data-testid="image-upload-field-button"]').click();
 
         cy.wrap(onChange).should('have.been.called');
     });

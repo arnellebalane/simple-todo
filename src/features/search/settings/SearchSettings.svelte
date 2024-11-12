@@ -20,7 +20,7 @@ const handleChange = (key) => {
             name="enableTextFilter"
             checked={data.enableTextFilter}
             onChange={handleChange('enableTextFilter')}
-            data-cy="enable-text-filter"
+            data-testid="enable-text-filter"
         />
     </div>
 
@@ -33,7 +33,7 @@ const handleChange = (key) => {
             name="enableTagsFilter"
             checked={data.enableTagsFilter}
             onChange={handleChange('enableTagsFilter')}
-            data-cy="enable-tags-filter"
+            data-testid="enable-tags-filter"
         />
     </div>
 </section>

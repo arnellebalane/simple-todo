@@ -28,7 +28,7 @@ const handleUpdate = (list) => {
         emptyText="Hurray! No more todos for today!"
         todos={todosToday}
         class="TodoList"
-        data-cy="todo-list-today"
+        data-testid="todo-list-today"
         onUpdate={handleUpdate(TODOS_TODAY)}
         onAddTodo={handleAddTodo(TODOS_TODAY)}
         {onUpdateTodo}
@@ -40,7 +40,7 @@ const handleUpdate = (list) => {
         emptyText="Great! No more todos for this week!"
         todos={todosThisWeek}
         class="TodoList"
-        data-cy="todo-list-this-week"
+        data-testid="todo-list-this-week"
         onUpdate={handleUpdate(TODOS_THIS_WEEK)}
         onAddTodo={handleAddTodo(TODOS_THIS_WEEK)}
         {onUpdateTodo}
@@ -52,7 +52,7 @@ const handleUpdate = (list) => {
         emptyText="No other things to do. Good job!"
         todos={todosEventually}
         class="TodoList"
-        data-cy="todo-list-eventually"
+        data-testid="todo-list-eventually"
         onUpdate={handleUpdate(TODOS_EVENTUALLY)}
         onAddTodo={handleAddTodo(TODOS_EVENTUALLY)}
         {onUpdateTodo}

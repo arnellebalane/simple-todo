@@ -17,7 +17,7 @@ describe('TodoListItems', () => {
             props: { todos },
         });
 
-        cy.get('[data-cy="todo-list-dropzone"]').should('contain.text', todo.body);
+        cy.get('[data-testid="todo-list-dropzone"]').should('contain.text', todo.body);
     });
 
     it('dispatches "updatetodo" event when a todo item gets updated', () => {
@@ -29,7 +29,7 @@ describe('TodoListItems', () => {
             component.$on('updatetodo', updateTodoSpy);
         });
 
-        cy.get('[data-cy="todo-item-done"]').click({ force: true });
+        cy.get('[data-testid="todo-item-done"]').click({ force: true });
         cy.wrap(updateTodoSpy).should(
             'have.been.calledWith',
             Cypress.sinon.match({
@@ -50,7 +50,7 @@ describe('TodoListItems', () => {
             component.$on('edittodo', editTodoSpy);
         });
 
-        cy.get('[data-cy="todo-item-edit"]').click({ force: true });
+        cy.get('[data-testid="todo-item-edit"]').click({ force: true });
         cy.wrap(editTodoSpy).should(
             'have.been.calledWith',
             Cypress.sinon.match({
@@ -68,7 +68,7 @@ describe('TodoListItems', () => {
             component.$on('deletetodo', deleteTodoSpy);
         });
 
-        cy.get('[data-cy="todo-item-delete"]').click({ force: true });
+        cy.get('[data-testid="todo-item-delete"]').click({ force: true });
         cy.wrap(deleteTodoSpy).should(
             'have.been.calledWith',
             Cypress.sinon.match({
@@ -87,7 +87,7 @@ describe('TodoListItems', () => {
             component.$on('update', updateSpy);
         });
 
-        cy.get('[data-cy="todo-list-dropzone"]').trigger('finalize', {
+        cy.get('[data-testid="todo-list-dropzone"]').trigger('finalize', {
             detail: {
                 items: [todo, newTodo],
                 info: {

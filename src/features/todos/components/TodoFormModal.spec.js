@@ -4,7 +4,7 @@ describe('TodoFormModal', () => {
     it('hides the modal when show prop is false', () => {
         cy.mount(TodoFormModal);
 
-        cy.get('[data-cy="todo-form-modal"]').should('not.exist');
+        cy.get('[data-testid="todo-form-modal"]').should('not.exist');
     });
 
     it('displays the modal when show prop is true', () => {
@@ -14,6 +14,6 @@ describe('TodoFormModal', () => {
             },
         });
 
-        cy.get('[data-cy="todo-form-modal"]').should('be.visible');
+        cy.get('[data-testid="todo-form-modal"]').should('be.visible');
     });
 });

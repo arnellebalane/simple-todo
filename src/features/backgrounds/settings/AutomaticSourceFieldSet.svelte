@@ -60,7 +60,7 @@ const refreshBackgroundImage = async () => {
 };
 </script>
 
-<div class="Field" data-cy="automatic-source-fieldset">
+<div class="Field" data-testid="automatic-source-fieldset">
     <label for="backgroundRefreshFrequency">Refresh background image</label>
     <div class="RefreshBackground">
         <Selector
@@ -69,9 +69,9 @@ const refreshBackgroundImage = async () => {
             value={data.backgroundRefreshFrequency}
             choices={backgroundRefreshFrequencyChoices}
             onChange={handleRefreshFrequencyChange}
-            data-cy="refresh-frequency-selector"
+            data-testid="refresh-frequency-selector"
         />
-        <Button type="button" {disabled} onClick={refreshBackgroundImage} data-cy="refresh-background-btn">
+        <Button type="button" {disabled} onClick={refreshBackgroundImage} data-testid="refresh-background-btn">
             Refresh
         </Button>
     </div>

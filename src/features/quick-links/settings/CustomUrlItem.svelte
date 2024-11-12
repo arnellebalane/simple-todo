@@ -18,7 +18,7 @@ const handleRemove = async () => {
 };
 </script>
 
-<li class="CustomUrl" data-cy="custom-url-item">
+<li class="CustomUrl" data-testid="custom-url-item">
     <img class="CustomUrl_Icon" src={link.icon} alt={link.title} width="24" height="24" />
     <div class="CustomUrl_Details">
         <p class="CustomUrl_Title">{link.title}</p>
@@ -33,7 +33,7 @@ const handleRemove = async () => {
             iconLight={icons.drag}
             iconDark={icons.drag}
             class="CustomUrl_Action CustomUrl_Action-drag"
-            data-cy="custom-url-item-drag-button"
+            data-testid="custom-url-item-drag-button"
         >
             Drag
         </Button>
@@ -44,14 +44,14 @@ const handleRemove = async () => {
             iconLight={icons.remove}
             iconDark={icons.remove}
             onClick={handleRemove}
-            data-cy="custom-url-item-remove-button"
+            data-testid="custom-url-item-remove-button"
         >
             Remove
         </Button>
     </div>
 
     {#if link[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
-        <div class="CustomUrl_Shadow" data-cy="custom-url-item-shadow"></div>
+        <div class="CustomUrl_Shadow" data-testid="custom-url-item-shadow"></div>
     {/if}
 </li>
 

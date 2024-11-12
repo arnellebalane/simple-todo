@@ -45,15 +45,15 @@ const selectImageFile = (event) => {
             {form}
             {disabled}
             onchange={selectImageFile}
-            data-cy="image-upload-field-input"
+            data-testid="image-upload-field-input"
         />
     </label>
 
-    <Button disabled={disabled || !value} {form} data-cy="image-upload-field-button">Set image</Button>
+    <Button disabled={disabled || !value} {form} data-testid="image-upload-field-button">Set image</Button>
 </form>
 
 {#if error}
-    <p class="Error" data-cy="image-upload-field-error">{error}</p>
+    <p class="Error" data-testid="image-upload-field-error">{error}</p>
 {/if}
 
 <style>

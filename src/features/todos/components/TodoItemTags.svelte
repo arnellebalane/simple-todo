@@ -5,5 +5,5 @@ let { tags = [] } = $props();
 </script>
 
 {#each tags as tag (tag)}
-    <Badge data-cy="todo-item-tag">{tag}</Badge>
+    <Badge data-testid="todo-item-tag">{tag}</Badge>
 {/each}

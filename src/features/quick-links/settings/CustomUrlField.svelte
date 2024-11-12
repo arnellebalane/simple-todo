@@ -45,12 +45,12 @@ const handleSubmit = async (event) => {
         class:error
         disabled={isLoading}
         oninput={() => onError('')}
-        data-cy="custom-url-field-input"
+        data-testid="custom-url-field-input"
     />
-    <Button disabled={isLoading} {form} data-cy="custom-url-field-button">Add Link</Button>
+    <Button disabled={isLoading} {form} data-testid="custom-url-field-button">Add Link</Button>
 
     {#if error}
-        <p class="Error" data-cy="custom-url-field-error">{error}</p>
+        <p class="Error" data-testid="custom-url-field-error">{error}</p>
     {/if}
 </form>
 

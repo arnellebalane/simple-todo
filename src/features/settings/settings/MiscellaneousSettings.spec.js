@@ -14,7 +14,7 @@ describe('MiscellaneousSettings', () => {
             },
         });
 
-        cy.get('[data-cy="enable-privacy-mode-toggle"]').should('be.checked');
+        cy.get('[data-testid="enable-privacy-mode-toggle"]').should('be.checked');
     });
 
     it('dispatches "change" event when privacy mode switch is toggled', () => {
@@ -29,7 +29,7 @@ describe('MiscellaneousSettings', () => {
             component.$on('change', changeSpy);
         });
 
-        cy.get('[data-cy="enable-privacy-mode-toggle"]').click({ force: true });
+        cy.get('[data-testid="enable-privacy-mode-toggle"]').click({ force: true });
         cy.wrap(changeSpy).should('have.been.called');
     });
 });

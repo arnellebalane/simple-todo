@@ -18,8 +18,8 @@ describe('TodoForm', () => {
             props: { data },
         });
 
-        cy.get('[data-cy="todo-form-body"]').should('have.text', data.body);
-        cy.get(`[data-cy="todo-form-list"] input[value="${data.list}"]`).should('be.checked');
+        cy.get('[data-testid="todo-form-body"]').should('have.text', data.body);
+        cy.get(`[data-testid="todo-form-list"] input[value="${data.list}"]`).should('be.checked');
     });
 
     it('escapes and unsanitizes todo body from data prop when displaying it in the form', () => {
@@ -32,14 +32,14 @@ describe('TodoForm', () => {
             props: { data },
         });
 
-        cy.get('[data-cy="todo-form-body"]').should('have.text', '<strong>test todo</strong>');
+        cy.get('[data-testid="todo-form-body"]').should('have.text', '<strong>test todo</strong>');
     });
 
     it('disables submit button when todo body is not specified', () => {
         cy.mount(TodoForm);
 
-        cy.get('[data-cy="todo-form-body"]').should('have.text', '');
-        cy.get('[data-cy="todo-form-save-btn"]').should('be.disabled');
+        cy.get('[data-testid="todo-form-body"]').should('have.text', '');
+        cy.get('[data-testid="todo-form-save-btn"]').should('be.disabled');
     });
 
     it('disables submit button when todo list is not specified', () => {
@@ -51,8 +51,8 @@ describe('TodoForm', () => {
             props: { data },
         });
 
-        cy.get('[data-cy="todo-form-body"]').should('have.text', data.body);
-        cy.get('[data-cy="todo-form-save-btn"]').should('be.disabled');
+        cy.get('[data-testid="todo-form-body"]').should('have.text', data.body);
+        cy.get('[data-testid="todo-form-save-btn"]').should('be.disabled');
     });
 
     it('dispatches "submit" event when form is submitted with valid todo', () => {
@@ -66,9 +66,9 @@ describe('TodoForm', () => {
             component.$on('submit', submitSpy);
         });
 
-        cy.get('[data-cy="todo-form-body"]').type(data.body);
-        cy.get(`[data-cy="todo-form-list"] input[value="${data.list}"]`).click({ force: true });
-        cy.get('[data-cy="todo-form-save-btn"]').click();
+        cy.get('[data-testid="todo-form-body"]').type(data.body);
+        cy.get(`[data-testid="todo-form-list"] input[value="${data.list}"]`).click({ force: true });
+        cy.get('[data-testid="todo-form-save-btn"]').click();
 
         cy.wrap(submitSpy).should('have.been.calledWith', Cypress.sinon.match({ detail: data }));
     });
@@ -80,7 +80,7 @@ describe('TodoForm', () => {
             component.$on('cancel', cancelSpy);
         });
 
-        cy.get('[data-cy="todo-form-cancel-btn"]').click();
+        cy.get('[data-testid="todo-form-cancel-btn"]').click();
         cy.wrap(cancelSpy).should('have.been.called');
     });
 });

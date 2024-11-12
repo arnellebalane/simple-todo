@@ -29,7 +29,7 @@ const handleChange = (key) => {
             name="openOptionalFields"
             checked={data.openOptionalFields}
             onChange={handleChange('openOptionalFields')}
-            data-cy="open-optional-fields-toggle"
+            data-testid="open-optional-fields-toggle"
         />
     </div>
 
@@ -42,7 +42,7 @@ const handleChange = (key) => {
             name="moveTodosAutomatically"
             checked={data.moveTodosAutomatically}
             onChange={handleChange('moveTodosAutomatically')}
-            data-cy="move-todos-automatically-toggle"
+            data-testid="move-todos-automatically-toggle"
         />
     </div>
 
@@ -54,7 +54,7 @@ const handleChange = (key) => {
             choices={dateFormatChoices}
             choiceComponent={DateDisplayChoiceField}
             onChange={handleChange('todoDateDisplay')}
-            data-cy="todo-date-display-selector"
+            data-testid="todo-date-display-selector"
         />
     </div>
 </section>

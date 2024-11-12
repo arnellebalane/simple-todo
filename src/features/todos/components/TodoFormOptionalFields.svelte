@@ -21,7 +21,7 @@ const handleChange = (key) => {
 };
 </script>
 
-<details open={shouldOpenOptionalFields} ontoggle={handleToggle} data-cy="todo-form-optional-fields">
+<details open={shouldOpenOptionalFields} ontoggle={handleToggle} data-testid="todo-form-optional-fields">
     <summary>
         <span>Optional fields</span>
     </summary>

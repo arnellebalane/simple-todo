@@ -4,11 +4,11 @@ let { title, total, class: componentClass, onAddTodo } = $props();
 const isEmpty = $derived(total === 0);
 </script>
 
-<header class={componentClass} data-cy="todo-list-header">
+<header class={componentClass} data-testid="todo-list-header">
     <h1>{title}</h1>
 
     {#if !isEmpty}
-        <button onclick={onAddTodo} data-cy="todo-list-header-add-btn">
+        <button onclick={onAddTodo} data-testid="todo-list-header-add-btn">
             <svg viewBox="0 0 24 24">
                 <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
             </svg>

@@ -14,7 +14,7 @@ describe('SearchSettings', () => {
             },
         });
 
-        cy.get('[data-cy="enable-text-filter"]').should('be.checked');
+        cy.get('[data-testid="enable-text-filter"]').should('be.checked');
     });
 
     it('deselects text filter switch when data.enableTextFilter is false', () => {
@@ -26,7 +26,7 @@ describe('SearchSettings', () => {
             },
         });
 
-        cy.get('[data-cy="enable-text-filter"]').should('not.be.checked');
+        cy.get('[data-testid="enable-text-filter"]').should('not.be.checked');
     });
 
     it('selects tags filter switch when data.enableTagsFilter is true', () => {
@@ -38,7 +38,7 @@ describe('SearchSettings', () => {
             },
         });
 
-        cy.get('[data-cy="enable-tags-filter"]').should('be.checked');
+        cy.get('[data-testid="enable-tags-filter"]').should('be.checked');
     });
 
     it('deselects tags filter switch when data.enableTagsFilter is false', () => {
@@ -50,7 +50,7 @@ describe('SearchSettings', () => {
             },
         });
 
-        cy.get('[data-cy="enable-tags-filter"]').should('not.be.checked');
+        cy.get('[data-testid="enable-tags-filter"]').should('not.be.checked');
     });
 
     it('dispatches "change" event when text filter switch is toggled', () => {
@@ -66,7 +66,7 @@ describe('SearchSettings', () => {
             component.$on('change', onChange);
         });
 
-        cy.get('[data-cy="enable-text-filter"]').click({ force: true });
+        cy.get('[data-testid="enable-text-filter"]').click({ force: true });
 
         cy.wrap(onChange).should('have.been.called');
         cy.wrap(data).should('deep.equal', {
@@ -88,7 +88,7 @@ describe('SearchSettings', () => {
             component.$on('change', onChange);
         });
 
-        cy.get('[data-cy="enable-tags-filter"]').click({ force: true });
+        cy.get('[data-testid="enable-tags-filter"]').click({ force: true });
 
         cy.wrap(onChange).should('have.been.called');
         cy.wrap(data).should('deep.equal', {

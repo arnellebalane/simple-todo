@@ -45,7 +45,7 @@ const handleChange = (key) => {
             choices={themeChoices}
             choiceComponent={ThemeChoiceField}
             onChange={handleChange('theme')}
-            data-cy="theme-settings-selector"
+            data-testid="theme-settings-selector"
         />
     </div>
 
@@ -57,7 +57,7 @@ const handleChange = (key) => {
             choices={colorChoices}
             choiceComponent={ColorChoiceField}
             onChange={handleChange('color')}
-            data-cy="color-settings-selector"
+            data-testid="color-settings-selector"
         />
     </div>
 </section>

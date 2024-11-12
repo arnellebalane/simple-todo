@@ -12,7 +12,7 @@ describe('AppBottomBar', () => {
 
         cy.mount(AppBottomBar);
 
-        cy.get('[data-cy="unsplash-attribution"]').should('not.exist');
+        cy.get('[data-testid="unsplash-attribution"]').should('not.exist');
     });
 
     it('displays unsplash attribution if using an unsplash background image', () => {
@@ -22,7 +22,7 @@ describe('AppBottomBar', () => {
 
             cy.mount(AppBottomBar);
 
-            cy.get('[data-cy="unsplash-attribution"]').contains(attribution).should('be.visible');
+            cy.get('[data-testid="unsplash-attribution"]').contains(attribution).should('be.visible');
         });
     });
 });

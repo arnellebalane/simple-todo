@@ -16,7 +16,7 @@ describe('TodoItemDate', () => {
             props: { date },
         });
 
-        cy.get('[data-cy="todo-item-date"]').should('contain.text', 'Jan 10');
+        cy.get('[data-testid="todo-item-date"]').should('contain.text', 'Jan 10');
     });
 
     it('displays date in relative format', () => {
@@ -27,6 +27,6 @@ describe('TodoItemDate', () => {
             props: { date },
         });
 
-        cy.get('[data-cy="todo-item-date"]').should('contain.text', 'In 9 days');
+        cy.get('[data-testid="todo-item-date"]').should('contain.text', 'In 9 days');
     });
 });

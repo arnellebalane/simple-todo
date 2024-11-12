@@ -17,8 +17,8 @@ describe('SearchForm', () => {
 
         cy.mount(SearchForm);
 
-        cy.get('[data-cy="search-form"]').should('be.visible');
-        cy.get('[data-cy="search-form-text-filter"]').should('be.visible');
+        cy.get('[data-testid="search-form"]').should('be.visible');
+        cy.get('[data-testid="search-form-text-filter"]').should('be.visible');
     });
 
     it('renders search form when tags filter is enabled and there are available tags', () => {
@@ -33,10 +33,10 @@ describe('SearchForm', () => {
 
         cy.mount(SearchForm);
 
-        cy.get('[data-cy="search-form"]').should('be.visible');
-        cy.get('[data-cy="search-form-tags-filter"]').select(0).invoke('val').should('equal', '');
-        cy.get('[data-cy="search-form-tags-filter"]').select(1).invoke('val').should('equal', 'TagOne');
-        cy.get('[data-cy="search-form-tags-filter"]').select(2).invoke('val').should('equal', 'TagTwo');
+        cy.get('[data-testid="search-form"]').should('be.visible');
+        cy.get('[data-testid="search-form-tags-filter"]').select(0).invoke('val').should('equal', '');
+        cy.get('[data-testid="search-form-tags-filter"]').select(1).invoke('val').should('equal', 'TagOne');
+        cy.get('[data-testid="search-form-tags-filter"]').select(2).invoke('val').should('equal', 'TagTwo');
     });
 
     it('hides search form when tags filters are enabled but there are no available tags', () => {
@@ -45,7 +45,7 @@ describe('SearchForm', () => {
 
         cy.mount(SearchForm);
 
-        cy.get('[data-cy="search-form"]').should('not.exist');
+        cy.get('[data-testid="search-form"]').should('not.exist');
     });
 
     it('hides search form when text and tags filters are disabled', () => {
@@ -56,7 +56,7 @@ describe('SearchForm', () => {
 
         cy.mount(SearchForm);
 
-        cy.get('[data-cy="search-form"]').should('not.exist');
+        cy.get('[data-testid="search-form"]').should('not.exist');
     });
 
     it('clears search input when escape key is pressed', () => {
@@ -71,8 +71,8 @@ describe('SearchForm', () => {
         search.tag.subscribe(tagSpy);
 
         cy.mount(SearchForm);
-        cy.get('[data-cy="search-form-text-filter"]').focus();
-        cy.get('[data-cy="search-form-text-filter"]').type('{esc}');
+        cy.get('[data-testid="search-form-text-filter"]').focus();
+        cy.get('[data-testid="search-form-text-filter"]').type('{esc}');
 
         cy.wrap(querySpy).should('have.been.calledWith', '');
         cy.wrap(tagSpy).should('have.been.calledWith', null);

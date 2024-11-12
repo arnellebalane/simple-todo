@@ -17,9 +17,9 @@ describe('CustomUrlsList', () => {
                 },
             });
 
-            cy.get('[data-cy="custom-url-item"]').should('have.length', quickLinks.length);
+            cy.get('[data-testid="custom-url-item"]').should('have.length', quickLinks.length);
             quickLinks.forEach((quickLink, i) => {
-                cy.get('[data-cy="custom-url-item"]')
+                cy.get('[data-testid="custom-url-item"]')
                     .eq(quickLinks.length - (i + 1))
                     .should('contain.text', quickLink.title);
             });
@@ -38,7 +38,7 @@ describe('CustomUrlsList', () => {
                 component.$on('remove', onRemove);
             });
 
-            cy.get('[data-cy="custom-url-item-remove-button"]')
+            cy.get('[data-testid="custom-url-item-remove-button"]')
                 .eq(0)
                 .click()
                 .then(() => {
@@ -67,7 +67,7 @@ describe('CustomUrlsList', () => {
                 component.$on('change', onChange);
             });
 
-            cy.get('[data-cy="custom-urls-list"]').trigger('finalize', {
+            cy.get('[data-testid="custom-urls-list"]').trigger('finalize', {
                 detail: {
                     items: keyedQuickLinks.slice().reverse(),
                     info: {

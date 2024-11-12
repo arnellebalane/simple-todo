@@ -2,7 +2,7 @@
 let { links = [] } = $props();
 </script>
 
-<div data-cy="frequent-links">
+<div data-testid="frequent-links">
     <h3>Frequently Visited</h3>
 
     <ul>

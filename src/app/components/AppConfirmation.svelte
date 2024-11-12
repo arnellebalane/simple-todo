@@ -18,13 +18,13 @@ let {
     closeOnEscape
     closeOnClickOutside
     onClose={onCancel}
-    data-cy="app-confirmation"
+    data-testid="app-confirmation"
 >
-    <p data-cy="confirm-message">{message}</p>
+    <p data-testid="confirm-message">{message}</p>
 
     <div>
-        <Button primary medium onClick={onConfirm} data-cy="confirm-btn">{confirmLabel}</Button>
-        <Button text medium onClick={onCancel} data-cy="cancel-btn">{cancelLabel}</Button>
+        <Button primary medium onClick={onConfirm} data-testid="confirm-btn">{confirmLabel}</Button>
+        <Button text medium onClick={onCancel} data-testid="cancel-btn">{cancelLabel}</Button>
     </div>
 </Modal>
 

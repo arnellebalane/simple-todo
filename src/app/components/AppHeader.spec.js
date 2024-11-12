@@ -22,14 +22,14 @@ describe('AppHeader', () => {
 
         cy.mount(AppHeader);
 
-        cy.get('[data-cy="today"]').should('have.text', 'Sunday, January 1');
+        cy.get('[data-testid="today"]').should('have.text', 'Sunday, January 1');
     });
 
     it('displays remove done button when remove timer is not running', () => {
         cy.mount(AppHeader);
 
-        cy.get('[data-cy="remove-done-btn"]').should('be.visible');
-        cy.get('[data-cy="undo-remove-btn"]').should('not.exist');
+        cy.get('[data-testid="remove-done-btn"]').should('be.visible');
+        cy.get('[data-testid="undo-remove-btn"]').should('not.exist');
     });
 
     it('displays undo remove button when remove timer is running', () => {
@@ -37,15 +37,15 @@ describe('AppHeader', () => {
 
         cy.mount(AppHeader);
 
-        cy.get('[data-cy="undo-remove-btn"]').should('be.visible');
-        cy.get('[data-cy="remove-done-btn"]').should('not.exist');
+        cy.get('[data-testid="undo-remove-btn"]').should('be.visible');
+        cy.get('[data-testid="remove-done-btn"]').should('not.exist');
     });
 
     it('disables remove done button when there are no done todos', () => {
         mockTodos({ done: false }).then(() => {
             cy.mount(AppHeader);
 
-            cy.get('[data-cy="remove-done-btn"]').should('be.disabled');
+            cy.get('[data-testid="remove-done-btn"]').should('be.disabled');
         });
     });
 
@@ -53,7 +53,7 @@ describe('AppHeader', () => {
         mockTodos({ done: true }).then(() => {
             cy.mount(AppHeader);
 
-            cy.get('[data-cy="remove-done-btn"]').should('be.enabled');
+            cy.get('[data-testid="remove-done-btn"]').should('be.enabled');
         });
     });
 
@@ -65,7 +65,7 @@ describe('AppHeader', () => {
                 component.$on('removedone', onRemoveDone);
             });
 
-            cy.get('[data-cy="remove-done-btn"]').click();
+            cy.get('[data-testid="remove-done-btn"]').click();
             cy.wrap(onRemoveDone).should('have.been.called');
         });
     });
@@ -77,7 +77,7 @@ describe('AppHeader', () => {
             component.$on('addtodo', onAddTodo);
         });
 
-        cy.get('[data-cy="add-todo-btn"]').click();
+        cy.get('[data-testid="add-todo-btn"]').click();
         cy.wrap(onAddTodo).should('have.been.called');
     });
 
@@ -89,7 +89,7 @@ describe('AppHeader', () => {
             component.$on('undoremovedone', onUndoRemoveDone);
         });
 
-        cy.get('[data-cy="undo-remove-btn"]').click();
+        cy.get('[data-testid="undo-remove-btn"]').click();
         cy.wrap(onUndoRemoveDone).should('have.been.called');
     });
 
@@ -98,7 +98,7 @@ describe('AppHeader', () => {
 
         cy.mount(AppHeader);
 
-        cy.get('[data-cy="search-form"]').should('be.visible');
+        cy.get('[data-testid="search-form"]').should('be.visible');
     });
 
     it('hides the search form when search is disabled', () => {
@@ -106,6 +106,6 @@ describe('AppHeader', () => {
 
         cy.mount(AppHeader);
 
-        cy.get('[data-cy="search-form"]').should('not.exist');
+        cy.get('[data-testid="search-form"]').should('not.exist');
     });
 });

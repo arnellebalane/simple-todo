@@ -5,24 +5,24 @@ describe('Badge', () => {
         cy.mount(Badge, {
             props: {
                 variant: 'li',
-                'data-cy': 'badge',
+                'data-testid': 'badge',
             },
         });
 
-        cy.get('li[data-cy="badge"]').should('be.visible');
-        cy.get('li[data-cy="badge"] span').should('not.exist');
+        cy.get('li[data-testid="badge"]').should('be.visible');
+        cy.get('li[data-testid="badge"] span').should('not.exist');
     });
 
     it('renders as span when variant=span', () => {
         cy.mount(Badge, {
             props: {
                 variant: 'span',
-                'data-cy': 'badge',
+                'data-testid': 'badge',
             },
         });
 
-        cy.get('span[data-cy="badge"]').should('be.visible');
-        cy.get('span[data-cy="badge"] span').should('not.exist');
+        cy.get('span[data-testid="badge"]').should('be.visible');
+        cy.get('span[data-testid="badge"] span').should('not.exist');
     });
 
     it('renders icon slot when icon=true', () => {
@@ -30,10 +30,10 @@ describe('Badge', () => {
             props: {
                 variant: 'span',
                 icon: true,
-                'data-cy': 'badge',
+                'data-testid': 'badge',
             },
         });
 
-        cy.get('span[data-cy="badge"] span').should('be.visible');
+        cy.get('span[data-testid="badge"] span').should('be.visible');
     });
 });

@@ -4,7 +4,7 @@ import { settingsTabs } from '../config';
 let { value = $bindable(), class: componentClass } = $props();
 </script>
 
-<aside class={componentClass} data-cy="settings-form-sidebar">
+<aside class={componentClass} data-testid="settings-form-sidebar">
     <h1>Settings</h1>
 
     {#each settingsTabs as tab, index (tab.id)}

@@ -17,8 +17,8 @@ describe('ImageUrlField', () => {
             },
         });
 
-        cy.get('[data-cy="image-url-field-input"]').should('be.disabled');
-        cy.get('[data-cy="image-url-field-button"]').should('be.disabled');
+        cy.get('[data-testid="image-url-field-input"]').should('be.disabled');
+        cy.get('[data-testid="image-url-field-button"]').should('be.disabled');
     });
 
     it('enables image url input when disabled prop is false', () => {
@@ -26,8 +26,8 @@ describe('ImageUrlField', () => {
             props: { name },
         });
 
-        cy.get('[data-cy="image-url-field-input"]').should('be.enabled');
-        cy.get('[data-cy="image-url-field-button"]').should('be.disabled');
+        cy.get('[data-testid="image-url-field-input"]').should('be.enabled');
+        cy.get('[data-testid="image-url-field-button"]').should('be.disabled');
     });
 
     it('enables set image button when disabled prop is false and an image url is specified', () => {
@@ -36,8 +36,8 @@ describe('ImageUrlField', () => {
         });
 
         cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            cy.get('[data-cy="image-url-field-input"]').type(backgroundImage.photo_url);
-            cy.get('[data-cy="image-url-field-button"]').should('be.enabled');
+            cy.get('[data-testid="image-url-field-input"]').type(backgroundImage.photo_url);
+            cy.get('[data-testid="image-url-field-button"]').should('be.enabled');
         });
     });
 
@@ -46,10 +46,10 @@ describe('ImageUrlField', () => {
             props: { name },
         });
 
-        cy.get('[data-cy="image-url-field-input"]').type(invalidImageUrl);
-        cy.get('[data-cy="image-url-field-button"]').click();
+        cy.get('[data-testid="image-url-field-input"]').type(invalidImageUrl);
+        cy.get('[data-testid="image-url-field-button"]').click();
 
-        cy.get('[data-cy="image-url-field-error"]').should('have.text', 'Please input a valid URL.');
+        cy.get('[data-testid="image-url-field-error"]').should('have.text', 'Please input a valid URL.');
     });
 
     it('displays error when get background image request fails', () => {
@@ -60,10 +60,10 @@ describe('ImageUrlField', () => {
         });
 
         cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            cy.get('[data-cy="image-url-field-input"]').type(backgroundImage.photo_url);
-            cy.get('[data-cy="image-url-field-button"]').click();
+            cy.get('[data-testid="image-url-field-input"]').type(backgroundImage.photo_url);
+            cy.get('[data-testid="image-url-field-button"]').click();
 
-            cy.get('[data-cy="image-url-field-error"]').should('have.text', 'Something went wrong, please try again.');
+            cy.get('[data-testid="image-url-field-error"]').should('have.text', 'Something went wrong, please try again.');
         });
     });
 
@@ -79,8 +79,8 @@ describe('ImageUrlField', () => {
         });
 
         cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            cy.get('[data-cy="image-url-field-input"]').type(backgroundImage.photo_url);
-            cy.get('[data-cy="image-url-field-button"]').click();
+            cy.get('[data-testid="image-url-field-input"]').type(backgroundImage.photo_url);
+            cy.get('[data-testid="image-url-field-button"]').click();
 
             cy.wrap(onChange).should(
                 'have.been.calledWith',

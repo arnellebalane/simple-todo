@@ -13,7 +13,7 @@ describe('TodoItemTags', () => {
         });
 
         for (const tag of tags) {
-            cy.get('[data-cy="todo-item-tag"]').contains(tag).should('be.visible');
+            cy.get('[data-testid="todo-item-tag"]').contains(tag).should('be.visible');
         }
     });
 });

@@ -10,7 +10,7 @@ let { pulse = false, onClick } = $props();
     <Button
         medium
         class="WhatsNewButton {pulse ? 'pulse' : ''}"
-        data-cy="whats-new-btn"
+        data-testid="whats-new-btn"
         iconLight={icons.launchLight}
         iconDark={icons.launchDark}
         {onClick}

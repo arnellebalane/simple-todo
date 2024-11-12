@@ -8,7 +8,7 @@ describe('WhatsNewButton', () => {
     it('omits pulse class when pulse prop is false', () => {
         cy.mount(WhatsNewButton);
 
-        cy.get('[data-cy="whats-new-btn"]').should('not.have.class', 'pulse');
+        cy.get('[data-testid="whats-new-btn"]').should('not.have.class', 'pulse');
     });
 
     it('includes pulse class when pulse prop is true', () => {
@@ -18,7 +18,7 @@ describe('WhatsNewButton', () => {
             },
         });
 
-        cy.get('[data-cy="whats-new-btn"]').should('have.class', 'pulse');
+        cy.get('[data-testid="whats-new-btn"]').should('have.class', 'pulse');
     });
 
     it('dispatches "click" event when button is clicked', () => {
@@ -28,7 +28,7 @@ describe('WhatsNewButton', () => {
             component.$on('click', onClick);
         });
 
-        cy.get('[data-cy="whats-new-btn"]').click();
+        cy.get('[data-testid="whats-new-btn"]').click();
         cy.wrap(onClick).should('have.been.called');
     });
 });

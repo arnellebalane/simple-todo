@@ -12,7 +12,7 @@ describe('AppConfirmation', () => {
             },
         });
 
-        cy.get('[data-cy="confirm-message"]').should('not.exist');
+        cy.get('[data-testid="confirm-message"]').should('not.exist');
     });
 
     it('shows confirmation modal when show = true', () => {
@@ -23,7 +23,7 @@ describe('AppConfirmation', () => {
             },
         });
 
-        cy.get('[data-cy="confirm-message"]').should('contain', message);
+        cy.get('[data-testid="confirm-message"]').should('contain', message);
     });
 
     it('displays custom confirm button label', () => {
@@ -35,7 +35,7 @@ describe('AppConfirmation', () => {
             },
         });
 
-        cy.get('[data-cy="confirm-btn"]').should('have.text', confirmLabel);
+        cy.get('[data-testid="confirm-btn"]').should('have.text', confirmLabel);
     });
 
     it('displays custom cancel button label', () => {
@@ -47,7 +47,7 @@ describe('AppConfirmation', () => {
             },
         });
 
-        cy.get('[data-cy="cancel-btn"]').should('have.text', cancelLabel);
+        cy.get('[data-testid="cancel-btn"]').should('have.text', cancelLabel);
     });
 
     it('dispatches "confirm" event when confirm button is clicked', () => {
@@ -62,7 +62,7 @@ describe('AppConfirmation', () => {
             component.$on('confirm', onConfirm);
         });
 
-        cy.get('[data-cy="confirm-btn"]').click();
+        cy.get('[data-testid="confirm-btn"]').click();
         cy.wrap(onConfirm).should('have.been.called');
     });
 
@@ -78,7 +78,7 @@ describe('AppConfirmation', () => {
             component.$on('cancel', onCancel);
         });
 
-        cy.get('[data-cy="cancel-btn"]').click();
+        cy.get('[data-testid="cancel-btn"]').click();
         cy.wrap(onCancel).should('have.been.called');
     });
 });

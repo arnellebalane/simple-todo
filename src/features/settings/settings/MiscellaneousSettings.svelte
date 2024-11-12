@@ -20,7 +20,7 @@ const handleChange = (key) => {
             name="enablePrivacyMode"
             checked={data.enablePrivacyMode}
             onChange={handleChange('enablePrivacyMode')}
-            data-cy="enable-privacy-mode-toggle"
+            data-testid="enable-privacy-mode-toggle"
         />
     </div>
 </section>

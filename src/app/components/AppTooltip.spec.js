@@ -6,21 +6,21 @@ describe('AppTooltip', () => {
     it('displays tooltip when mouse enters an element with data-toooltip', () => {
         cy.mount(AppTooltip);
 
-        cy.get('[data-cy="tooltip-target"]')
+        cy.get('[data-testid="tooltip-target"]')
             .invoke('attr', 'data-tooltip', tooltipMessage)
             .trigger('mouseenter', { force: true });
 
-        cy.get('[data-cy="app-tooltip"]').should('be.visible').should('contain.text', tooltipMessage);
+        cy.get('[data-testid="app-tooltip"]').should('be.visible').should('contain.text', tooltipMessage);
     });
 
     it('hides tooltip when mouse leaves an element with data-tooltip', () => {
         cy.mount(AppTooltip);
 
-        cy.get('[data-cy="tooltip-target"]')
+        cy.get('[data-testid="tooltip-target"]')
             .invoke('attr', 'data-tooltip', tooltipMessage)
             .trigger('mouseenter', { force: true })
             .trigger('mouseleave', { force: true });
 
-        cy.get('[data-cy="app-tooltip"]').should('be.hidden');
+        cy.get('[data-testid="app-tooltip"]').should('be.hidden');
     });
 });

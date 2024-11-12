@@ -18,7 +18,7 @@ const handleDragAndDrop = (event) => {
     use:dndzone={{ items: todos, dropTargetStyle: {} }}
     onconsider={handleDragAndDrop}
     onfinalize={handleDragAndDrop}
-    data-cy="todo-list-dropzone"
+    data-testid="todo-list-dropzone"
 >
     {#each todos as todo (todo.id)}
         <TodoItem

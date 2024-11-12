@@ -4,7 +4,7 @@ describe('SettingsFormModal', () => {
     it('hides the modal when show prop is false', () => {
         cy.mount(SettingsFormModal);
 
-        cy.get('[data-cy="settings-form-modal"]').should('not.exist');
+        cy.get('[data-testid="settings-form-modal"]').should('not.exist');
     });
 
     it('displays the modal when show prop is true', () => {
@@ -14,6 +14,6 @@ describe('SettingsFormModal', () => {
             },
         });
 
-        cy.get('[data-cy="settings-form-modal"]').should('be.visible');
+        cy.get('[data-testid="settings-form-modal"]').should('be.visible');
     });
 });

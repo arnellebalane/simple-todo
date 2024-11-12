@@ -17,8 +17,8 @@ describe('ThemeSettings', () => {
             props: { data },
         });
 
-        cy.get(`[data-cy="theme-settings-selector"] input[value="${THEME_DARK}"]`).should('be.checked');
-        cy.get(`[data-cy="color-settings-selector"] input[value="${COLOR_PURPLE}"]`).should('be.checked');
+        cy.get(`[data-testid="theme-settings-selector"] input[value="${THEME_DARK}"]`).should('be.checked');
+        cy.get(`[data-testid="color-settings-selector"] input[value="${COLOR_PURPLE}"]`).should('be.checked');
     });
 
     it('dispatches "change" event when theme selection changes', () => {
@@ -33,7 +33,7 @@ describe('ThemeSettings', () => {
         }).then(({ component }) => {
             component.$on('change', changeSpy);
         });
-        cy.get(`[data-cy="theme-settings-selector"] input[value="${THEME_SYSTEM}"]`).click({ force: true });
+        cy.get(`[data-testid="theme-settings-selector"] input[value="${THEME_SYSTEM}"]`).click({ force: true });
 
         cy.wrap(changeSpy).should('have.been.called');
         cy.wrap(data).should('deep.equal', {
@@ -54,7 +54,7 @@ describe('ThemeSettings', () => {
         }).then(({ component }) => {
             component.$on('change', changeSpy);
         });
-        cy.get(`[data-cy="color-settings-selector"] input[value="${COLOR_YELLOW}"]`).click({ force: true });
+        cy.get(`[data-testid="color-settings-selector"] input[value="${COLOR_YELLOW}"]`).click({ force: true });
 
         cy.wrap(changeSpy).should('have.been.called');
         cy.wrap(data).should('deep.equal', {

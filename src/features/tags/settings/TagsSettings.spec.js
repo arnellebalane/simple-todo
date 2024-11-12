@@ -12,7 +12,7 @@ describe('TagsSettings', () => {
     it('renders empty state when there are no existing tags', () => {
         cy.mount(TagsSettings);
 
-        cy.get('[data-cy="tags-empty"]').should('be.visible');
+        cy.get('[data-testid="tags-empty"]').should('be.visible');
     });
 
     it('renders tags from the store', () => {
@@ -37,7 +37,7 @@ describe('TagsSettings', () => {
 
         cy.mount(TagsSettings);
 
-        cy.get('[data-cy="tag-item"]').should('have.class', 'removed');
+        cy.get('[data-testid="tag-item"]').should('have.class', 'removed');
     });
 
     it('marks the tag for removal when the action button is clicked for a tag that is not yet marked for removal', () => {
@@ -51,7 +51,7 @@ describe('TagsSettings', () => {
         const tagsSpy = cy.spy();
         tags.subscribe(tagsSpy);
 
-        cy.get('[data-cy="tag-action-btn"]').click();
+        cy.get('[data-testid="tag-action-btn"]').click();
         cy.wrap(tagsSpy).should('have.been.calledWith', {
             one: { label: 'one', removed: true },
         });
@@ -68,7 +68,7 @@ describe('TagsSettings', () => {
         const tagsSpy = cy.spy();
         tags.subscribe(tagsSpy);
 
-        cy.get('[data-cy="tag-action-btn"]').click();
+        cy.get('[data-testid="tag-action-btn"]').click();
         cy.wrap(tagsSpy).should('have.been.calledWith', {
             one: { label: 'one', removed: false },
         });

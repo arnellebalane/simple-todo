@@ -17,7 +17,7 @@ const dateDisplay = $derived.by(() => {
 });
 </script>
 
-<Badge {icon} data-cy="todo-item-date">
+<Badge {icon} data-testid="todo-item-date">
     {dateDisplay}
 </Badge>
 

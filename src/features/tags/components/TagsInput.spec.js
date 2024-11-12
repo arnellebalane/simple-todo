@@ -16,7 +16,7 @@ describe('TagsInput', () => {
         });
 
         for (const tag of value) {
-            cy.get('[data-cy="tags-value"]').contains(tag);
+            cy.get('[data-testid="tags-value"]').contains(tag);
         }
     });
 
@@ -28,11 +28,11 @@ describe('TagsInput', () => {
             },
         });
 
-        cy.get('[data-cy="tags-input"]').type('one');
-        cy.get('[data-cy="tags-input"]').focus().trigger('keydown', { code: 'Enter' });
+        cy.get('[data-testid="tags-input"]').type('one');
+        cy.get('[data-testid="tags-input"]').focus().trigger('keydown', { code: 'Enter' });
 
-        cy.get('[data-cy="tags-value"]').contains('one');
-        cy.get('[data-cy="tags-input"]').should('have.value', '');
+        cy.get('[data-testid="tags-value"]').contains('one');
+        cy.get('[data-testid="tags-input"]').should('have.value', '');
     });
 
     it('ignores new value when it is already in the list of values', () => {
@@ -43,11 +43,11 @@ describe('TagsInput', () => {
             },
         });
 
-        cy.get('[data-cy="tags-input"]').type('one');
-        cy.get('[data-cy="tags-input"]').focus().trigger('keydown', { code: 'Enter' });
+        cy.get('[data-testid="tags-input"]').type('one');
+        cy.get('[data-testid="tags-input"]').focus().trigger('keydown', { code: 'Enter' });
 
-        cy.get('[data-cy="tags-value"]').contains('one').should('have.length', 1);
-        cy.get('[data-cy="tags-input"]').should('have.value', '');
+        cy.get('[data-testid="tags-value"]').contains('one').should('have.length', 1);
+        cy.get('[data-testid="tags-input"]').should('have.value', '');
     });
 
     it('removes value from values when it is clicked', () => {
@@ -58,7 +58,7 @@ describe('TagsInput', () => {
             },
         });
 
-        cy.get('[data-cy="tags-value"]').click();
-        cy.get('[data-cy="tags-value"]').should('have.length', 0);
+        cy.get('[data-testid="tags-value"]').click();
+        cy.get('[data-testid="tags-value"]').should('have.length', 0);
     });
 });

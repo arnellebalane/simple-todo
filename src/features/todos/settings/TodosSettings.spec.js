@@ -17,8 +17,8 @@ describe('TodosSettings', () => {
             props: { data },
         });
 
-        cy.get('[data-cy="open-optional-fields-toggle"]').should('be.checked');
-        cy.get('[data-cy="move-todos-automatically-toggle"]').should('be.checked');
+        cy.get('[data-testid="open-optional-fields-toggle"]').should('be.checked');
+        cy.get('[data-testid="move-todos-automatically-toggle"]').should('be.checked');
     });
 
     it('deselects toggles based on data prop', () => {
@@ -31,8 +31,8 @@ describe('TodosSettings', () => {
             props: { data },
         });
 
-        cy.get('[data-cy="open-optional-fields-toggle"]').should('not.be.checked');
-        cy.get('[data-cy="move-todos-automatically-toggle"]').should('not.be.checked');
+        cy.get('[data-testid="open-optional-fields-toggle"]').should('not.be.checked');
+        cy.get('[data-testid="move-todos-automatically-toggle"]').should('not.be.checked');
     });
 
     it('selects date display format based on data.todoDateDisplay', () => {
@@ -44,7 +44,7 @@ describe('TodosSettings', () => {
             props: { data },
         });
 
-        cy.get(`[data-cy="todo-date-display-selector"] input[value="${TODOS_DATE_RELATIVE}"]`).should('be.checked');
+        cy.get(`[data-testid="todo-date-display-selector"] input[value="${TODOS_DATE_RELATIVE}"]`).should('be.checked');
     });
 
     it('dispatches "change" event when openOptionalFields toggle changes', () => {
@@ -59,7 +59,7 @@ describe('TodosSettings', () => {
             component.$on('change', changeSpy);
         });
 
-        cy.get('[data-cy="open-optional-fields-toggle"]').click({ force: true });
+        cy.get('[data-testid="open-optional-fields-toggle"]').click({ force: true });
 
         cy.wrap(changeSpy).should('have.been.called');
         cy.wrap(data).should('deep.equal', {
@@ -79,7 +79,7 @@ describe('TodosSettings', () => {
             component.$on('change', changeSpy);
         });
 
-        cy.get('[data-cy="move-todos-automatically-toggle"]').click({ force: true });
+        cy.get('[data-testid="move-todos-automatically-toggle"]').click({ force: true });
 
         cy.wrap(changeSpy).should('have.been.called');
         cy.wrap(data).should('deep.equal', {
@@ -99,7 +99,7 @@ describe('TodosSettings', () => {
             component.$on('change', changeSpy);
         });
 
-        cy.get(`[data-cy="todo-date-display-selector"] input[value="${TODOS_DATE_RELATIVE}"]`).click({ force: true });
+        cy.get(`[data-testid="todo-date-display-selector"] input[value="${TODOS_DATE_RELATIVE}"]`).click({ force: true });
 
         cy.wrap(changeSpy).should('have.been.called');
         cy.wrap(data).should('deep.equal', {

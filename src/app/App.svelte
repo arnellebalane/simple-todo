@@ -43,8 +43,6 @@ const saveTodoItem = (todo) => {
     tags.add(todo.tags);
     setShowTodoForm(false);
 };
-const removeDoneTodos = () => todos.removeDone();
-const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 
 onMount(() => enableShortcut('addTodo', () => setShowTodoForm(true)));
 onDestroy(() => disableShortcut('addTodo'));
@@ -71,8 +69,8 @@ onDestroy(() => disableShortcut('addTodo'));
         <AppHeader
             class="AppHeader"
             onAddTodo={() => setShowTodoForm(true)}
-            onRemoveDone={removeDoneTodos}
-            onUndoRemoveDone={undoRemoveDoneTodos}
+            onRemoveDone={todos.removeDone}
+            onUndoRemoveDone={todos.undoRemoveDone}
         />
         <TodoBoard
             class="TodoBoard"

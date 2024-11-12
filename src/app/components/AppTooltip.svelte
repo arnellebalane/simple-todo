@@ -36,7 +36,7 @@ const handleLeave = async (event) => {
         return;
     }
     message = '';
-    styles = '';
+    styles = 'display: none;';
 };
 
 const positionTooltip = async () => {

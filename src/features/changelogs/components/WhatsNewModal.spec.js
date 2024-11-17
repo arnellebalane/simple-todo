@@ -1,28 +1,30 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it } from 'vitest';
+
 import WhatsNewModal from './WhatsNewModal.svelte';
 
+import changeLogs from '@cypress/fixtures/changelogs.json';
 import { changelogs } from '@features/changelogs/store';
 
 describe('WhatsNewModal', () => {
     beforeEach(() => {
-        cy.fixture('changelogs.json').then((changeLogs) => {
-            cy.intercept('GET', '**/.netlify/functions/get-version-changelog**', changeLogs);
-            changelogs.set(changeLogs);
-        });
+        changelogs.set(changeLogs);
     });
 
     it('hides the modal when show prop is false', () => {
-        cy.mount(WhatsNewModal);
+        render(WhatsNewModal);
 
-        cy.get('[data-testid="whats-new-modal"]').should('not.exist');
+        expect(screen.queryByTestId('whats-new-modal')).not.toBeInTheDocument();
     });
 
     it('displays the modal when show prop is true', () => {
-        cy.mount(WhatsNewModal, {
+        render(WhatsNewModal, {
             props: {
                 show: true,
             },
         });
 
-        cy.get('[data-testid="whats-new-modal"]').should('be.visible');
+        expect(screen.getByTestId('whats-new-modal')).toBeInTheDocument();
     });
 });

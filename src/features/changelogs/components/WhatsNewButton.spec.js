@@ -1,34 +1,38 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import WhatsNewButton from './WhatsNewButton.svelte';
 
 describe('WhatsNewButton', () => {
     beforeEach(() => {
-        cy.viewport(500, 500);
+        vi.clearAllMocks();
     });
 
     it('omits pulse class when pulse prop is false', () => {
-        cy.mount(WhatsNewButton);
+        render(WhatsNewButton);
 
-        cy.get('[data-testid="whats-new-btn"]').should('not.have.class', 'pulse');
+        expect(screen.queryByTestId('whats-new-btn')).not.toHaveClass('pulse');
     });
 
     it('includes pulse class when pulse prop is true', () => {
-        cy.mount(WhatsNewButton, {
+        render(WhatsNewButton, {
             props: {
                 pulse: true,
             },
         });
 
-        cy.get('[data-testid="whats-new-btn"]').should('have.class', 'pulse');
+        expect(screen.getByTestId('whats-new-btn')).toHaveClass('pulse');
     });
 
-    it('dispatches "click" event when button is clicked', () => {
-        const onClick = cy.spy();
+    it('dispatches "click" event when button is clicked', async () => {
+        const onClick = vi.fn();
 
-        cy.mount(WhatsNewButton).then(({ component }) => {
-            component.$on('click', onClick);
+        render(WhatsNewButton, {
+            props: { onClick },
         });
+        await userEvent.click(screen.getByTestId('whats-new-btn'));
 
-        cy.get('[data-testid="whats-new-btn"]').click();
-        cy.wrap(onClick).should('have.been.called');
+        expect(onClick).toHaveBeenCalled();
     });
 });

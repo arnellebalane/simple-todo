@@ -19,6 +19,9 @@
       ],
       "@cypress/*": [
         "./cypress/*"
+      ],
+      "@test/*": [
+        "./test/*"
       ]
     }
   }

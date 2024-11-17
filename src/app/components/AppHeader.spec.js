@@ -23,14 +23,11 @@ describe('AppHeader', () => {
 
     it('displays the current date', () => {
         const date = new Date(2023, 0, 1);
-        vi.useFakeTimers();
         vi.setSystemTime(date);
 
         render(AppHeader);
 
         expect(screen.getByTestId('today')).toHaveTextContent('Sunday, January 1');
-
-        vi.useRealTimers();
     });
 
     it('displays remove done button when remove timer is not running', () => {

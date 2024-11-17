@@ -1,6 +1,10 @@
-import { settings } from '@features/settings/store';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY } from './constants';
+import backgroundImage from '@cypress/fixtures/unsplash-image.json';
+import { settings } from '@features/settings/store';
+import axios from '@lib/axios';
+import { customImageDataUrl } from '@test/constants';
+
 import { initializeBackgrounds } from './index';
 import { getDefaultSettings } from './settings';
 
@@ -10,148 +14,106 @@ import { getDefaultSettings } from './settings';
  */
 
 describe('initializeBackgrounds', () => {
-    beforeEach(() => {
-        settings.set(getDefaultSettings());
+    let axiosGetMock;
+    let axiosPostMock;
 
-        cy.intercept('GET', '**/.netlify/functions/get-background-image**', {}).as('getBackgroundImage');
-        cy.intercept('POST', '**/.netlify/functions/report-unsplash-download**', {}).as('reportUnsplashDownload');
-        cy.intercept('GET', 'https://images.unsplash.com/**', { fixture: 'unsplash-image.jpeg' }).as('downloadImage');
+    beforeEach(() => {
+        vi.clearAllMocks();
+        vi.useFakeTimers();
+
+        axiosGetMock = vi.spyOn(axios, 'get').mockResolvedValue({ data: new Blob() });
+        axiosPostMock = vi.spyOn(axios, 'post').mockResolvedValue({ data: {} });
+
+        settings.set(getDefaultSettings());
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
     });
 
     it('removes background image when background settings are not defined', () => {
         initializeBackgrounds();
 
-        cy.get('body').should('not.have.attr', 'data-background');
+        expect(document.body).not.toHaveAttribute('data-background');
     });
 
-    it('displays background image when background settings are defined', () => {
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            settings.set({
-                background: true,
-                backgroundImage,
-            });
-
-            initializeBackgrounds();
-
-            cy.get('body')
-                .should('have.attr', 'data-background', backgroundImage.photo_blurhash)
-                .should('have.attr', 'data-background-loaded');
+    it('displays background image when background settings are defined', async () => {
+        settings.set({
+            background: true,
+            backgroundImage,
         });
+
+        initializeBackgrounds();
+        await vi.advanceTimersByTimeAsync(100);
+
+        expect(document.body).toHaveAttribute('data-background');
+        expect(document.body).toHaveAttribute('data-background-loaded');
     });
 
-    it.skip('sets data-background to custom when using an uploaded background image', () => {
-        cy.fixture('unsplash-image-data-url.txt').then((dataUrl) => {
-            settings.set({
-                background: true,
-                backgroundImage: {
-                    photo_url: dataUrl,
-                },
-            });
+    it('sets data-background to custom when using an uploaded background image', async () => {
+        settings.set({
+            background: true,
+            backgroundImage: {
+                photo_url: customImageDataUrl,
+            },
+        });
+
+        initializeBackgrounds();
+        await vi.advanceTimersByTimeAsync(100);
+
+        expect(document.body).toHaveAttribute('data-background', 'custom');
+        expect(document.body).toHaveAttribute('data-background-loaded');
+    });
+
+    it('does not load full resolution image when settings are in preview', () => {
+        settings.set({
+            background: true,
+            backgroundImage,
+            preview: true,
         });
 
         initializeBackgrounds();
 
-        cy.get('body').should('have.attr', 'data-background', 'custom').should('have.attr', 'data-background-loaded');
+        expect(axiosGetMock).toHaveBeenCalledWith(backgroundImage.photo_url, expect.any(Object));
     });
 
-    it.skip('does not load full resolution image when settings are in preview', () => {
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            settings.set({
-                background: true,
-                backgroundImage,
-                preview: true,
-            });
-
-            initializeBackgrounds();
-
-            cy.get('@downloadImage.all').should('have.length', 1);
-            cy.wait('@downloadImage').its('request.url').should('equal', backgroundImage.photo_url);
+    it('does not load full resolution image again when background has been preloaded', () => {
+        settings.set({
+            background: true,
+            backgroundImage,
+            backgroundPreloaded: true,
         });
+
+        initializeBackgrounds();
+
+        expect(axiosGetMock).toHaveBeenCalledWith(backgroundImage.photo_url_full, expect.any(Object));
     });
 
-    it.skip('does not load full resolution image again when background has been preloaded', () => {
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            settings.set({
-                background: true,
-                backgroundImage,
-                backgroundPreloaded: true,
-            });
-
-            initializeBackgrounds();
-
-            cy.get('@downloadImage.all').should('have.length', 1);
-            cy.wait('@downloadImage').its('request.url').should('equal', backgroundImage.photo_url_full);
+    it('does not load full resolution image when data saver mode is enabled', () => {
+        Object.defineProperty(window.navigator, 'connection', {
+            get: vi.fn().mockReturnValue({
+                saveData: false,
+            }),
         });
+        settings.set({
+            background: true,
+            backgroundImage,
+        });
+
+        initializeBackgrounds();
+
+        expect(axiosGetMock).toHaveBeenCalledWith(backgroundImage.photo_url, expect.any(Object));
     });
 
-    it.skip('does not load full resolution image when data saver mode is enabled', () => {
-        cy.window().then((win) => {
-            Object.defineProperty(win.navigator.connection, 'saveData', {
-                get: cy.stub().returns(true),
-            });
-
-            cy.fixture('unsplash-image.json').then((backgroundImage) => {
-                settings.set({
-                    background: true,
-                    backgroundImage,
-                });
-
-                initializeBackgrounds();
-
-                cy.get('@downloadImage.all').should('have.length', 1);
-                cy.wait('@downloadImage').its('request.url').should('equal', backgroundImage.photo_url);
-            });
+    it('loads full resolution image when settings are applied and not yet preloaded', () => {
+        settings.set({
+            background: true,
+            backgroundImage,
         });
-    });
 
-    // TODO: For some reason this test passes when run on its own, but fails with the rest of the test suite. We should
-    // test here that both photo URLs were requested.
-    it.skip('loads full resolution image when settings are applied and not yet preloaded', () => {
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            settings.set({
-                background: true,
-                backgroundImage,
-            });
+        initializeBackgrounds();
 
-            initializeBackgrounds();
-
-            cy.get('@downloadImage.all').should('have.length', 2);
-            cy.wait('@downloadImage').its('request.url').should('equal', backgroundImage.photo_url);
-            cy.wait('@downloadImage').its('request.url').should('equal', backgroundImage.photo_url_full);
-        });
-    });
-
-    it.skip('refreshes background image for daily frequency and beyond last update', () => {
-        cy.clock(new Date(2023, 0, 2));
-
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            settings.set({
-                background: true,
-                backgroundImage,
-                backgroundImageLastUpdate: new Date(2023, 0, 1),
-                backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
-            });
-
-            initializeBackgrounds();
-
-            cy.wait('@getBackgroundImage');
-        });
-    });
-
-    it.skip('refreshes background image for weekly frequency and beyond last update', () => {
-        cy.clock(new Date(2023, 0, 8));
-
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            settings.set({
-                background: true,
-                backgroundImage,
-                backgroundImageLastUpdate: new Date(2023, 0, 1),
-                backgroundRefreshFrequency: BACKGROUND_REFRESH_WEEKLY,
-            });
-
-            initializeBackgrounds();
-
-            cy.wait('@getBackgroundImage');
-        });
+        expect(axiosGetMock).toHaveBeenCalledWith(backgroundImage.photo_url, expect.any(Object));
+        expect(axiosGetMock).toHaveBeenCalledWith(backgroundImage.photo_url_full, expect.any(Object));
     });
 });

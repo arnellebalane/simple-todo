@@ -1,83 +1,83 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import CustomSourceFieldSet from './CustomSourceFieldSet.svelte';
 
+import backgroundImage from '@cypress/fixtures/unsplash-image.json';
 import { BACKGROUND_REFRESH_MANUALLY, BACKGROUND_SOURCE_CUSTOM } from '../constants';
+import { backgrounds } from '../store';
 
 describe('CustomSourceFieldSet', () => {
     beforeEach(() => {
-        cy.viewport(500, 500);
-        cy.intercept('**/.netlify/functions/get-background-image**', {
-            fixture: 'unsplash-image.json',
-        }).as('getBackgroundImage');
+        vi.clearAllMocks();
+
+        vi.spyOn(backgrounds, 'getBackgroundImage').mockReturnValue({
+            request: Promise.resolve(backgroundImage),
+        });
     });
 
     it('disables image url and upload fields when disabled prop is true', () => {
-        cy.mount(CustomSourceFieldSet, {
+        render(CustomSourceFieldSet, {
             props: {
                 disabled: true,
             },
         });
 
-        cy.get('[data-testid="image-url-field-input"]').should('be.disabled');
-        cy.get('[data-testid="image-upload-field-input"]').should('be.disabled');
+        expect(screen.getByTestId('image-url-field-input')).toBeDisabled();
+        expect(screen.getByTestId('image-upload-field-input')).toBeDisabled();
     });
 
     it('enables image url and upload fields when disabled prop is false', () => {
-        cy.mount(CustomSourceFieldSet, {
+        render(CustomSourceFieldSet, {
             props: {
                 disabled: false,
             },
         });
 
-        cy.get('[data-testid="image-url-field-input"]').should('be.enabled');
-        cy.get('[data-testid="image-upload-field-input"]').should('be.enabled');
+        expect(screen.getByTestId('image-url-field-input')).toBeEnabled();
+        expect(screen.getByTestId('image-upload-field-input')).toBeEnabled();
     });
 
-    it('dispatches "change" event when custom image url is specified', () => {
-        const onChange = cy.spy();
+    it('dispatches "change" event when custom image url is specified', async () => {
+        const onChange = vi.fn();
         const data = {};
         const now = new Date(2023, 0, 1);
-        cy.clock(now);
+        vi.setSystemTime(now);
 
-        cy.mount(CustomSourceFieldSet, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', onChange);
+        render(CustomSourceFieldSet, {
+            props: {
+                data,
+                onChange,
+            },
         });
+        await userEvent.type(screen.getByTestId('image-url-field-input'), backgroundImage.photo_link);
+        await userEvent.click(screen.getByTestId('image-url-field-button'));
 
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            cy.get('[data-testid="image-url-field-input"]').type(backgroundImage.photo_link);
-            cy.get('[data-testid="image-url-field-button"]').click();
-
-            cy.wrap(onChange).should(
-                'have.been.calledWith',
-                Cypress.sinon.match({
-                    detail: {
-                        backgroundImage,
-                        backgroundImageLastUpdate: now.valueOf(),
-                        backgroundSource: BACKGROUND_SOURCE_CUSTOM,
-                        backgroundRefreshFrequency: BACKGROUND_REFRESH_MANUALLY,
-                    },
-                }),
-            );
+        expect(onChange).toHaveBeenCalledWith({
+            backgroundImage,
+            backgroundImageLastUpdate: now.valueOf(),
+            backgroundSource: BACKGROUND_SOURCE_CUSTOM,
+            backgroundRefreshFrequency: BACKGROUND_REFRESH_MANUALLY,
         });
     });
 
-    it('dispatches "change" event when custom image is uploaded', () => {
-        const onChange = cy.spy();
+    it('dispatches "change" event when custom image is uploaded', async () => {
+        const onChange = vi.fn();
         const data = {};
+        const file = new File(['test-image'], 'image.jpg', { type: 'image/jpg' });
         const now = new Date(2023, 0, 1);
-        cy.clock(now);
+        vi.setSystemTime(now);
 
-        cy.mount(CustomSourceFieldSet, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', onChange);
+        render(CustomSourceFieldSet, {
+            props: {
+                data,
+                onChange,
+            },
         });
+        await userEvent.upload(screen.getByTestId('image-upload-field-input'), file);
+        await userEvent.click(screen.getByTestId('image-upload-field-button'));
 
-        cy.fixture('unsplash-image.jpeg').as('customImage');
-        cy.get('[data-testid="image-upload-field-input"]').selectFile('@customImage', { force: true });
-        cy.get('[data-testid="image-upload-field-button"]').click();
-
-        cy.wrap(onChange).should('have.been.called');
+        expect(onChange).toHaveBeenCalled();
     });
 });

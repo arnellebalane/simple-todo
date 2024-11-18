@@ -44,7 +44,7 @@ const handleSubmit = async (event) => {
         bind:value
         class:error
         disabled={isLoading}
-        oninput={() => onError('')}
+        oninput={() => onError?.('')}
         data-testid="custom-url-field-input"
     />
     <Button disabled={isLoading} {form} data-testid="custom-url-field-button">Add Link</Button>

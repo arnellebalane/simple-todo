@@ -4,6 +4,7 @@ import 'vitest-canvas-mock';
 import { vi } from 'vitest';
 
 import changeLogs from '@cypress/fixtures/changelogs.json';
+import quickLinks from '@cypress/fixtures/quicklinks.json';
 import backgroundImage from '@cypress/fixtures/unsplash-image.json';
 import axios from '@lib/axios';
 
@@ -19,6 +20,8 @@ vi.spyOn(axios, 'get').mockImplementation((url) => {
             return Promise.resolve({ data: changeLogs });
         case '/get-background-image':
             return Promise.resolve({ data: backgroundImage });
+        case '/get-quick-link-details':
+            return Promise.resolve({ data: quickLinks[0] });
         default:
             return Promise.resolve({ data: null });
     }

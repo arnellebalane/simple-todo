@@ -1,14 +1,14 @@
+import { fireEvent, render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import TagsInput from './TagsInput.svelte';
 
 describe('TagsInput', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('renders current list of values', () => {
         const value = ['one', 'two'];
 
-        cy.mount(TagsInput, {
+        render(TagsInput, {
             props: {
                 value,
                 choices: [],
@@ -16,49 +16,56 @@ describe('TagsInput', () => {
         });
 
         for (const tag of value) {
-            cy.get('[data-testid="tags-value"]').contains(tag);
+            expect(screen.getByRole('button', { name: tag })).toBeInTheDocument();
         }
     });
 
-    it('renders new value in list of values and resets input when enter key is pressed', () => {
-        cy.mount(TagsInput, {
+    it('calls "onChange" with new value in list of values and resets input when enter key is pressed', async () => {
+        const onChange = vi.fn();
+
+        render(TagsInput, {
             props: {
                 value: [],
                 choices: [],
+                onChange,
             },
         });
+        await userEvent.type(screen.getByTestId('tags-input'), 'one');
+        fireEvent.change(screen.getByTestId('tags-input'));
 
-        cy.get('[data-testid="tags-input"]').type('one');
-        cy.get('[data-testid="tags-input"]').focus().trigger('keydown', { code: 'Enter' });
-
-        cy.get('[data-testid="tags-value"]').contains('one');
-        cy.get('[data-testid="tags-input"]').should('have.value', '');
+        expect(onChange).toHaveBeenCalledWith(['one']);
+        await vi.waitFor(() => expect(screen.getByTestId('tags-input')).toHaveValue(''));
     });
 
-    it('ignores new value when it is already in the list of values', () => {
-        cy.mount(TagsInput, {
+    it('ignores new value when it is already in the list of values', async () => {
+        const onChange = vi.fn();
+
+        render(TagsInput, {
             props: {
                 value: ['one'],
                 choices: [],
+                onChange,
             },
         });
+        await userEvent.type(screen.getByTestId('tags-input'), 'one');
+        fireEvent.change(screen.getByTestId('tags-input'));
 
-        cy.get('[data-testid="tags-input"]').type('one');
-        cy.get('[data-testid="tags-input"]').focus().trigger('keydown', { code: 'Enter' });
-
-        cy.get('[data-testid="tags-value"]').contains('one').should('have.length', 1);
-        cy.get('[data-testid="tags-input"]').should('have.value', '');
+        expect(onChange).not.toHaveBeenCalled();
+        await vi.waitFor(() => expect(screen.getByTestId('tags-input')).toHaveValue(''));
     });
 
-    it('removes value from values when it is clicked', () => {
-        cy.mount(TagsInput, {
+    it('removes value from values when it is clicked', async () => {
+        const onChange = vi.fn();
+
+        render(TagsInput, {
             props: {
                 value: ['one'],
                 choices: [],
+                onChange,
             },
         });
+        await userEvent.click(screen.getByRole('button', { name: 'one' }));
 
-        cy.get('[data-testid="tags-value"]').click();
-        cy.get('[data-testid="tags-value"]').should('have.length', 0);
+        expect(onChange).toHaveBeenCalledWith([]);
     });
 });

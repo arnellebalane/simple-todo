@@ -7,7 +7,7 @@ import { onSave } from '.';
 
 describe('backgrounds settings', () => {
     it('reports unsplash download on save', () => {
-        const axiosPostMock = vi.spyOn(axios, 'post').mockResolvedValue({});
+        const axiosPostMock = vi.mocked(axios.post);
 
         const currentSettings = {};
         const updatedSettings = {

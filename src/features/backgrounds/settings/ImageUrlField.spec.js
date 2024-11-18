@@ -5,7 +5,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import ImageUrlField from './ImageUrlField.svelte';
 
 import backgroundImage from '@cypress/fixtures/unsplash-image.json';
-import { backgrounds } from '../store';
 
 const name = 'image-url-field';
 const invalidImageUrl = 'this-is-not-a-url';
@@ -13,10 +12,6 @@ const invalidImageUrl = 'this-is-not-a-url';
 describe('ImageUrlField', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-
-        vi.spyOn(backgrounds, 'getBackgroundImage').mockReturnValue({
-            request: Promise.resolve(backgroundImage),
-        });
     });
 
     it('disables image url input and set image button when disabled prop is true', () => {

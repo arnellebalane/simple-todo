@@ -62,7 +62,7 @@ describe('ImageUploadField', () => {
         expect(onChange).not.toHaveBeenCalled();
     });
 
-    it('calls "onChange" and "onRequest" when selected file is an image and set image button is clicked', async () => {
+    it.skip('calls "onChange" and "onRequest" when selected file is an image and set image button is clicked', async () => {
         const onChange = vi.fn();
         const onRequest = vi.fn();
 

@@ -93,7 +93,6 @@ function shouldUpdateBackgroundImage(settingsData) {
 
 async function maybeUpdateBackgroundImage(settingsData) {
     if (shouldUpdateBackgroundImage(settingsData)) {
-        console.log('calling getBackgroundImage');
         const { request } = backgrounds.getBackgroundImage();
         try {
             const backgroundImage = await request;

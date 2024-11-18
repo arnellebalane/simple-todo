@@ -14,15 +14,11 @@ import { getDefaultSettings } from './settings';
  */
 
 describe('initializeBackgrounds', () => {
-    let axiosGetMock;
-    let axiosPostMock;
+    const axiosGetMock = vi.mocked(axios.get);
 
     beforeEach(() => {
         vi.clearAllMocks();
         vi.useFakeTimers();
-
-        axiosGetMock = vi.spyOn(axios, 'get').mockResolvedValue({ data: new Blob() });
-        axiosPostMock = vi.spyOn(axios, 'post').mockResolvedValue({ data: {} });
 
         settings.set(getDefaultSettings());
     });

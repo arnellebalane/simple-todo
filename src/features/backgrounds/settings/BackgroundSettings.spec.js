@@ -9,17 +9,12 @@ import {
     BACKGROUND_SOURCE_AUTOMATIC,
     BACKGROUND_SOURCE_CUSTOM,
 } from '../constants';
-import { backgrounds } from '../store';
 
 import { component as BackgroundSettings } from '.';
 
 describe('BackgroundSettings', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-
-        vi.spyOn(backgrounds, 'getBackgroundImage').mockReturnValue({
-            request: Promise.resolve(backgroundImage),
-        });
     });
 
     it('deselects background switch and hides background source selector when data.background prop is false', () => {

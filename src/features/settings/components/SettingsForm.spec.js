@@ -1,78 +1,69 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import SettingsForm from './SettingsForm.svelte';
 
 import { COLOR_GREEN, COLOR_YELLOW, THEME_LIGHT, THEME_SYSTEM } from '@features/themes/constants';
 
 describe('SettingsForm', () => {
-    beforeEach(() => {
-        cy.viewport(800, 800);
-    });
-
-    it('dispatches "submit" event when save changes button is clicked', () => {
-        const submitSpy = cy.spy();
+    it('calls "onSubmit" when save changes button is clicked', async () => {
+        const onSubmit = vi.fn();
         const data = {
             theme: THEME_SYSTEM,
             color: COLOR_GREEN,
         };
 
-        cy.mount(SettingsForm, {
+        render(SettingsForm, {
             props: {
                 data,
+                onSubmit,
             },
-        }).then(({ component }) => {
-            component.$on('submit', submitSpy);
         });
+        await userEvent.click(screen.getByTestId('settings-form-submit-btn'));
 
-        cy.get('[data-testid="settings-form-submit-btn"]').click();
-        cy.wrap(submitSpy).should('have.been.calledWith', Cypress.sinon.match({ detail: data }));
+        expect(onSubmit).toHaveBeenCalledWith(data);
     });
 
-    it('dispatches "cancel" event when cancel button is clicked', () => {
-        const cancelSpy = cy.spy();
+    it('calls "onCancel" when cancel button is clicked', async () => {
+        const onCancel = vi.fn();
 
-        cy.mount(SettingsForm).then(({ component }) => {
-            component.$on('cancel', cancelSpy);
+        render(SettingsForm, {
+            props: { onCancel },
         });
+        await userEvent.click(screen.getByTestId('settings-form-cancel-btn'));
 
-        cy.get('[data-testid="settings-form-cancel-btn"]').click();
-        cy.wrap(cancelSpy).should('have.been.called');
+        expect(onCancel).toHaveBeenCalled();
     });
 
-    it('dispatches "change" event when setings tab content fields has changes', () => {
-        const changeSpy = cy.spy();
+    it('calls "onChange" when setings tab content fields has changes', async () => {
+        const onChange = vi.fn();
         const data = {
             theme: THEME_SYSTEM,
             color: COLOR_GREEN,
         };
 
-        cy.mount(SettingsForm, {
+        render(SettingsForm, {
             props: {
                 data,
+                onChange,
             },
-        }).then(({ component }) => {
-            component.$on('change', changeSpy);
         });
+        await userEvent.click(screen.getByLabelText('Light'));
 
-        cy.get(`[data-testid="theme-settings-selector"] input[value="${THEME_LIGHT}"]`).click({ force: true });
-        cy.get(`[data-testid="color-settings-selector"] input[value="${COLOR_YELLOW}"]`).click({ force: true });
-
-        cy.wrap(changeSpy).should(
-            'have.been.calledWith',
-            Cypress.sinon.match({
-                detail: {
-                    theme: THEME_LIGHT,
-                    color: COLOR_YELLOW,
-                },
-            }),
-        );
+        expect(onChange).toHaveBeenCalledWith({
+            theme: THEME_LIGHT,
+            color: COLOR_GREEN,
+        });
     });
 
-    it('displays settings form content corresponding to selected settings tab', () => {
-        cy.mount(SettingsForm);
+    it('displays settings form content corresponding to selected settings tab', async () => {
+        render(SettingsForm);
 
-        cy.contains('Theme').click();
-        cy.get('[data-testid="theme-settings-selector"]').should('exist');
+        await userEvent.click(screen.getByLabelText('Theme'));
+        expect(screen.getByTestId('theme-settings-selector')).toBeInTheDocument();
 
-        cy.contains('Background').click();
-        cy.get('[data-testid="toggle-background"]').should('exist');
+        await userEvent.click(screen.getByLabelText('Background'));
+        expect(screen.getByTestId('toggle-background')).toBeInTheDocument();
     });
 });

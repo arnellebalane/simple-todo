@@ -1,12 +1,12 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import { component as MiscellaneousSettings } from '.';
 
 describe('MiscellaneousSettings', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('toggles privacy mode switch based on enablePrivacyMode prop value', () => {
-        cy.mount(MiscellaneousSettings, {
+        render(MiscellaneousSettings, {
             props: {
                 data: {
                     enablePrivacyMode: true,
@@ -14,22 +14,25 @@ describe('MiscellaneousSettings', () => {
             },
         });
 
-        cy.get('[data-testid="enable-privacy-mode-toggle"]').should('be.checked');
+        expect(screen.getByTestId('enable-privacy-mode-toggle')).toBeChecked();
     });
 
-    it('dispatches "change" event when privacy mode switch is toggled', () => {
-        const changeSpy = cy.spy();
+    it('dispatches "change" event when privacy mode switch is toggled', async () => {
+        const onChange = vi.fn();
         const data = {
             enablePrivacyMode: false,
         };
 
-        cy.mount(MiscellaneousSettings, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', changeSpy);
+        render(MiscellaneousSettings, {
+            props: {
+                data,
+                onChange,
+            },
         });
+        await userEvent.click(screen.getByTestId('enable-privacy-mode-toggle'));
 
-        cy.get('[data-testid="enable-privacy-mode-toggle"]').click({ force: true });
-        cy.wrap(changeSpy).should('have.been.called');
+        expect(onChange).toHaveBeenCalledWith({
+            enablePrivacyMode: true,
+        });
     });
 });

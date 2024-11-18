@@ -1,3 +1,5 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { COLOR_GREEN, THEME_SYSTEM } from '@features/themes/constants';
 import { STORAGE_KEY_SETTINGS } from '@lib/constants';
 
@@ -10,7 +12,7 @@ describe('settings store', () => {
 
     describe('settings.preview', () => {
         it('returns preview flag', () => {
-            const settingsSpy = cy.spy();
+            const settingsSpy = vi.fn();
             settings.subscribe(settingsSpy);
 
             const data = {
@@ -18,7 +20,7 @@ describe('settings store', () => {
             };
             settings.preview(data);
 
-            cy.wrap(settingsSpy).should('have.been.calledWith', { ...data, preview: true });
+            expect(settingsSpy).toHaveBeenCalledWith({ ...data, preview: true });
         });
     });
 
@@ -29,18 +31,18 @@ describe('settings store', () => {
             };
             settings.preview(data);
 
-            const settingsSpy = cy.spy();
+            const settingsSpy = vi.fn();
             settings.subscribe(settingsSpy);
 
             settings.restore();
 
-            cy.wrap(settingsSpy).should('have.been.calledWith', {});
+            expect(settingsSpy).toHaveBeenCalledWith({});
         });
     });
 
     describe('settings.save', () => {
         it('picks only allowed fields', () => {
-            const settingsSpy = cy.spy();
+            const settingsSpy = vi.fn();
             settings.subscribe(settingsSpy);
 
             const data = {
@@ -49,7 +51,7 @@ describe('settings store', () => {
             };
             settings.save(data);
 
-            cy.wrap(settingsSpy).should('have.been.calledWith', {
+            expect(settingsSpy).toHaveBeenCalledWith({
                 theme: THEME_SYSTEM,
             });
         });
@@ -62,12 +64,12 @@ describe('settings store', () => {
             };
             settings.set(data);
 
-            const settingsSpy = cy.spy();
+            const settingsSpy = vi.fn();
             settings.subscribe(settingsSpy);
 
             settings.saveKey('color', COLOR_GREEN);
 
-            cy.wrap(settingsSpy).should('have.been.calledWith', {
+            expect(settingsSpy).toHaveBeenCalledWith({
                 theme: THEME_SYSTEM,
                 color: COLOR_GREEN,
             });
@@ -75,20 +77,20 @@ describe('settings store', () => {
     });
 
     describe('settings.saveInStorage', () => {
+        afterEach(() => {
+            localStorage.clear();
+        });
+
         it('saves settings in localStorage', () => {
             const data = {
                 theme: THEME_SYSTEM,
             };
             settings.saveInStorage(data);
 
-            cy.window().then((win) => {
-                cy.getAllLocalStorage().then((localStorage) => {
-                    const storedSettings = localStorage[win.location.origin][STORAGE_KEY_SETTINGS];
-                    const expectedSettings = JSON.stringify(data);
+            const storedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
+            const expectedSettings = JSON.stringify(data);
 
-                    cy.wrap(storedSettings).should('equal', expectedSettings);
-                });
-            });
+            expect(storedSettings).toEqual(expectedSettings);
         });
     });
 
@@ -99,12 +101,12 @@ describe('settings store', () => {
             };
             settings.saveInStorage(data);
 
-            const settingsSpy = cy.spy();
+            const settingsSpy = vi.fn();
             settings.subscribe(settingsSpy);
 
             settings.togglePrivacyMode();
 
-            cy.wrap(settingsSpy).should('have.been.calledWith', {
+            expect(settingsSpy).toHaveBeenCalledWith({
                 enablePrivacyMode: true,
             });
         });

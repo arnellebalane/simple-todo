@@ -21,6 +21,7 @@ let {
                 bind:group={value}
                 value={choice.value}
                 onchange={(event) => onChange?.(event.target.value)}
+                aria-label={choice.label}
             />
 
             {#if ChoiceComponent}

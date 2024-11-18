@@ -1,17 +1,16 @@
+import { render, screen } from '@testing-library/svelte';
+import { describe, expect, it } from 'vitest';
+
 import shortcuts from '../shortcuts.json';
 
 import { component as ShortcutsSettings } from '.';
 
 describe('ShortcutsSettings', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('renders all supported shortcuts', () => {
-        cy.mount(ShortcutsSettings);
+        render(ShortcutsSettings);
 
         for (const { label } of Object.values(shortcuts)) {
-            cy.contains(label);
+            expect(screen.getByText(label)).toBeInTheDocument();
         }
     });
 });

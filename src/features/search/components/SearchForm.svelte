@@ -70,6 +70,7 @@ onDestroy(() => disableShortcut('focusSearch'));
             class="SearchClear"
             disabled={!hasSearchFilters}
             data-tooltip="Clear search filters"
+            data-testid="search-form-clear-btn"
             iconLight={icons.closeLight}
             iconDark={icons.closeDark}
             onClick={search.clear}

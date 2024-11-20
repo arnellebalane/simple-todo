@@ -1,63 +1,63 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import { COLOR_PURPLE, COLOR_YELLOW, THEME_DARK, THEME_SYSTEM } from '../constants';
 
 import { component as ThemeSettings } from '.';
 
 describe('ThemeSettings', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('selects theme and color choices based on data prop', () => {
         const data = {
             theme: THEME_DARK,
             color: COLOR_PURPLE,
         };
 
-        cy.mount(ThemeSettings, {
+        render(ThemeSettings, {
             props: { data },
         });
 
-        cy.get(`[data-testid="theme-settings-selector"] input[value="${THEME_DARK}"]`).should('be.checked');
-        cy.get(`[data-testid="color-settings-selector"] input[value="${COLOR_PURPLE}"]`).should('be.checked');
+        expect(screen.getByLabelText('Dark')).toBeChecked();
+        expect(screen.getByLabelText('Purple')).toBeChecked();
     });
 
-    it('dispatches "change" event when theme selection changes', () => {
+    it('dispatches "change" event when theme selection changes', async () => {
         const data = {
             theme: THEME_DARK,
             color: COLOR_PURPLE,
         };
-        const changeSpy = cy.spy();
+        const onChange = vi.fn();
 
-        cy.mount(ThemeSettings, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', changeSpy);
+        render(ThemeSettings, {
+            props: {
+                data,
+                onChange,
+            },
         });
-        cy.get(`[data-testid="theme-settings-selector"] input[value="${THEME_SYSTEM}"]`).click({ force: true });
+        await userEvent.click(screen.getByLabelText('System'));
 
-        cy.wrap(changeSpy).should('have.been.called');
-        cy.wrap(data).should('deep.equal', {
+        expect(onChange).toHaveBeenCalledWith({
             theme: THEME_SYSTEM,
             color: COLOR_PURPLE,
         });
     });
 
-    it('dispatches "change" event when color selection changes', () => {
+    it('dispatches "change" event when color selection changes', async () => {
         const data = {
             theme: THEME_DARK,
             color: COLOR_PURPLE,
         };
-        const changeSpy = cy.spy();
+        const onChange = vi.fn();
 
-        cy.mount(ThemeSettings, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', changeSpy);
+        render(ThemeSettings, {
+            props: {
+                data,
+                onChange,
+            },
         });
-        cy.get(`[data-testid="color-settings-selector"] input[value="${COLOR_YELLOW}"]`).click({ force: true });
+        await userEvent.click(screen.getByLabelText('Yellow'));
 
-        cy.wrap(changeSpy).should('have.been.called');
-        cy.wrap(data).should('deep.equal', {
+        expect(onChange).toHaveBeenCalledWith({
             theme: THEME_DARK,
             color: COLOR_YELLOW,
         });

@@ -1,3 +1,5 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import {
     formatAbsoluteDate,
     formatRelativeDate,
@@ -12,7 +14,12 @@ describe('date helpers', () => {
     const today = new Date('2024-01-04T03:30:00');
 
     beforeEach(() => {
-        cy.clock(today);
+        vi.useFakeTimers();
+        vi.setSystemTime(today);
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
     });
 
     describe('getToday', () => {

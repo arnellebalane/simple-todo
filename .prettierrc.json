@@ -16,7 +16,7 @@
     "^@.+[.]svelte$",
     "^[.].+[.]svelte$",
     "",
-    "^@(?!testing-library|sveltejs)",
+    "^@(?!testing-library|sveltejs|faker-js)",
     "^[.]{2}",
     "",
     "^[.]",

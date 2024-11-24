@@ -1,19 +1,23 @@
+import { render, screen } from '@testing-library/svelte';
+import { describe, expect, it } from 'vitest';
+
 import TodoFormModal from './TodoFormModal.svelte';
 
 describe('TodoFormModal', () => {
     it('hides the modal when show prop is false', () => {
-        cy.mount(TodoFormModal);
+        render(TodoFormModal);
 
-        cy.get('[data-testid="todo-form-modal"]').should('not.exist');
+        expect(screen.queryByTestId('todo-form-modal')).not.toBeInTheDocument();
     });
 
     it('displays the modal when show prop is true', () => {
-        cy.mount(TodoFormModal, {
+        render(TodoFormModal, {
             props: {
+                data: {},
                 show: true,
             },
         });
 
-        cy.get('[data-testid="todo-form-modal"]').should('be.visible');
+        expect(screen.getByTestId('todo-form-modal')).toBeInTheDocument();
     });
 });

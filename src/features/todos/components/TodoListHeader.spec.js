@@ -1,49 +1,48 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import TodoListHeader from './TodoListHeader.svelte';
 
 const title = 'list title';
 const total = 1;
 
 describe('TodoListHeader', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('displays todo list title and add todo button', () => {
-        cy.mount(TodoListHeader, {
+        render(TodoListHeader, {
             props: {
                 title,
                 total,
             },
         });
 
-        cy.get('[data-testid="todo-list-header"]').should('contain.text', title);
-        cy.get('[data-testid="todo-list-header-add-btn"]').should('be.visible');
+        expect(screen.getByTestId('todo-list-header')).toHaveTextContent(title);
+        expect(screen.getByTestId('todo-list-header-add-btn')).toBeInTheDocument();
     });
 
     it('hides add todo button when there are no todos', () => {
-        cy.mount(TodoListHeader, {
+        render(TodoListHeader, {
             props: {
                 title,
                 total: 0,
             },
         });
 
-        cy.get('[data-testid="todo-list-header-add-btn"]').should('not.exist');
+        expect(screen.queryByTestId('todo-list-header-add-btn')).not.toBeInTheDocument();
     });
 
-    it('dispatches "addtodo" event when add todo button is clicked', () => {
-        const addTodoSpy = cy.spy();
+    it('calls "onAddTodo" event when add todo button is clicked', async () => {
+        const onAddTodo = vi.fn();
 
-        cy.mount(TodoListHeader, {
+        render(TodoListHeader, {
             props: {
                 title,
                 total,
+                onAddTodo,
             },
-        }).then(({ component }) => {
-            component.$on('addtodo', addTodoSpy);
         });
+        await userEvent.click(screen.getByTestId('todo-list-header-add-btn'));
 
-        cy.get('[data-testid="todo-list-header-add-btn"]').click();
-        cy.wrap(addTodoSpy).should('have.been.called');
+        expect(onAddTodo).toHaveBeenCalled();
     });
 });

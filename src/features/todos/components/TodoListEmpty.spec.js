@@ -1,4 +1,7 @@
+import { createEvent, fireEvent, render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
 import { TRIGGERS } from 'svelte-dnd-action';
+import { describe, expect, it, vi } from 'vitest';
 
 import TodoListEmpty from './TodoListEmpty.svelte';
 
@@ -7,56 +10,57 @@ import { generateTodo } from '../utils/test-helpers';
 const text = 'there are no todos in this list';
 
 describe('TodoListEmpty', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('displays provided empty text', () => {
-        cy.mount(TodoListEmpty, {
+        render(TodoListEmpty, {
             props: { text },
         });
 
-        cy.get('[data-testid="todo-list-empty"]').should('contain.text', text);
+        expect(screen.getByTestId('todo-list-empty')).toHaveTextContent(text);
     });
 
-    it('dispatches "addtodo" event when add todo button is clicked', () => {
-        const addTodoSpy = cy.spy();
+    it('calls "onAddTodo" when add todo button is clicked', async () => {
+        const onAddTodo = vi.fn();
 
-        cy.mount(TodoListEmpty, {
-            props: { text },
-        }).then(({ component }) => {
-            component.$on('addtodo', addTodoSpy);
+        render(TodoListEmpty, {
+            props: {
+                text,
+                onAddTodo,
+            },
         });
+        await userEvent.click(screen.getByTestId('todo-list-empty-add-btn'));
 
-        cy.get('[data-testid="todo-list-empty-add-btn"]').click();
-        cy.wrap(addTodoSpy).should('have.been.called');
+        expect(onAddTodo).toHaveBeenCalled();
     });
 
-    it('dispatches "update" event when a todo is dropped into the drag and drop zone', () => {
+    it('calls "onUpdate" when a todo is dropped into the drag and drop zone', async () => {
         const todo = generateTodo();
-        const updateSpy = cy.spy();
+        const onUpdate = vi.fn();
 
-        cy.mount(TodoListEmpty, {
-            props: { text },
-        }).then(({ component }) => {
-            component.$on('update', updateSpy);
+        render(TodoListEmpty, {
+            props: {
+                text,
+                onUpdate,
+            },
         });
 
-        cy.get('[data-testid="todo-list-dropzone"]').trigger('finalize', {
-            detail: {
-                items: [todo],
-                info: {
-                    trigger: TRIGGERS.DROPPED_INTO_ZONE,
+        // svelte-dnd-action uses a custom event called `finalize` when an item is droppped to a dropzone, so we fire
+        // a custom event of this name to simulate this interaction
+        const list = screen.getByTestId('todo-list-dropzone');
+        const event = createEvent(
+            'finalize',
+            list,
+            {
+                detail: {
+                    items: [todo],
+                    info: {
+                        trigger: TRIGGERS.DROPPED_INTO_ZONE,
+                    },
                 },
             },
-            force: true,
-        });
-
-        cy.wrap(updateSpy).should(
-            'have.been.calledWith',
-            Cypress.sinon.match({
-                detail: [todo],
-            }),
+            { EventType: 'CustomEvent' },
         );
+        fireEvent(list, event);
+
+        expect(onUpdate).toHaveBeenCalledWith([todo]);
     });
 });

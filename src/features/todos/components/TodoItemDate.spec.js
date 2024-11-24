@@ -1,3 +1,6 @@
+import { render, screen } from '@testing-library/svelte';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import TodoItemDate from './TodoItemDate.svelte';
 
 import { settings } from '@features/settings/store';
@@ -5,28 +8,33 @@ import { TODOS_DATE_ABSOLUTE, TODOS_DATE_RELATIVE } from '@features/todos/consta
 
 describe('TodoItemDate', () => {
     beforeEach(() => {
-        cy.clock(new Date(2024, 0, 1));
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date(2024, 0, 1));
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
     });
 
     it('displays date in absolute format', () => {
         const date = '2024-01-10';
         settings.set({ todoDateDisplay: TODOS_DATE_ABSOLUTE });
 
-        cy.mount(TodoItemDate, {
+        render(TodoItemDate, {
             props: { date },
         });
 
-        cy.get('[data-testid="todo-item-date"]').should('contain.text', 'Jan 10');
+        expect(screen.getByTestId('todo-item-date')).toHaveTextContent('Jan 10');
     });
 
     it('displays date in relative format', () => {
         const date = '2024-01-10';
         settings.set({ todoDateDisplay: TODOS_DATE_RELATIVE });
 
-        cy.mount(TodoItemDate, {
+        render(TodoItemDate, {
             props: { date },
         });
 
-        cy.get('[data-testid="todo-item-date"]').should('contain.text', 'In 9 days');
+        expect(screen.getByTestId('todo-item-date')).toHaveTextContent('In 9 days');
     });
 });

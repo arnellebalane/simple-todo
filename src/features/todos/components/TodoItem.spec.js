@@ -1,4 +1,7 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
 import { SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import TodoItem from './TodoItem.svelte';
 
@@ -8,13 +11,10 @@ import { generateTodo } from '../utils/test-helpers';
 
 describe('TodoItem', () => {
     beforeEach(() => {
-        cy.viewport(500, 500);
-
         settings.set({});
     });
 
     it('displays todo details and optional fields', () => {
-        cy.clock(new Date(2024, 0, 1));
         const todo = generateTodo({
             done: false,
             tags: ['one', 'two'],
@@ -22,16 +22,17 @@ describe('TodoItem', () => {
         });
         settings.set({ todoDateDisplay: TODOS_DATE_ABSOLUTE });
 
-        cy.mount(TodoItem, {
+        render(TodoItem, {
             props: { todo },
         });
 
-        cy.get('[data-testid="todo-item"]').should('not.have.class', 'done').and('not.have.class', 'private');
-        cy.get('[data-testid="todo-item-done"]').should('not.be.checked');
-        cy.get('[data-testid="todo-item-date"]').should('contain.text', 'Jan 27');
-        cy.get('[data-testid="todo-item-details"]').should('contain.text', todo.body);
+        expect(screen.getByTestId('todo-item')).not.toHaveClass('done');
+        expect(screen.getByTestId('todo-item')).not.toHaveClass('private');
+        expect(screen.getByTestId('todo-item-done')).not.toBeChecked();
+        expect(screen.getByTestId('todo-item-date')).toHaveTextContent('Jan 27');
+        expect(screen.getByTestId('todo-item-details')).toHaveTextContent(todo.body);
         for (const tag of todo.tags) {
-            cy.get('[data-testid="todo-item-tag"]').contains(tag).should('be.visible');
+            expect(screen.getByText(tag)).toBeInTheDocument();
         }
     });
 
@@ -41,34 +42,35 @@ describe('TodoItem', () => {
         });
         settings.set({ todoDateDisplay: TODOS_DATE_ABSOLUTE });
 
-        cy.mount(TodoItem, {
+        render(TodoItem, {
             props: { todo },
         });
 
-        cy.get('a').should('have.attr', 'href', 'https://simple-todo.arnelle.dev');
-        cy.get('a').should('have.text', 'https://simple-todo.arnelle.dev');
+        const link = screen.getByRole('link', { name: 'https://simple-todo.arnelle.dev' });
+        expect(link).toBeInTheDocument();
+        expect(link).toHaveAttribute('href', 'https://simple-todo.arnelle.dev');
     });
 
     it('includes the "done" class and checks the checkbox when todo is marked as done', () => {
         const todo = generateTodo({ done: true });
 
-        cy.mount(TodoItem, {
+        render(TodoItem, {
             props: { todo },
         });
 
-        cy.get('[data-testid="todo-item"]').should('have.class', 'done');
-        cy.get('[data-testid="todo-item-done"]').should('be.checked');
+        expect(screen.getByTestId('todo-item')).toHaveClass('done');
+        expect(screen.getByTestId('todo-item-done')).toBeChecked();
     });
 
     it('includes the "private" class when privacy mode setting is enabled', () => {
         const todo = generateTodo();
         settings.set({ enablePrivacyMode: true });
 
-        cy.mount(TodoItem, {
+        render(TodoItem, {
             props: { todo },
         });
 
-        cy.get('[data-testid="todo-item"]').should('have.class', 'private');
+        expect(screen.getByTestId('todo-item')).toHaveClass('private');
     });
 
     it('displays drag and drop marker when the todo has the flag for being dragged', () => {
@@ -76,96 +78,91 @@ describe('TodoItem', () => {
             [SHADOW_ITEM_MARKER_PROPERTY_NAME]: true,
         });
 
-        cy.mount(TodoItem, {
+        render(TodoItem, {
             props: { todo },
         });
 
-        cy.get('[data-testid="todo-item-shadow"]').should('be.visible');
+        expect(screen.getByTestId('todo-item-shadow')).toBeInTheDocument();
     });
 
-    it('dispatches "update" event when todo is marked as done', () => {
+    it('calls "onChange" when todo is marked as done', async () => {
         const todo = generateTodo({ done: false });
-        const updateSpy = cy.spy();
+        const onChange = vi.fn();
 
-        cy.mount(TodoItem, {
-            props: { todo },
-        }).then(({ component }) => {
-            component.$on('update', updateSpy);
+        render(TodoItem, {
+            props: {
+                todo,
+                onChange,
+            },
         });
+        await userEvent.click(screen.getByTestId('todo-item-done'));
 
-        cy.get('[data-testid="todo-item-done"]').click({ force: true });
-        cy.wrap(updateSpy).should(
-            'have.been.calledWith',
-            Cypress.sinon.match({
-                detail: {
-                    id: todo.id,
-                    done: true,
-                },
-            }),
-        );
+        expect(onChange).toHaveBeenCalledWith({
+            id: todo.id,
+            done: true,
+        });
     });
 
-    it('dispatches "update" event when todo is marked as not done', () => {
+    it('calls "onChange" when todo is marked as not done', async () => {
         const todo = generateTodo({ done: true });
-        const updateSpy = cy.spy();
+        const onChange = vi.fn();
 
-        cy.mount(TodoItem, {
-            props: { todo },
-        }).then(({ component }) => {
-            component.$on('update', updateSpy);
+        render(TodoItem, {
+            props: {
+                todo,
+                onChange,
+            },
         });
+        await userEvent.click(screen.getByTestId('todo-item-done'));
 
-        cy.get('[data-testid="todo-item-done"]').click({ force: true });
-        cy.wrap(updateSpy).should(
-            'have.been.calledWith',
-            Cypress.sinon.match({
-                detail: {
-                    id: todo.id,
-                    done: false,
-                },
-            }),
-        );
+        expect(onChange).toHaveBeenCalledWith({
+            id: todo.id,
+            done: false,
+        });
     });
 
-    it('dispatches "edit" event when edit menu action is clicked', () => {
+    it('calls "onEdit" when edit menu action is clicked', async () => {
         const todo = generateTodo();
-        const editSpy = cy.spy();
+        const onEdit = vi.fn();
 
-        cy.mount(TodoItem, {
-            props: { todo },
-        }).then(({ component }) => {
-            component.$on('edit', editSpy);
+        render(TodoItem, {
+            props: {
+                todo,
+                onEdit,
+            },
         });
+        await userEvent.click(screen.getByTestId('todo-item-edit'));
 
-        cy.get('[data-testid="todo-item-edit"]').click({ force: true });
-        cy.wrap(editSpy).should('have.been.called');
+        expect(onEdit).toHaveBeenCalled();
     });
 
-    it('dispatches "edit" event when the todo item is double-clicked', () => {
+    it('calls "onEdit" when the todo item is double-clicked', async () => {
         const todo = generateTodo();
-        const editSpy = cy.spy();
+        const onEdit = vi.fn();
 
-        cy.mount(TodoItem, {
-            props: { todo },
-        }).then(({ component }) => {
-            component.$on('edit', editSpy);
+        render(TodoItem, {
+            props: {
+                todo,
+                onEdit,
+            },
         });
+        await userEvent.dblClick(screen.getByTestId('todo-item'));
 
-        cy.get('[data-testid="todo-item"]').dblclick();
-        cy.wrap(editSpy).should('have.been.called');
+        expect(onEdit).toHaveBeenCalled();
     });
 
-    it('dispatches "delete" event when delete menu action is clicked', () => {
+    it('calls "onDelete" when delete menu action is clicked', async () => {
         const todo = generateTodo();
-        const deleteSpy = cy.spy();
+        const onDelete = vi.fn();
 
-        cy.mount(TodoItem, {
-            props: { todo },
-        }).then(({ component }) => {
-            component.$on('delete', deleteSpy);
+        render(TodoItem, {
+            props: {
+                todo,
+                onDelete,
+            },
         });
+        await userEvent.click(screen.getByTestId('todo-item-delete'));
 
-        cy.get('[data-testid="todo-item-delete"]').click({ force: true });
-        cy.wrap(deleteSpy).should('have.been.called');
+        expect(onDelete).toHaveBeenCalled();
     });
 });

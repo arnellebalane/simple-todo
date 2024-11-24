@@ -1,3 +1,7 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import TodoList from './TodoList.svelte';
 
 import { generateTodo } from '../utils/test-helpers';
@@ -8,12 +12,8 @@ const todos = [todo];
 const emptyText = 'there are no todos in this list';
 
 describe('TodoList', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('displays todo list title', () => {
-        cy.mount(TodoList, {
+        render(TodoList, {
             props: {
                 title,
                 todos,
@@ -21,11 +21,11 @@ describe('TodoList', () => {
             },
         });
 
-        cy.get('article').should('contain.text', title);
+        expect(screen.getByText(title)).toBeInTheDocument();
     });
 
     it('dislays empty text when there are no todos', () => {
-        cy.mount(TodoList, {
+        render(TodoList, {
             props: {
                 title,
                 todos: [],
@@ -33,11 +33,11 @@ describe('TodoList', () => {
             },
         });
 
-        cy.get('article').should('contain.text', emptyText);
+        expect(screen.getByText(emptyText)).toBeInTheDocument();
     });
 
     it('displays todo items when there are todos', () => {
-        cy.mount(TodoList, {
+        render(TodoList, {
             props: {
                 title,
                 todos,
@@ -45,40 +45,39 @@ describe('TodoList', () => {
             },
         });
 
-        cy.get('article').should('not.contain.text', emptyText).and('contain.text', todos[0].body);
+        expect(screen.queryByText(emptyText)).not.toBeInTheDocument();
+        expect(screen.getByText(todos[0].body)).toBeInTheDocument();
     });
 
-    it('dispatches "addtodo" event when add todo button in the header is clicked', () => {
-        const addTodoSpy = cy.spy();
+    it('calls "onAddTodo" when add todo button in the header is clicked', async () => {
+        const onAddTodo = vi.fn();
 
-        cy.mount(TodoList, {
+        render(TodoList, {
             props: {
                 title,
                 todos,
                 emptyText,
+                onAddTodo,
             },
-        }).then(({ component }) => {
-            component.$on('addtodo', addTodoSpy);
         });
+        await userEvent.click(screen.getByTestId('todo-list-header-add-btn'));
 
-        cy.get('[data-testid="todo-list-header-add-btn"]').click();
-        cy.wrap(addTodoSpy).should('have.been.called');
+        expect(onAddTodo).toHaveBeenCalled();
     });
 
-    it('dispatches "addtodo" event when add todo button in the empty list is clicked', () => {
-        const addTodoSpy = cy.spy();
+    it('calls "onAddTodo" when add todo button in the empty list is clicked', async () => {
+        const onAddTodo = vi.fn();
 
-        cy.mount(TodoList, {
+        render(TodoList, {
             props: {
                 title,
                 todos: [],
                 emptyText,
+                onAddTodo,
             },
-        }).then(({ component }) => {
-            component.$on('addtodo', addTodoSpy);
         });
+        await userEvent.click(screen.getByTestId('todo-list-empty-add-btn'));
 
-        cy.get('[data-testid="todo-list-empty-add-btn"]').click();
-        cy.wrap(addTodoSpy).should('have.been.called');
+        expect(onAddTodo).toHaveBeenCalled();
     });
 });

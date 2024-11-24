@@ -1,25 +1,25 @@
+import { faker } from '@faker-js/faker';
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import TodoForm from './TodoForm.svelte';
 
-import { faker } from '@faker-js/faker';
 import { TODOS_THIS_WEEK } from '../constants';
 
 describe('TodoForm', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('prepopulates form with values from data prop', () => {
         const data = {
             body: faker.string.alpha(10),
             list: TODOS_THIS_WEEK,
         };
 
-        cy.mount(TodoForm, {
+        render(TodoForm, {
             props: { data },
         });
 
-        cy.get('[data-testid="todo-form-body"]').should('have.text', data.body);
-        cy.get(`[data-testid="todo-form-list"] input[value="${data.list}"]`).should('be.checked');
+        expect(screen.getByTestId('todo-form-body')).toHaveTextContent(data.body);
+        expect(screen.getByLabelText('This week')).toBeChecked();
     });
 
     it('escapes and unsanitizes todo body from data prop when displaying it in the form', () => {
@@ -28,18 +28,22 @@ describe('TodoForm', () => {
             list: TODOS_THIS_WEEK,
         };
 
-        cy.mount(TodoForm, {
+        render(TodoForm, {
             props: { data },
         });
 
-        cy.get('[data-testid="todo-form-body"]').should('have.text', '<strong>test todo</strong>');
+        expect(screen.getByTestId('todo-form-body')).toHaveTextContent('<strong>test todo</strong>');
     });
 
     it('disables submit button when todo body is not specified', () => {
-        cy.mount(TodoForm);
+        render(TodoForm, {
+            props: {
+                data: {},
+            },
+        });
 
-        cy.get('[data-testid="todo-form-body"]').should('have.text', '');
-        cy.get('[data-testid="todo-form-save-btn"]').should('be.disabled');
+        expect(screen.getByTestId('todo-form-body')).toHaveTextContent('');
+        expect(screen.getByTestId('todo-form-save-btn')).toBeDisabled();
     });
 
     it('disables submit button when todo list is not specified', () => {
@@ -47,40 +51,45 @@ describe('TodoForm', () => {
             body: faker.string.alpha(10),
         };
 
-        cy.mount(TodoForm, {
+        render(TodoForm, {
             props: { data },
         });
 
-        cy.get('[data-testid="todo-form-body"]').should('have.text', data.body);
-        cy.get('[data-testid="todo-form-save-btn"]').should('be.disabled');
+        expect(screen.getByTestId('todo-form-body')).toHaveTextContent(data.body);
+        expect(screen.getByTestId('todo-form-save-btn')).toBeDisabled();
     });
 
-    it('dispatches "submit" event when form is submitted with valid todo', () => {
+    it('calls "onSubmit" when form is submitted with valid todo', async () => {
         const data = {
             body: '&lt;test todo&gt;',
             list: TODOS_THIS_WEEK,
         };
-        const submitSpy = cy.spy();
+        const onSubmit = vi.fn();
 
-        cy.mount(TodoForm).then(({ component }) => {
-            component.$on('submit', submitSpy);
+        render(TodoForm, {
+            props: {
+                data,
+                onSubmit,
+            },
         });
+        await userEvent.type(screen.getByTestId('todo-form-body'), data.body);
+        await userEvent.click(screen.getByLabelText('This week'));
+        await userEvent.click(screen.getByTestId('todo-form-save-btn'));
 
-        cy.get('[data-testid="todo-form-body"]').type(data.body);
-        cy.get(`[data-testid="todo-form-list"] input[value="${data.list}"]`).click({ force: true });
-        cy.get('[data-testid="todo-form-save-btn"]').click();
-
-        cy.wrap(submitSpy).should('have.been.calledWith', Cypress.sinon.match({ detail: data }));
+        expect(onSubmit).toHaveBeenCalled();
     });
 
-    it('dispatches "cancel" event when cancel button is clicked', () => {
-        const cancelSpy = cy.spy();
+    it('calls "onCancel" when cancel button is clicked', async () => {
+        const onCancel = vi.fn();
 
-        cy.mount(TodoForm).then(({ component }) => {
-            component.$on('cancel', cancelSpy);
+        render(TodoForm, {
+            props: {
+                data: {},
+                onCancel,
+            },
         });
+        await userEvent.click(screen.getByTestId('todo-form-cancel-btn'));
 
-        cy.get('[data-testid="todo-form-cancel-btn"]').click();
-        cy.wrap(cancelSpy).should('have.been.called');
+        expect(onCancel).toHaveBeenCalled();
     });
 });

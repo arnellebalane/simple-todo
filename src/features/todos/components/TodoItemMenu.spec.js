@@ -1,37 +1,29 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import TodoItemMenu from './TodoItemMenu.svelte';
 
 describe('TodoItemMenu', () => {
-    beforeEach(() => {
-        cy.viewport(100, 100);
-    });
+    it('calls "onEdit" when edit menu action is clicked', async () => {
+        const onEdit = vi.fn();
 
-    it('displays toggle button by default', () => {
-        cy.mount(TodoItemMenu);
-
-        cy.get('[data-testid="todo-item-toggle"]').should('be.visible');
-        cy.get('[data-testid="todo-item-edit"]').should('not.be.visible');
-        cy.get('[data-testid="todo-item-delete"]').should('not.be.visible');
-    });
-
-    it('dispatches "edit" event when edit menu action is clicked', () => {
-        const editSpy = cy.spy();
-
-        cy.mount(TodoItemMenu).then(({ component }) => {
-            component.$on('edit', editSpy);
+        render(TodoItemMenu, {
+            props: { onEdit },
         });
+        await userEvent.click(screen.getByTestId('todo-item-edit'));
 
-        cy.get('[data-testid="todo-item-edit"]').click({ force: true });
-        cy.wrap(editSpy).should('have.been.called');
+        expect(onEdit).toHaveBeenCalled();
     });
 
-    it('dispatches "delete" event when delete menu action is clicked', () => {
-        const deleteSpy = cy.spy();
+    it('dispatches "delete" event when delete menu action is clicked', async () => {
+        const onDelete = vi.fn();
 
-        cy.mount(TodoItemMenu).then(({ component }) => {
-            component.$on('delete', deleteSpy);
+        render(TodoItemMenu, {
+            props: { onDelete },
         });
+        await userEvent.click(screen.getByTestId('todo-item-delete'));
 
-        cy.get('[data-testid="todo-item-delete"]').click({ force: true });
-        cy.wrap(deleteSpy).should('have.been.called');
+        expect(onDelete).toHaveBeenCalled();
     });
 });

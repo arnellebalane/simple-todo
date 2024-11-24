@@ -1,4 +1,7 @@
+import { createEvent, fireEvent, render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
 import { TRIGGERS } from 'svelte-dnd-action';
+import { describe, expect, it, vi } from 'vitest';
 
 import TodoBoard from './TodoBoard.svelte';
 
@@ -9,125 +12,119 @@ describe('TodoBoard', () => {
     it('displays todos today in the correct list', () => {
         const todo = generateTodo({ list: TODOS_TODAY });
 
-        cy.mount(TodoBoard, {
+        render(TodoBoard, {
             props: {
                 todos: [todo],
             },
         });
 
-        cy.get('[data-testid="todo-list-today"]').should('contain.text', todo.body);
-        cy.get('[data-testid="todo-list-this-week"]').should('not.contain.text', todo.body);
-        cy.get('[data-testid="todo-list-eventually"]').should('not.contain.text', todo.body);
+        expect(screen.getByTestId('todo-list-today')).toHaveTextContent(todo.body);
+        expect(screen.queryByTestId('todo-list-this-week')).not.toHaveTextContent(todo.body);
+        expect(screen.queryByTestId('todo-list-eventually')).not.toHaveTextContent(todo.body);
     });
 
     it('displays todos this week in the correct list', () => {
         const todo = generateTodo({ list: TODOS_THIS_WEEK });
 
-        cy.mount(TodoBoard, {
+        render(TodoBoard, {
             props: {
                 todos: [todo],
             },
         });
 
-        cy.get('[data-testid="todo-list-today"]').should('not.contain.text', todo.body);
-        cy.get('[data-testid="todo-list-this-week"]').should('contain.text', todo.body);
-        cy.get('[data-testid="todo-list-eventually"]').should('not.contain.text', todo.body);
+        expect(screen.queryByTestId('todo-list-today')).not.toHaveTextContent(todo.body);
+        expect(screen.getByTestId('todo-list-this-week')).toHaveTextContent(todo.body);
+        expect(screen.queryByTestId('todo-list-eventually')).not.toHaveTextContent(todo.body);
     });
 
     it('displays todos eventually in the correct list', () => {
         const todo = generateTodo({ list: TODOS_EVENTUALLY });
 
-        cy.mount(TodoBoard, {
+        render(TodoBoard, {
             props: {
                 todos: [todo],
             },
         });
 
-        cy.get('[data-testid="todo-list-today"]').should('not.contain.text', todo.body);
-        cy.get('[data-testid="todo-list-this-week"]').should('not.contain.text', todo.body);
-        cy.get('[data-testid="todo-list-eventually"]').should('contain.text', todo.body);
+        expect(screen.queryByTestId('todo-list-today')).not.toHaveTextContent(todo.body);
+        expect(screen.queryByTestId('todo-list-this-week')).not.toHaveTextContent(todo.body);
+        expect(screen.getByTestId('todo-list-eventually')).toHaveTextContent(todo.body);
     });
 
-    it('dispatches "addtodo" event when add todo button in today list is clicked', () => {
-        const addTodoSpy = cy.spy();
+    it('calls "onAddTodo" when add todo button in today list is clicked', async () => {
+        const onAddTodo = vi.fn();
 
-        cy.mount(TodoBoard).then(({ component }) => {
-            component.$on('addtodo', addTodoSpy);
+        render(TodoBoard, {
+            props: { onAddTodo },
         });
-
-        cy.get('[data-testid="todo-list-today"] [data-testid="todo-list-empty-add-btn"]').click();
-        cy.wrap(addTodoSpy).should(
-            'have.been.calledWith',
-            Cypress.sinon.match({
-                detail: {
-                    list: TODOS_TODAY,
-                },
-            }),
+        await userEvent.click(
+            document.querySelector('[data-testid="todo-list-today"] [data-testid="todo-list-empty-add-btn"]'),
         );
-    });
 
-    it('dispatches "addtodo" event when add todo button in this week list is clicked', () => {
-        const addTodoSpy = cy.spy();
-
-        cy.mount(TodoBoard).then(({ component }) => {
-            component.$on('addtodo', addTodoSpy);
+        expect(onAddTodo).toHaveBeenCalledWith({
+            list: TODOS_TODAY,
         });
-
-        cy.get('[data-testid="todo-list-this-week"] [data-testid="todo-list-empty-add-btn"]').click();
-        cy.wrap(addTodoSpy).should(
-            'have.been.calledWith',
-            Cypress.sinon.match({
-                detail: {
-                    list: TODOS_THIS_WEEK,
-                },
-            }),
-        );
     });
 
-    it('dispatches "addtodo" event when add todo button in eventually list is clicked', () => {
-        const addTodoSpy = cy.spy();
+    it('calls "onAddTodo" when add todo button in this week list is clicked', async () => {
+        const onAddTodo = vi.fn();
 
-        cy.mount(TodoBoard).then(({ component }) => {
-            component.$on('addtodo', addTodoSpy);
+        render(TodoBoard, {
+            props: { onAddTodo },
         });
-
-        cy.get('[data-testid="todo-list-eventually"] [data-testid="todo-list-empty-add-btn"]').click();
-        cy.wrap(addTodoSpy).should(
-            'have.been.calledWith',
-            Cypress.sinon.match({
-                detail: {
-                    list: TODOS_EVENTUALLY,
-                },
-            }),
+        await userEvent.click(
+            document.querySelector('[data-testid="todo-list-this-week"] [data-testid="todo-list-empty-add-btn"]'),
         );
+
+        expect(onAddTodo).toHaveBeenCalledWith({
+            list: TODOS_THIS_WEEK,
+        });
     });
 
-    it('dispatches "update" event when there are changes in the todos list', () => {
+    it('calls "onAddTodo" when add todo button in eventually list is clicked', async () => {
+        const onAddTodo = vi.fn();
+
+        render(TodoBoard, {
+            props: { onAddTodo },
+        });
+        await userEvent.click(
+            document.querySelector('[data-testid="todo-list-eventually"] [data-testid="todo-list-empty-add-btn"]'),
+        );
+
+        expect(onAddTodo).toHaveBeenCalledWith({
+            list: TODOS_EVENTUALLY,
+        });
+    });
+
+    it('calls "onUpdate" when there are changes in the todos list', () => {
         const todo = generateTodo({ list: TODOS_TODAY });
-        const updateSpy = cy.spy();
+        const onUpdate = vi.fn();
 
-        cy.mount(TodoBoard, {
+        render(TodoBoard, {
             props: {
                 todos: [todo],
+                onUpdate,
             },
-        }).then(({ component }) => {
-            component.$on('update', updateSpy);
         });
 
-        cy.get('[data-testid="todo-list-this-week"] [data-testid="todo-list-dropzone"]').trigger('finalize', {
-            detail: {
-                items: [todo],
-                info: {
-                    trigger: TRIGGERS.DROPPED_INTO_ZONE,
+        // svelte-dnd-action uses a custom event called `finalize` when an item is droppped to a dropzone, so we fire
+        // a custom event of this name to simulate this interaction
+        const list = document.querySelector('[data-testid="todo-list-this-week"] [data-testid="todo-list-dropzone"]');
+        const event = createEvent(
+            'finalize',
+            list,
+            {
+                detail: {
+                    items: [todo],
+                    info: {
+                        trigger: TRIGGERS.DROPPED_INTO_ZONE,
+                    },
                 },
             },
-        });
-
-        cy.wrap(updateSpy).should(
-            'have.been.calledWith',
-            Cypress.sinon.match({
-                detail: [{ ...todo, list: TODOS_THIS_WEEK }],
-            }),
+            { EventType: 'CustomEvent' },
         );
+        fireEvent(list, event);
+
+        expect(onUpdate).toHaveBeenCalledWith([{ ...todo, list: TODOS_THIS_WEEK }]);
     });
 });

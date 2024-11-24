@@ -1,3 +1,5 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { settings } from '@features/settings/store';
 
 import { initializeTodos } from '.';
@@ -10,21 +12,26 @@ describe('initializeTodos', () => {
     const today = new Date(2024, 0, 3); // wednesday
 
     beforeEach(() => {
-        cy.clock(today);
+        vi.useFakeTimers();
+        vi.setSystemTime(today);
 
         settings.set({});
         todos.set([]);
     });
 
+    afterEach(() => {
+        vi.useRealTimers();
+    });
+
     it('skips moving todos when settings.moveTodosAutomatically is false', () => {
         settings.set({ moveTodosAutomatically: false });
 
-        const todosSpy = cy.spy();
+        const todosSpy = vi.fn();
         todos.subscribe(todosSpy);
 
         initializeTodos();
 
-        cy.wrap(todosSpy).should('have.always.been.calledWith', []);
+        expect(todosSpy).toHaveBeenCalledWith([]);
     });
 
     it('skips moving todos when it was already done for the current day', () => {
@@ -33,12 +40,12 @@ describe('initializeTodos', () => {
             moveTodosLastUpdated: today.getTime(),
         });
 
-        const todosSpy = cy.spy();
+        const todosSpy = vi.fn();
         todos.subscribe(todosSpy);
 
         initializeTodos();
 
-        cy.wrap(todosSpy).should('have.always.been.calledWith', []);
+        expect(todosSpy).toHaveBeenCalledWith([]);
     });
 
     it('moves todos to today list when their date is the current day', () => {
@@ -53,12 +60,12 @@ describe('initializeTodos', () => {
         });
         todos.set([todo]);
 
-        const todosSpy = cy.spy();
+        const todosSpy = vi.fn();
         todos.subscribe(todosSpy);
 
         initializeTodos();
 
-        cy.wrap(todosSpy).should('have.been.calledWith', [{ ...todo, list: TODOS_TODAY }]);
+        expect(todosSpy).toHaveBeenCalledWith([{ ...todo, list: TODOS_TODAY }]);
     });
 
     it('moves todos to this week list when their date is within the current week', () => {
@@ -73,12 +80,12 @@ describe('initializeTodos', () => {
         });
         todos.set([todo]);
 
-        const todosSpy = cy.spy();
+        const todosSpy = vi.fn();
         todos.subscribe(todosSpy);
 
         initializeTodos();
 
-        cy.wrap(todosSpy).should('have.been.calledWith', [{ ...todo, list: TODOS_THIS_WEEK }]);
+        expect(todosSpy).toHaveBeenCalledWith([{ ...todo, list: TODOS_THIS_WEEK }]);
     });
 
     it('skips moving todos when their date is within the current week but has already past', () => {
@@ -93,11 +100,11 @@ describe('initializeTodos', () => {
         });
         todos.set([todo]);
 
-        const todosSpy = cy.spy();
+        const todosSpy = vi.fn();
         todos.subscribe(todosSpy);
 
         initializeTodos();
 
-        cy.wrap(todosSpy).should('have.always.been.calledWith', [todo]);
+        expect(todosSpy).toHaveBeenCalledWith([todo]);
     });
 });

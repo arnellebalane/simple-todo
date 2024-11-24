@@ -18,11 +18,21 @@ import { config } from '@lib/config';
 import { APP_VERSION } from '@lib/constants';
 import { icons } from '@lib/icons';
 
-let settingsUnsubscribe = null;
-let settingsFormData = {};
-let showSettingsForm = false;
-const toggleSettingsForm = (show) => {
-    showSettingsForm = show;
+const hasChangeLogs = $derived($changelogs.length > 0);
+const hasSeenChangeLogs = $derived($version === APP_VERSION);
+const hasQuickLinks = $derived($settings.quickLinks?.length ?? 0 > 0);
+const showFrequentLinks = $derived($frequentLinks.length > 0 && $settings.showFrequentLinks);
+
+const showChromeWebstoreButton = config.VITE_PUBLIC_IS_WEB_BUILD === 'true';
+
+let showWhatsNewModal = $state(false);
+const toggleWhatsNewModal = (show) => (showWhatsNewModal = show);
+
+let settingsUnsubscribe = $state(null);
+let settingsFormData = $state({});
+let showSettingsFormModal = $state(false);
+const toggleSettingsFormModal = (show) => {
+    showSettingsFormModal = show;
     if (show) {
         settingsUnsubscribe = settings.subscribe((value) => {
             settingsFormData = value;
@@ -34,26 +44,15 @@ const toggleSettingsForm = (show) => {
     }
 };
 
-let showWhatsNewModal = false;
-const toggleWhatsNewModal = (show) => (showWhatsNewModal = show);
-$: hasChangeLogs = $changelogs.length > 0;
-$: hasSeenChangeLogs = $version === APP_VERSION;
-
-$: hasQuickLinks = $settings.quickLinks?.length ?? 0 > 0;
-$: showFrequentLinks = $frequentLinks.length > 0 && $settings.showFrequentLinks;
-
-const showChromeWebstoreButton = config.VITE_PUBLIC_IS_WEB_BUILD === 'true';
-
-const handleSettingsChange = (event) => settings.preview(event.detail);
-const handleSettingsSubmit = (event) => {
-    settings.save(event.detail);
+const handleSettingsSubmit = (data) => {
+    settings.save(data);
     tags.save();
-    toggleSettingsForm(false);
+    toggleSettingsFormModal(false);
 };
 const handleSettingsClose = () => {
     settings.restore();
     tags.restore();
-    toggleSettingsForm(false);
+    toggleSettingsFormModal(false);
 };
 
 onMount(() => enableShortcut('togglePrivacyMode', settings.togglePrivacyMode));
@@ -72,15 +71,14 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
 
     <div class="RightColumn">
         {#if hasChangeLogs}
-            <WhatsNewButton pulse={!hasSeenChangeLogs} on:click={() => toggleWhatsNewModal(true)} />
+            <WhatsNewButton pulse={!hasSeenChangeLogs} onClick={() => toggleWhatsNewModal(true)} />
         {/if}
         <Button
-            icon
             medium
             iconLight={icons.settingsLight}
             iconDark={icons.settingsDark}
-            on:click={() => toggleSettingsForm(true)}
-            data-cy="settings-btn"
+            onClick={() => toggleSettingsFormModal(true)}
+            data-testid="settings-btn"
         >
             Settings
         </Button>
@@ -90,7 +88,7 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
                 href="https://chrome.google.com/webstore/detail/simple-todo/kobeijgkgkcgknodjkganceliljepmjf/"
                 rel="noopener noreferrer"
                 class="umami--click--chrome-webstore-link"
-                data-cy="chrome-webstore-link"
+                data-testid="chrome-webstore-link"
             >
                 <img src={ChromeWebStoreImage} alt="Available in the Chrome Webstore" width="150" height="42" />
             </a>
@@ -99,14 +97,14 @@ onDestroy(() => disableShortcut('togglePrivacyMode'));
 </header>
 
 <SettingsFormModal
-    show={showSettingsForm}
+    show={showSettingsFormModal}
     data={settingsFormData}
-    on:change={handleSettingsChange}
-    on:submit={handleSettingsSubmit}
-    on:close={handleSettingsClose}
+    onChange={settings.preview}
+    onSubmit={handleSettingsSubmit}
+    onClose={handleSettingsClose}
 />
 
-<WhatsNewModal show={showWhatsNewModal} on:close={() => toggleWhatsNewModal(false)} />
+<WhatsNewModal show={showWhatsNewModal} onClose={() => toggleWhatsNewModal(false)} />
 
 <style>
 header {

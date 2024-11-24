@@ -1,19 +1,24 @@
+import { describe, expect, it, vi } from 'vitest';
+
+import backgroundImage from '@cypress/fixtures/unsplash-image.json';
+import axios from '@lib/axios';
+
 import { onSave } from '.';
 
 describe('backgrounds settings', () => {
     it('reports unsplash download on save', () => {
-        cy.intercept('POST', '**/.netlify/functions/report-unsplash-download**', {}).as('reportUnsplashDownload');
+        const axiosPostMock = vi.mocked(axios.post);
 
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            const currentSettings = {};
-            const updatedSettings = {
-                background: true,
-                backgroundImage,
-            };
+        const currentSettings = {};
+        const updatedSettings = {
+            background: true,
+            backgroundImage,
+        };
 
-            onSave(currentSettings, updatedSettings);
+        onSave(currentSettings, updatedSettings);
 
-            cy.wait('@reportUnsplashDownload');
+        expect(axiosPostMock).toHaveBeenCalledWith('/report-unsplash-download', {
+            download_location: backgroundImage.download_location,
         });
     });
 });

@@ -22,49 +22,49 @@ describe('tags', () => {
     });
 
     it('can add tags when adding a new todo', () => {
-        cy.get('[data-cy="add-todo-btn"]').click();
-        cy.get('[data-cy="todo-form-body"]').type(body);
-        cy.get('[data-cy="todo-form-optional-fields"]').click();
+        cy.get('[data-testid="add-todo-btn"]').click();
+        cy.get('[data-testid="todo-form-body"]').type(body);
+        cy.get('[data-testid="todo-form-optional-fields"]').click();
 
-        cy.get('[data-cy="tags-input"]').type(tagOne).focus().trigger('keydown', { code: 'Enter' });
-        cy.get('[data-cy="tags-input"]').type(tagTwo).focus().trigger('keydown', { code: 'Enter' });
-        cy.get('[data-cy="tags-input"]').type(tagThree).focus().trigger('keydown', { code: 'Enter' });
-        cy.get('[data-cy="tags-value"]').contains(tagTwo).click();
-        cy.get('[data-cy="todo-form-save-btn"]').click();
+        cy.get('[data-testid="tags-input"]').type(tagOne).focus().trigger('keydown', { code: 'Enter' });
+        cy.get('[data-testid="tags-input"]').type(tagTwo).focus().trigger('keydown', { code: 'Enter' });
+        cy.get('[data-testid="tags-input"]').type(tagThree).focus().trigger('keydown', { code: 'Enter' });
+        cy.get('[data-testid="tags-value"]').contains(tagTwo).click();
+        cy.get('[data-testid="todo-form-save-btn"]').click();
 
-        cy.get('[data-cy="todo-item"]')
+        cy.get('[data-testid="todo-item"]')
             .eq(0)
             .within(() => {
-                cy.get('[data-cy="todo-item-tag"]').should('have.length', 2);
-                cy.get('[data-cy="todo-item-tag"]').eq(0).should('contains.text', tagOne);
-                cy.get('[data-cy="todo-item-tag"]').eq(1).should('contains.text', tagThree);
+                cy.get('[data-testid="todo-item-tag"]').should('have.length', 2);
+                cy.get('[data-testid="todo-item-tag"]').eq(0).should('contains.text', tagOne);
+                cy.get('[data-testid="todo-item-tag"]').eq(1).should('contains.text', tagThree);
             });
     });
 
     it('can modify tags when edidting an existing todo', () => {
         const todo = generateTodo({ tags: [tagOne, tagTwo] });
         cy.setInitialData(STORAGE_KEY_DATA, [todo]).then(() => {
-            cy.get('[data-cy="todo-item"]').eq(0).dblclick();
+            cy.get('[data-testid="todo-item"]').eq(0).dblclick();
 
-            cy.get('[data-cy="tags-value"]').contains(tagTwo).click();
-            cy.get('[data-cy="tags-input"]').type(tagThree).focus().trigger('keydown', { code: 'Enter' });
-            cy.get('[data-cy="todo-form-save-btn"]').click();
+            cy.get('[data-testid="tags-value"]').contains(tagTwo).click();
+            cy.get('[data-testid="tags-input"]').type(tagThree).focus().trigger('keydown', { code: 'Enter' });
+            cy.get('[data-testid="todo-form-save-btn"]').click();
 
-            cy.get('[data-cy="todo-item"]')
+            cy.get('[data-testid="todo-item"]')
                 .eq(0)
                 .within(() => {
-                    cy.get('[data-cy="todo-item-tag"]').should('have.length', 2);
-                    cy.get('[data-cy="todo-item-tag"]').eq(0).should('contains.text', tagOne);
-                    cy.get('[data-cy="todo-item-tag"]').eq(1).should('contains.text', tagThree);
+                    cy.get('[data-testid="todo-item-tag"]').should('have.length', 2);
+                    cy.get('[data-testid="todo-item-tag"]').eq(0).should('contains.text', tagOne);
+                    cy.get('[data-testid="todo-item-tag"]').eq(1).should('contains.text', tagThree);
                 });
         });
     });
 
     it('suggests existing tags in the tag input field', () => {
         cy.setInitialData(STORAGE_KEY_TAGS, tags).then(() => {
-            cy.get('[data-cy="add-todo-btn"]').click();
-            cy.get('[data-cy="tags-input"]').focus();
-            cy.get('[data-cy="tags-input-datalist"]')
+            cy.get('[data-testid="add-todo-btn"]').click();
+            cy.get('[data-testid="tags-input"]').focus();
+            cy.get('[data-testid="tags-input-datalist"]')
                 .should('exist')
                 .within(() => {
                     cy.get('option').should('have.length', 2);
@@ -84,20 +84,20 @@ describe('tags', () => {
             [STORAGE_KEY_DATA]: todos,
             [STORAGE_KEY_TAGS]: tags,
         }).then(() => {
-            cy.get('[data-cy="settings-btn"]').click();
-            cy.get('[data-cy="settings-form-sidebar"]').contains(settingsLabel).click();
+            cy.get('[data-testid="settings-btn"]').click();
+            cy.get('[data-testid="settings-form-sidebar"]').contains(settingsLabel).click();
 
-            cy.get('[data-cy="tags-settings"]')
+            cy.get('[data-testid="tags-settings"]')
                 .contains(tagOne)
-                .closest('[data-cy="tag-item"]')
+                .closest('[data-testid="tag-item"]')
                 .within(() => {
-                    cy.get('[data-cy="tag-action-btn"]').click();
+                    cy.get('[data-testid="tag-action-btn"]').click();
                 });
-            cy.get('[data-cy="settings-form-submit-btn"]').click();
+            cy.get('[data-testid="settings-form-submit-btn"]').click();
 
-            cy.get('[data-cy="todo-item"]').each((element) => {
+            cy.get('[data-testid="todo-item"]').each((element) => {
                 cy.wrap(element).within(() => {
-                    cy.get('[data-cy="todo-item-tag"]').should('have.length', 1).eq(0).should('contains.text', tagTwo);
+                    cy.get('[data-testid="todo-item-tag"]').should('have.length', 1).eq(0).should('contains.text', tagTwo);
                 });
             });
         });

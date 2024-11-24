@@ -1,10 +1,17 @@
 <script>
-export let value;
+let { name, checked, onChange, ...restProps } = $props();
 </script>
 
-<label class:checked={value}>
-    <input type="checkbox" bind:checked={value} id={$$props.name} {...$$restProps} on:change />
-    <span />
+<label class:checked>
+    <input
+        {name}
+        bind:checked
+        id={name}
+        type="checkbox"
+        onchange={(event) => onChange?.(event.target.checked)}
+        {...restProps}
+    />
+    <span></span>
 </label>
 
 <style>

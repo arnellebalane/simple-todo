@@ -1,22 +1,22 @@
 <script>
 import omit from 'lodash/omit';
-import { createEventDispatcher } from 'svelte';
 import { dndzone, TRIGGERS } from 'svelte-dnd-action';
 
 import CustomUrlItem from './CustomUrlItem.svelte';
 
-export let links = [];
+let { links = [], onChange, onRemove } = $props();
 
-$: sortableLinks = links
-    .slice()
-    .reverse()
-    .map((link) => ({ ...link, id: link.url }));
+let sortableLinks = $state([]);
+$effect(() => {
+    sortableLinks = links
+        .slice()
+        .reverse()
+        .map((link) => ({ ...link, id: link.url }));
+});
 
 const transformDraggedElement = (element) => {
     element.classList.add('CustomUrl-dragged');
 };
-
-const dispatch = createEventDispatcher();
 
 const handleDragAndDrop = (event) => {
     sortableLinks = event.detail.items;
@@ -25,7 +25,7 @@ const handleDragAndDrop = (event) => {
             .slice()
             .reverse()
             .map((link) => omit(link, ['id']));
-        dispatch('change', links);
+        onChange?.(links);
     }
 };
 </script>
@@ -33,12 +33,12 @@ const handleDragAndDrop = (event) => {
 <ol
     class="CustomUrls"
     use:dndzone={{ items: sortableLinks, type: 'CustomUrls', dropTargetStyle: {}, transformDraggedElement }}
-    on:consider={handleDragAndDrop}
-    on:finalize={handleDragAndDrop}
-    data-cy="custom-urls-list"
+    onconsider={handleDragAndDrop}
+    onfinalize={handleDragAndDrop}
+    data-testid="custom-urls-list"
 >
     {#each sortableLinks as link (link.id)}
-        <CustomUrlItem {link} on:remove={() => dispatch('remove', link)} />
+        <CustomUrlItem {link} onRemove={() => onRemove?.(link)} />
     {/each}
 </ol>
 

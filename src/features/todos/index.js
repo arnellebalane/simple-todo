@@ -1,8 +1,12 @@
 import { settings } from '@features/settings/store';
-import { TODOS_THIS_WEEK, TODOS_TODAY } from '@features/todos/constants';
+import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '@features/todos/constants';
 
 import { getDifferenceInDays, getToday, isDateThisWeek, isDateToday } from './lib/date';
 import { todos } from './store';
+
+export const initialTodoFormData = {
+    list: TODOS_EVENTUALLY,
+};
 
 export function initializeTodos() {
     const today = getToday();

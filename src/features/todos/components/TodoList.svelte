@@ -3,21 +3,19 @@ import TodoListEmpty from './TodoListEmpty.svelte';
 import TodoListHeader from './TodoListHeader.svelte';
 import TodoListItems from './TodoListItems.svelte';
 
-export let title;
-export let todos;
-export let emptyText;
+let { title, todos, emptyText, onUpdate, onAddTodo, onUpdateTodo, onEditTodo, onDeleteTodo, ...restProps } = $props();
 
-$: total = todos.length;
-$: isEmpty = total === 0;
+const total = $derived(todos.length);
+const isEmpty = $derived(total === 0);
 </script>
 
-<article {...$$restProps}>
-    <TodoListHeader {title} {total} on:addtodo />
+<article {...restProps}>
+    <TodoListHeader {title} {total} {onAddTodo} />
 
     {#if isEmpty}
-        <TodoListEmpty text={emptyText} on:update on:addtodo />
+        <TodoListEmpty text={emptyText} {onUpdate} {onAddTodo} />
     {:else}
-        <TodoListItems {todos} on:update on:updatetodo on:edittodo on:deletetodo />
+        <TodoListItems {todos} {onUpdate} {onUpdateTodo} {onEditTodo} {onDeleteTodo} />
     {/if}
 </article>
 

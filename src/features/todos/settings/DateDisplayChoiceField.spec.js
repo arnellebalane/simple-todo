@@ -1,3 +1,6 @@
+import { render, screen } from '@testing-library/svelte';
+import { describe, expect, it } from 'vitest';
+
 import DateDisplayChoiceField from './DateDisplayChoiceField.svelte';
 
 const choice = {
@@ -6,35 +9,31 @@ const choice = {
 };
 
 describe('DateDisplayChoiceField', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('displays the choice label and subtext', () => {
-        cy.mount(DateDisplayChoiceField, {
+        render(DateDisplayChoiceField, {
             props: { choice },
         });
 
-        cy.get('p').should('contain.text', choice.label);
-        cy.get('span').should('contain.text', choice.subtext);
+        expect(screen.getByText(choice.label));
+        expect(screen.getByText(choice.subtext));
     });
 
     it('does not add the selected class when selected prop is false', () => {
-        cy.mount(DateDisplayChoiceField, {
+        render(DateDisplayChoiceField, {
             props: { choice },
         });
 
-        cy.get('p').should('not.have.class', 'selected');
+        expect(screen.getByText(choice.label)).not.toHaveClass('selected');
     });
 
     it('adds the selected class when selected prop is true', () => {
-        cy.mount(DateDisplayChoiceField, {
+        render(DateDisplayChoiceField, {
             props: {
                 choice,
                 selected: true,
             },
         });
 
-        cy.get('p').should('have.class', 'selected');
+        expect(screen.getByText(choice.label)).toHaveClass('selected');
     });
 });

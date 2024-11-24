@@ -1,24 +1,24 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import { TODOS_DATE_ABSOLUTE, TODOS_DATE_RELATIVE } from '../constants';
 
 import { component as TodosSettings } from '.';
 
 describe('TodosSettings', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('selects toggles based on data prop', () => {
         const data = {
             openOptionalFields: true,
             moveTodosAutomatically: true,
         };
 
-        cy.mount(TodosSettings, {
+        render(TodosSettings, {
             props: { data },
         });
 
-        cy.get('[data-cy="open-optional-fields-toggle"]').should('be.checked');
-        cy.get('[data-cy="move-todos-automatically-toggle"]').should('be.checked');
+        expect(screen.getByTestId('open-optional-fields-toggle')).toBeChecked();
+        expect(screen.getByTestId('move-todos-automatically-toggle')).toBeChecked();
     });
 
     it('deselects toggles based on data prop', () => {
@@ -27,12 +27,12 @@ describe('TodosSettings', () => {
             moveTodosAutomatically: false,
         };
 
-        cy.mount(TodosSettings, {
+        render(TodosSettings, {
             props: { data },
         });
 
-        cy.get('[data-cy="open-optional-fields-toggle"]').should('not.be.checked');
-        cy.get('[data-cy="move-todos-automatically-toggle"]').should('not.be.checked');
+        expect(screen.queryByTestId('open-optional-fields-toggle')).not.toBeChecked();
+        expect(screen.queryByTestId('move-todos-automatically-toggle')).not.toBeChecked();
     });
 
     it('selects date display format based on data.todoDateDisplay', () => {
@@ -40,69 +40,66 @@ describe('TodosSettings', () => {
             todoDateDisplay: TODOS_DATE_RELATIVE,
         };
 
-        cy.mount(TodosSettings, {
+        render(TodosSettings, {
             props: { data },
         });
 
-        cy.get(`[data-cy="todo-date-display-selector"] input[value="${TODOS_DATE_RELATIVE}"]`).should('be.checked');
+        expect(screen.getByLabelText('Relative')).toBeChecked();
     });
 
-    it('dispatches "change" event when openOptionalFields toggle changes', () => {
+    it('calls "onChange" when openOptionalFields toggle changes', async () => {
         const data = {
             openOptionalFields: true,
         };
+        const onChange = vi.fn();
 
-        const changeSpy = cy.spy();
-        cy.mount(TodosSettings, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', changeSpy);
+        render(TodosSettings, {
+            props: {
+                data,
+                onChange,
+            },
         });
+        await userEvent.click(screen.getByTestId('open-optional-fields-toggle'));
 
-        cy.get('[data-cy="open-optional-fields-toggle"]').click({ force: true });
-
-        cy.wrap(changeSpy).should('have.been.called');
-        cy.wrap(data).should('deep.equal', {
+        expect(onChange).toHaveBeenCalledWith({
             openOptionalFields: false,
         });
     });
 
-    it('dispatches "change" event when moveTodosAutomatically toggle changes', () => {
+    it('calls "onChange" when moveTodosAutomatically toggle changes', async () => {
         const data = {
             moveTodosAutomatically: true,
         };
+        const onChange = vi.fn();
 
-        const changeSpy = cy.spy();
-        cy.mount(TodosSettings, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', changeSpy);
+        render(TodosSettings, {
+            props: {
+                data,
+                onChange,
+            },
         });
+        await userEvent.click(screen.getByTestId('move-todos-automatically-toggle'));
 
-        cy.get('[data-cy="move-todos-automatically-toggle"]').click({ force: true });
-
-        cy.wrap(changeSpy).should('have.been.called');
-        cy.wrap(data).should('deep.equal', {
+        expect(onChange).toHaveBeenCalledWith({
             moveTodosAutomatically: false,
         });
     });
 
-    it('dispatches "change" event when date display format changes', () => {
+    it('calls "onChange" when date display format changes', async () => {
         const data = {
             todoDateDisplay: TODOS_DATE_ABSOLUTE,
         };
+        const onChange = vi.fn();
 
-        const changeSpy = cy.spy();
-        cy.mount(TodosSettings, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', changeSpy);
+        render(TodosSettings, {
+            props: {
+                data,
+                onChange,
+            },
         });
+        await userEvent.click(screen.getByLabelText('Relative'));
 
-        cy.get(`[data-cy="todo-date-display-selector"] input[value="${TODOS_DATE_RELATIVE}"]`).click({ force: true });
-
-        cy.wrap(changeSpy).should('have.been.called');
-        cy.wrap(data).should('deep.equal', {
+        expect(onChange).toHaveBeenCalledWith({
             todoDateDisplay: TODOS_DATE_RELATIVE,
         });
     });

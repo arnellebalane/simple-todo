@@ -1,27 +1,13 @@
 <script>
-export let variant = 'li';
-export let icon = false;
-export let iconLight = null;
-export let iconDark = null;
-
-$: iconVariables = icon ? `--icon-light: url(${iconLight}); --icon-dark: url(${iconDark})` : '';
+let { variant = 'li', icon, children, ...restProps } = $props();
 </script>
 
-{#if variant === 'li'}
-    <li class="Badge" class:icon style={iconVariables} {...$$restProps}>
-        {#if icon}
-            <span><slot name="icon" /></span>
-        {/if}
-        <slot />
-    </li>
-{:else if variant === 'span'}
-    <span class="Badge" class:icon style={iconVariables} {...$$restProps}>
-        {#if icon}
-            <span><slot name="icon" /></span>
-        {/if}
-        <slot />
-    </span>
-{/if}
+<svelte:element this={variant} class="Badge" class:icon {...restProps}>
+    {#if icon}
+        <span>{@render icon()}</span>
+    {/if}
+    {@render children?.()}
+</svelte:element>
 
 <style>
 .Badge {
@@ -46,14 +32,5 @@ $: iconVariables = icon ? `--icon-light: url(${iconLight}); --icon-dark: url(${i
     background: transparent center center no-repeat;
     background-size: 1.4rem;
     background-image: var(--icon-dark);
-}
-@media (prefers-color-scheme: dark) {
-    .icon::before {
-        background-image: var(--icon-light);
-    }
-
-    :global(body[data-theme='LIGHT']) .icon::before {
-        background-image: var(--icon-dark);
-    }
 }
 </style>

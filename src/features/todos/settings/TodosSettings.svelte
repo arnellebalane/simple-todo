@@ -7,12 +7,16 @@ import { TODOS_DATE_ABSOLUTE, TODOS_DATE_RELATIVE } from '../constants';
 
 import { getDefaultSettings } from '.';
 
-export let data = getDefaultSettings();
+let { data = getDefaultSettings(), onChange } = $props();
 
 const dateFormatChoices = [
     { label: 'Absolute', subtext: 'Example: "Dec 21"', value: TODOS_DATE_ABSOLUTE },
     { label: 'Relative', subtext: 'Example: "In 5 days"', value: TODOS_DATE_RELATIVE },
 ];
+
+const handleChange = (key) => {
+    return (value) => onChange?.({ ...data, [key]: value });
+};
 </script>
 
 <section>
@@ -23,9 +27,9 @@ const dateFormatChoices = [
         </label>
         <Switch
             name="openOptionalFields"
-            bind:value={data.openOptionalFields}
-            on:change
-            data-cy="open-optional-fields-toggle"
+            checked={data.openOptionalFields}
+            onChange={handleChange('openOptionalFields')}
+            data-testid="open-optional-fields-toggle"
         />
     </div>
 
@@ -36,9 +40,9 @@ const dateFormatChoices = [
         </label>
         <Switch
             name="moveTodosAutomatically"
-            bind:value={data.moveTodosAutomatically}
-            on:change
-            data-cy="move-todos-automatically-toggle"
+            checked={data.moveTodosAutomatically}
+            onChange={handleChange('moveTodosAutomatically')}
+            data-testid="move-todos-automatically-toggle"
         />
     </div>
 
@@ -46,11 +50,11 @@ const dateFormatChoices = [
         <label for="todoDateDisplay">Date display format</label>
         <Selector
             name="todoDateDisplay"
-            bind:value={data.todoDateDisplay}
+            value={data.todoDateDisplay}
             choices={dateFormatChoices}
             choiceComponent={DateDisplayChoiceField}
-            on:change
-            data-cy="todo-date-display-selector"
+            onChange={handleChange('todoDateDisplay')}
+            data-testid="todo-date-display-selector"
         />
     </div>
 </section>

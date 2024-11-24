@@ -1,19 +1,14 @@
 <script>
-import { createEventDispatcher } from 'svelte';
+let { title, total, class: componentClass, onAddTodo } = $props();
 
-export let title;
-export let total;
-
-$: isEmpty = total === 0;
-
-const dispatch = createEventDispatcher();
+const isEmpty = $derived(total === 0);
 </script>
 
-<header class={$$props.class} data-cy="todo-list-header">
+<header class={componentClass} data-testid="todo-list-header">
     <h1>{title}</h1>
 
     {#if !isEmpty}
-        <button on:click={() => dispatch('addtodo')} data-cy="todo-list-header-add-btn">
+        <button onclick={onAddTodo} data-testid="todo-list-header-add-btn">
             <svg viewBox="0 0 24 24">
                 <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
             </svg>

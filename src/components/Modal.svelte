@@ -1,45 +1,51 @@
 <script>
-import { createEventDispatcher } from 'svelte';
 import { portal } from 'svelte-portal';
 
-export let show = false;
-export let closeOnEscape = false;
-export let closeOnClickOutside = false;
+let {
+    children,
+    show = false,
+    closeOnEscape = false,
+    closeOnClickOutside = false,
+    contentClass,
+    onClose,
+    ...restProps
+} = $props();
 
-const dispatch = createEventDispatcher();
 const handleKeyDown = (event) => {
     if (event.key === 'Escape') {
         if (document.activeElement === document.body) {
             if (closeOnEscape) {
-                dispatch('close');
+                onClose?.();
             }
         } else {
             document.activeElement.blur();
         }
     }
 };
-$: eventListenerMethod = show ? 'addEventListener' : 'removeEventListener';
-$: document[eventListenerMethod]('keydown', handleKeyDown);
+const eventListenerMethod = $derived(show ? 'addEventListener' : 'removeEventListener');
+$effect(() => document[eventListenerMethod]('keydown', handleKeyDown));
 
-let modal;
-$: if (modal) {
-    const focusableElements = 'a, button, input, textarea, select, [contenteditable]';
-    modal.querySelector(focusableElements)?.focus();
-}
+let modal = $state();
+$effect(() => {
+    if (modal) {
+        const focusableElements = 'a, button, input, textarea, select, [contenteditable]';
+        modal.querySelector(focusableElements)?.focus();
+    }
+});
 
 const handleOutsideClick = (event) => {
     const isAttachedToDocument = event.target.parentNode;
     const isInsideModal = event.target.closest('.ModalContent');
     if (closeOnClickOutside && isAttachedToDocument && !isInsideModal) {
-        dispatch('close');
+        onClose?.();
     }
 };
 </script>
 
 {#if show}
-    <div class="ModalBackground" use:portal={'body'} on:click|capture={handleOutsideClick} {...$$restProps}>
-        <div class="ModalContent {$$props.contentClass}" bind:this={modal} data-cy="modal-content">
-            <slot />
+    <div class="ModalBackground" use:portal={'body'} onclickcapture={handleOutsideClick} {...restProps}>
+        <div class="ModalContent {contentClass}" bind:this={modal} data-testid="modal-content">
+            {@render children?.()}
         </div>
     </div>
 {/if}

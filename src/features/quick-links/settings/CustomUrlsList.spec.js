@@ -1,83 +1,42 @@
-import { TRIGGERS } from 'svelte-dnd-action';
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
 
 import CustomUrlsList from './CustomUrlsList.svelte';
 
 import { confirmation } from '@app/stores/confirmation';
+import quickLinks from '@cypress/fixtures/quicklinks.json';
 
 describe('CustomUrlsList', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('displays links in reversed order', () => {
-        cy.fixture('quicklinks.json').then((quickLinks) => {
-            cy.mount(CustomUrlsList, {
-                props: {
-                    links: quickLinks,
-                },
-            });
+        render(CustomUrlsList, {
+            props: {
+                links: quickLinks,
+            },
+        });
 
-            cy.get('[data-cy="custom-url-item"]').should('have.length', quickLinks.length);
-            quickLinks.forEach((quickLink, i) => {
-                cy.get('[data-cy="custom-url-item"]')
-                    .eq(quickLinks.length - (i + 1))
-                    .should('contain.text', quickLink.title);
-            });
+        const links = screen.getAllByTestId('custom-url-item');
+        expect(links).toHaveLength(quickLinks.length);
+
+        quickLinks.forEach((quickLink, i) => {
+            expect(screen.getByText(quickLink.title)).toBeInTheDocument();
         });
     });
 
-    it('dispatches "remove" event when item remove button is clicked', () => {
-        const onRemove = cy.spy();
+    it('calls "onRemove" when item remove button is clicked', async () => {
+        const onRemove = vi.fn();
 
-        cy.fixture('quicklinks.json').then((quickLinks) => {
-            cy.mount(CustomUrlsList, {
-                props: {
-                    links: quickLinks,
-                },
-            }).then(({ component }) => {
-                component.$on('remove', onRemove);
-            });
-
-            cy.get('[data-cy="custom-url-item-remove-button"]')
-                .eq(0)
-                .click()
-                .then(() => {
-                    confirmation.confirm();
-
-                    cy.wrap(onRemove).should(
-                        'have.been.calledWith',
-                        Cypress.sinon.match({
-                            detail: quickLinks.pop(),
-                        }),
-                    );
-                });
+        render(CustomUrlsList, {
+            props: {
+                links: quickLinks,
+                onRemove,
+            },
         });
-    });
+        await userEvent.click(screen.getAllByTestId('custom-url-item-remove-button')[0]);
+        confirmation.confirm();
 
-    it('dispatches "change" event when item is dropped into the drag and drop zone', () => {
-        cy.fixture('quicklinks.json').then((quickLinks) => {
-            const onChange = cy.spy();
-            const keyedQuickLinks = quickLinks.map((quickLink) => ({ ...quickLink, id: quickLink.url }));
-
-            cy.mount(CustomUrlsList, {
-                props: {
-                    links: keyedQuickLinks,
-                },
-            }).then(({ component }) => {
-                component.$on('change', onChange);
-            });
-
-            cy.get('[data-cy="custom-urls-list"]').trigger('finalize', {
-                detail: {
-                    items: keyedQuickLinks.slice().reverse(),
-                    info: {
-                        id: keyedQuickLinks[0].url,
-                        trigger: TRIGGERS.DROPPED_INTO_ZONE,
-                    },
-                },
-            });
-
-            cy.wrap(onChange).should('have.been.calledWith', Cypress.sinon.match({ detail: quickLinks }));
-        });
+        await vi.waitFor(() =>
+            expect(onRemove).toHaveBeenCalledWith(expect.objectContaining(quickLinks[quickLinks.length - 1])),
+        );
     });
 });

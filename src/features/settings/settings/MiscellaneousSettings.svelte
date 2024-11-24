@@ -3,7 +3,11 @@ import Switch from '@components/Switch.svelte';
 
 import { getDefaultSettings } from '.';
 
-export let data = getDefaultSettings();
+let { data = getDefaultSettings(), onChange } = $props();
+
+const handleChange = (key) => {
+    return (value) => onChange?.({ ...data, [key]: value });
+};
 </script>
 
 <section>
@@ -14,9 +18,9 @@ export let data = getDefaultSettings();
         </label>
         <Switch
             name="enablePrivacyMode"
-            bind:value={data.enablePrivacyMode}
-            on:change
-            data-cy="enable-privacy-mode-toggle"
+            checked={data.enablePrivacyMode}
+            onChange={handleChange('enablePrivacyMode')}
+            data-testid="enable-privacy-mode-toggle"
         />
     </div>
 </section>

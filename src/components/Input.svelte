@@ -1,9 +1,8 @@
 <script>
-export let name = '';
-export let value = '';
+let { name = '', value = '', onChange, ...restProps } = $props();
 </script>
 
-<input bind:value name id={name} {...$$restProps} />
+<input {value} {name} id={name} onchange={(event) => onChange?.(event.target.value)} {...restProps} />
 
 <style>
 input {

@@ -1,3 +1,5 @@
+import { mount } from 'svelte';
+
 import App from '@app/App.svelte';
 
 import { initializeBackgrounds } from '@features/backgrounds';
@@ -14,7 +16,7 @@ initializeBackgrounds();
 initializeKeyBindings();
 initializeTodos();
 
-const app = new App({
+const app = mount(App, {
     target: document.body,
 });
 

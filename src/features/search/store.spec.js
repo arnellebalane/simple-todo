@@ -1,3 +1,5 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { faker } from '@faker-js/faker';
 import { TODOS_EVENTUALLY, TODOS_TODAY } from '@features/todos/constants';
 import { generateTodo } from '@features/todos/utils/test-helpers';
@@ -25,37 +27,37 @@ describe('search store', () => {
             search.query.set('test');
             search.tag.set('test');
 
-            const querySpy = cy.spy();
-            const tagSpy = cy.spy();
+            const querySpy = vi.fn();
+            const tagSpy = vi.fn();
             search.query.subscribe(querySpy);
             search.tag.subscribe(tagSpy);
 
             search.clear();
 
-            cy.wrap(querySpy).should('have.been.calledWith', '');
-            cy.wrap(tagSpy).should('have.been.calledWith', null);
+            expect(querySpy).toHaveBeenCalledWith('');
+            expect(tagSpy).toHaveBeenCalledWith(null);
         });
     });
 
     describe('search.filterTodos', () => {
         it('filters todos based on query filter', () => {
             const result = search.filterTodos(todos);
-            const resultSpy = cy.spy();
+            const resultSpy = vi.fn();
             result.subscribe(resultSpy);
 
             search.query.set(todos[1].body);
 
-            cy.wrap(resultSpy).should('have.been.calledWith', [todos[1]]);
+            expect(resultSpy).toHaveBeenCalledWith([todos[1]]);
         });
 
         it('filters todos based on tags filter', () => {
             const result = search.filterTodos(todos);
-            const resultSpy = cy.spy();
+            const resultSpy = vi.fn();
             result.subscribe(resultSpy);
 
             search.tag.set('test');
 
-            cy.wrap(resultSpy).should('have.been.calledWith', [todos[0]]);
+            expect(resultSpy).toHaveBeenCalledWith([todos[0]]);
         });
     });
 });

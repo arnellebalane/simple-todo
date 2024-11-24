@@ -1,79 +1,78 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import ImageUploadField from './ImageUploadField.svelte';
 
 const name = 'image-upload-field';
-
-// NOTE: Usually this would be done using cy.fixture() and then passing the alias to .selectFile(), however after the
-// first time the fixture is used it seems to yield a file with no name and type, making the image checks fail. Passing
-// a file path to .selectFile() seems to mitigate the issue.
-const customImagePath = 'cypress/fixtures/unsplash-image.jpeg';
-const invalidFilePath = 'cypress/fixtures/unsplash-image.json';
+const validFile = new File(['test-image'], 'valid.jpg', { type: 'image/jpg' });
+const invalidFile = new File(['test-pdf'], 'invalid.pdf', { type: 'application/pdf' });
 
 describe('ImageUploadField', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('disables image upload input and set image button when disabled prop is true', () => {
-        cy.mount(ImageUploadField, {
+        render(ImageUploadField, {
             props: {
                 disabled: true,
                 name,
             },
         });
 
-        cy.get('[data-cy="image-upload-field-input"]').should('be.disabled');
-        cy.get('[data-cy="image-upload-field-button"]').should('be.disabled');
+        expect(screen.getByTestId('image-upload-field-input')).toBeDisabled();
+        expect(screen.getByTestId('image-upload-field-button')).toBeDisabled();
     });
 
     it('enables image upload input when disabled prop is false', () => {
-        cy.mount(ImageUploadField, {
-            props: { name },
+        render(ImageUploadField, {
+            props: {
+                name,
+                disabled: false,
+            },
         });
 
-        cy.get('[data-cy="image-upload-field-input"]').should('be.enabled');
-        cy.get('[data-cy="image-upload-field-button"]').should('be.disabled');
+        expect(screen.getByTestId('image-upload-field-input')).toBeEnabled();
+        expect(screen.getByTestId('image-upload-field-button')).toBeDisabled();
     });
 
-    it('enables set image button when disabled prop is false and an image is selected', () => {
-        cy.mount(ImageUploadField, {
+    it('enables set image button when disabled prop is false and an image is selected', async () => {
+        render(ImageUploadField, {
             props: { name },
         });
+        await userEvent.upload(screen.getByTestId('image-upload-field-input'), validFile);
 
-        cy.get('[data-cy="image-upload-field-input"]').selectFile(customImagePath, { force: true });
-        cy.get('[data-cy="image-upload-field-button"]').should('be.enabled');
+        expect(screen.getByTestId('image-upload-field-button')).toBeEnabled();
     });
 
-    it('displays error when selected file is not an image', () => {
-        const onChange = cy.spy();
+    it('displays error when selected file is not an image', async () => {
+        const onChange = vi.fn();
 
-        cy.mount(ImageUploadField, {
-            props: { name },
-        }).then(({ component }) => {
-            component.$on('change', onChange);
+        render(ImageUploadField, {
+            props: {
+                name,
+                onChange,
+            },
         });
+        await userEvent.upload(screen.getByTestId('image-upload-field-input'), invalidFile, { applyAccept: false });
+        await userEvent.click(screen.getByTestId('image-upload-field-button'));
 
-        cy.get('[data-cy="image-upload-field-input"]').selectFile(invalidFilePath, { force: true });
-        cy.get('[data-cy="image-upload-field-button"]').click();
-
-        cy.get('[data-cy="image-upload-field-error"]').should('have.text', 'Selected file is not an image.');
-        cy.wrap(onChange).should('not.have.been.called');
+        expect(screen.getByTestId('image-upload-field-error')).toHaveTextContent('Selected file is not an image');
+        expect(onChange).not.toHaveBeenCalled();
     });
 
-    it('dispatches "change" and "request" events when selected file is an image and set image button is clicked', () => {
-        const onChange = cy.spy();
-        const onRequest = cy.spy();
+    it('calls "onChange" and "onRequest" when selected file is an image and set image button is clicked', async () => {
+        const onChange = vi.fn();
+        const onRequest = vi.fn();
 
-        cy.mount(ImageUploadField, {
-            props: { name },
-        }).then(({ component }) => {
-            component.$on('change', onChange);
-            component.$on('request', onRequest);
+        render(ImageUploadField, {
+            props: {
+                name,
+                onChange,
+                onRequest,
+            },
         });
+        await userEvent.upload(screen.getByTestId('image-upload-field-input'), validFile);
+        await userEvent.click(screen.getByTestId('image-upload-field-button'));
 
-        cy.get('[data-cy="image-upload-field-input"]').selectFile(customImagePath, { force: true });
-        cy.get('[data-cy="image-upload-field-button"]').click();
-
-        cy.wrap(onChange).should('have.been.called');
-        cy.wrap(onRequest).should('have.been.called');
+        await vi.waitFor(() => expect(onChange).toHaveBeenCalled());
+        await vi.waitFor(() => expect(onRequest).toHaveBeenCalled());
     });
 });

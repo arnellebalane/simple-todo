@@ -1,6 +1,5 @@
 <script>
 import omit from 'lodash/omit';
-import { createEventDispatcher } from 'svelte';
 
 import Selector from '@components/Selector.svelte';
 import Switch from '@components/Switch.svelte';
@@ -12,34 +11,32 @@ import { BACKGROUND_SOURCE_AUTOMATIC, BACKGROUND_SOURCE_CUSTOM } from '../consta
 
 import { allowedFields, getDefaultSettings } from '.';
 
-export let data = getDefaultSettings();
+let { data = getDefaultSettings(), onChange } = $props();
 
-let backgroundSource = data.backgroundSource;
+let backgroundSource = $state(data.backgroundSource);
 const backgroundSourceChoices = [
     { label: 'Automatic', subtext: 'Random from Unsplash', value: BACKGROUND_SOURCE_AUTOMATIC },
     { label: 'Custom', subtext: 'Specify your own image', value: BACKGROUND_SOURCE_CUSTOM },
 ];
 
-const dispatch = createEventDispatcher();
+let currentRequest = $state();
+const hasCurrentRequest = $derived(Boolean(currentRequest));
 
-let currentRequest;
-$: hasCurrentRequest = Boolean(currentRequest);
-
-const handleChange = () => dispatch('change', data);
-const handleRequest = (event) => {
-    if (event.detail) {
+const handleRequest = (request) => {
+    if (request) {
         currentRequest?.cancel();
     }
-    currentRequest = event.detail;
+    currentRequest = request;
 };
 
-const handleBackgroundChange = async () => {
-    if (!data.background) {
-        data = omit(data, allowedFields);
-        data = Object.assign(data, getDefaultSettings());
-        backgroundSource = data.backgroundSource;
-        handleChange();
+const handleBackgroundChange = async (value) => {
+    let settings = { ...data, background: value };
+    if (!value) {
+        settings = omit(settings, allowedFields);
+        settings = Object.assign(settings, getDefaultSettings());
+        backgroundSource = settings.backgroundSource;
     }
+    onChange?.(settings);
 };
 </script>
 
@@ -48,9 +45,9 @@ const handleBackgroundChange = async () => {
         <label for="background">Show background image</label>
         <Switch
             name="background"
-            bind:value={data.background}
-            on:change={handleBackgroundChange}
-            data-cy="toggle-background"
+            checked={data.background}
+            onChange={handleBackgroundChange}
+            data-testid="toggle-background"
         />
     </div>
 
@@ -61,23 +58,13 @@ const handleBackgroundChange = async () => {
             disabled={hasCurrentRequest}
             choices={backgroundSourceChoices}
             choiceComponent={SourceChoiceField}
-            data-cy="background-source-selector"
+            data-testid="background-source-selector"
         />
 
         {#if backgroundSource === BACKGROUND_SOURCE_AUTOMATIC}
-            <AutomaticSourceFieldSet
-                {data}
-                disabled={hasCurrentRequest}
-                on:request={handleRequest}
-                on:change={handleChange}
-            />
+            <AutomaticSourceFieldSet {data} disabled={hasCurrentRequest} onRequest={handleRequest} {onChange} />
         {:else}
-            <CustomSourceFieldSet
-                {data}
-                disabled={hasCurrentRequest}
-                on:request={handleRequest}
-                on:change={handleChange}
-            />
+            <CustomSourceFieldSet {data} disabled={hasCurrentRequest} onRequest={handleRequest} {onChange} />
         {/if}
     {/if}
 </section>

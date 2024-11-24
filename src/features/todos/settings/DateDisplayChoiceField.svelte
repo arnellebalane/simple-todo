@@ -1,6 +1,5 @@
 <script>
-export let choice;
-export let selected;
+let { choice, selected } = $props();
 </script>
 
 <p class:selected>

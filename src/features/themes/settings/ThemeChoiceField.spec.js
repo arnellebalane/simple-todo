@@ -1,3 +1,6 @@
+import { render, screen } from '@testing-library/svelte';
+import { describe, expect, it } from 'vitest';
+
 import ThemeChoiceField from './ThemeChoiceField.svelte';
 
 import { THEME_SYSTEM } from '../constants';
@@ -8,34 +11,30 @@ const choice = {
 };
 
 describe('ThemeChoiceField', () => {
-    beforeEach(() => {
-        cy.viewport(180, 180);
-    });
-
     it('displays the choice label', () => {
-        cy.mount(ThemeChoiceField, {
+        render(ThemeChoiceField, {
             props: { choice },
         });
 
-        cy.get('p').should('contain.text', choice.label);
+        expect(screen.getByText(choice.label)).toBeInTheDocument();
     });
 
     it('does not add the selected class when selected prop is false', () => {
-        cy.mount(ThemeChoiceField, {
+        render(ThemeChoiceField, {
             props: { choice },
         });
 
-        cy.get('p').should('not.have.class', 'selected');
+        expect(screen.getByText(choice.label)).not.toHaveClass('selected');
     });
 
     it('adds the selected class when selected prop is true', () => {
-        cy.mount(ThemeChoiceField, {
+        render(ThemeChoiceField, {
             props: {
                 choice,
                 selected: true,
             },
         });
 
-        cy.get('p').should('have.class', 'selected');
+        expect(screen.getByText(choice.label)).toHaveClass('selected');
     });
 });

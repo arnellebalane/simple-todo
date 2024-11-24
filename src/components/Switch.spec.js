@@ -1,45 +1,52 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import Switch from './Switch.svelte';
 
 describe('Switch', () => {
-    it('does not select the checkbox when value prop is false', () => {
-        cy.mount(Switch);
-
-        cy.get('input').should('not.be.checked');
-    });
-
-    it('selects the checkbox when value prop is true', () => {
-        cy.mount(Switch, {
+    it('does not select the checkbox when checked prop is false', () => {
+        render(Switch, {
             props: {
-                value: true,
+                checked: false,
             },
         });
 
-        cy.get('input').should('be.checked');
+        expect(screen.getByRole('checkbox')).not.toBeChecked();
     });
 
-    it('dispatches "change" event when unchecked switch is checked', () => {
-        const onChange = cy.spy();
-
-        cy.mount(Switch).then(({ component }) => {
-            component.$on('change', onChange);
-        });
-
-        cy.get('label').click();
-        cy.wrap(onChange).should('have.been.calledWith', Cypress.sinon.match.hasNested('target.checked', true));
-    });
-
-    it('dispatches "change" event when checked switch is unchecked', () => {
-        const onChange = cy.spy();
-
-        cy.mount(Switch, {
+    it('selects the checkbox when checked prop is true', () => {
+        render(Switch, {
             props: {
-                value: true,
+                checked: true,
             },
-        }).then(({ component }) => {
-            component.$on('change', onChange);
         });
 
-        cy.get('label').click();
-        cy.wrap(onChange).should('have.been.calledWith', Cypress.sinon.match.hasNested('target.checked', false));
+        expect(screen.getByRole('checkbox')).toBeChecked();
+    });
+
+    it('calls "onChange" when unchecked switch is checked', async () => {
+        const onChange = vi.fn();
+
+        render(Switch, {
+            props: { onChange },
+        });
+        await userEvent.click(screen.getByRole('checkbox'));
+
+        expect(onChange).toHaveBeenCalledWith(true);
+    });
+
+    it('calls "onChange" when checked switch is unchecked', async () => {
+        const onChange = vi.fn();
+
+        render(Switch, {
+            props: {
+                checked: true,
+                onChange,
+            },
+        });
+        await userEvent.click(screen.getByRole('checkbox'));
+
+        expect(onChange).toHaveBeenCalledWith(false);
     });
 });

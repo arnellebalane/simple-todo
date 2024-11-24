@@ -2,9 +2,9 @@
 import Modal from '@components/Modal.svelte';
 import WhatsNew from './WhatsNew.svelte';
 
-export let show;
+let { show, onClose } = $props();
 </script>
 
-<Modal {show} closeOnEscape closeOnClickOutside on:close data-cy="whats-new-modal">
-    <WhatsNew on:close />
+<Modal {show} {onClose} closeOnEscape closeOnClickOutside data-testid="whats-new-modal">
+    <WhatsNew {onClose} />
 </Modal>

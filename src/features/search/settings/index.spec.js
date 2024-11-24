@@ -1,3 +1,5 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { search } from '../store';
 
 import { onSave } from '.';
@@ -11,35 +13,35 @@ describe('search settings', () => {
     });
 
     it('clears search filters when enableTextFilter setting is changed', () => {
-        const querySpy = cy.spy();
+        const querySpy = vi.fn();
         search.query.subscribe(querySpy);
 
         const settings = { enableTextFilter: false, enableTagsFilter: false };
         const updated = { enableTextFilter: true, enableTagsFilter: false };
         onSave(settings, updated);
 
-        cy.wrap(querySpy).should('have.been.calledWith', '');
+        expect(querySpy).toHaveBeenCalledWith('');
     });
 
     it('clears search filters when enableTagsFilter setting is changed', () => {
-        const querySpy = cy.spy();
+        const querySpy = vi.fn();
         search.query.subscribe(querySpy);
 
         const settings = { enableTextFilter: false, enableTagsFilter: false };
         const updated = { enableTextFilter: false, enableTagsFilter: true };
         onSave(settings, updated);
 
-        cy.wrap(querySpy).should('have.been.calledWith', '');
+        expect(querySpy).toHaveBeenCalledWith('');
     });
 
     it('does not clear filters when enableTextFilter and enableTagsFilter settings did not change', () => {
-        const querySpy = cy.spy();
+        const querySpy = vi.fn();
         search.query.subscribe(querySpy);
 
         const settings = { enableTextFilter: false, enableTagsFilter: false };
         const updated = { enableTextFilter: false, enableTagsFilter: false };
         onSave(settings, updated);
 
-        cy.wrap(querySpy).should('not.have.been.calledWith', '');
+        expect(querySpy).not.toHaveBeenCalledWith('');
     });
 });

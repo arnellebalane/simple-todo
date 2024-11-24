@@ -1,8 +1,8 @@
 <script>
-export let links = [];
+let { links = [] } = $props();
 </script>
 
-<div data-cy="quick-links">
+<div data-testid="quick-links">
     <h3>Quick Links</h3>
 
     <ul>
@@ -13,7 +13,7 @@ export let links = [];
                     rel="noopener noreferrer"
                     data-tooltip={link.title}
                     class:custom={link.custom}
-                    data-cy="quick-link"
+                    data-testid="quick-link"
                 >
                     <img src={link.icon} alt={link.title} />
                 </a>

@@ -1,6 +1,4 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Switch from '@components/Switch.svelte';
 import QuickLinksField from './QuickLinksField.svelte';
 
@@ -9,31 +7,27 @@ import { frequentLinksSupported } from '../store';
 
 import { getDefaultSettings } from '.';
 
-export let data = getDefaultSettings();
+let { data = getDefaultSettings(), onChange } = $props();
 
-const dispatch = createEventDispatcher();
-const handleChange = () => dispatch('change', data);
-
-const handleQuickLinksChange = (event) => {
-    data.quickLinks = event.detail;
-    handleChange();
+const handleChange = (key) => {
+    return (value) => onChange?.({ ...data, [key]: value });
 };
 </script>
 
 <section>
     <div class="Field">
         <label for="quicklinks">Select the apps to add a quick link</label>
-        <QuickLinksField
-            choices={BUILTIN_QUICK_LINKS}
-            bind:value={data.quickLinks}
-            on:change={handleQuickLinksChange}
-        />
+        <QuickLinksField choices={BUILTIN_QUICK_LINKS} value={data.quickLinks} onChange={handleChange('quickLinks')} />
     </div>
 
     {#if frequentLinksSupported}
         <div class="Field--inline">
             <label for="frequentLinks">Show frequently visited links</label>
-            <Switch name="frequentLinks" bind:value={data.showFrequentLinks} on:change={handleChange} />
+            <Switch
+                name="frequentLinks"
+                checked={data.showFrequentLinks}
+                onChange={handleChange('showFrequentLinks')}
+            />
         </div>
     {/if}
 </section>

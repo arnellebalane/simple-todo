@@ -1,12 +1,12 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import { component as SearchSettings } from '.';
 
 describe('SearchSettings', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('selects text filter switch when data.enableTextFilter is true', () => {
-        cy.mount(SearchSettings, {
+        render(SearchSettings, {
             props: {
                 data: {
                     enableTextFilter: true,
@@ -14,11 +14,11 @@ describe('SearchSettings', () => {
             },
         });
 
-        cy.get('[data-cy="enable-text-filter"]').should('be.checked');
+        expect(screen.getByTestId('enable-text-filter')).toBeChecked();
     });
 
     it('deselects text filter switch when data.enableTextFilter is false', () => {
-        cy.mount(SearchSettings, {
+        render(SearchSettings, {
             props: {
                 data: {
                     enableTextFilter: false,
@@ -26,11 +26,11 @@ describe('SearchSettings', () => {
             },
         });
 
-        cy.get('[data-cy="enable-text-filter"]').should('not.be.checked');
+        expect(screen.getByTestId('enable-text-filter')).not.toBeChecked();
     });
 
     it('selects tags filter switch when data.enableTagsFilter is true', () => {
-        cy.mount(SearchSettings, {
+        render(SearchSettings, {
             props: {
                 data: {
                     enableTagsFilter: true,
@@ -38,11 +38,11 @@ describe('SearchSettings', () => {
             },
         });
 
-        cy.get('[data-cy="enable-tags-filter"]').should('be.checked');
+        expect(screen.getByTestId('enable-tags-filter')).toBeChecked();
     });
 
     it('deselects tags filter switch when data.enableTagsFilter is false', () => {
-        cy.mount(SearchSettings, {
+        render(SearchSettings, {
             props: {
                 data: {
                     enableTagsFilter: false,
@@ -50,48 +50,46 @@ describe('SearchSettings', () => {
             },
         });
 
-        cy.get('[data-cy="enable-tags-filter"]').should('not.be.checked');
+        expect(screen.getByTestId('enable-tags-filter')).not.toBeChecked();
     });
 
-    it('dispatches "change" event when text filter switch is toggled', () => {
-        const onChange = cy.spy();
+    it('calls "onChange" when text filter switch is toggled', async () => {
+        const onChange = vi.fn();
         const data = {
             enableTextFilter: false,
             enableTagsFilter: false,
         };
 
-        cy.mount(SearchSettings, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', onChange);
+        render(SearchSettings, {
+            props: {
+                data,
+                onChange,
+            },
         });
+        await userEvent.click(screen.getByTestId('enable-text-filter'));
 
-        cy.get('[data-cy="enable-text-filter"]').click({ force: true });
-
-        cy.wrap(onChange).should('have.been.called');
-        cy.wrap(data).should('deep.equal', {
+        expect(onChange).toHaveBeenCalledWith({
             enableTextFilter: true,
             enableTagsFilter: false,
         });
     });
 
-    it('dispatches "change" event when tags filter switch is toggled', () => {
-        const onChange = cy.spy();
+    it('calls "onChange" when tags filter switch is toggled', async () => {
+        const onChange = vi.fn();
         const data = {
             enableTextFilter: false,
             enableTagsFilter: false,
         };
 
-        cy.mount(SearchSettings, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', onChange);
+        render(SearchSettings, {
+            props: {
+                data,
+                onChange,
+            },
         });
+        await userEvent.click(screen.getByTestId('enable-tags-filter'));
 
-        cy.get('[data-cy="enable-tags-filter"]').click({ force: true });
-
-        cy.wrap(onChange).should('have.been.called');
-        cy.wrap(data).should('deep.equal', {
+        expect(onChange).toHaveBeenCalledWith({
             enableTextFilter: false,
             enableTagsFilter: true,
         });

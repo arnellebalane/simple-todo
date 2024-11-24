@@ -7,10 +7,8 @@ import Button from '@components/Button.svelte';
 import { icons } from '@lib/icons';
 import { tags } from '../store';
 
-export let data = {};
-
-$: hasTags = !isEmpty($tags);
-$: sortedTags = orderBy($tags, (tag) => tag.label.toUpperCase());
+const hasTags = $derived(!isEmpty($tags));
+const sortedTags = $derived(orderBy($tags, (tag) => tag.label.toUpperCase()));
 
 const removeTag = (tag) => {
     tags.updateTag(tag.label, { removed: true });
@@ -21,18 +19,17 @@ const restoreTag = (tag) => {
 </script>
 
 {#if hasTags}
-    <ol data-cy="tags-settings">
+    <ol data-testid="tags-settings">
         {#each sortedTags as tag (tag.label)}
-            <li class:removed={tag.removed} data-cy="tag-item">
+            <li class:removed={tag.removed} data-testid="tag-item">
                 <Button
                     medium
-                    icon
-                    iconLight={tag.removed ? icons.restore : icons.remove}
-                    iconDark={tag.removed ? icons.restore : icons.remove}
                     type="button"
                     class="Button"
-                    on:click={() => (tag.removed ? restoreTag(tag) : removeTag(tag))}
-                    data-cy="tag-action-btn"
+                    iconLight={tag.removed ? icons.restore : icons.remove}
+                    iconDark={tag.removed ? icons.restore : icons.remove}
+                    onClick={() => (tag.removed ? restoreTag(tag) : removeTag(tag))}
+                    data-testid="tag-action-btn"
                 >
                     {tag.removed ? 'Restore' : 'Remove'}
                 </Button>
@@ -41,7 +38,7 @@ const restoreTag = (tag) => {
         {/each}
     </ol>
 {:else}
-    <p data-cy="tags-empty">No tags available. Tags added to todo items will appear in this tab.</p>
+    <p data-testid="tags-empty">No tags available. Tags added to todo items will appear in this tab.</p>
 {/if}
 
 <style>

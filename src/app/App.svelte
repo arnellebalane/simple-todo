@@ -14,37 +14,35 @@ import { confirmation } from '@app/stores/confirmation';
 import { search } from '@features/search/store';
 import { disableShortcut, enableShortcut } from '@features/shortcuts';
 import { tags } from '@features/tags/store';
+import { initialTodoFormData } from '@features/todos';
 import { todos } from '@features/todos/store';
 import { config } from '@lib/config';
 
-$: filteredTodos = search.filterTodos($todos);
+const filteredTodos = $derived(search.filterTodos($todos));
 
-let todoFormData = {};
-let showTodoForm = false;
-const setShowTodoForm = (show, data) => {
+let todoFormData = $state(initialTodoFormData);
+let showTodoForm = $state(false);
+const setShowTodoForm = (show, data = initialTodoFormData) => {
     showTodoForm = show;
     todoFormData = cloneDeep(data);
 };
+const updateTodoFormData = (data) => (todoFormData = data);
+const showTodoFormWithData = (data) => setShowTodoForm(true, data);
 
-const showTodoFormWithData = (event) => setShowTodoForm(true, event.detail);
-const updateTodoItem = (event) => todos.update(event.detail);
-const removeTodoItem = async (event) => {
+const removeTodoItem = async (todo) => {
     const confirmed = await confirmation.show({
         message: 'Are you sure you want to remove this todo?',
         confirmLabel: 'Remove',
     });
     if (confirmed) {
-        todos.remove(event.detail);
+        todos.remove(todo);
     }
 };
-const saveTodoItem = (event) => {
-    todos.save(event.detail);
-    tags.add(event.detail.tags);
+const saveTodoItem = (todo) => {
+    todos.save(todo);
+    tags.add(todo.tags);
     setShowTodoForm(false);
 };
-const updateTodos = (event) => todos.updateList(event.detail);
-const removeDoneTodos = () => todos.removeDone();
-const undoRemoveDoneTodos = () => todos.undoRemoveDone();
 
 onMount(() => enableShortcut('addTodo', () => setShowTodoForm(true)));
 onDestroy(() => disableShortcut('addTodo'));
@@ -70,18 +68,18 @@ onDestroy(() => disableShortcut('addTodo'));
     <div class="AppContent">
         <AppHeader
             class="AppHeader"
-            on:addtodo={() => setShowTodoForm(true)}
-            on:removedone={removeDoneTodos}
-            on:undoremovedone={undoRemoveDoneTodos}
+            onAddTodo={() => setShowTodoForm(true)}
+            onRemoveDone={todos.removeDone}
+            onUndoRemoveDone={todos.undoRemoveDone}
         />
         <TodoBoard
             class="TodoBoard"
             todos={$filteredTodos}
-            on:addtodo={showTodoFormWithData}
-            on:updatetodo={updateTodoItem}
-            on:edittodo={showTodoFormWithData}
-            on:deletetodo={removeTodoItem}
-            on:update={updateTodos}
+            onAddTodo={showTodoFormWithData}
+            onUpdateTodo={todos.update}
+            onEditTodo={showTodoFormWithData}
+            onDeleteTodo={removeTodoItem}
+            onUpdate={todos.updateList}
         />
     </div>
 
@@ -90,9 +88,10 @@ onDestroy(() => disableShortcut('addTodo'));
 
 <TodoFormModal
     show={showTodoForm}
-    data={todoFormData}
-    on:submit={saveTodoItem}
-    on:cancel={() => setShowTodoForm(false)}
+    bind:data={todoFormData}
+    onChange={updateTodoFormData}
+    onSubmit={saveTodoItem}
+    onCancel={() => setShowTodoForm(false)}
 />
 
 <AppConfirmation
@@ -100,8 +99,8 @@ onDestroy(() => disableShortcut('addTodo'));
     message={$confirmation?.message}
     confirmLabel={$confirmation?.confirmLabel}
     cancelLabel={$confirmation?.cancelLabel}
-    on:confirm={confirmation.confirm}
-    on:cancel={confirmation.cancel}
+    onConfirm={confirmation.confirm}
+    onCancel={confirmation.cancel}
 />
 <AppTooltip />
 

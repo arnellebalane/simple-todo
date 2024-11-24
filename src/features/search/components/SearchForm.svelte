@@ -13,12 +13,12 @@ import { search } from '../store';
 
 const { query, tag } = search;
 
-$: enableTextFilter = $settings.enableTextFilter;
-$: enableTagsFilter = $settings.enableTagsFilter && !isEmpty($tags);
-$: enableSearchForm = enableTextFilter || enableTagsFilter;
+const enableTextFilter = $derived($settings.enableTextFilter);
+const enableTagsFilter = $derived($settings.enableTagsFilter && !isEmpty($tags));
+const enableSearchForm = $derived(enableTextFilter || enableTagsFilter);
 
-$: hasSearchFilters = Boolean($query) || Boolean($tag);
-$: tagsChoices = orderBy($tags, (tag) => tag.label.toUpperCase());
+const hasSearchFilters = $derived(Boolean($query) || Boolean($tag));
+const tagsChoices = $derived(orderBy($tags, (tag) => tag.label.toUpperCase()));
 
 const handleKeyDown = (event) => {
     if (event.key === 'Escape') {
@@ -26,7 +26,7 @@ const handleKeyDown = (event) => {
     }
 };
 
-let searchForm;
+let searchForm = $state();
 const focusSearchForm = () => {
     if (searchForm) {
         searchForm.firstElementChild.focus();
@@ -41,9 +41,9 @@ onDestroy(() => disableShortcut('focusSearch'));
     <form
         class="SearchForm"
         bind:this={searchForm}
-        on:submit|preventDefault
-        on:keydown={handleKeyDown}
-        data-cy="search-form"
+        onsubmit={(event) => event.preventDefault()}
+        onkeydowncapture={handleKeyDown}
+        data-testid="search-form"
     >
         {#if enableTextFilter}
             <input
@@ -52,12 +52,12 @@ onDestroy(() => disableShortcut('focusSearch'));
                 name="query"
                 placeholder="Search todos"
                 bind:value={$query}
-                data-cy="search-form-text-filter"
+                data-testid="search-form-text-filter"
             />
         {/if}
 
         {#if enableTagsFilter}
-            <select class="SearchTags" name="tag" bind:value={$tag} data-cy="search-form-tags-filter">
+            <select class="SearchTags" name="tag" bind:value={$tag} data-testid="search-form-tags-filter">
                 <option value={null}>All todos</option>
                 {#each tagsChoices as tag}
                     <option value={tag.label}>{tag.label}</option>
@@ -66,14 +66,14 @@ onDestroy(() => disableShortcut('focusSearch'));
         {/if}
 
         <Button
-            icon
-            disabled={!hasSearchFilters}
-            data-tooltip="Clear search filters"
-            iconLight={icons.closeLight}
-            iconDark={icons.closeDark}
             type="button"
             class="SearchClear"
-            on:click={search.clear}
+            disabled={!hasSearchFilters}
+            data-tooltip="Clear search filters"
+            data-testid="search-form-clear-btn"
+            iconLight={icons.closeLight}
+            iconDark={icons.closeDark}
+            onClick={search.clear}
         >
             Clear search
         </Button>

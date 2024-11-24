@@ -1,19 +1,18 @@
+import { render, screen } from '@testing-library/svelte';
+import { describe, expect, it } from 'vitest';
+
 import TodoItemTags from './TodoItemTags.svelte';
 
 describe('TodoItemTags', () => {
-    beforeEach(() => {
-        cy.viewport(200, 200);
-    });
-
     it('displays the provided list of tags', () => {
         const tags = ['one', 'two', 'three'];
 
-        cy.mount(TodoItemTags, {
+        render(TodoItemTags, {
             props: { tags },
         });
 
         for (const tag of tags) {
-            cy.get('[data-cy="todo-item-tag"]').contains(tag).should('be.visible');
+            expect(screen.getByText(tag)).toBeInTheDocument();
         }
     });
 });

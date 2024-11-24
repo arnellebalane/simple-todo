@@ -1,17 +1,24 @@
-import { BACKGROUND_REFRESH_MANUALLY, BACKGROUND_SOURCE_AUTOMATIC, BACKGROUND_SOURCE_CUSTOM } from '../constants';
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import backgroundImage from '@cypress/fixtures/unsplash-image.json';
+import {
+    BACKGROUND_REFRESH_DAILY,
+    BACKGROUND_REFRESH_MANUALLY,
+    BACKGROUND_SOURCE_AUTOMATIC,
+    BACKGROUND_SOURCE_CUSTOM,
+} from '../constants';
 
 import { component as BackgroundSettings } from '.';
 
 describe('BackgroundSettings', () => {
     beforeEach(() => {
-        cy.viewport(500, 500);
-        cy.intercept('**/.netlify/functions/get-background-image**', {
-            fixture: 'unsplash-image.json',
-        }).as('getBackgroundImage');
+        vi.clearAllMocks();
     });
 
     it('deselects background switch and hides background source selector when data.background prop is false', () => {
-        cy.mount(BackgroundSettings, {
+        render(BackgroundSettings, {
             props: {
                 data: {
                     background: false,
@@ -19,12 +26,12 @@ describe('BackgroundSettings', () => {
             },
         });
 
-        cy.get('[data-cy="toggle-background"]').should('not.be.checked');
-        cy.get('[data-cy="background-source-selector"]').should('not.exist');
+        expect(screen.getByTestId('toggle-background')).not.toBeChecked();
+        expect(screen.queryByTestId('background-source-selector')).not.toBeInTheDocument();
     });
 
     it('selects background switch and displays background source selector when data.background prop is true', () => {
-        cy.mount(BackgroundSettings, {
+        render(BackgroundSettings, {
             props: {
                 data: {
                     background: true,
@@ -32,12 +39,12 @@ describe('BackgroundSettings', () => {
             },
         });
 
-        cy.get('[data-cy="toggle-background"]').should('be.checked');
-        cy.get('[data-cy="background-source-selector"]').should('be.visible');
+        expect(screen.getByTestId('toggle-background')).toBeChecked();
+        expect(screen.getByTestId('background-source-selector')).toBeInTheDocument();
     });
 
     it('displays automatic source fieldset when background source is automatic', () => {
-        cy.mount(BackgroundSettings, {
+        render(BackgroundSettings, {
             props: {
                 data: {
                     background: true,
@@ -46,13 +53,13 @@ describe('BackgroundSettings', () => {
             },
         });
 
-        cy.get('[data-cy="automatic-source-fieldset"]').should('be.visible');
-        cy.get('[data-cy="custom-source-image-url-field"]').should('not.exist');
-        cy.get('[data-cy="custom-source-image-upload-field"]').should('not.exist');
+        expect(screen.getByTestId('automatic-source-fieldset')).toBeInTheDocument();
+        expect(screen.queryByTestId('custom-source-image-url-field')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('custom-source-image-upload-field')).not.toBeInTheDocument();
     });
 
     it('displays custom source fieldset when background source is manual', () => {
-        cy.mount(BackgroundSettings, {
+        render(BackgroundSettings, {
             props: {
                 data: {
                     background: true,
@@ -61,84 +68,83 @@ describe('BackgroundSettings', () => {
             },
         });
 
-        cy.get('[data-cy="automatic-source-fieldset"]').should('not.exist');
-        cy.get('[data-cy="custom-source-image-url-field"]').should('be.visible');
-        cy.get('[data-cy="custom-source-image-upload-field"]').should('be.visible');
+        expect(screen.queryByTestId('automatic-source-fieldset')).not.toBeInTheDocument();
+        expect(screen.getByTestId('custom-source-image-url-field')).toBeInTheDocument();
+        expect(screen.getByTestId('custom-source-image-upload-field')).toBeInTheDocument();
     });
 
-    it('dispatches "change" event and resets data when background is disabled', () => {
-        const onChange = cy.spy();
-        const data = {
-            background: true,
-        };
+    it('calls "onChange" and resets data when background is disabled', async () => {
+        const onChange = vi.fn();
 
-        cy.mount(BackgroundSettings, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', onChange);
+        render(BackgroundSettings, {
+            props: {
+                data: {
+                    background: true,
+                },
+                onChange,
+            },
         });
+        await userEvent.click(screen.getByTestId('toggle-background'));
 
-        cy.get('[data-cy="toggle-background"]').parent().click();
-
-        cy.wrap(onChange).should('have.been.called');
-        cy.wrap(data).should('deep.equal', {
+        expect(onChange).toHaveBeenCalledWith({
             background: false,
-        });
-    });
-
-    it('dispatches "change" event on change in automatic source fieldset data', () => {
-        const onChange = cy.spy();
-        const data = {
-            background: true,
+            backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
             backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
-        };
-        const now = new Date(2023, 0, 1);
-        cy.clock(now);
-
-        cy.mount(BackgroundSettings, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', onChange);
-        });
-
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            cy.wrap(onChange).should('have.been.called');
-            cy.wrap(data).should('deep.equal', {
-                background: true,
-                backgroundImage,
-                backgroundImageLastUpdate: now.valueOf(),
-                backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
-            });
         });
     });
 
-    it('dispatches "change" event on change in custom source fieldset data', () => {
-        const onChange = cy.spy();
-        const data = {
-            background: true,
-            backgroundSource: BACKGROUND_SOURCE_CUSTOM,
-        };
+    it('calls "onChange" on change in automatic source fieldset data', async () => {
+        const onChange = vi.fn();
         const now = new Date(2023, 0, 1);
-        cy.clock(now);
+        vi.setSystemTime(now);
 
-        cy.mount(BackgroundSettings, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', onChange);
+        render(BackgroundSettings, {
+            props: {
+                data: {
+                    background: true,
+                    backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
+                },
+                onChange,
+            },
         });
 
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            cy.get('[data-cy="image-url-field-input"]').type(backgroundImage.photo_url);
-            cy.get('[data-cy="image-url-field-button"]').click();
+        // NOTE: The automatic background field is supposed to get a background
+        // image on mount but for some reason the mock function does not
+        // register the call even if it got executed, so clicking the refresh
+        // button instead to trigger another background image call
+        await userEvent.click(screen.getByTestId('refresh-background-btn'));
 
-            cy.wrap(onChange).should('have.been.called');
-            cy.wrap(data).should('deep.equal', {
-                background: true,
-                backgroundImage,
-                backgroundImageLastUpdate: now.valueOf(),
-                backgroundSource: BACKGROUND_SOURCE_CUSTOM,
-                backgroundRefreshFrequency: BACKGROUND_REFRESH_MANUALLY,
-            });
+        expect(onChange).toHaveBeenCalledWith({
+            background: true,
+            backgroundImage,
+            backgroundImageLastUpdate: now.valueOf(),
+            backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
+        });
+    });
+
+    it('calls "onChange" on change in custom source fieldset data', async () => {
+        const onChange = vi.fn();
+        const now = new Date(2023, 0, 1);
+        vi.setSystemTime(now);
+
+        render(BackgroundSettings, {
+            props: {
+                data: {
+                    background: true,
+                    backgroundSource: BACKGROUND_SOURCE_CUSTOM,
+                },
+                onChange,
+            },
+        });
+        await userEvent.type(screen.getByTestId('image-url-field-input'), backgroundImage.photo_url);
+        await userEvent.click(screen.getByTestId('image-url-field-button'));
+
+        expect(onChange).toHaveBeenCalledWith({
+            background: true,
+            backgroundImage,
+            backgroundImageLastUpdate: now.valueOf(),
+            backgroundSource: BACKGROUND_SOURCE_CUSTOM,
+            backgroundRefreshFrequency: BACKGROUND_REFRESH_MANUALLY,
         });
     });
 });

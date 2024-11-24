@@ -1,16 +1,21 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import AppHeader from './AppHeader.svelte';
 
+import todosFixture from '@cypress/fixtures/todos.json';
 import { settings } from '@features/settings/store';
 import { removeDoneTimer, todos } from '@features/todos/store';
 
 const mockTodos = ({ done = false } = {}) => {
-    return cy.fixture('todos.json').then((todosFixture) => {
-        todos.set(todosFixture.map((todo) => ({ ...todo, done })));
-    });
+    todos.set(todosFixture.map((todo) => ({ ...todo, done })));
 };
 
 describe('AppHeader', () => {
     beforeEach(() => {
+        vi.clearAllMocks();
+
         settings.set({});
         todos.set([]);
         removeDoneTimer.set(0, { duration: 0 });
@@ -18,94 +23,94 @@ describe('AppHeader', () => {
 
     it('displays the current date', () => {
         const date = new Date(2023, 0, 1);
-        cy.clock(date);
+        vi.setSystemTime(date);
 
-        cy.mount(AppHeader);
+        render(AppHeader);
 
-        cy.get('[data-cy="today"]').should('have.text', 'Sunday, January 1');
+        expect(screen.getByTestId('today')).toHaveTextContent('Sunday, January 1');
     });
 
     it('displays remove done button when remove timer is not running', () => {
-        cy.mount(AppHeader);
+        render(AppHeader);
 
-        cy.get('[data-cy="remove-done-btn"]').should('be.visible');
-        cy.get('[data-cy="undo-remove-btn"]').should('not.exist');
+        expect(screen.getByTestId('remove-done-btn')).toBeInTheDocument();
+        expect(screen.queryByTestId('undo-remove-btn')).not.toBeInTheDocument();
     });
 
     it('displays undo remove button when remove timer is running', () => {
-        removeDoneTimer.set(1);
+        removeDoneTimer.set(1000, { duration: 0 });
 
-        cy.mount(AppHeader);
+        render(AppHeader);
 
-        cy.get('[data-cy="undo-remove-btn"]').should('be.visible');
-        cy.get('[data-cy="remove-done-btn"]').should('not.exist');
+        expect(screen.getByTestId('undo-remove-btn')).toBeInTheDocument();
+        expect(screen.queryByTestId('remove-done-btn')).not.toBeInTheDocument();
     });
 
     it('disables remove done button when there are no done todos', () => {
-        mockTodos({ done: false }).then(() => {
-            cy.mount(AppHeader);
+        mockTodos({ done: false });
 
-            cy.get('[data-cy="remove-done-btn"]').should('be.disabled');
-        });
+        render(AppHeader);
+
+        expect(screen.getByTestId('remove-done-btn')).toBeDisabled();
     });
 
     it('enables remove done button when there are done todos', () => {
-        mockTodos({ done: true }).then(() => {
-            cy.mount(AppHeader);
+        mockTodos({ done: true });
 
-            cy.get('[data-cy="remove-done-btn"]').should('be.enabled');
-        });
+        render(AppHeader);
+
+        expect(screen.getByTestId('remove-done-btn')).toBeEnabled();
     });
 
-    it('dispatches "removedone" event when remove done button is clicked', () => {
-        mockTodos({ done: true }).then(() => {
-            const onRemoveDone = cy.spy();
+    it('calls "onRemoveDone" when remove done button is clicked', async () => {
+        mockTodos({ done: true });
+        const onRemoveDone = vi.fn();
 
-            cy.mount(AppHeader).then(({ component }) => {
-                component.$on('removedone', onRemoveDone);
-            });
-
-            cy.get('[data-cy="remove-done-btn"]').click();
-            cy.wrap(onRemoveDone).should('have.been.called');
+        render(AppHeader, {
+            props: { onRemoveDone },
         });
+        await userEvent.click(screen.getByTestId('remove-done-btn'));
+
+        expect(onRemoveDone).toHaveBeenCalled();
     });
 
-    it('dispatches "addtodo" event when add todo button is clicked', () => {
-        const onAddTodo = cy.spy();
+    it('calls "onAddTodo" when add todo button is clicked', async () => {
+        const onAddTodo = vi.fn();
 
-        cy.mount(AppHeader).then(({ component }) => {
-            component.$on('addtodo', onAddTodo);
+        render(AppHeader, {
+            props: { onAddTodo },
         });
+        await userEvent.click(screen.getByTestId('add-todo-btn'));
 
-        cy.get('[data-cy="add-todo-btn"]').click();
-        cy.wrap(onAddTodo).should('have.been.called');
+        expect(onAddTodo).toHaveBeenCalled();
     });
 
-    it('dispatches "undoremovedone" event when undo remove button is clicked', () => {
-        removeDoneTimer.set(1);
-        const onUndoRemoveDone = cy.spy();
+    it('calls "onUndoRemoveDone" when undo remove button is clicked', async () => {
+        removeDoneTimer.set(1000, { duration: 0 });
+        const onUndoRemoveDone = vi.fn();
 
-        cy.mount(AppHeader).then(({ component }) => {
-            component.$on('undoremovedone', onUndoRemoveDone);
+        render(AppHeader, {
+            props: { onUndoRemoveDone },
         });
 
-        cy.get('[data-cy="undo-remove-btn"]').click();
-        cy.wrap(onUndoRemoveDone).should('have.been.called');
+        await userEvent.click(screen.getByTestId('undo-remove-btn'));
+
+        expect(onUndoRemoveDone).toHaveBeenCalled();
     });
 
     it('displays the search form when search is enabled', () => {
         settings.set({ enableTextFilter: true, enableTagsFilter: true });
 
-        cy.mount(AppHeader);
+        render(AppHeader);
 
-        cy.get('[data-cy="search-form"]').should('be.visible');
+        expect(screen.getByTestId('search-form')).toBeInTheDocument();
     });
 
     it('hides the search form when search is disabled', () => {
         settings.set({ enableTextFilter: false, enableTagsFilter: false });
 
-        cy.mount(AppHeader);
+        render(AppHeader);
 
-        cy.get('[data-cy="search-form"]').should('not.exist');
+        expect(screen.queryByTestId('search-form')).not.toBeInTheDocument();
     });
 });

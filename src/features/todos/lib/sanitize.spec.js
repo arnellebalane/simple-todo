@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { escapeText, sanitizeText, unescapeText, unsanitizeText } from './sanitize';
 
 describe('sanitizeText', () => {

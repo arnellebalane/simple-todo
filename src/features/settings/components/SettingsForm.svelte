@@ -1,35 +1,32 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Button from '@components/Button.svelte';
 import SettingsFormSidebar from './SettingsFormSidebar.svelte';
 
 import { settingsTabs } from '../config';
 
-export let data;
+let { data, onChange, onSubmit, onCancel } = $props();
 
-let currentTabIndex = 0;
-$: currentTab = settingsTabs[currentTabIndex].component;
+let currentTabIndex = $state(0);
+const SettingsTabContent = $derived(settingsTabs[currentTabIndex].component);
 
-const dispatch = createEventDispatcher();
-const handleSubmit = () => dispatch('submit', data);
-const handleChange = () => dispatch('change', data);
+const handleSubmit = (event) => {
+    event.preventDefault();
+    onSubmit?.(data);
+};
 </script>
 
-<form on:submit|preventDefault={handleSubmit}>
+<form onsubmit={handleSubmit}>
     <SettingsFormSidebar class="SettingsFormSidebar" bind:value={currentTabIndex} />
 
     <div class="TabContent">
         <div class="TabContentScroll">
-            <svelte:component this={currentTab} bind:data on:change={handleChange} />
+            <SettingsTabContent {data} {onChange} />
         </div>
     </div>
 
     <div class="Actions">
-        <Button primary data-cy="settings-form-submit-btn">Save Settings</Button>
-        <Button type="button" text on:click={() => dispatch('cancel')} data-cy="settings-form-cancel-btn">
-            Cancel
-        </Button>
+        <Button primary data-testid="settings-form-submit-btn">Save Settings</Button>
+        <Button type="button" text onClick={onCancel} data-testid="settings-form-cancel-btn">Cancel</Button>
     </div>
 </form>
 

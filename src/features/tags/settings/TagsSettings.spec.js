@@ -1,18 +1,20 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { tags } from '../store';
 
 import { component as TagsSettings } from '.';
 
 describe('TagsSettings', () => {
     beforeEach(() => {
-        cy.viewport(500, 500);
-
         tags.set({});
     });
 
     it('renders empty state when there are no existing tags', () => {
-        cy.mount(TagsSettings);
+        render(TagsSettings);
 
-        cy.get('[data-cy="tags-empty"]').should('be.visible');
+        expect(screen.getByTestId('tags-empty')).toBeInTheDocument();
     });
 
     it('renders tags from the store', () => {
@@ -22,10 +24,10 @@ describe('TagsSettings', () => {
         };
         tags.set(data);
 
-        cy.mount(TagsSettings);
+        render(TagsSettings);
 
         for (const { label } of Object.values(data)) {
-            cy.contains(label);
+            expect(screen.getByText(label)).toBeInTheDocument();
         }
     });
 
@@ -35,41 +37,39 @@ describe('TagsSettings', () => {
         };
         tags.set(data);
 
-        cy.mount(TagsSettings);
+        render(TagsSettings);
 
-        cy.get('[data-cy="tag-item"]').should('have.class', 'removed');
+        expect(screen.getByTestId('tag-item')).toHaveClass('removed');
     });
 
-    it('marks the tag for removal when the action button is clicked for a tag that is not yet marked for removal', () => {
+    it('marks the tag for removal when the action button is clicked for a tag that is not yet marked for removal', async () => {
+        const tagsSpy = vi.fn();
         const data = {
             one: { label: 'one' },
         };
         tags.set(data);
-
-        cy.mount(TagsSettings);
-
-        const tagsSpy = cy.spy();
         tags.subscribe(tagsSpy);
 
-        cy.get('[data-cy="tag-action-btn"]').click();
-        cy.wrap(tagsSpy).should('have.been.calledWith', {
+        render(TagsSettings);
+        await userEvent.click(screen.getByTestId('tag-action-btn'));
+
+        expect(tagsSpy).toHaveBeenCalledWith({
             one: { label: 'one', removed: true },
         });
     });
 
-    it('unmarks the tag for removal when the action button is clicked for a tag that is already marked for removal', () => {
+    it('unmarks the tag for removal when the action button is clicked for a tag that is already marked for removal', async () => {
+        const tagsSpy = vi.fn();
         const data = {
             one: { label: 'one', removed: true },
         };
         tags.set(data);
-
-        cy.mount(TagsSettings);
-
-        const tagsSpy = cy.spy();
         tags.subscribe(tagsSpy);
 
-        cy.get('[data-cy="tag-action-btn"]').click();
-        cy.wrap(tagsSpy).should('have.been.calledWith', {
+        render(TagsSettings);
+        await userEvent.click(screen.getByTestId('tag-action-btn'));
+
+        expect(tagsSpy).toHaveBeenCalledWith({
             one: { label: 'one', removed: false },
         });
     });

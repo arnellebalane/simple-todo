@@ -1,3 +1,6 @@
+import { render, screen } from '@testing-library/svelte';
+import { describe, expect, it } from 'vitest';
+
 import ColorChoiceField from './ColorChoiceField.svelte';
 
 import { COLOR_GREEN } from '../constants';
@@ -7,26 +10,22 @@ const choice = {
 };
 
 describe('ColorChoiceField', () => {
-    beforeEach(() => {
-        cy.viewport(120, 120);
-    });
-
     it('does not add the selected class when selected prop is false', () => {
-        cy.mount(ColorChoiceField, {
+        render(ColorChoiceField, {
             props: { choice },
         });
 
-        cy.get('p').should('not.have.class', 'selected');
+        expect(document.querySelector('p')).not.toHaveClass('selected');
     });
 
     it('adds the selected class when selected prop is true', () => {
-        cy.mount(ColorChoiceField, {
+        render(ColorChoiceField, {
             props: {
                 choice,
                 selected: true,
             },
         });
 
-        cy.get('p').should('have.class', 'selected');
+        expect(document.querySelector('p')).toHaveClass('selected');
     });
 });

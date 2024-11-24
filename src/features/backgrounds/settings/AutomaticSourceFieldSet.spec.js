@@ -1,37 +1,47 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import AutomaticSourceFieldSet from './AutomaticSourceFieldSet.svelte';
 
+import backgroundImage from '@cypress/fixtures/unsplash-image.json';
 import { BACKGROUND_REFRESH_DAILY, BACKGROUND_REFRESH_WEEKLY, BACKGROUND_SOURCE_AUTOMATIC } from '../constants';
+import { backgrounds } from '../store';
 
 describe('AutomaticSourceFieldSet', () => {
+    const source = { token: '' };
+
     beforeEach(() => {
-        cy.viewport(500, 500);
-        cy.intercept('**/.netlify/functions/get-background-image**', {
-            fixture: 'unsplash-image.json',
-        }).as('getBackgroundImage');
+        vi.resetAllMocks();
+
+        vi.spyOn(backgrounds, 'getBackgroundImage').mockReturnValue({
+            request: Promise.resolve(backgroundImage),
+            source,
+        });
     });
 
     it('disables refresh button when disabled prop is true', () => {
-        cy.mount(AutomaticSourceFieldSet, {
+        render(AutomaticSourceFieldSet, {
             props: {
                 disabled: true,
             },
         });
 
-        cy.get('[data-cy="refresh-background-btn"]').should('be.disabled');
+        expect(screen.getByTestId('refresh-background-btn')).toBeDisabled();
     });
 
     it('enables refresh button when disabled prop is false', () => {
-        cy.mount(AutomaticSourceFieldSet, {
+        render(AutomaticSourceFieldSet, {
             props: {
                 disabled: false,
             },
         });
 
-        cy.get('[data-cy="refresh-background-btn"]').should('be.enabled');
+        expect(screen.getByTestId('refresh-background-btn')).toBeEnabled();
     });
 
     it('selects refresh frequency selector value based on data prop', () => {
-        cy.mount(AutomaticSourceFieldSet, {
+        render(AutomaticSourceFieldSet, {
             props: {
                 data: {
                     backgroundRefreshFrequency: BACKGROUND_REFRESH_WEEKLY,
@@ -39,12 +49,13 @@ describe('AutomaticSourceFieldSet', () => {
             },
         });
 
-        const refreshWeekly = `[data-cy="refresh-frequency-selector"] input[value="${BACKGROUND_REFRESH_WEEKLY}"]`;
-        cy.get(refreshWeekly).should('be.checked');
+        expect(screen.getByRole('radio', { name: 'Weekly' })).toBeChecked();
     });
 
     it('loads new background image when data has no backgroundImage', () => {
-        cy.mount(AutomaticSourceFieldSet, {
+        const getBackgroundImage = vi.spyOn(backgrounds, 'getBackgroundImage');
+
+        render(AutomaticSourceFieldSet, {
             props: {
                 data: {
                     backgroundRefreshFrequency: BACKGROUND_REFRESH_WEEKLY,
@@ -52,80 +63,67 @@ describe('AutomaticSourceFieldSet', () => {
             },
         });
 
-        cy.wait('@getBackgroundImage');
+        expect(getBackgroundImage).toHaveBeenCalled();
     });
 
-    it('dispatches "change" event when refresh frequency value changes', () => {
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            const onChange = cy.spy();
-            const data = {
-                backgroundImage,
-                backgroundRefreshFrequency: BACKGROUND_REFRESH_WEEKLY,
-            };
+    it('calls "onChange" when refresh frequency value changes', async () => {
+        const onChange = vi.fn();
 
-            cy.mount(AutomaticSourceFieldSet, {
-                props: { data },
-            }).then(({ component }) => {
-                component.$on('change', onChange);
-            });
-
-            const refreshDaily = `[data-cy="refresh-frequency-selector"] input[value="${BACKGROUND_REFRESH_DAILY}"]`;
-            cy.get(refreshDaily).parent().click();
-
-            cy.wrap(onChange).should('have.been.called');
-            cy.wrap(data).should('deep.equal', {
-                backgroundImage,
-                backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
-                backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
-            });
-        });
-    });
-
-    it('dispatches "change" event when refresh button is clicked after background image is loaded', () => {
-        const now = new Date(2023, 0, 1);
-        cy.clock(now);
-
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            const onChange = cy.spy();
-            const data = {
-                backgroundRefreshFrequency: BACKGROUND_REFRESH_WEEKLY,
-            };
-
-            cy.mount(AutomaticSourceFieldSet, {
-                props: { data },
-            }).then(({ component }) => {
-                component.$on('change', onChange);
-            });
-
-            cy.get('[data-cy="refresh-background-btn"]').click();
-
-            cy.wrap(onChange).should('have.been.called');
-            cy.wrap(data).should('deep.equal', {
-                backgroundImage,
-                backgroundImageLastUpdate: now.valueOf(),
-                backgroundRefreshFrequency: BACKGROUND_REFRESH_WEEKLY,
-                backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
-            });
-        });
-    });
-
-    it('dispatches "request" event when refresh button is clicked', () => {
-        cy.fixture('unsplash-image.json').then((backgroundImage) => {
-            const onRequest = cy.spy();
-
-            cy.mount(AutomaticSourceFieldSet, {
-                props: {
-                    data: {
-                        backgroundImage,
-                        backgroundRefreshFrequency: BACKGROUND_REFRESH_WEEKLY,
-                    },
+        render(AutomaticSourceFieldSet, {
+            props: {
+                data: {
+                    backgroundImage,
+                    backgroundRefreshFrequency: BACKGROUND_REFRESH_WEEKLY,
                 },
-            }).then(({ component }) => {
-                component.$on('request', onRequest);
-            });
-
-            cy.get('[data-cy="refresh-background-btn"]').click();
-            cy.wrap(onRequest).should('have.been.called');
+                onChange,
+            },
         });
+        await userEvent.click(screen.getByRole('radio', { name: 'Daily' }));
+
+        expect(onChange).toHaveBeenCalledWith({
+            backgroundImage,
+            backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
+            backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
+        });
+    });
+
+    it('calls "onChange" when refresh button is clicked after background image is loaded', async () => {
+        const onChange = vi.fn();
+        const now = new Date(2023, 0, 1);
+        vi.setSystemTime(now);
+
+        render(AutomaticSourceFieldSet, {
+            props: {
+                data: {
+                    backgroundRefreshFrequency: BACKGROUND_REFRESH_WEEKLY,
+                },
+                onChange,
+            },
+        });
+        await userEvent.click(screen.getByTestId('refresh-background-btn'));
+
+        expect(onChange).toHaveBeenCalledWith({
+            backgroundImage,
+            backgroundImageLastUpdate: now.valueOf(),
+            backgroundRefreshFrequency: BACKGROUND_REFRESH_WEEKLY,
+            backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
+        });
+    });
+
+    it('calls "onRequest" when refresh button is clicked', async () => {
+        const onRequest = vi.fn();
+
+        render(AutomaticSourceFieldSet, {
+            props: {
+                data: {
+                    backgroundImage,
+                    backgroundRefreshFrequency: BACKGROUND_REFRESH_WEEKLY,
+                },
+                onRequest,
+            },
+        });
+        await userEvent.click(screen.getByTestId('refresh-background-btn'));
+
+        expect(onRequest).toHaveBeenCalledWith(source);
     });
 });

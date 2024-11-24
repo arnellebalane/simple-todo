@@ -1,8 +1,8 @@
 <script>
 import { settings } from '@features/settings/store';
 
-$: image = $settings.backgroundImage;
-$: isUnsplashImage = $settings.backgroundImage?.user_link;
+const image = $derived($settings.backgroundImage);
+const isUnsplashImage = $derived($settings.backgroundImage?.user_link);
 </script>
 
 <footer>
@@ -16,7 +16,7 @@ $: isUnsplashImage = $settings.backgroundImage?.user_link;
     </small>
 
     {#if isUnsplashImage}
-        <small data-cy="unsplash-attribution">
+        <small data-testid="unsplash-attribution">
             Photo by
             <a
                 href="{image.user_link}?utm_source=simple-todo&utm_medium=referral"

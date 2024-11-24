@@ -1,15 +1,10 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Modal from '@components/Modal.svelte';
 import TodoForm from './TodoForm.svelte';
 
-export let show;
-export let data;
-
-const dispatch = createEventDispatcher();
+let { data = $bindable(), show, onChange, onSubmit, onCancel } = $props();
 </script>
 
-<Modal {show} closeOnEscape on:close={() => dispatch('cancel')} data-cy="todo-form-modal">
-    <TodoForm {data} on:submit on:cancel />
+<Modal {show} closeOnEscape onClose={onCancel} data-testid="todo-form-modal">
+    <TodoForm bind:data {onChange} {onSubmit} {onCancel} />
 </Modal>

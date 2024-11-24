@@ -1,6 +1,4 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
 import Button from '@components/Button.svelte';
 
 import WhatsNewImageDark from '@assets/images/whats-new-empty-dark.jpg';
@@ -8,23 +6,25 @@ import WhatsNewImageLight from '@assets/images/whats-new-empty-light.jpg';
 import { icons } from '@lib/icons';
 import { changelogs, setVersionIfHigher } from '../store';
 
-const dispatch = createEventDispatcher();
+let { onClose } = $props();
 
-$: screens = [
+const screens = $derived([
     ...$changelogs,
     {
         title: `You're now up to date!`,
         imageLight: WhatsNewImageLight,
         imageDark: WhatsNewImageDark,
     },
-];
+]);
 
-let index = 0;
-$: canPrevious = index > 0;
-$: canNext = index < screens.length - 1;
-$: if (screens[index].version) {
-    setVersionIfHigher(screens[index].version);
-}
+let index = $state(0);
+const canPrevious = $derived(index > 0);
+const canNext = $derived(index < screens.length - 1);
+$effect(() => {
+    if (screens[index].version) {
+        setVersionIfHigher(screens[index].version);
+    }
+});
 
 const handlePrevious = () => (index = Math.max(index - 1, 0));
 const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
@@ -33,7 +33,7 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
 <h2>What's new in Simple Todo</h2>
 
 {#each screens as screen, i}
-    <article class:active={i === index} data-cy="changelog-screen">
+    <article class:active={i === index} data-testid="changelog-screen">
         <h3>{screen.title}</h3>
         <picture class="Image--light">
             <source srcset={screen.imageDark} media="(prefers-color-scheme: dark)" />
@@ -45,13 +45,12 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
 <footer>
     {#if canPrevious}
         <Button
-            icon
             small
+            class="PreviousButton"
+            data-testid="changelogs-previous-btn"
             iconLight={icons.chevronLeftLight}
             iconDark={icons.chevronLeftDark}
-            class="PreviousButton"
-            on:click={handlePrevious}
-            data-cy="changelogs-previous-btn"
+            onClick={handlePrevious}
         >
             Previous
         </Button>
@@ -59,24 +58,23 @@ const handleNext = () => (index = Math.min(index + 1, screens.length - 1));
 
     <ul>
         {#each screens as screen, i}
-            <li class:active={i === index} data-cy="changelogs-page" />
+            <li class:active={i === index} data-testid="changelogs-page"></li>
         {/each}
     </ul>
 
     {#if canNext}
         <Button
-            icon
             small
+            class="NextButton"
+            data-testid="changelogs-next-btn"
             iconLight={icons.chevronRightLight}
             iconDark={icons.chevronRightDark}
-            class="NextButton"
-            on:click={handleNext}
-            data-cy="changelogs-next-btn"
+            onClick={handleNext}
         >
             Next
         </Button>
     {:else}
-        <Button primary small on:click={() => dispatch('close')} data-cy="changelogs-close-btn">Close</Button>
+        <Button primary small onClick={onClose} data-testid="changelogs-close-btn">Close</Button>
     {/if}
 </footer>
 

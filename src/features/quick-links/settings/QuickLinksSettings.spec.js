@@ -1,31 +1,28 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
+import quickLinks from '@cypress/fixtures/quicklinks.json';
+
 import { getDefaultSettings, component as QuickLinksSettings } from '.';
 
 describe('QuickLinksSettings', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
-    it('dispatches "change" event and updates data when there are changes to the quick links settings', () => {
-        const onChange = cy.spy();
+    it('calls "onChange" and updates data when there are changes to the quick links settings', async () => {
+        const onChange = vi.fn();
         const data = getDefaultSettings();
 
-        cy.mount(QuickLinksSettings, {
-            props: { data },
-        }).then(({ component }) => {
-            component.$on('change', onChange);
+        render(QuickLinksSettings, {
+            props: {
+                data,
+                onChange,
+            },
         });
+        await userEvent.type(screen.getByTestId('custom-url-field-input'), quickLinks[0].url);
+        await userEvent.click(screen.getByTestId('custom-url-field-button'));
 
-        cy.fixture('quicklinks.json').then((quickLinks) => {
-            cy.intercept('GET', '**/.netlify/functions/get-quick-link-details**', quickLinks[0]);
-
-            cy.get('[data-cy="custom-url-field-input"]').type(quickLinks[0].url);
-            cy.get('[data-cy="custom-url-field-button"]').click();
-
-            cy.wrap(onChange).should('have.been.called');
-            cy.wrap(data).should('deep.equal', {
-                quickLinks: [{ ...quickLinks[0], custom: true }],
-                showFrequentLinks: false,
-            });
+        expect(onChange).toHaveBeenCalledWith({
+            quickLinks: [{ ...quickLinks[0], custom: true }],
+            showFrequentLinks: false,
         });
     });
 });

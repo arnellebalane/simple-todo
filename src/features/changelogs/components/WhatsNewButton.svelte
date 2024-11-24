@@ -3,18 +3,17 @@ import Button from '@components/Button.svelte';
 
 import { icons } from '@lib/icons';
 
-export let pulse = false;
+let { pulse = false, onClick } = $props();
 </script>
 
 <div>
     <Button
-        icon
         medium
+        class="WhatsNewButton {pulse ? 'pulse' : ''}"
+        data-testid="whats-new-btn"
         iconLight={icons.launchLight}
         iconDark={icons.launchDark}
-        class="WhatsNewButton {pulse ? 'pulse' : ''}"
-        on:click
-        data-cy="whats-new-btn"
+        {onClick}
     >
         What's New
     </Button>

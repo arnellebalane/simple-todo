@@ -1,69 +1,58 @@
 <script>
 import pick from 'lodash/pick';
-import { createEventDispatcher } from 'svelte';
 
 import CustomUrlField from './CustomUrlField.svelte';
 import CustomUrlsList from './CustomUrlsList.svelte';
 
-export let choices = [];
-export let value = [];
+let { value = [], choices = [], onChange } = $props();
 
-let selectedUrls = value.filter((link) => !link.custom).map((link) => link.url);
-$: choices = choices.map((link) => {
-    if (selectedUrls.includes(link.url)) {
-        link.selected = true;
-    } else {
-        delete link.selected;
-    }
-    return link;
-});
+let selectedUrls = $state(value.filter((link) => !link.custom).map((link) => link.url));
+const choicesWithSelection = $derived(
+    choices.map((link) => ({
+        ...link,
+        selected: selectedUrls.includes(link.url),
+    })),
+);
 
-$: customQuickLinks = value.filter((link) => link.custom);
-$: hasCustomQuickLinks = customQuickLinks.length > 0;
+const customQuickLinks = $derived(value.filter((link) => link.custom));
+const hasCustomQuickLinks = $derived(customQuickLinks.length > 0);
 
-let customQuickLinkError = '';
-
-const dispatch = createEventDispatcher();
-const handleChange = () => dispatch('change', value);
+let customQuickLinkError = $state('');
 
 const handleDefaultLinksChange = () => {
     const selectedLinks = choices.filter((link) => selectedUrls.includes(link.url));
-    value = [...selectedLinks, ...customQuickLinks];
-    value = value.map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
-    handleChange();
+    const updated = [...selectedLinks, ...customQuickLinks].map((link) =>
+        pick(link, ['title', 'url', 'icon', 'custom']),
+    );
+    onChange?.(updated);
 };
 
-const handleCustomQuickLinksChange = (event) => {
+const handleCustomQuickLinksChange = (data) => {
     const selectedLinks = choices.filter((link) => selectedUrls.includes(link.url));
-    value = [...selectedLinks, ...event.detail];
-    value = value.map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
-    handleChange();
+    const updated = [...selectedLinks, ...data].map((link) => pick(link, ['title', 'url', 'icon', 'custom']));
+    onChange?.(updated);
 };
 
-const addCustomQuickLink = (event) => {
-    const customLink = event.detail;
-    const duplicateLink = value.find((link) => link.url === customLink.url);
+const addCustomQuickLink = (data) => {
+    const duplicateLink = value.find((link) => link.url === data.url);
     if (duplicateLink) {
         customQuickLinkError = 'Custom link is a duplicate of an existing link.';
     } else {
-        value = [...value, { ...customLink, custom: true }];
-        handleChange();
+        onChange?.([...value, { ...data, custom: true }]);
     }
 };
 
-const removeCustomQuickLink = (event) => {
-    const customLink = event.detail;
-    const index = value.findIndex((link) => link.url === customLink.url);
+const removeCustomQuickLink = (data) => {
+    const index = value.findIndex((link) => link.url === data.url);
     if (index >= 0) {
-        value = [...value.slice(0, index), ...value.slice(index + 1)];
-        handleChange();
+        onChange?.([...value.slice(0, index), ...value.slice(index + 1)]);
     }
 };
 </script>
 
-<div class="DefaultLinks" data-cy="default-links">
-    {#each choices as link (link.url)}
-        <label class:selected={link.selected} data-cy="default-link">
+<div class="DefaultLinks" data-testid="default-links">
+    {#each choicesWithSelection as link (link.url)}
+        <label class:selected={link.selected} data-testid="default-link">
             <img src={link.icon} alt={link.title} />
             <p>{link.title}</p>
             <input
@@ -71,19 +60,24 @@ const removeCustomQuickLink = (event) => {
                 name="quicklinks"
                 bind:group={selectedUrls}
                 value={link.url}
-                on:change={handleDefaultLinksChange}
+                onchange={handleDefaultLinksChange}
             />
         </label>
     {/each}
 </div>
 
-<div class="CustomLinks" data-cy="custom-links">
-    <CustomUrlField name="customUrl" error={customQuickLinkError} on:data={addCustomQuickLink} />
+<div class="CustomLinks" data-testid="custom-links">
+    <CustomUrlField
+        name="customUrl"
+        error={customQuickLinkError}
+        onData={addCustomQuickLink}
+        onError={(error) => (customQuickLinkError = error)}
+    />
     {#if hasCustomQuickLinks}
         <CustomUrlsList
             links={customQuickLinks}
-            on:remove={removeCustomQuickLink}
-            on:change={handleCustomQuickLinksChange}
+            onChange={handleCustomQuickLinksChange}
+            onRemove={removeCustomQuickLink}
         />
     {/if}
 </div>

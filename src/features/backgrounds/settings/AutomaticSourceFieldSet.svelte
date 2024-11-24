@@ -1,5 +1,5 @@
 <script>
-import { createEventDispatcher, onMount } from 'svelte';
+import { onMount } from 'svelte';
 
 import Button from '@components/Button.svelte';
 import Selector from '@components/Selector.svelte';
@@ -12,10 +12,14 @@ import {
     BACKGROUND_SOURCE_AUTOMATIC,
 } from '../constants';
 
-export let data = {
-    backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
-};
-export let disabled = false;
+let {
+    data = {
+        backgroundRefreshFrequency: BACKGROUND_REFRESH_DAILY,
+    },
+    disabled = false,
+    onChange,
+    onRequest,
+} = $props();
 
 onMount(() => {
     if (!data.backgroundImage) {
@@ -29,43 +33,45 @@ const backgroundRefreshFrequencyChoices = [
     { label: 'Manually', value: BACKGROUND_REFRESH_MANUALLY },
 ];
 
-const dispatch = createEventDispatcher();
-const handleChange = () => dispatch('change', data);
-const handleRequest = (source = null) => dispatch('request', source);
-
-const handleRefreshFrequencyChange = () => {
-    data.backgroundSource = BACKGROUND_SOURCE_AUTOMATIC;
-    handleChange();
+const handleRefreshFrequencyChange = (value) => {
+    onChange?.({
+        ...data,
+        backgroundRefreshFrequency: value,
+        backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
+    });
 };
 
 const refreshBackgroundImage = async () => {
     const { source, request } = backgrounds.getBackgroundImage();
-    handleRequest(source);
+    onRequest?.(source);
     try {
-        data.backgroundImage = await request;
-        data.backgroundImageLastUpdate = Date.now();
-        data.backgroundSource = BACKGROUND_SOURCE_AUTOMATIC;
-        delete data.backgroundPreloaded;
-        handleChange();
+        const updated = {
+            ...data,
+            backgroundImage: await request,
+            backgroundImageLastUpdate: Date.now(),
+            backgroundSource: BACKGROUND_SOURCE_AUTOMATIC,
+        };
+        delete updated.backgroundPreloaded;
+        onChange?.(updated);
     } catch (error) {
         console.error(error);
     }
-    handleRequest();
+    onRequest?.();
 };
 </script>
 
-<div class="Field" data-cy="automatic-source-fieldset">
+<div class="Field" data-testid="automatic-source-fieldset">
     <label for="backgroundRefreshFrequency">Refresh background image</label>
     <div class="RefreshBackground">
         <Selector
             class="RefreshBackgroundFrequency"
             name="backgroundRefreshFrequency"
-            bind:value={data.backgroundRefreshFrequency}
+            value={data.backgroundRefreshFrequency}
             choices={backgroundRefreshFrequencyChoices}
-            on:change={handleRefreshFrequencyChange}
-            data-cy="refresh-frequency-selector"
+            onChange={handleRefreshFrequencyChange}
+            data-testid="refresh-frequency-selector"
         />
-        <Button type="button" {disabled} on:click={refreshBackgroundImage} data-cy="refresh-background-btn">
+        <Button type="button" {disabled} onClick={refreshBackgroundImage} data-testid="refresh-background-btn">
             Refresh
         </Button>
     </div>

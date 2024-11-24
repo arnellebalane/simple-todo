@@ -1,25 +1,25 @@
+import { render, screen } from '@testing-library/svelte';
+import { describe, expect, it } from 'vitest';
+
 import QuickLinks from './QuickLinks.svelte';
 
+import quickLinks from '@cypress/fixtures/quicklinks.json';
+
 describe('QuickLinks', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('displays the links provided in the links prop', () => {
-        cy.fixture('quicklinks.json').then((quickLinks) => {
-            cy.mount(QuickLinks, {
-                props: {
-                    links: quickLinks,
-                },
-            });
+        render(QuickLinks, {
+            props: {
+                links: quickLinks,
+            },
+        });
 
-            cy.get('[data-cy="quick-links"] a').should('have.length', quickLinks.length);
-            quickLinks.forEach((quickLink, i) => {
-                const link = cy.get('[data-cy="quick-links"] a');
-                link.eq(i)
-                    .should('have.attr', 'href', quickLink.url)
-                    .should('have.attr', 'data-tooltip', quickLink.title);
-            });
+        const links = screen.getAllByRole('link');
+        expect(links).toHaveLength(quickLinks.length);
+
+        quickLinks.forEach((quickLink, i) => {
+            const link = links[i];
+            expect(link).toHaveAttribute('href', quickLink.url);
+            expect(link).toHaveAttribute('data-tooltip', quickLink.title);
         });
     });
 });

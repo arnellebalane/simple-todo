@@ -1,19 +1,22 @@
+import { render, screen } from '@testing-library/svelte';
+import { describe, expect, it } from 'vitest';
+
 import SettingsFormModal from './SettingsFormModal.svelte';
 
 describe('SettingsFormModal', () => {
     it('hides the modal when show prop is false', () => {
-        cy.mount(SettingsFormModal);
+        render(SettingsFormModal);
 
-        cy.get('[data-cy="settings-form-modal"]').should('not.exist');
+        expect(screen.queryByTestId('settings-form-modal')).not.toBeInTheDocument();
     });
 
     it('displays the modal when show prop is true', () => {
-        cy.mount(SettingsFormModal, {
+        render(SettingsFormModal, {
             props: {
                 show: true,
             },
         });
 
-        cy.get('[data-cy="settings-form-modal"]').should('be.visible');
+        expect(screen.getByTestId('settings-form-modal')).toBeInTheDocument();
     });
 });

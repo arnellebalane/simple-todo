@@ -1,3 +1,7 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import AppConfirmation from './AppConfirmation.svelte';
 
 const message = 'Confirmation message';
@@ -6,28 +10,28 @@ const cancelLabel = 'Custom cancel';
 
 describe('AppConfirmation', () => {
     it('hides confirmation modal when show = false', () => {
-        cy.mount(AppConfirmation, {
+        render(AppConfirmation, {
             props: {
                 message,
             },
         });
 
-        cy.get('[data-cy="confirm-message"]').should('not.exist');
+        expect(screen.queryByTestId('confirm-message')).not.toBeInTheDocument();
     });
 
     it('shows confirmation modal when show = true', () => {
-        cy.mount(AppConfirmation, {
+        render(AppConfirmation, {
             props: {
                 show: true,
                 message,
             },
         });
 
-        cy.get('[data-cy="confirm-message"]').should('contain', message);
+        expect(screen.getByTestId('confirm-message')).toHaveTextContent(message);
     });
 
     it('displays custom confirm button label', () => {
-        cy.mount(AppConfirmation, {
+        render(AppConfirmation, {
             props: {
                 show: true,
                 message,
@@ -35,11 +39,11 @@ describe('AppConfirmation', () => {
             },
         });
 
-        cy.get('[data-cy="confirm-btn"]').should('have.text', confirmLabel);
+        expect(screen.getByTestId('confirm-btn')).toHaveTextContent(confirmLabel);
     });
 
     it('displays custom cancel button label', () => {
-        cy.mount(AppConfirmation, {
+        render(AppConfirmation, {
             props: {
                 show: true,
                 message,
@@ -47,38 +51,36 @@ describe('AppConfirmation', () => {
             },
         });
 
-        cy.get('[data-cy="cancel-btn"]').should('have.text', cancelLabel);
+        expect(screen.getByTestId('cancel-btn')).toHaveTextContent(cancelLabel);
     });
 
-    it('dispatches "confirm" event when confirm button is clicked', () => {
-        const onConfirm = cy.spy();
+    it('calls "onConfirm" when confirm button is clicked', async () => {
+        const onConfirm = vi.fn();
 
-        cy.mount(AppConfirmation, {
+        render(AppConfirmation, {
             props: {
                 show: true,
                 message,
+                onConfirm,
             },
-        }).then(({ component }) => {
-            component.$on('confirm', onConfirm);
         });
+        await userEvent.click(screen.getByTestId('confirm-btn'));
 
-        cy.get('[data-cy="confirm-btn"]').click();
-        cy.wrap(onConfirm).should('have.been.called');
+        expect(onConfirm).toHaveBeenCalled();
     });
 
-    it('dispatches "cancel" event when cancel button is clicked', () => {
-        const onCancel = cy.spy();
+    it('calls "onCancel" when cancel button is clicked', async () => {
+        const onCancel = vi.fn();
 
-        cy.mount(AppConfirmation, {
+        render(AppConfirmation, {
             props: {
                 show: true,
                 message,
+                onCancel,
             },
-        }).then(({ component }) => {
-            component.$on('cancel', onCancel);
         });
+        await userEvent.click(screen.getByTestId('cancel-btn'));
 
-        cy.get('[data-cy="cancel-btn"]').click();
-        cy.wrap(onCancel).should('have.been.called');
+        expect(onCancel).toHaveBeenCalled();
     });
 });

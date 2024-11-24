@@ -1,3 +1,5 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { TODOS_TODAY } from '@features/todos/constants';
 import { todos } from '@features/todos/store';
 import { STORAGE_KEY_TAGS } from '@lib/constants';
@@ -11,12 +13,12 @@ describe('tags store', () => {
 
     describe('tags.add', () => {
         it('adds tag to store', () => {
-            const tagsSpy = cy.spy();
+            const tagsSpy = vi.fn();
             tags.subscribe(tagsSpy);
 
             tags.add(['one', 'two']);
 
-            cy.wrap(tagsSpy).should('have.been.calledWith', {
+            expect(tagsSpy).toHaveBeenCalledWith({
                 one: { label: 'one' },
                 two: { label: 'two' },
             });
@@ -25,16 +27,15 @@ describe('tags store', () => {
 
     describe('tags.updateTag', () => {
         it('updates tag data', () => {
+            const tagsSpy = vi.fn();
             tags.set({
                 one: { label: 'one' },
             });
-
-            const tagsSpy = cy.spy();
             tags.subscribe(tagsSpy);
 
             tags.updateTag('one', { removed: true });
 
-            cy.wrap(tagsSpy).should('have.been.calledWith', {
+            expect(tagsSpy).toHaveBeenCalledWith({
                 one: { label: 'one', removed: true },
             });
         });
@@ -42,22 +43,22 @@ describe('tags store', () => {
 
     describe('tags.save', () => {
         it('saves only tags that are not removed and their allowed fields', () => {
+            const tagsSpy = vi.fn();
             tags.set({
                 one: { label: 'one', unknown: 'field' },
                 two: { label: 'two', removed: true },
             });
-
-            const tagsSpy = cy.spy();
             tags.subscribe(tagsSpy);
 
             tags.save();
 
-            cy.wrap(tagsSpy).should('have.been.calledWith', {
+            expect(tagsSpy).toHaveBeenCalledWith({
                 one: { label: 'one' },
             });
         });
 
         it('updates todos to only include tags that are not removed', () => {
+            const todosSpy = vi.fn();
             const todo = {
                 id: 1,
                 body: 'todo',
@@ -67,8 +68,6 @@ describe('tags store', () => {
                 tags: ['one', 'two'],
             };
             todos.set([todo]);
-
-            const todosSpy = cy.spy();
             todos.subscribe(todosSpy);
 
             tags.set({
@@ -77,7 +76,7 @@ describe('tags store', () => {
             });
             tags.save();
 
-            cy.wrap(todosSpy).should('have.been.calledWith', [{ ...todo, tags: ['one'] }]);
+            expect(todosSpy).toHaveBeenCalledWith([{ ...todo, tags: ['one'] }]);
         });
     });
 
@@ -88,14 +87,10 @@ describe('tags store', () => {
             };
             tags.saveInStorage(data);
 
-            cy.window().then((win) => {
-                cy.getAllLocalStorage().then((localStorage) => {
-                    const storedTags = localStorage[win.location.origin][STORAGE_KEY_TAGS];
-                    const expectedTags = JSON.stringify(data);
+            const storedTags = localStorage.getItem(STORAGE_KEY_TAGS);
+            const expectedTags = JSON.stringify(data);
 
-                    cy.wrap(storedTags).should('equal', expectedTags);
-                });
-            });
+            expect(storedTags).toEqual(expectedTags);
         });
     });
 });

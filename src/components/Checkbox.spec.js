@@ -1,45 +1,48 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+
 import Checkbox from './Checkbox.svelte';
 
 describe('Checkbox', () => {
     it('unchecks checkbox input when checked prop is false', () => {
-        cy.mount(Checkbox);
+        render(Checkbox);
 
-        cy.get('input').should('not.be.checked');
+        expect(screen.getByRole('checkbox')).not.toBeChecked();
     });
 
     it('checks checkbox input when checked prop is true', () => {
-        cy.mount(Checkbox, {
+        render(Checkbox, {
             props: {
                 checked: true,
             },
         });
 
-        cy.get('input').should('be.checked');
+        expect(screen.getByRole('checkbox')).toBeChecked();
     });
 
-    it('dispatches "change" event with false when unchecked checkbox is checked', () => {
-        const onChange = cy.spy();
+    it('calls "onChange" with false when unchecked checkbox is checked', async () => {
+        const onChange = vi.fn();
 
-        cy.mount(Checkbox).then(({ component }) => {
-            component.$on('change', onChange);
+        render(Checkbox, {
+            props: { onChange },
         });
+        await userEvent.click(screen.getByRole('checkbox'));
 
-        cy.get('label').click();
-        cy.wrap(onChange).should('have.been.calledWith', Cypress.sinon.match.has('detail', true));
+        expect(onChange).toHaveBeenCalledWith(true);
     });
 
-    it('dispatches "change" event with true when unchecked checkbox is checked', () => {
-        const onChange = cy.spy();
+    it('dispatches "change" event with true when unchecked checkbox is checked', async () => {
+        const onChange = vi.fn();
 
-        cy.mount(Checkbox, {
+        render(Checkbox, {
             props: {
                 checked: true,
+                onChange,
             },
-        }).then(({ component }) => {
-            component.$on('change', onChange);
         });
+        await userEvent.click(screen.getByRole('checkbox'));
 
-        cy.get('label').click();
-        cy.wrap(onChange).should('have.been.calledWith', Cypress.sinon.match.has('detail', false));
+        expect(onChange).toHaveBeenCalledWith(false);
     });
 });

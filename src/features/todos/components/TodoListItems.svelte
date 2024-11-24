@@ -1,20 +1,14 @@
 <script>
-import { createEventDispatcher } from 'svelte';
 import { dndzone, TRIGGERS } from 'svelte-dnd-action';
 
 import TodoItem from './TodoItem.svelte';
 
-export let todos;
+let { todos, onUpdate, onUpdateTodo, onEditTodo, onDeleteTodo } = $props();
 
-const dispatch = createEventDispatcher();
-
-const handleUpdateTodo = (event) => dispatch('updatetodo', event.detail);
-const handleEditTodo = (todo) => dispatch('edittodo', todo);
-const handleDeleteTodo = (todo) => dispatch('deletetodo', todo);
 const handleDragAndDrop = (event) => {
     todos = event.detail.items.map((todo, i, items) => ({ ...todo, order: items.length - i }));
     if (event.detail.info.trigger == TRIGGERS.DROPPED_INTO_ZONE) {
-        dispatch('update', todos);
+        onUpdate?.(todos);
     }
 };
 </script>
@@ -22,16 +16,16 @@ const handleDragAndDrop = (event) => {
 <ol
     class="TodoListItems"
     use:dndzone={{ items: todos, dropTargetStyle: {} }}
-    on:consider={handleDragAndDrop}
-    on:finalize={handleDragAndDrop}
-    data-cy="todo-list-dropzone"
+    onconsider={handleDragAndDrop}
+    onfinalize={handleDragAndDrop}
+    data-testid="todo-list-dropzone"
 >
     {#each todos as todo (todo.id)}
         <TodoItem
             {todo}
-            on:update={handleUpdateTodo}
-            on:edit={() => handleEditTodo(todo)}
-            on:delete={() => handleDeleteTodo(todo)}
+            onChange={onUpdateTodo}
+            onEdit={() => onEditTodo?.(todo)}
+            onDelete={() => onDeleteTodo?.(todo)}
         />
     {/each}
 </ol>

@@ -1,4 +1,7 @@
+import { createEvent, fireEvent, render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
 import { TRIGGERS } from 'svelte-dnd-action';
+import { describe, expect, it, vi } from 'vitest';
 
 import TodoListItems from './TodoListItems.svelte';
 
@@ -8,102 +11,91 @@ const todo = generateTodo();
 const todos = [todo];
 
 describe('TodoListItems', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('displays the provided todo items', () => {
-        cy.mount(TodoListItems, {
+        render(TodoListItems, {
             props: { todos },
         });
 
-        cy.get('[data-cy="todo-list-dropzone"]').should('contain.text', todo.body);
+        expect(screen.getByTestId('todo-list-dropzone')).toHaveTextContent(todo.body);
     });
 
-    it('dispatches "updatetodo" event when a todo item gets updated', () => {
-        const updateTodoSpy = cy.spy();
+    it('calls "onUpdateTodo" when a todo item gets updated', async () => {
+        const onUpdateTodo = vi.fn();
 
-        cy.mount(TodoListItems, {
-            props: { todos },
-        }).then(({ component }) => {
-            component.$on('updatetodo', updateTodoSpy);
+        render(TodoListItems, {
+            props: {
+                todos,
+                onUpdateTodo,
+            },
         });
+        await userEvent.click(screen.getByTestId('todo-item-done'));
 
-        cy.get('[data-cy="todo-item-done"]').click({ force: true });
-        cy.wrap(updateTodoSpy).should(
-            'have.been.calledWith',
-            Cypress.sinon.match({
-                detail: {
-                    id: todo.id,
-                    done: true,
-                },
-            }),
-        );
-    });
-
-    it('dispatches "edittodo" event when a todo item requests to be edited', () => {
-        const editTodoSpy = cy.spy();
-
-        cy.mount(TodoListItems, {
-            props: { todos },
-        }).then(({ component }) => {
-            component.$on('edittodo', editTodoSpy);
+        expect(onUpdateTodo).toHaveBeenCalledWith({
+            id: todo.id,
+            done: true,
         });
-
-        cy.get('[data-cy="todo-item-edit"]').click({ force: true });
-        cy.wrap(editTodoSpy).should(
-            'have.been.calledWith',
-            Cypress.sinon.match({
-                detail: todo,
-            }),
-        );
     });
 
-    it('dispatches "deletetodo" event when a todo item requests to be deleted', () => {
-        const deleteTodoSpy = cy.spy();
+    it('calls "onEditTodo" when a todo item requests to be edited', async () => {
+        const onEditTodo = vi.fn();
 
-        cy.mount(TodoListItems, {
-            props: { todos },
-        }).then(({ component }) => {
-            component.$on('deletetodo', deleteTodoSpy);
+        render(TodoListItems, {
+            props: {
+                todos,
+                onEditTodo,
+            },
         });
+        await userEvent.click(screen.getByTestId('todo-item-edit'));
 
-        cy.get('[data-cy="todo-item-delete"]').click({ force: true });
-        cy.wrap(deleteTodoSpy).should(
-            'have.been.calledWith',
-            Cypress.sinon.match({
-                detail: todo,
-            }),
-        );
+        expect(onEditTodo).toHaveBeenCalledWith(todo);
     });
 
-    it('dispatches "update" event when a todo is dropped into the drag and drop zone', () => {
+    it('calls "onDeleteTodo" when a todo item requests to be deleted', async () => {
+        const onDeleteTodo = vi.fn();
+
+        render(TodoListItems, {
+            props: {
+                todos,
+                onDeleteTodo,
+            },
+        });
+        await userEvent.click(screen.getByTestId('todo-item-delete'));
+
+        expect(onDeleteTodo).toHaveBeenCalledWith(todo);
+    });
+
+    it('calls "onUpdate" when a todo is dropped into the drag and drop zone', () => {
         const newTodo = generateTodo({ body: 'another todo' });
-        const updateSpy = cy.spy();
+        const onUpdate = vi.fn();
 
-        cy.mount(TodoListItems, {
-            props: { todos },
-        }).then(({ component }) => {
-            component.$on('update', updateSpy);
-        });
-
-        cy.get('[data-cy="todo-list-dropzone"]').trigger('finalize', {
-            detail: {
-                items: [todo, newTodo],
-                info: {
-                    trigger: TRIGGERS.DROPPED_INTO_ZONE,
-                },
+        render(TodoListItems, {
+            props: {
+                todos,
+                onUpdate,
             },
         });
 
-        cy.wrap(updateSpy).should(
-            'have.been.calledWith',
-            Cypress.sinon.match({
-                detail: [
-                    { ...todo, order: 2 },
-                    { ...newTodo, order: 1 },
-                ],
-            }),
+        // svelte-dnd-action uses a custom event called `finalize` when an item is droppped to a dropzone, so we fire
+        // a custom event of this name to simulate this interaction
+        const list = screen.getByTestId('todo-list-dropzone');
+        const event = createEvent(
+            'finalize',
+            list,
+            {
+                detail: {
+                    items: [todo, newTodo],
+                    info: {
+                        trigger: TRIGGERS.DROPPED_INTO_ZONE,
+                    },
+                },
+            },
+            { EventType: 'CustomEvent' },
         );
+        fireEvent(list, event);
+
+        expect(onUpdate).toHaveBeenCalledWith([
+            { ...todo, order: 2 },
+            { ...newTodo, order: 1 },
+        ]);
     });
 });

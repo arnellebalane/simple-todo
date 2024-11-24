@@ -1,23 +1,22 @@
+import { render, screen } from '@testing-library/svelte';
+import { describe, expect, it } from 'vitest';
+
 import TodoFormDateField from './TodoFormDateField.svelte';
 
 describe('TodoFormDateField', () => {
-    beforeEach(() => {
-        cy.viewport(500, 500);
-    });
-
     it('disables clear button when value prop is not set', () => {
-        cy.mount(TodoFormDateField);
+        render(TodoFormDateField);
 
-        cy.get('[data-cy="clear-date-btn"]').should('be.disabled');
+        expect(screen.getByTestId('clear-date-btn')).toBeDisabled();
     });
 
     it('enables clear button when value prop is set', () => {
-        cy.mount(TodoFormDateField, {
+        render(TodoFormDateField, {
             props: {
                 value: '2024-10-20',
             },
         });
 
-        cy.get('[data-cy="clear-date-btn"]').should('be.enabled');
+        expect(screen.getByTestId('clear-date-btn')).toBeEnabled();
     });
 });

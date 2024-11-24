@@ -1,90 +1,90 @@
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import WhatsNew from './WhatsNew.svelte';
 
+import changeLogs from '@cypress/fixtures/changelogs.json';
 import { changelogs, version } from '@features/changelogs/store';
 
 describe('WhatsNew', () => {
     beforeEach(() => {
-        cy.viewport(500, 500);
-        cy.fixture('changelogs.json').then((changeLogs) => {
-            cy.intercept('GET', '**/.netlify/functions/get-version-changelog**', changeLogs);
-            changelogs.set(changeLogs);
-            version.set('1.0.0');
-        });
+        vi.clearAllMocks();
+
+        changelogs.set(changeLogs);
+        version.set('1.0.0');
     });
 
     it('displays screens from the changelogs data', () => {
-        cy.fixture('changelogs.json').then((changeLogs) => {
-            changelogs.set(changeLogs);
+        render(WhatsNew);
 
-            cy.mount(WhatsNew);
-
-            cy.get('[data-cy="changelog-screen"]').should('have.length', changeLogs.length + 1);
-        });
+        expect(screen.getAllByTestId('changelog-screen')).toHaveLength(changeLogs.length + 1);
     });
 
     it('hides the previous button when in the first screen', () => {
-        cy.mount(WhatsNew);
+        render(WhatsNew);
 
-        cy.get('[data-cy="changelogs-previous-btn"]').should('not.exist');
+        expect(screen.queryByTestId('changelogs-previous-btn')).not.toBeInTheDocument();
     });
 
-    it('displays the previous button when not in the first screen', () => {
-        cy.mount(WhatsNew);
+    it('displays the previous button when not in the first screen', async () => {
+        render(WhatsNew);
+        await userEvent.click(screen.getByTestId('changelogs-next-btn'));
 
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-previous-btn"]').should('be.visible');
+        expect(screen.getByTestId('changelogs-previous-btn')).toBeInTheDocument();
     });
 
-    it('hides the next button and displays the close button when in the last screen', () => {
-        cy.mount(WhatsNew);
+    it('hides the next button and displays the close button when in the last screen', async () => {
+        render(WhatsNew);
+        await userEvent.click(screen.getByTestId('changelogs-next-btn'));
+        await userEvent.click(screen.getByTestId('changelogs-next-btn'));
+        await userEvent.click(screen.getByTestId('changelogs-next-btn'));
 
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-next-btn"]').should('not.exist');
-        cy.get('[data-cy="changelogs-close-btn"]').should('be.visible');
+        expect(screen.queryByTestId('changelogs-next-btn')).not.toBeInTheDocument();
+        expect(screen.getByTestId('changelogs-close-btn')).toBeInTheDocument();
     });
 
     it('displays the next button and hides the close button when not in the last screen', () => {
-        cy.mount(WhatsNew);
+        render(WhatsNew);
 
-        cy.get('[data-cy="changelogs-next-btn"]').should('be.visible');
-        cy.get('[data-cy="changelogs-close-btn"]').should('not.exist');
+        expect(screen.getByTestId('changelogs-next-btn')).toBeInTheDocument();
+        expect(screen.queryByTestId('changelogs-close-btn')).not.toBeInTheDocument();
     });
 
-    it('dispatches "close" event when close button is clicked', () => {
-        const onClose = cy.spy();
+    it('dispatches "close" event when close button is clicked', async () => {
+        const onClose = vi.fn();
 
-        cy.mount(WhatsNew).then(({ component }) => {
-            component.$on('close', onClose);
+        render(WhatsNew, {
+            props: { onClose },
         });
+        await userEvent.click(screen.getByTestId('changelogs-next-btn'));
+        await userEvent.click(screen.getByTestId('changelogs-next-btn'));
+        await userEvent.click(screen.getByTestId('changelogs-next-btn'));
+        await userEvent.click(screen.getByTestId('changelogs-close-btn'));
 
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.get('[data-cy="changelogs-close-btn"]').click();
-
-        cy.wrap(onClose).should('have.been.called');
+        expect(onClose).toHaveBeenCalled();
     });
 
-    it('updates version data if higher that current version when next button is clicked', () => {
-        const onSubscribe = cy.spy();
+    it('updates version data if higher that current version when next button is clicked', async () => {
+        const onSubscribe = vi.fn();
         version.subscribe(onSubscribe);
 
-        cy.mount(WhatsNew);
+        render(WhatsNew);
+        await userEvent.click(screen.getByTestId('changelogs-next-btn'));
 
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.wrap(onSubscribe).should('have.been.calledWith', '1.8.1').should('have.been.calledWith', '1.9.0');
+        expect(onSubscribe).toHaveBeenCalledWith('1.8.1');
+        expect(onSubscribe).toHaveBeenCalledWith('1.9.0');
     });
 
-    it('does not update version data when lower than current version when next button is clicked', () => {
-        const onSubscribe = cy.spy();
+    it('does not update version data when lower than current version when next button is clicked', async () => {
+        const onSubscribe = vi.fn();
         version.set('2.0.0');
         version.subscribe(onSubscribe);
 
-        cy.mount(WhatsNew);
+        render(WhatsNew);
+        await userEvent.click(screen.getByTestId('changelogs-next-btn'));
 
-        cy.get('[data-cy="changelogs-next-btn"]').click();
-        cy.wrap(onSubscribe).should('not.have.been.calledWith', '1.8.1').should('not.have.been.calledWith', '1.9.0');
+        expect(onSubscribe).not.toHaveBeenCalledWith('1.8.1');
+        expect(onSubscribe).not.toHaveBeenCalledWith('1.9.0');
     });
 });

@@ -31,26 +31,26 @@ describe('todos', () => {
     for (const list of lists) {
         describe(`todo list: ${list.label}`, () => {
             it('can add todo using the main add todo button', () => {
-                cy.get('[data-cy="add-todo-btn"]').click();
-                cy.get('[data-cy="todo-form-body"]').type(body);
-                cy.get(`[data-cy="todo-form-list"] input[value="${list.value}"]`).click({ force: true });
-                cy.get('[data-cy="todo-form-save-btn"]').click();
+                cy.get('[data-testid="add-todo-btn"]').click();
+                cy.get('[data-testid="todo-form-body"]').type(body);
+                cy.get(`[data-testid="todo-form-list"] input[value="${list.value}"]`).click({ force: true });
+                cy.get('[data-testid="todo-form-save-btn"]').click();
 
-                cy.get('[data-cy="todo-form-modal"]').should('not.exist');
-                cy.get(`[data-cy="${list.selector}"] [data-cy="todo-item"]`)
+                cy.get('[data-testid="todo-form-modal"]').should('not.exist');
+                cy.get(`[data-testid="${list.selector}"] [data-testid="todo-item"]`)
                     .should('have.length', 1)
                     .eq(0)
                     .should('contain.text', body);
             });
 
             it('can add todo using the todo list empty state add todo button', () => {
-                cy.get(`[data-cy="${list.selector}"] [data-cy="todo-list-empty-add-btn"]`).click();
-                cy.get('[data-cy="todo-form-body"]').type(body);
-                cy.get(`[data-cy="todo-form-list"] input[value="${list.value}"]`).click({ force: true });
-                cy.get('[data-cy="todo-form-save-btn"]').click();
+                cy.get(`[data-testid="${list.selector}"] [data-testid="todo-list-empty-add-btn"]`).click();
+                cy.get('[data-testid="todo-form-body"]').type(body);
+                cy.get(`[data-testid="todo-form-list"] input[value="${list.value}"]`).click({ force: true });
+                cy.get('[data-testid="todo-form-save-btn"]').click();
 
-                cy.get('[data-cy="todo-form-modal"]').should('not.exist');
-                cy.get(`[data-cy="${list.selector}"] [data-cy="todo-item"]`)
+                cy.get('[data-testid="todo-form-modal"]').should('not.exist');
+                cy.get(`[data-testid="${list.selector}"] [data-testid="todo-item"]`)
                     .should('have.length', 1)
                     .eq(0)
                     .should('contain.text', body);
@@ -59,13 +59,13 @@ describe('todos', () => {
             it('can add todo using the todo list header add todo button', () => {
                 const todo = generateTodo({ list: list.value });
                 cy.setInitialData(STORAGE_KEY_DATA, [todo]).then(() => {
-                    cy.get(`[data-cy="${list.selector}"] [data-cy="todo-list-header-add-btn"]`).click();
-                    cy.get('[data-cy="todo-form-body"]').type(body);
-                    cy.get(`[data-cy="todo-form-list"] input[value="${list.value}"]`).click({ force: true });
-                    cy.get('[data-cy="todo-form-save-btn"]').click();
+                    cy.get(`[data-testid="${list.selector}"] [data-testid="todo-list-header-add-btn"]`).click();
+                    cy.get('[data-testid="todo-form-body"]').type(body);
+                    cy.get(`[data-testid="todo-form-list"] input[value="${list.value}"]`).click({ force: true });
+                    cy.get('[data-testid="todo-form-save-btn"]').click();
 
-                    cy.get('[data-cy="todo-form-modal"]').should('not.exist');
-                    cy.get(`[data-cy="${list.selector}"] [data-cy="todo-item"]`)
+                    cy.get('[data-testid="todo-form-modal"]').should('not.exist');
+                    cy.get(`[data-testid="${list.selector}"] [data-testid="todo-item"]`)
                         .should('have.length', 2)
                         .eq(0)
                         .should('contain.text', body);
@@ -75,17 +75,17 @@ describe('todos', () => {
             it('can edit todo using the edit menu action', () => {
                 const todo = generateTodo({ list: list.value });
                 cy.setInitialData(STORAGE_KEY_DATA, [todo]).then(() => {
-                    cy.get(`[data-cy="${list.selector}"] [data-cy="todo-item"]`)
+                    cy.get(`[data-testid="${list.selector}"] [data-testid="todo-item"]`)
                         .eq(0)
                         .within(() => {
-                            cy.get('[data-cy="todo-item-edit"]').click({ force: true });
+                            cy.get('[data-testid="todo-item-edit"]').click({ force: true });
                         });
 
-                    cy.get('[data-cy="todo-form-body"]').clear().type(body);
-                    cy.get('[data-cy="todo-form-save-btn"]').click();
+                    cy.get('[data-testid="todo-form-body"]').clear().type(body);
+                    cy.get('[data-testid="todo-form-save-btn"]').click();
 
-                    cy.get('[data-cy="todo-form-modal"]').should('not.exist');
-                    cy.get(`[data-cy="${list.selector}"] [data-cy="todo-item"]`)
+                    cy.get('[data-testid="todo-form-modal"]').should('not.exist');
+                    cy.get(`[data-testid="${list.selector}"] [data-testid="todo-item"]`)
                         .should('have.length', 1)
                         .eq(0)
                         .should('contain.text', body);
@@ -95,13 +95,13 @@ describe('todos', () => {
             it('can edit todo by double clicking on the todo item', () => {
                 const todo = generateTodo({ list: list.value });
                 cy.setInitialData(STORAGE_KEY_DATA, [todo]).then(() => {
-                    cy.get(`[data-cy="${list.selector}"] [data-cy="todo-item"]`).eq(0).dblclick();
+                    cy.get(`[data-testid="${list.selector}"] [data-testid="todo-item"]`).eq(0).dblclick();
 
-                    cy.get('[data-cy="todo-form-body"]').clear().type(body);
-                    cy.get('[data-cy="todo-form-save-btn"]').click();
+                    cy.get('[data-testid="todo-form-body"]').clear().type(body);
+                    cy.get('[data-testid="todo-form-save-btn"]').click();
 
-                    cy.get('[data-cy="todo-form-modal"]').should('not.exist');
-                    cy.get(`[data-cy="${list.selector}"] [data-cy="todo-item"]`)
+                    cy.get('[data-testid="todo-form-modal"]').should('not.exist');
+                    cy.get(`[data-testid="${list.selector}"] [data-testid="todo-item"]`)
                         .should('have.length', 1)
                         .eq(0)
                         .should('contain.text', body);
@@ -111,25 +111,25 @@ describe('todos', () => {
             it('can delete todo using the delete menu action', () => {
                 const todo = generateTodo({ list: list.value });
                 cy.setInitialData(STORAGE_KEY_DATA, [todo]).then(() => {
-                    cy.get(`[data-cy="${list.selector}"] [data-cy="todo-item"]`)
+                    cy.get(`[data-testid="${list.selector}"] [data-testid="todo-item"]`)
                         .eq(0)
                         .within(() => {
-                            cy.get('[data-cy="todo-item-delete"]').click({ force: true });
+                            cy.get('[data-testid="todo-item-delete"]').click({ force: true });
                         });
 
-                    cy.get('[data-cy="app-confirmation"] [data-cy="confirm-btn"]').click();
-                    cy.get('[data-cy="app-confirmation"]').should('not.exist');
-                    cy.get(`[data-cy="${list.selector}"] [data-cy="todo-item"]`).should('have.length', 0);
+                    cy.get('[data-testid="app-confirmation"] [data-testid="confirm-btn"]').click();
+                    cy.get('[data-testid="app-confirmation"]').should('not.exist');
+                    cy.get(`[data-testid="${list.selector}"] [data-testid="todo-item"]`).should('have.length', 0);
                 });
             });
 
             it('can mark todo as done', () => {
                 const todo = generateTodo({ list: list.value });
                 cy.setInitialData(STORAGE_KEY_DATA, [todo]).then(() => {
-                    cy.get(`[data-cy="${list.selector}"] [data-cy="todo-item"]`)
+                    cy.get(`[data-testid="${list.selector}"] [data-testid="todo-item"]`)
                         .eq(0)
                         .within(() => {
-                            cy.get('[data-cy="todo-item-done"]').click({ force: true });
+                            cy.get('[data-testid="todo-item-done"]').click({ force: true });
                         })
                         .should('have.class', 'done');
                 });
@@ -138,10 +138,10 @@ describe('todos', () => {
             it('can mark todo as not done', () => {
                 const todo = generateTodo({ list: list.value, done: true });
                 cy.setInitialData(STORAGE_KEY_DATA, [todo]).then(() => {
-                    cy.get(`[data-cy="${list.selector}"] [data-cy="todo-item"]`)
+                    cy.get(`[data-testid="${list.selector}"] [data-testid="todo-item"]`)
                         .eq(0)
                         .within(() => {
-                            cy.get('[data-cy="todo-item-done"]').click({ force: true });
+                            cy.get('[data-testid="todo-item-done"]').click({ force: true });
                         })
                         .should('not.have.class', 'done');
                 });
@@ -159,21 +159,21 @@ describe('todos', () => {
             generateTodo({ list: TODOS_EVENTUALLY }),
         ];
         cy.setInitialData(STORAGE_KEY_DATA, todos).then(() => {
-            cy.get('[data-cy="remove-done-btn"]').should('be.disabled');
+            cy.get('[data-testid="remove-done-btn"]').should('be.disabled');
 
             const lists = ['todo-list-today', 'todo-list-this-week', 'todo-list-eventually'];
             for (const list of lists) {
-                cy.get(`[data-cy="${list}"] [data-cy="todo-item"]`)
+                cy.get(`[data-testid="${list}"] [data-testid="todo-item"]`)
                     .eq(0)
                     .within(() => {
-                        cy.get('[data-cy="todo-item-done"]').click({ force: true });
+                        cy.get('[data-testid="todo-item-done"]').click({ force: true });
                     });
             }
 
-            cy.get('[data-cy="remove-done-btn"]').click();
+            cy.get('[data-testid="remove-done-btn"]').click();
 
             for (const list of lists) {
-                cy.get(`[data-cy="${list}"] [data-cy="todo-item"]`).should('have.length', 1);
+                cy.get(`[data-testid="${list}"] [data-testid="todo-item"]`).should('have.length', 1);
             }
         });
     });
@@ -188,17 +188,17 @@ describe('todos', () => {
             generateTodo({ list: TODOS_EVENTUALLY, done: true }),
         ];
         cy.setInitialData(STORAGE_KEY_DATA, todos).then(() => {
-            cy.get('[data-cy="remove-done-btn"]').click();
+            cy.get('[data-testid="remove-done-btn"]').click();
 
             const lists = ['todo-list-today', 'todo-list-this-week', 'todo-list-eventually'];
             for (const list of lists) {
-                cy.get(`[data-cy="${list}"] [data-cy="todo-item"]`).should('have.length', 1);
+                cy.get(`[data-testid="${list}"] [data-testid="todo-item"]`).should('have.length', 1);
             }
 
-            cy.get('[data-cy="undo-remove-btn"]').click();
+            cy.get('[data-testid="undo-remove-btn"]').click();
 
             for (const list of lists) {
-                cy.get(`[data-cy="${list}"] [data-cy="todo-item"]`).should('have.length', 2);
+                cy.get(`[data-testid="${list}"] [data-testid="todo-item"]`).should('have.length', 2);
             }
         });
     });

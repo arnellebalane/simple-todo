@@ -1,10 +1,11 @@
 import path from 'path';
-import { defineConfig } from 'vite';
-
 import { svelte } from '@sveltejs/vite-plugin-svelte';
+import { svelteTesting } from '@testing-library/svelte/vite';
+import { defineConfig } from 'vite';
+import jsConfigPaths from 'vite-jsconfig-paths';
 
 export default defineConfig({
-    plugins: [svelte()],
+    plugins: [svelte(), jsConfigPaths(), svelteTesting()],
 
     base: './',
 
@@ -13,14 +14,9 @@ export default defineConfig({
         assetsInlineLimit: 0,
     },
 
-    resolve: {
-        alias: {
-            '@app': path.resolve(__dirname, 'src/app'),
-            '@assets': path.resolve(__dirname, 'src/assets'),
-            '@components': path.resolve(__dirname, 'src/components'),
-            '@features': path.resolve(__dirname, 'src/features'),
-            '@lib': path.resolve(__dirname, 'src/lib'),
-        },
+    test: {
+        environment: 'jsdom',
+        setupFiles: ['./test/setup.js'],
     },
 
     define: {

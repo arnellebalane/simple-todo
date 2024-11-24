@@ -1,10 +1,9 @@
 <script>
-export let choice;
-export let selected;
+let { choice, selected } = $props();
 </script>
 
 <p class:selected>
-    <span data-value={choice.value} />
+    <span data-value={choice.value}></span>
 </p>
 
 <style>

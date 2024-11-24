@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import CustomSourceFieldSet from './CustomSourceFieldSet.svelte';
 
@@ -8,10 +8,6 @@ import backgroundImage from '@cypress/fixtures/unsplash-image.json';
 import { BACKGROUND_REFRESH_MANUALLY, BACKGROUND_SOURCE_CUSTOM } from '../constants';
 
 describe('CustomSourceFieldSet', () => {
-    beforeEach(() => {
-        vi.clearAllMocks();
-    });
-
     it('disables image url and upload fields when disabled prop is true', () => {
         render(CustomSourceFieldSet, {
             props: {
@@ -57,7 +53,7 @@ describe('CustomSourceFieldSet', () => {
         });
     });
 
-    it.skip('calls "onChange" when custom image is uploaded', async () => {
+    it('calls "onChange" when custom image is uploaded', async () => {
         const onChange = vi.fn();
         const data = {};
         const file = new File(['test-image'], 'image.jpg', { type: 'image/jpg' });
@@ -71,6 +67,6 @@ describe('CustomSourceFieldSet', () => {
         await userEvent.upload(screen.getByTestId('image-upload-field-input'), file);
         await userEvent.click(screen.getByTestId('image-upload-field-button'));
 
-        expect(onChange).toHaveBeenCalled();
+        await vi.waitFor(() => expect(onChange).toHaveBeenCalled());
     });
 });

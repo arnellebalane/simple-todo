@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import ImageUploadField from './ImageUploadField.svelte';
 
@@ -9,10 +9,6 @@ const validFile = new File(['test-image'], 'valid.jpg', { type: 'image/jpg' });
 const invalidFile = new File(['test-pdf'], 'invalid.pdf', { type: 'application/pdf' });
 
 describe('ImageUploadField', () => {
-    beforeEach(() => {
-        vi.clearAllMocks();
-    });
-
     it('disables image upload input and set image button when disabled prop is true', () => {
         render(ImageUploadField, {
             props: {
@@ -62,7 +58,7 @@ describe('ImageUploadField', () => {
         expect(onChange).not.toHaveBeenCalled();
     });
 
-    it.skip('calls "onChange" and "onRequest" when selected file is an image and set image button is clicked', async () => {
+    it('calls "onChange" and "onRequest" when selected file is an image and set image button is clicked', async () => {
         const onChange = vi.fn();
         const onRequest = vi.fn();
 
@@ -76,7 +72,7 @@ describe('ImageUploadField', () => {
         await userEvent.upload(screen.getByTestId('image-upload-field-input'), validFile);
         await userEvent.click(screen.getByTestId('image-upload-field-button'));
 
-        expect(onChange).toHaveBeenCalled();
-        expect(onRequest).toHaveBeenCalled();
+        await vi.waitFor(() => expect(onChange).toHaveBeenCalled());
+        await vi.waitFor(() => expect(onRequest).toHaveBeenCalled());
     });
 });

@@ -74,7 +74,7 @@ describe('todos store', () => {
             expect(todosSpy).toHaveBeenCalledWith([{ ...todo, done: true }]);
         });
 
-        it.skip('adds new todo with initial fields and picks only the allowed fields when given a new todo item', () => {
+        it('adds new todo with initial fields and picks only the allowed fields when given a new todo item', () => {
             const todo = {
                 body: faker.string.alpha(10),
                 list: TODOS_TODAY,
@@ -86,17 +86,21 @@ describe('todos store', () => {
 
             todos.save(todo);
 
-            expect(todosSpy).toHaveBeenCalledWith({
-                id: expect.any(String),
-                body: todo.body,
-                list: todo.list,
-                order: 1,
-                done: false,
-                createdAt: expect.any(Number),
-            });
-            expect(todosSpy).not.toHaveBeenCalledWith({
-                unknownField: true,
-            });
+            expect(todosSpy).toHaveBeenCalledWith([
+                expect.objectContaining({
+                    id: expect.any(String),
+                    body: todo.body,
+                    list: todo.list,
+                    order: 1,
+                    done: false,
+                    createdAt: expect.any(Number),
+                }),
+            ]);
+            expect(todosSpy).not.toHaveBeenCalledWith([
+                expect.objectContaining({
+                    unknownField: true,
+                }),
+            ]);
         });
     });
 
@@ -147,7 +151,7 @@ describe('todos store', () => {
     });
 
     describe('todos.updateTags', () => {
-        it.skip('updates todo items to only keep the tags that still exists', () => {
+        it('updates todo items to only keep the tags that still exists', () => {
             const todo = generateTodo({ tags: ['one', 'two', 'three'] });
             todos.set([todo]);
 
@@ -158,10 +162,12 @@ describe('todos store', () => {
                 three: { label: 'three' },
             });
 
-            expect(todosSpy).toHaveBeenCalledWith({
-                ...todo,
-                tags: ['three'],
-            });
+            expect(todosSpy).toHaveBeenCalledWith([
+                {
+                    ...todo,
+                    tags: ['three'],
+                },
+            ]);
         });
     });
 

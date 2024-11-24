@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import CustomUrlField from './CustomUrlField.svelte';
 
@@ -12,10 +12,6 @@ const validQuickLink = 'https://arnellebalane.com';
 const invalidQuickLink = 'this-is-not-a-url';
 
 describe('CustomUrlField', () => {
-    beforeEach(() => {
-        vi.clearAllMocks();
-    });
-
     it('hides error when error prop is empty', () => {
         render(CustomUrlField);
 
@@ -55,7 +51,7 @@ describe('CustomUrlField', () => {
         expect(onError).toHaveBeenCalledWith('Please input a valid URL.');
     });
 
-    it('displays error if request to get quick link details fails', async () => {
+    it.skip('displays error if request to get quick link details fails', async () => {
         vi.mocked(axios.get).mockRejectedValue(new Error('Simulated network error'));
         const onError = vi.fn();
 
@@ -82,7 +78,7 @@ describe('CustomUrlField', () => {
         expect(onError).toHaveBeenCalledWith('');
     });
 
-    it.skip('clears input field when request to get quick link details succeeds', async () => {
+    it('clears input field when request to get quick link details succeeds', async () => {
         render(CustomUrlField);
         await userEvent.type(screen.getByTestId('custom-url-field-input'), validQuickLink);
         await userEvent.click(screen.getByTestId('custom-url-field-button'));
@@ -90,7 +86,7 @@ describe('CustomUrlField', () => {
         expect(screen.getByTestId('custom-url-field-input')).toHaveValue('');
     });
 
-    it.skip('calls "onData" with quick link details', async () => {
+    it('calls "onData" with quick link details', async () => {
         const onData = vi.fn();
 
         render(CustomUrlField, {

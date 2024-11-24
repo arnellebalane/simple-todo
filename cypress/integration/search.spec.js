@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
-import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../../src/features/todos/constants';
-import { generateTodo } from '../../src/features/todos/utils/test-helpers';
+
+import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '@features/todos/constants';
+import { generateTodo } from '@test/helpers';
 import { STORAGE_KEY_DATA, STORAGE_KEY_TAGS } from '../lib/constants';
 
 describe('search', () => {

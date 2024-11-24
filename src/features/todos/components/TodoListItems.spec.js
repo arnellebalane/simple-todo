@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import TodoListItems from './TodoListItems.svelte';
 
-import { generateTodo } from '../utils/test-helpers';
+import { generateTodo } from '@test/helpers';
 
 const todo = generateTodo();
 const todos = [todo];

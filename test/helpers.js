@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { TODOS_TODAY } from '../constants';
+
+import { TODOS_TODAY } from '@features/todos/constants';
 
 export const generateTodo = (overrides = {}) => {
     return {

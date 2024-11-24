@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import TodoListEmpty from './TodoListEmpty.svelte';
 
-import { generateTodo } from '../utils/test-helpers';
+import { generateTodo } from '@test/helpers';
 
 const text = 'there are no todos in this list';
 

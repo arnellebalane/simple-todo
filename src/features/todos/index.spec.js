@@ -1,11 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { settings } from '@features/settings/store';
+import { generateTodo } from '@test/helpers';
 
 import { initializeTodos } from '.';
 import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from './constants';
 import { todos } from './store';
-import { generateTodo } from './utils/test-helpers';
 
 describe('initializeTodos', () => {
     const yesterday = new Date(2024, 0, 2); // tuesday

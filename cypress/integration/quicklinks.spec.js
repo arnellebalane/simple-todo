@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { STORAGE_KEY_SETTINGS } from '../lib/constants';
+
+import { STORAGE_KEY_SETTINGS } from '@lib/constants';
 
 describe('quicklinks', () => {
     const settingsLabel = 'Quick Links';

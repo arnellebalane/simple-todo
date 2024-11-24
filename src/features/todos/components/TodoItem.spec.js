@@ -6,8 +6,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import TodoItem from './TodoItem.svelte';
 
 import { settings } from '@features/settings/store';
+import { generateTodo } from '@test/helpers';
 import { TODOS_DATE_ABSOLUTE } from '../constants';
-import { generateTodo } from '../utils/test-helpers';
 
 describe('TodoItem', () => {
     beforeEach(() => {

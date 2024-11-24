@@ -7,7 +7,7 @@ import {
     THEME_DARK,
     THEME_LIGHT,
     THEME_SYSTEM,
-} from '../../src/features/themes/constants';
+} from '@features/themes/constants';
 
 describe('themes', () => {
     const settingsLabel = 'Theme';

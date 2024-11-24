@@ -1,8 +1,8 @@
+import { faker } from '@faker-js/faker';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { faker } from '@faker-js/faker';
 import { TODOS_EVENTUALLY, TODOS_TODAY } from '@features/todos/constants';
-import { generateTodo } from '@features/todos/utils/test-helpers';
+import { generateTodo } from '@test/helpers';
 
 import { search } from './store';
 

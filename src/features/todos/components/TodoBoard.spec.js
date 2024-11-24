@@ -5,8 +5,8 @@ import { describe, expect, it, vi } from 'vitest';
 
 import TodoBoard from './TodoBoard.svelte';
 
+import { generateTodo } from '@test/helpers';
 import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../constants';
-import { generateTodo } from '../utils/test-helpers';
 
 describe('TodoBoard', () => {
     it('displays todos today in the correct list', () => {

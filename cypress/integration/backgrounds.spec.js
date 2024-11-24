@@ -1,4 +1,4 @@
-import { BACKGROUND_REFRESH_MANUALLY, BACKGROUND_SOURCE_CUSTOM } from '../../src/features/backgrounds/constants';
+import { BACKGROUND_REFRESH_MANUALLY, BACKGROUND_SOURCE_CUSTOM } from '@features/backgrounds/constants';
 
 describe('backgrounds', () => {
     const settingsLabel = 'Background';

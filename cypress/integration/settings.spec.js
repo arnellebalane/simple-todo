@@ -1,5 +1,5 @@
-import { generateTodo } from '../../src/features/todos/utils/test-helpers';
-import { STORAGE_KEY_DATA } from '../lib/constants';
+import { STORAGE_KEY_DATA } from '@lib/constants';
+import { generateTodo } from '@test/helpers';
 
 describe('settings', () => {
     const settingsLabel = 'Miscellaneous';

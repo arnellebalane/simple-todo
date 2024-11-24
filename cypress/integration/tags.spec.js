@@ -1,8 +1,8 @@
+import { faker } from '@faker-js/faker';
 import orderBy from 'lodash/orderBy';
 
-import { faker } from '@faker-js/faker';
-import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '../../src/features/todos/constants';
-import { generateTodo } from '../../src/features/todos/utils/test-helpers';
+import { TODOS_EVENTUALLY, TODOS_THIS_WEEK, TODOS_TODAY } from '@features/todos/constants';
+import { generateTodo } from '@test/helpers';
 import { STORAGE_KEY_DATA, STORAGE_KEY_TAGS } from '../lib/constants';
 
 describe('tags', () => {
@@ -97,7 +97,10 @@ describe('tags', () => {
 
             cy.get('[data-testid="todo-item"]').each((element) => {
                 cy.wrap(element).within(() => {
-                    cy.get('[data-testid="todo-item-tag"]').should('have.length', 1).eq(0).should('contains.text', tagTwo);
+                    cy.get('[data-testid="todo-item-tag"]')
+                        .should('have.length', 1)
+                        .eq(0)
+                        .should('contains.text', tagTwo);
                 });
             });
         });

@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { defineConfig } = require('cypress');
+const vite = require('cypress-vite');
 
 module.exports = defineConfig({
     projectId: 'dkoa9n',
@@ -27,6 +28,8 @@ module.exports = defineConfig({
             if (!config.env.APP_TESTING_ENDPOINT) {
                 throw new Error('APP_TESTING_ENDPOINT variable is not defined.');
             }
+
+            on('file:preprocessor', vite());
 
             return config;
         },

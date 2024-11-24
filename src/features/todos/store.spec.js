@@ -2,10 +2,10 @@ import { faker } from '@faker-js/faker';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { STORAGE_KEY_DATA } from '@lib/constants';
+import { generateTodo } from '@test/helpers';
 
 import { TODOS_TODAY } from './constants';
 import { todos } from './store';
-import { generateTodo } from './utils/test-helpers';
 
 describe('todos store', () => {
     beforeEach(() => {

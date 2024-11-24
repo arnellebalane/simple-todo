@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import TodoFormOptionalFields from './TodoFormOptionalFields.svelte';
 
 import { settings } from '@features/settings/store';
-import { generateTodo } from '../utils/test-helpers';
+import { generateTodo } from '@test/helpers';
 
 describe('TodoFormOptionalFields', () => {
     beforeEach(() => {

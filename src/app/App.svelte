@@ -53,7 +53,7 @@ onDestroy(() => disableShortcut('addTodo'));
         <script
             async
             defer
-            data-website-id="3937ad1a-ecfd-44cb-8e16-07cda3b01dc4"
+            data-website-id="04fff70a-12ee-4ce7-9666-c61bedf0a5e7"
             data-do-not-track="true"
             data-auto-track={config.VITE_PUBLIC_IS_WEB_BUILD === 'true'}
             data-host-url="https://umami.arnelle.dev"
